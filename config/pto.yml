@@ -1,0 +1,10 @@
+production:
+  environment: production
+  merchant_id: production_merchant_id
+  public_key:  production_public_key
+  private_key: production_private_key
+development:
+  environment: sandbox
+  merchant_id: development_merchant_id
+  public_key:  development_public_key
+  private_key: development_private_key

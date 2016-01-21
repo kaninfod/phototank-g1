@@ -1,0 +1,30 @@
+<h1>Locations#index</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Photo 1</th>
+      <th>Photo 2</th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @locations.each do |location| %>
+      <tr>
+        <td>
+			<%= location.country %>
+		</td>
+      </tr>
+      <td>
+		<%= location.state %>
+	</td>
+    <td>
+		<%= location.city %>
+	</td>
+    <td>
+		<%= location.suburb %>
+	</td>
+    <% end %>
+  </tbody>
+</table>

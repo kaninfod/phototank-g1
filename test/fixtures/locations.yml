@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+loc_one:
+  status: 0
+  longitude: 151.185833333
+  latitude: -33.7558333333
+  location: 0
+  country: Australia
+  state: New South Wales
+  address: 11, Warrego Place, East Killara, Sydney, New South Wales, 2071, Australia
+  road: Warrego Place
+  city: Sydney
+  suburb: East Killara
+  postcode: 2071
+
+
+loc_two: 
+  status: 0
+  longitude: -122.431297
+  latitude: 37.773972
+  location: 0
+  country: United Kingdom
+  state: Wales
+  address: 22, Some Place, London
+  road: Some Place
+  city: London
+  suburb: Brixton
+  postcode: 20714
+  

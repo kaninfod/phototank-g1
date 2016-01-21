@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: my_album
+  start: 2010-11-02
+  end: 2015-11-02
+  make: kaj
+  model: otto
+  country: Denmark
+
+two:
+  name: my_album_2
+  start: 2012-11-02
+  end: 2014-11-02
+  make: Hugo
+  model: bjerke
+  country: Australia

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing albums</h1>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date from</th>
+      <th>Date to</th>
+      <th>Model</th>
+      <th>Make</th>
+      <th>Country</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @albums.each do |album| %>
+      <tr>
+		
+        <td><%= album.name %></td>
+		<td><%= album.start %></td>
+		<td><%= album.end %></td>
+		<td><%= album.model %></td>
+		<td><%= album.make %></td>
+		<td><%= album.country %></td>
+        <td><%= link_to icon('eye'), album %></td>
+        <td><%= link_to icon('pencil'), edit_album_path(album) %></td>
+		<td><%= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+<%= paginate @albums %>

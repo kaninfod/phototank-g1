@@ -1,0 +1,46 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  filename: f683e370f3a2f1f6b1a84f8dd6b74df6
+  date_taken: 2010-11-02 17:40:47
+  path: phototank/photos/2010/11/02/         
+  file_thumb_path: phototank/thumbs/2010/11/02/
+  file_extension: .jpg
+  file_size: 2498376
+  location: loc_two
+  make: SONY
+  model: hx-p234
+  original_height: 2345
+  original_width: 1233
+  longitude: -122.431297
+  latitude: 37.773972
+
+two:
+  filename: fa35f370f3a2f1f6b1a84f8dd6b74df6
+  date_taken: 2013-12-02 17:40:47
+  path: phototank/photos/2013/12/02/         
+  file_thumb_path: phototank/thumbs/2013/12/02/
+  file_extension: .jpg
+  file_size: 2258343
+  location: 
+  make: SAMSUNG
+  model: yu-lods
+  original_height: 1434
+  original_width: 928
+  longitude: 151.185833333
+  latitude: -33.7558333333
+
+three:
+  filename: 122345670f3a2f1f6b1a84f8dd6b74df6
+  date_taken: 2013-12-02 17:40:47
+  path: phototank/photos/2013/12/02/         
+  file_thumb_path: phototank/thumbs/2013/12/02/
+  file_extension: .jpg
+  file_size: 2258343
+  location: 
+  make: SAMSUNG
+  model: yu-lods
+  original_height: 1434
+  original_width: 928
+  longitude: 151.185833333
+  latitude: -33.7558333333

@@ -1,0 +1,62 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to icon('chevron-circle-left'), :back %>
+<table>
+	<tr>
+		<td>Filename:</td>
+		<td><%= @photo.filename %></td>
+	</tr>
+	
+
+	<tr>
+		<td>Date taken:</td>
+		<td><%= @photo.date_taken %></td>
+	</tr>
+
+	<tr>
+		<td>Make:</td>
+		<td><%= @photo.make %></td>
+	</tr>
+
+	<tr>
+		<td>Model</td>
+		<td><%= @photo.model %></td>
+	</tr>
+
+	<tr>
+		<td>Country</td>
+		<td><%= @photo.location.country %></td>
+	</tr>
+
+	<tr>
+		<td>City</td>
+		<td><%= @photo.location.city %></td>
+	</tr>
+
+
+	<tr>
+		<td>Original Path:</td>
+		<td><%= @photo.path %></td>
+	</tr>
+
+
+	<tr>
+		<td>Thumb Path:</td>
+		<td><%= @photo.file_thumb_path %></td>
+	</tr>
+
+	<tr>
+		<td>Extension:</td>
+		<td><%= @photo.file_extension %></td>
+	</tr>
+	
+	<tr>
+		<td>File size:</td>
+		<td><%= @photo.file_size %></td>
+	</tr>
+</table>
+
+<div>
+	<%= image_tag '/photos/' + @photo.id.to_s + '/image/large' %>
+</div>
+
