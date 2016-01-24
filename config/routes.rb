@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   resources :catalogs, :concerns => :paginatable
   get '/catalogs/:id/addphotos' => 'catalogs#addphotos'
 
+  resources :locations, :concerns => :paginatable
+
   get 'doubles/find'
   get 'doubles/index'
   get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
