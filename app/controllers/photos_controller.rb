@@ -1,7 +1,7 @@
 class PhotosController < ApplicationController
   #before_action :set_photo, only: [:image, :display, :show, :edit, :update, :destroy]
 
-
+  
   
   def image
     @photo = set_photo
@@ -25,7 +25,6 @@ class PhotosController < ApplicationController
   def index
 
     @photos = Photo.order(:date_taken).page params[:page]
-    
     
   end
 
@@ -88,7 +87,12 @@ class PhotosController < ApplicationController
     end
   end
 
+  def data_from_file
+    
+  end
   private
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_photo
       Photo.find(params[:id])

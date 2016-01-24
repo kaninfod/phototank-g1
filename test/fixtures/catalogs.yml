@@ -1,7 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: test_local_1
+  path: /Users/martinhinge/test
+  default: false
 
 two:
-  name: MyString
+  name: test_local_2
+  path: /Users/martinhinge/Downloads
+  default: true

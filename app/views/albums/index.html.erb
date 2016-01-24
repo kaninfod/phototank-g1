@@ -2,38 +2,51 @@
 
 <h1>Listing albums</h1>
 
+<div class="container">
+	<div class="row">
+		<div class="pull-right">
+			<%= link_to "New album", "/albums/new", class:"btn btn-default"%>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Date from</th>
+						<th>Date to</th>
+						<th>Model</th>
+						<th>Make</th>
+						<th>Country</th>
+					</tr>
+				</thead>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Date from</th>
-      <th>Date to</th>
-      <th>Model</th>
-      <th>Make</th>
-      <th>Country</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @albums.each do |album| %>
-      <tr>
+				<tbody>
+					<% @albums.each do |album| %>
+					<tr>
 		
-        <td><%= album.name %></td>
-		<td><%= album.start %></td>
-		<td><%= album.end %></td>
-		<td><%= album.model %></td>
-		<td><%= album.make %></td>
-		<td><%= album.country %></td>
-        <td><%= link_to icon('eye'), album %></td>
-        <td><%= link_to icon('pencil'), edit_album_path(album) %></td>
-		<td><%= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+						<td><%= album.name %></td>
+						<td><%= album.start %></td>
+						<td><%= album.end %></td>
+						<td><%= album.model %></td>
+						<td><%= album.make %></td>
+						<td><%= album.country %></td>
+						<td><%= link_to icon('eye'), album %></td>
+						<td><%= link_to icon('pencil'), edit_album_path(album) %></td>
+						<td><%= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
         
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
 
 
 
-<%= paginate @albums %>
+
+			<div class="col-sm-6 col-sm-offset-3">
+				<%= paginate @albums %>
+			</div>
+		</div>
+	</div>
+</div>

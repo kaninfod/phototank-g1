@@ -9,13 +9,18 @@ Rails.application.routes.draw do
   resources :albums, :concerns => :paginatable
   get 'albums/show'  => 'photos#index'
 
-  get 'doubles/find'
-  get 'doubles/index'
-  get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
   
   resources :photos, :concerns => :paginatable
   get '/photos/:id/display' => 'photos#display'
   get '/photos/:id/image/:size' => 'photos#image'
+
+
+  resources :catalogs, :concerns => :paginatable
+  get '/catalogs/:id/addphotos' => 'catalogs#addphotos'
+
+  get 'doubles/find'
+  get 'doubles/index'
+  get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
 
 
   get 'locations/index'

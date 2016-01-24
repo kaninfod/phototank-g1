@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Catalogs</h1>
+<div class="container">
+	<div class="row">
+		<div class="pull-right">
+			<%= link_to "New catalog", "/catalogs/new", class:"btn btn-default"%>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Path</th>
+						<th>Default</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<% @catalogs.each do |catalog| %>
+					<tr>
+		
+						<td><%= catalog.name %></td>
+						<td><%= catalog.path %></td>
+						<td><%= catalog.default %></td>
+						<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'addphotos', id: catalog %></td>
+						<td><%= link_to icon('eye'), catalog %></td>
+						<td><%= link_to icon('pencil'), edit_catalog_path(catalog) %></td>
+						<td><%= link_to icon('close'), catalog,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+
+			<div class="col-sm-6 col-sm-offset-3">
+				<%= paginate @catalogs %>
+			</div>
+		</div>
+	</div>
+</div>
+
+
