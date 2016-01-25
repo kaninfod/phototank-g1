@@ -13,6 +13,11 @@
 				   <%= f.text_field(:path, class:"form-control") %>
 				</div>
 				<div class="form-group">
+			 	   <%= label_tag(:q, "Watch path:") %>
+				   <%= f.text_field(:watch_path, class:"form-control") %>
+				</div>
+
+				<div class="form-group">
 			 	   <%= label_tag(:q, "Default:") %>
 				   <%= f.check_box :default %>
 				</div>

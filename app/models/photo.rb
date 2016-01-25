@@ -7,7 +7,7 @@ class Photo < ActiveRecord::Base
   attr_accessor :medium_filename, :original_filename, :small_filename, :large_filename, :default_instance
   
   belongs_to :location
-  has_many :instances
+  has_many :instances, dependent: :destroy 
   has_many :catalogs, through: :instances 
 
 
@@ -58,12 +58,11 @@ class Photo < ActiveRecord::Base
       process_image path
       get_exif path
       process_thumbs path
-      self.save
+
       
     rescue Exception => e 
-      #log something
+      return false
     end
-  
     self
   end  
   
@@ -86,7 +85,7 @@ class Photo < ActiveRecord::Base
     end
   
     def process_image path
-  
+
       begin
         @image = MiniMagick::Image.open(path)
       rescue Exception => e 

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root to: 'albums#index'
 
   resources :albums, :concerns => :paginatable
-  get 'albums/show'  => 'photos#index'
+  get 'albums/show'  => 'photos#grid'
 
   
   resources :photos, :concerns => :paginatable

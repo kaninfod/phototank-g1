@@ -14,7 +14,8 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Path</th>
+						<th>Storage path</th>
+						<th>Watch path</th>
 						<th>Default</th>
 						<th></th>
 						<th></th>
@@ -28,6 +29,7 @@
 		
 						<td><%= catalog.name %></td>
 						<td><%= catalog.path %></td>
+						<td><%= catalog.watch_path %></td>
 						<td><%= catalog.default %></td>
 						<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'addphotos', id: catalog %></td>
 						<td><%= link_to icon('eye'), catalog %></td>

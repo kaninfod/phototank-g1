@@ -11,7 +11,7 @@ class AlbumsController < ApplicationController
     @photos = @photos.joins(:location).where('locations.country=?', @album[:country]) unless @album[:country].nil? or @album[:country]==""
     @photos = @photos.joins(:location).where('locations.city=?', @album[:city]) unless @album[:city].nil? or @album[:city]==""
     @photos = @photos.page params[:page]
-    render "photos/index"
+    render "photos/grid"
   end
 
   def index

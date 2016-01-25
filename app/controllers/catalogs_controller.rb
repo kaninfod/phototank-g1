@@ -3,9 +3,7 @@ require 'find'
 class CatalogsController < ApplicationController
 
   def index
-
     @catalogs = Catalog.order(:name).page params[:page]
-    
   end
   def edit
     @catalog = Catalog.find(params[:id])
@@ -26,7 +24,6 @@ class CatalogsController < ApplicationController
 
   def new
     @catalog = Catalog.new
-
   end
 
   def create
@@ -51,27 +48,30 @@ class CatalogsController < ApplicationController
     end
   end  
 
+  def show
+    @photos = Catalog.find(params[:id]).photos.page params[:page]
+    render "photos/index"
+  end
+
 
   def addphotos
-    watch_path = '/Users/martinhinge/Downloads/photowatch'
     
-    pathes = []
+    @catalog = Catalog.find(params[:id])
+    watch_path = @catalog.watch_path
+    
     Find.find(watch_path) do |path|
       
-      @photo = Photo.new
-      @photo.populate_from_file path
+      if File.file?(path)
+        
+        @photo = Photo.new
+        @photo.catalogs << @catalog
+        if @photo.populate_from_file path
+          @photo.save
+        end
+      end
+      
       
     end
-
-    
-    
-#    if not params[:path].blank?
-#      if File.exists?(params[:path]) 
-#        puts 'start loads'
-#      else
-#        puts 'no real path'
-#      end
-#    end
   end
 
   private
@@ -82,6 +82,6 @@ class CatalogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def catalog_params
-      params.require(:catalog).permit(:name, :path, :default)
+      params.require(:catalog).permit(:name, :path, :default, :watch_path)
     end
 end
