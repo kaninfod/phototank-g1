@@ -1,72 +1,57 @@
 <p id="notice"><%= notice %></p>
 
+
+
+<div class="row">
+	<div class="col-md-12">
 <%= link_to icon('chevron-circle-left'), :back %>
-<table>
-	<tr>
-		<td>Filename:</td>
-		<td><%= @photo.filename %></td>
-	</tr>
+		<dl class="dl-horizontal">
 	
-
-	<tr>
-		<td>Date taken:</td>
-		<td><%= @photo.date_taken %></td>
-	</tr>
-
-	<tr>
-		<td>Make:</td>
-		<td><%= @photo.make %></td>
-	</tr>
-
-	<tr>
-		<td>Model</td>
-		<td><%= @photo.model %></td>
-	</tr>
-
-
-	<% if not @photo.location.blank? %>
-
-		<tr>
-			<td>Country</td>
-			<td><%= @photo.location.country %></td>
-		</tr>
-
-		<tr>
-			<td>City</td>
-			<td><%= @photo.location.city %></td>
-		</tr>
-		
-		<tr>
-			<td>
-					<%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@photo.location.latitude}%2C#{@photo.location.longitude}" %>
-			</td>
-		</tr>	
-		
-	<% end %>
-
-	<tr>
-		<td>Original Path:</td>
-		<td><%= @photo.path %></td>
-	</tr>
-
-
-	<tr>
-		<td>Thumb Path:</td>
-		<td><%= @photo.file_thumb_path %></td>
-	</tr>
-
-	<tr>
-		<td>Extension:</td>
-		<td><%= @photo.file_extension %></td>
-	</tr>
+			<dt>Filename:</dt>
+			<dd><%= @photo.filename %></dd>
 	
-	<tr>
-		<td>File size:</td>
-		<td><%= @photo.file_size %></td>
-	</tr>
-</table>
+			<dt>Date taken:</dt>
+			<dd><%= @photo.date_taken %></dd>
+	
+			<dt>Make:</dt>
+			<dd><%= @photo.make %></dd>
+	
+			<dt>Model</dt>
+			<dd><%= @photo.model %></dd>
+	
+			<% if not @photo.location.blank? %>
 
-<div>
-	<%= image_tag '/photos/' + @photo.id.to_s + '/image/large' %>
+				<dt>Country</dt>
+				<dd><%= @photo.location.country %></dd>
+
+				<dt>City</dt>
+				<dd><%= @photo.location.city %></dd>
+
+				<dt>Address</dt>
+				<dd><address><%= @photo.location.address %></address></dd>
+
+				<dt>Map</dt>
+				<dd>
+					<%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=10&markers=#{@photo.location.latitude}%2C#{@photo.location.longitude}" %>
+				</dd>
+		
+			<% end %>
+
+			<dt>Original Path:</dt>
+			<dd><%= @photo.path %></dd>
+			
+			<dt>Thumb Path:</dt>
+			<dd><%= @photo.file_thumb_path %></dd>
+			
+			<dt>Extension:</dt>
+			<dd><%= @photo.file_extension %></dd>
+			
+			<dt>File size:</dt>
+			<dd><%= @photo.file_size %></dd>
+			
+			<dt>Photo:</dt>
+			<dd><%= image_tag '/photos/' + @photo.id.to_s + '/image/large' %></dd>
+		</dl>
+	</div>
 </div>
 

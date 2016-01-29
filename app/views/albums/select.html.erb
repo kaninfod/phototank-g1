@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="col-lg-3">
+		<h4>Select Albums</h4>
+	</div>
+</div>
+
+
+
+
+<div class="row">
+	<div class="col-md-12">
+<%= form_tag do %>
+
+
+		<% @albums.each do |album| %>
+		<div class="radio">
+			<label>
+				<input type="radio" name="optionsRadios" id="optionsRadios1" value="<%= album.id %>" checked>
+				<%= album.name %>
+			</label>
+		</div>
+		<% end %>
+		<%= submit_tag("Select") %>
+<% end %>
+		<div class="col-sm-6 col-sm-offset-3">
+			<%= paginate @albums %>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+

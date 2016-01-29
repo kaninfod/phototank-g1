@@ -3,25 +3,19 @@ class AlbumsController < ApplicationController
   end
 
   def show
+
     @album = Album.find(params[:id])
-    @photos = Photo.where(date_taken: @album[:start]..@album[:end])
-    @photos = @photos.order(:date_taken)
-    @photos = @photos.where(make: @album[:make]) unless @album[:make].nil? or @album[:make]==""
-    @photos = @photos.where(model: @album[:model]) unless @album[:model].nil? or @album[:model]==""
-    @photos = @photos.joins(:location).where('locations.country=?', @album[:country]) unless @album[:country].nil? or @album[:country]==""
-    @photos = @photos.joins(:location).where('locations.city=?', @album[:city]) unless @album[:city].nil? or @album[:city]==""
+    @photos = Photo.album(@album)
     @photos = @photos.page params[:page]
-    render "photos/grid"
+    @bucket = session[:bucket]
   end
 
   def index
     @albums = Album.order(:created_at).page params[:page]
-
   end
 
   def edit
     @album = Album.find(params[:id])
-    
     prep_form
   end
   
@@ -43,11 +37,11 @@ class AlbumsController < ApplicationController
   # GET /photos/new
   def new
     @album = Album.new
-    
     prep_form
   end
   
   def create
+
     @album = Album.new(album_params)
 
     respond_to do |format|
@@ -65,31 +59,51 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
     @album.destroy
     respond_to do |format|
-      format.html { redirect_to albums_url, notice: 'Almum was successfully destroyed.' }
+      format.html { redirect_to albums_url, notice: 'Album was successfully destroyed.' }
       format.json { head :no_content }
     end
   end  
   
+  def select
+    if request.post?
+      if not params[:optionsRadios].blank?
+        
+        album = Album.find(params[:optionsRadios].to_i)
+        a = (album.photo_ids + session[:bucket]).uniq{|x| x}
+        album.photo_ids = a
+        if album.save
+          redirect_to '/albums'
+        end
+      end
+    else
+      @albums = Album.all.page params[:page]
+    end
+    
+    
+  end
+  
   
   private
   
-  def album_params
-    params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city)
-  end
+    def album_params
+      params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids)
+    end
   
-  def prep_form
-    @countries = Location.select(:country).distinct.map{ |c| [c.country] }
-    @countries = @countries.unshift([''])
+    def prep_form
+      @countries = Location.select(:country).distinct.map{ |c| [c.country] }
+      @countries = @countries.unshift([''])
 
-    @cities = Location.select(:city).distinct.map{ |c| [c.city] }
-    @cities = @cities.unshift([''])
+      @cities = Location.select(:city).distinct.map{ |c| [c.city] }
+      @cities = @cities.unshift([''])
 
-    @makes = Photo.select(:make).distinct.map{ |c| [c.make] }
-    @makes = @makes.unshift([''])
+      @makes = Photo.select(:make).distinct.map{ |c| [c.make] }
+      @makes = @makes.unshift([''])
 
-    @models = Photo.select(:model).distinct.map{ |c| [c.model] }
-    @models = @models.unshift([''])
-  end
+      @models = Photo.select(:model).distinct.map{ |c| [c.model] }
+      @models = @models.unshift([''])
+    
+      @bucket = session[:bucket]
+    end
   
   
 end

@@ -1,51 +1,56 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Listing Catalogs</h1>
-<div class="container">
-	<div class="row">
-		<div class="pull-right">
-			<%= link_to "New catalog", "/catalogs/new", class:"btn btn-default"%>
-		</div>
+<div class="row">
+	<div class="col-lg-3">
+		<h4>Catalogs</h4>
 	</div>
-	<div class="row">
-		<div class="col-lg-3">
+</div>
 
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Storage path</th>
-						<th>Watch path</th>
-						<th>Default</th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
+<div class="row">
+	<div class="pull-right col-lg-3">
+		<%= link_to "New catalog", "/catalogs/new", class:"btn btn-default"%>
+	</div>
+</div>
 
-				<tbody>
-					<% @catalogs.each do |catalog| %>
-					<tr>
+
+<div class="row">
+	<div class="col-md-12">
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Storage path</th>
+					<th>Watch path</th>
+					<th>Default</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<% @catalogs.each do |catalog| %>
+				<tr>
 		
-						<td><%= catalog.name %></td>
-						<td><%= catalog.path %></td>
-						<td><%= catalog.watch_path %></td>
-						<td><%= catalog.default %></td>
-						<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'addphotos', id: catalog %></td>
-						<td><%= link_to icon('eye'), catalog %></td>
-						<td><%= link_to icon('pencil'), edit_catalog_path(catalog) %></td>
-						<td><%= link_to icon('close'), catalog,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+					<td><%= catalog.name %></td>
+					<td><%= catalog.path %></td>
+					<td><%= catalog.watch_path %></td>
+					<td><%= catalog.default %></td>
+					<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'addphotos', id: catalog %></td>
+					<td><%= link_to icon('picture-o'), catalog %></td>
+					<td><%= link_to icon('pencil'), edit_catalog_path(catalog) %></td>
+					<td><%= link_to icon('close'), catalog,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
         
-					</tr>
-					<% end %>
-				</tbody>
-			</table>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
 
-			<div class="col-sm-6 col-sm-offset-3">
-				<%= paginate @catalogs %>
-			</div>
+		<div class="col-sm-6 col-sm-offset-3">
+			<%= paginate @catalogs %>
 		</div>
 	</div>
 </div>
+
 
 

@@ -37,9 +37,14 @@ gem 'font-awesome-sass', '~> 4.5.0'
 gem 'geocoder'
 
 gem 'mini_exiftool'
-gem 'exif'
+#gem 'exif'
 gem "mini_magick"
 
+gem 'jquery-turbolinks'
+gem 'squeel'
+
+
+gem 'dropbox-sdk'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

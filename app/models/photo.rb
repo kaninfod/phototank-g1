@@ -4,7 +4,7 @@ class Photo < ActiveRecord::Base
   IMAGE_MEDIUM = '600x800'
   IMAGE_LARGE = '1024x1200'  
   
-  attr_accessor :medium_filename, :original_filename, :small_filename, :large_filename, :default_instance
+  #attr_accessor :medium_filename, :original_filename, :small_filename, :large_filename, :default_instance
   
   belongs_to :location
   has_many :instances, dependent: :destroy 
@@ -22,11 +22,98 @@ class Photo < ActiveRecord::Base
   scope :country, ->(country) {
     joins(:location).where('locations.country = ?', country)
   }
+  
+  def self.album(alb)
+    
+    if not alb.start.blank?
+      p_start = get_predicate('date_taken', alb.start, :gt) 
+      exp = p_start
+    end
+    
+    if not alb.end.blank? 
+      p_end = get_predicate('date_taken', alb.end, :lt) 
+      if not exp.blank?
+        exp = exp&p_end
+      else
+        exp= p_end
+      end
+    end
+    
+    if not alb.make.blank?
+      p_make = get_predicate('make', alb.make, :eq) 
+      if not exp.blank?
+        exp = exp&p_make
+      else
+        exp = p_make
+      end
+    end
+    
+    if not alb.model.blank?
+      p_model = get_predicate('model', alb.model, :eq) 
+      if not exp.blank?
+        exp = exp&p_model
+      else
+        exp = p_model
+      end
+    end
 
+    location_stub = Squeel::Nodes::Stub.new(:location)
+
+    if not alb.country.blank?
+      p_country = get_predicate(:country, alb.country, :eq) 
+      k_country = Squeel::Nodes::KeyPath.new([location_stub, p_country])
+      if not exp.blank?
+        exp = exp&k_country
+      else
+        exp = k_country
+      end
+    end
+
+
+
+    if not alb.city.blank?
+      p_city = get_predicate('city', alb.city, :eq) 
+      k_city = Squeel::Nodes::KeyPath.new([location_stub, p_city])
+      if not exp.blank?
+        exp = exp&k_city
+      else
+        exp = k_city
+      end
+    end
+    
+    
+    if not alb.photo_ids.blank?
+      p_photo_ids = get_predicate('id', alb.photo_ids, :in) 
+      if not exp.blank?
+        exp = exp|p_photo_ids
+      else
+        exp = p_photo_ids
+      end
+    end
+    
+    
+    
+    
+    self.joins(:location).where(exp)
+    
+    
+    
+    
+    
+    
+  end
+
+  Photo.joins(Squeel::Nodes::Join.new(Squeel::Nodes::Stub.new(:location), :inner)).where{Squeel::Nodes::Predicate.new(Squeel::Nodes::Stub.new(:city), :eq, 'Paris')}.to_sql
+
+
+
+
+
+
+  
   def query
     self.latitude.to_s + "," + self.longitude.to_s
   end
-
 
   def original_filename
     @original_filename = File.join(self.path, self.filename + self.file_extension)
@@ -55,18 +142,30 @@ class Photo < ActiveRecord::Base
   
   def populate_from_file path
     begin
+      logger.debug 'before process_image path'
       process_image path
+      logger.debug 'before get_exif path'
       get_exif path
+      logger.debug 'before       process_thumb'
       process_thumbs path
 
       
     rescue Exception => e 
+      logger.debug e
       return false
     end
     self
   end  
+
+
+  def self.get_predicate(col, value, predicate)
+    Squeel::Nodes::Predicate.new(Squeel::Nodes::Stub.new(col), predicate, value)
+  end  
   
   private
+  
+
+  
   
     def get_exif path
       exif = MiniExiftool.new(path, opts={:numerical=>true})
@@ -85,11 +184,14 @@ class Photo < ActiveRecord::Base
     end
   
     def process_image path
-
+      logger.debug path
       begin
         @image = MiniMagick::Image.open(path)
       rescue Exception => e 
-        raise "File is not a JPEG"  
+        logger.debug e.msg
+        logger.debug "File is not a JPEG"
+        raise "File is not a JPEG"
+          
       else
         self.filename = @image.signature
         self.original_width = @image.width
@@ -146,18 +248,20 @@ class Photo < ActiveRecord::Base
         similar_locations = self.nearbys(1).where.not(location: nil)
         if similar_locations.blank?
           geo_location = Geocoder.search(self.query).first
-          if geo_location.data["error"].blank?
-            new_location = Location.new
-            new_location.country = geo_location.country
-            new_location.city = geo_location.city
-            new_location.suburb = geo_location.suburb
-            new_location.postcode = geo_location.postal_code
-            new_location.address = geo_location.address
-            new_location.state = geo_location.state
-            new_location.longitude = geo_location.longitude
-            new_location.latitude = geo_location.latitude
-            new_location.save
-            self.location = new_location
+          if not geo_location.nil?
+            if geo_location.data["error"].blank?
+              new_location = Location.new
+              new_location.country = geo_location.country
+              new_location.city = geo_location.city
+              new_location.suburb = geo_location.suburb
+              new_location.postcode = geo_location.postal_code
+              new_location.address = geo_location.address
+              new_location.state = geo_location.state
+              new_location.longitude = geo_location.longitude
+              new_location.latitude = geo_location.latitude
+              new_location.save
+              self.location = new_location
+            end
           else
             self.location = nil  
           end

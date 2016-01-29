@@ -1,15 +1,19 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing albums</h1>
-
-<div class="container">
-	<div class="row">
-		<div class="pull-right">
-			<%= link_to "New album", "/albums/new", class:"btn btn-default"%>
-		</div>
+<div class="row">
+	<div class="col-lg-3">
+		<h4>Albums</h4>
 	</div>
-	<div class="row">
-		<div class="col-lg-3">
+</div>
+
+<div class="row">
+	<div class="pull-right col-md-1">
+		<%= link_to "New album", "/albums/new", class:"btn btn-default"%>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-md-12">
 			<table class="table">
 				<thead>
 					<tr>
@@ -25,28 +29,32 @@
 				<tbody>
 					<% @albums.each do |album| %>
 					<tr>
-		
 						<td><%= album.name %></td>
-						<td><%= album.start %></td>
-						<td><%= album.end %></td>
+						<td><%= album.start.strftime("%b %d %Y") unless album.start.blank? %></td>
+						<td><%= album.end.strftime("%b %d %Y") unless album.end.blank?  %></td>
 						<td><%= album.model %></td>
 						<td><%= album.make %></td>
 						<td><%= album.country %></td>
-						<td><%= link_to icon('eye'), album %></td>
+						<td><%= link_to icon('picture-o'), album %></td>
 						<td><%= link_to icon('pencil'), edit_album_path(album) %></td>
 						<td><%= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        
 					</tr>
 					<% end %>
 				</tbody>
 			</table>
+	
 
-
-
-
-			<div class="col-sm-6 col-sm-offset-3">
-				<%= paginate @albums %>
-			</div>
+		<div class="col-sm-6 col-sm-offset-3">
+			<%= paginate @albums, :theme => 'twitter-bootstrap-3' %>
 		</div>
 	</div>
 </div>
+
+
+
+
+
+
+
+
+

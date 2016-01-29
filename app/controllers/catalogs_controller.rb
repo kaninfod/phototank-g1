@@ -1,4 +1,4 @@
-require 'find'
+require 'Find'
 
 class CatalogsController < ApplicationController
 
@@ -49,33 +49,39 @@ class CatalogsController < ApplicationController
   end  
 
   def show
+    @catalog = Catalog.find(params[:id])
     @photos = Catalog.find(params[:id]).photos.page params[:page]
-    render "photos/index"
+    @bucket = session[:bucket]
   end
-
+  
 
   def addphotos
     
     @catalog = Catalog.find(params[:id])
     watch_path = @catalog.watch_path
+
+
+    if File.exist?(watch_path) 
     
-    Find.find(watch_path) do |path|
+      Find.find(watch_path) do |path|
       
-      if File.file?(path)
+        if File.file?(path)
         
-        @photo = Photo.new
-        @photo.catalogs << @catalog
-        if @photo.populate_from_file path
-          @photo.save
+          @photo = Photo.new
+          @photo.catalogs << @catalog
+          if @photo.populate_from_file path
+            logger.debug 'in loop'
+            @photo.save
+          end
         end
+      
+      
       end
-      
-      
-    end
+    end  
   end
 
   private
-
+    
     def set_catalog
       Catalog.find(params[:id])
     end
