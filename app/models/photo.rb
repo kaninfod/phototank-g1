@@ -243,6 +243,11 @@ class Photo < ActiveRecord::Base
 
 
     def geocode
+
+      
+        
+      
+      
       
       if not self.latitude.blank? || self.longitude.blank?
         similar_locations = self.nearbys(1).where.not(location: nil)
