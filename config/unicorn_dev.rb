@@ -1,5 +1,5 @@
 # config/unicorn/staging.rb
-app_path = "/home/pi/rails/phototank/current"
+app_path = "/Users/martinhinge/rails_projects/phototank"
 
 worker_processes   2
 preload_app        true
@@ -7,9 +7,9 @@ timeout            180
 listen             '127.0.0.1:9021'
 #user               'pi'
 working_directory  app_path
-pid                "/home/pi/rails/phototank/shared/unicorn.pid"
-stderr_path        "/home/pi/rails/phototank/shared/unicorn.log"
-stdout_path        "/home/pi/rails/phototank/shared/unicorn.log"
+pid                "/Users/martinhinge/rails_projects/phototank/log/unicorn.pid"
+stderr_path        "/Users/martinhinge/rails_projects/phototank/log/unicorn.log"
+stdout_path        "/Users/martinhinge/rails_projects/phototank/log/unicorn.log"
 
 before_fork do |server, worker|
   ActiveRecord::Base.connection.disconnect!
