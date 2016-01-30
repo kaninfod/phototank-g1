@@ -1,12 +1,29 @@
-app_path = File.expand_path(File.join(File.dirname(__FILE__), '../../'))
-#app_path = '/home/pi/rails/demo/releases/4'
+# config/unicorn/staging.rb
+app_path = "/home/pi/rails/phototank/current"
 
-listen '127.0.0.1:4000'
-listen File.join(app_path, 'shared/unicorn.sock'), :backlog => 64
+worker_processes   2
+preload_app        true
+timeout            180
+listen             '127.0.0.1:9021'
+user               'apps', 'apps'
+working_directory  app_path
+pid                "/home/pi/rails/phototank/shared/unicorn.pid"
+stderr_path        "/home/pi/rails/phototank/shared/unicorn.log"
+stdout_path        "/home/pi/rails/phototank/shared/unicorn.log"
 
-worker_processes 2
+before_fork do |server, worker|
+  ActiveRecord::Base.connection.disconnect!
 
-working_directory File.join(app_path, 'current')
-pid File.join(app_path, 'shared/unicorn.pid')
-stderr_path File.join(app_path, 'current/log/unicorn.log')
-stdout_path File.join(app_path, 'current/log/unicorn.log')
+  old_pid = "#{server.config[:pid]}.oldbin"
+  if File.exists?(old_pid) && server.pid != old_pid
+    begin
+      Process.kill("QUIT", File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+      # someone else did our job for us
+    end
+  end
+end
+
+after_fork do |server, worker|
+  ActiveRecord::Base.establish_connection
+end
