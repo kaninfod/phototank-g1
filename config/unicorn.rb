@@ -5,7 +5,7 @@ worker_processes   2
 preload_app        true
 timeout            180
 listen             '127.0.0.1:9021'
-user               'apps', 'apps'
+user               'pi'
 working_directory  app_path
 pid                "/home/pi/rails/phototank/shared/unicorn.pid"
 stderr_path        "/home/pi/rails/phototank/shared/unicorn.log"
