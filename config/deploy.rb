@@ -12,7 +12,8 @@ require 'mina/unicorn'
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :domain, '192.168.2.56'
-set :deploy_to, '/home/#{user}/rails/phototank'
+set :user, 'pi'
+set :deploy_to, '/home/pi/rails/phototank'
 set :repository, 'git@github.com:kaninfod/phototank-rails.git'
 set :branch, 'master'
 
@@ -36,7 +37,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use[ruby-1.9.3-p125@default]'
+  invoke :'rvm:use[ruby-2.2.3]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.

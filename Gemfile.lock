@@ -180,6 +180,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   bootstrap-kaminari-views
   bootstrap-sass
   bootstrap_form

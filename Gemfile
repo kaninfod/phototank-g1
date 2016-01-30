@@ -69,7 +69,7 @@ end
 
 
 group :production do
-
+  gem 'activesupport'
   gem 'unicorn'
 end
 
