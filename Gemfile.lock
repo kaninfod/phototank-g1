@@ -211,6 +211,7 @@ DEPENDENCIES
   capistrano3-puma
   coffee-rails (~> 4.1.0)
   dropbox-sdk
+  execjs
   font-awesome-sass (~> 4.5.0)
   geocoder
   jbuilder (~> 2.0)
