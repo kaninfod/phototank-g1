@@ -73,7 +73,7 @@ class CatalogsController < ApplicationController
           end
         end
       end
-      byebug
+      
       @photos = Catalog.find(params[:id]).photos.page params[:page]
       @bucket = session[:bucket]
       

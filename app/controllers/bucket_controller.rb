@@ -34,6 +34,7 @@ class BucketController < ApplicationController
     @album.name = "Saved from bucket"
     @album.photo_ids = session[:bucket]
     @bucket = session[:bucket]
+    session[:bucket] = []
     if @album.save
       redirect_to edit_album_path @album
     end
