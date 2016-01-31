@@ -1,5 +1,5 @@
 # Change these
-server '192.168.2.56', port: 22, roles: [:web, :app, :db], primary: true
+server '192.168.2.103', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:kaninfod/phototank-rails.git'
 set :application,     'phototank'
@@ -82,3 +82,9 @@ end
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
+
+
+
+
+
+
