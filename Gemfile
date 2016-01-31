@@ -46,7 +46,7 @@ gem 'puma'
 
 gem 'dropbox-sdk'
 
-gem 'find'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
