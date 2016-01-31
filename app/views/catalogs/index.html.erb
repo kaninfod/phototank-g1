@@ -6,7 +6,7 @@
 </div>
 
 <div class="row">
-	<div class="pull-right col-lg-3">
+	<div class="pull-right col-md-1">
 		<%= link_to "New catalog", "/catalogs/new", class:"btn btn-default"%>
 	</div>
 </div>
@@ -36,7 +36,7 @@
 					<td><%= catalog.path %></td>
 					<td><%= catalog.watch_path %></td>
 					<td><%= catalog.default %></td>
-					<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'addphotos', id: catalog %></td>
+					<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'import', id: catalog %></td>
 					<td><%= link_to icon('picture-o'), catalog %></td>
 					<td><%= link_to icon('pencil'), edit_catalog_path(catalog) %></td>
 					<td><%= link_to icon('close'), catalog,  method: :delete, data: { confirm: 'Are you sure?' } %></td>

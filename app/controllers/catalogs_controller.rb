@@ -1,5 +1,4 @@
 
-
 class CatalogsController < ApplicationController
 
 
@@ -57,28 +56,30 @@ class CatalogsController < ApplicationController
   end
   
 
-  def addphotos
+  def import
 
     @catalog = Catalog.find(params[:id])
     watch_path = @catalog.watch_path
 
     if File.exist?(watch_path) 
-    
-      Find.find(watch_path) do |path|
-      
-        if File.file?(path)
+      insert_time = Time.now
+      Dir.glob("#{watch_path}/*.jpg").each do |jpeg_file|
         
+        if File.file?(jpeg_file)
           @photo = Photo.new
           @photo.catalogs << @catalog
-          if @photo.populate_from_file path
-            logger.debug 'in loop'
+          if @photo.populate_from_file jpeg_file
             @photo.save
           end
         end
-      
-      
       end
-    end  
+      byebug
+      @photos = Catalog.find(params[:id]).photos.page params[:page]
+      @bucket = session[:bucket]
+      
+    else 
+      logger.debug "Watch filepath did not exist"  
+    end
   end
 
   private

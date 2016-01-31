@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
 
   resources :catalogs, :concerns => :paginatable
-  get '/catalogs/:id/addphotos' => 'catalogs#addphotos'
+  get '/catalogs/:id/import' => 'catalogs#import'
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
 
 
