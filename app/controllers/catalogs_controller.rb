@@ -1,4 +1,4 @@
-
+#require 'Find'
 
 class CatalogsController < ApplicationController
 
