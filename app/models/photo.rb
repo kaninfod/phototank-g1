@@ -91,24 +91,9 @@ class Photo < ActiveRecord::Base
       end
     end
     
-    
-    
-    
     self.joins(:location).where(exp)
     
-    
-    
-    
-    
-    
   end
-
-  Photo.joins(Squeel::Nodes::Join.new(Squeel::Nodes::Stub.new(:location), :inner)).where{Squeel::Nodes::Predicate.new(Squeel::Nodes::Stub.new(:city), :eq, 'Paris')}.to_sql
-
-
-
-
-
 
   
   def query
@@ -142,11 +127,8 @@ class Photo < ActiveRecord::Base
   
   def populate_from_file path
     begin
-      logger.debug 'before process_image path'
       process_image path
-      logger.debug 'before get_exif path'
       get_exif path
-      logger.debug 'before       process_thumb'
       process_thumbs path
 
       
@@ -163,9 +145,6 @@ class Photo < ActiveRecord::Base
   end  
   
   private
-  
-
-  
   
     def get_exif path
       exif = MiniExiftool.new(path, opts={:numerical=>true})
@@ -242,13 +221,7 @@ class Photo < ActiveRecord::Base
     end
 
 
-    def geocode
-
-      
-        
-      
-      
-      
+    def geocode      
       if not self.latitude.blank? || self.longitude.blank?
         similar_locations = self.nearbys(1).where.not(location: nil)
         if similar_locations.blank?

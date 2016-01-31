@@ -1,6 +1,8 @@
-#require 'Find'
+require 'Find'
 
 class CatalogsController < ApplicationController
+
+
 
   def index
     @catalogs = Catalog.order(:name).page params[:page]
@@ -56,10 +58,9 @@ class CatalogsController < ApplicationController
   
 
   def addphotos
-    
+
     @catalog = Catalog.find(params[:id])
     watch_path = @catalog.watch_path
-
 
     if File.exist?(watch_path) 
     
