@@ -1,11 +1,13 @@
 # Change these
-server '192.168.2.103', port: 22, roles: [:web, :app, :db, :worker], primary: true
+server '192.168.2.103', port: 22, roles: [:web, :app, :db, :resque_worker, :resque_scheduler], primary: true
 
 set :repo_url,        'git@github.com:kaninfod/phototank-rails.git'
 set :application,     'phototank'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
+set :workers, { "import" => 2 }
+set :resque_environment_task, true
 
 # Don't change these unless you know what you're doing
 set :pty,             true
@@ -48,14 +50,8 @@ namespace :puma do
   before :start, :make_dirs
 end
 
-def run_remote_rake(rake_cmd)
-  rake_args = ENV['RAKE_ARGS'].to_s.split(',')
- 
-  cmd = "cd #{fetch(:latest_release)} && bundle exec #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
-  cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
-  run cmd
-  set :rakefile, nil if exists?(:rakefile)
-end
+
+
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
@@ -84,27 +80,16 @@ namespace :deploy do
     end
   end
 
- 
- 
- 
-  desc "Restart Resque Workers"
-  task :restart_workers do
-    on roles(:worker) do
-      run_remote_rake "resque:restart_workers"
-    end
-  end
- 
-
-
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
   
+  
  
   
 end
-
+after "deploy:restart", "resque:restart"
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
