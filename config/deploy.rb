@@ -32,7 +32,9 @@ set :branch,        :master
 
 ## Linked Files & Directories (Default None):
 # set :linked_files, %w{config/database.yml}
+
 set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -44,6 +46,15 @@ namespace :puma do
   end
 
   before :start, :make_dirs
+end
+
+def run_remote_rake(rake_cmd)
+  rake_args = ENV['RAKE_ARGS'].to_s.split(',')
+ 
+  cmd = "cd #{fetch(:latest_release)} && bundle exec #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
+  cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
+  run cmd
+  set :rakefile, nil if exists?(:rakefile)
 end
 
 namespace :deploy do
@@ -73,15 +84,24 @@ namespace :deploy do
     end
   end
 
+ 
+ 
+ 
+  desc "Restart Resque Workers"
+  task :restart_workers do
+    on roles(:worker) do
+      run_remote_rake "resque:restart_workers"
+    end
+  end
+ 
+
+
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
   
-  
-
-
-
+ 
   
 end
 
