@@ -79,7 +79,7 @@ namespace :deploy do
   after  :finishing,    :restart
   
   
-  after "deploy:restart", "deploy:restart_workers"
+
 
   def run_remote_rake(rake_cmd)
     rake_args = ENV['RAKE_ARGS'].to_s.split(',')
