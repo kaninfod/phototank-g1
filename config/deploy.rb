@@ -1,5 +1,5 @@
 # Change these
-server '192.168.2.103', port: 22, roles: [:web, :app, :db], primary: true
+server '192.168.2.103', port: 22, roles: [:web, :app, :db], primary: true, :worker
 
 set :repo_url,        'git@github.com:kaninfod/phototank-rails.git'
 set :application,     'phototank'
@@ -77,6 +77,27 @@ namespace :deploy do
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
+  
+  
+  after "deploy:restart", "deploy:restart_workers"
+
+  def run_remote_rake(rake_cmd)
+    rake_args = ENV['RAKE_ARGS'].to_s.split(',')
+ 
+    cmd = "cd #{fetch(:latest_release)} && bundle exec #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
+    cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
+    run cmd
+    set :rakefile, nil if exists?(:rakefile)
+  end
+ 
+  namespace :deploy do
+    desc "Restart Resque Workers"
+    task :restart_workers, :roles => :worker do
+      run_remote_rake "resque:restart_workers"
+    end
+  end
+  
+  
 end
 
 # ps aux | grep puma    # Get puma pid
