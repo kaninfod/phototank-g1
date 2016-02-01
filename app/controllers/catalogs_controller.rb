@@ -61,24 +61,25 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     watch_path = @catalog.watch_path
 
-    if File.exist?(watch_path) 
-      insert_time = Time.now
-      Dir.glob("#{watch_path}/*.jpg").each do |jpeg_file|
-        
-        if File.file?(jpeg_file)
-          @photo = Photo.new
-          @photo.catalogs << @catalog
-          if @photo.populate_from_file jpeg_file
-            @photo.save
-          end
-        end
-      end
-      
+    if File.exist?(watch_path)
+      Resque.enqueue(Importer, watch_path, @catalog.id) 
       @photos = Catalog.find(params[:id]).photos.page params[:page]
       @bucket = session[:bucket]
-      
     else 
       logger.debug "Watch filepath did not exist"  
+    end
+  end
+  
+  def test
+    @cat = Catalog.new()
+
+    if @cat.save
+      Resque.enqueue(Sleeper, 10)
+
+      
+      render :inline => "<%= @cat %>"
+    else
+      render :inline => "nothing saved"
     end
   end
 

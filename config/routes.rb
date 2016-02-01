@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/photos/:id/image/:size' => 'photos#image'
 
 
+  get '/catalogs/test' => 'catalogs#test'
   resources :catalogs, :concerns => :paginatable
   get '/catalogs/:id/import' => 'catalogs#import'
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
@@ -43,6 +44,11 @@ Rails.application.routes.draw do
   get 'administration/generate_timebased_albums'
   
   get 'synchronizers/dropbox'
+  
+  
+  require 'resque/server'
+  
+  mount Resque::Server.new, at: "/resque"
   
 
 end

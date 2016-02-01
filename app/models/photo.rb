@@ -96,7 +96,7 @@ class Photo < ActiveRecord::Base
   end
 
   
-  def query
+  def coordinate_string
     self.latitude.to_s + "," + self.longitude.to_s
   end
 
@@ -225,7 +225,7 @@ class Photo < ActiveRecord::Base
       if not self.latitude.blank? || self.longitude.blank?
         similar_locations = self.nearbys(1).where.not(location: nil)
         if similar_locations.blank?
-          geo_location = Geocoder.search(self.query).first
+          geo_location = Geocoder.search(self.coordinate_string).first
           if not geo_location.nil?
             if geo_location.data["error"].blank?
               new_location = Location.new
