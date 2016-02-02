@@ -1,13 +1,11 @@
 class Locator
   @queue = :import
 
-  def self.perform(photo_id, objid)
+  def self.perform(photo_id)
 
     begin
 
       @photo = Photo.unscoped.find(photo_id)
-      photo_obj = JSON.parse($redis.get(objid))
-      byebug
       if no_coordinates
         return true
       elsif reuse_location

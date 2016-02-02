@@ -6,8 +6,7 @@ class Photo < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude
 
 
-  default_scope { where(status: 0) }
-
+  
   scope :year, ->(year) {
     where(date_taken: Date.new(year, 1, 1)..Date.new(year, 12, 31))
   }
