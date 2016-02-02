@@ -9,8 +9,9 @@ class Importer
 
       photo = Photo.new
       photo.status = 0
-
-      Dir.glob("#{path}/*.jpg").each do |import_file_path|     
+      
+      #Dir['**/*.jpg']
+      Dir.glob("#{path}/**/*.jpg").each do |import_file_path|     
         if File.file?(import_file_path)
           
           Resque.enqueue(PhotoProcessor, import_file_path, catalog, photo)
