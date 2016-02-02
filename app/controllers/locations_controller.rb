@@ -14,4 +14,11 @@ class LocationsController < ApplicationController
     @bucket = session[:bucket]
   end
   
+  def lookup
+    Photo.geo_lookup.each do |photo|
+      Resque.enqueue(Locator, photo.id)
+    end
+    redirect_to :action => 'index'
+  end 
+  
 end

@@ -4,8 +4,8 @@ class Locator
   def self.perform(photo_id)
 
     begin
-
-      @photo = Photo.unscoped.find(photo_id)
+      
+      @photo = Photo.find(photo_id)
       if no_coordinates
         return true
       elsif reuse_location
@@ -24,7 +24,7 @@ class Locator
     
   end
   
-  def no_coordinates()
+  def self.no_coordinates()
     
     if @photo.latitude.blank? || @photo.longitude.blank?
       @photo.location = nil
@@ -34,16 +34,17 @@ class Locator
     
   end
 
-  def reuse_location()
-    if @photo.nearbys(1).where.not(location_id: nil)
+  def self.reuse_location()
+    similar_locations = @photo.nearbys(1).where.not(location_id: nil)
+    if similar_locations.count > 0
       @photo.location = similar_locations.first.location
       @photo.save
       return true
     end
   end
   
-  def geosearch
-    if geo_location = Geocoder.search(photo.coordinate_string).first
+  def self.geosearch
+    if geo_location = Geocoder.search(@photo.coordinate_string).first
       if geo_location.data["error"].blank?
         new_location = Location.new
         new_location.country = geo_location.country

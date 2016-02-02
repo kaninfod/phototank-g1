@@ -5,7 +5,9 @@ class Photo < ActiveRecord::Base
   has_many :catalogs, through: :instances 
   reverse_geocoded_by :latitude, :longitude
 
-
+  scope :geo_lookup, -> {
+    where{(location_id.eq(nil)) & (latitude.not_eq(nil) || longitude.not_eq(nil))}
+  }
   
   scope :year, ->(year) {
     where(date_taken: Date.new(year, 1, 1)..Date.new(year, 12, 31))

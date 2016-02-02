@@ -1,8 +1,7 @@
 <div class="row">
 	<div class="col-md-12">
-		<% if @photos.size == 0 %>
-		No Photos to display
-		<%= @photos.count %>
+		<% if @photos.count == 0 %>
+			No Photos to display
 		<% else %>
 		
 			<table class="table  table-condensed">

@@ -6,20 +6,19 @@ class PhotoProcessor
   IMAGE_LARGE = '1024x1200'  
 
 
-  def self.perform( path, objid, catalog, photo )
+  def self.perform( path, catalog, photo )
     
     begin
-      byebug
-      photo_obj = JSON.parse($redis.get(objid))
-      
-      photo_obj = get_exif(path, photo_obj)
-      photo_obj = process_photo(path, catalog_path, photo_obj)
-      
-      $redis.set objid, photo_obj.to_json
 
-      Photo.new(JSON.parse($redis.get(objid))).save
-      
+      photo = get_exif(path, photo)
+      photo = process_photo(path, catalog['path'], photo)
+      photo = Photo.new(photo)
+      photo.save
+      instance = photo.instances.new
+      instance.catalog_id = catalog['id']
+      instance.save
 
+      
     rescue Exception => e 
       raise "An error occured while executing the PhotoProcessor: #{e}" 
 

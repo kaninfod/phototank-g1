@@ -21,9 +21,10 @@ Rails.application.routes.draw do
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
 
 
+  get '/locations/lookup'
   resources :locations, :concerns => :paginatable
   get '/locations/:id/view' => 'locations#view'
-  get 'locations/index'
+
 
   post 'bucket/:id/add' => 'bucket#add'
   post 'bucket/:id/remove' => 'bucket#remove'

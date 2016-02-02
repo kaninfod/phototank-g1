@@ -50,7 +50,6 @@ class CatalogsController < ApplicationController
   end  
 
   def show
-
     @catalog = Catalog.find(params[:id])
     @photos = Catalog.find(params[:id]).photos.page params[:page]
     @bucket = session[:bucket]
