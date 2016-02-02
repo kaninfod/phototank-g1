@@ -21,7 +21,7 @@ class PhotoProcessor
     rescue MiniMagick::Invalid
       raise "The file is not a valid JPEG file"
     rescue Exception => e 
-      byebug
+      
       raise "An error occured while executing the PhotoProcessor: #{e}" 
 
     end
