@@ -18,8 +18,10 @@ class PhotoProcessor
       instance.catalog_id = catalog['id']
       instance.save
 
-      
+    rescue MiniMagick::Invalid
+      raise "The file is not a valid JPEG file"
     rescue Exception => e 
+      byebug
       raise "An error occured while executing the PhotoProcessor: #{e}" 
 
     end
@@ -57,7 +59,8 @@ class PhotoProcessor
     sub_path = File.join(catalog_path, 'phototank', 'originals', date_path).to_s
     file_path = File.join(sub_path, photo_obj['filename'] + photo_obj['file_extension']).to_s
     FileUtils.mkdir_p sub_path
-    File.rename path, file_path
+    FileUtils.cp path, file_path
+    #File.rename path, file_path
     
     photo_obj['path'] = File.join('phototank', 'originals', date_path)
     
