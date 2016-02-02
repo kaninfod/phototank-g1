@@ -16,7 +16,7 @@ class BucketController < ApplicationController
 
   def clear
     session[:bucket] = []
-    render :nothing => true
+    redirect_to bucket_path
   end
 
   def count
@@ -24,7 +24,7 @@ class BucketController < ApplicationController
   end
 
   def index
-    @bucket = session[:bucket]
+    @bucket = get_bucket
     @photos = Photo.where(id:@bucket).page params[:page]
   end
   

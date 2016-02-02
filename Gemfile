@@ -76,6 +76,8 @@ group :development do
   gem 'capistrano3-puma',   require: false
   gem 'capistrano-rails-collection'
   gem "capistrano-resque", "~> 0.2.2", require: false
+  gem 'foreman'
+  
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end

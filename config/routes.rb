@@ -8,12 +8,7 @@ Rails.application.routes.draw do
 
   get 'albums/select' => 'albums/select'
   post 'albums/select' => 'albums/select'
-    
-  
   resources :albums, :concerns => :paginatable
-  
-  #get 'albums/show'  => 'photos#grid'
-
   
   resources :photos, :concerns => :paginatable
   get '/photos/:id/display' => 'photos#display'

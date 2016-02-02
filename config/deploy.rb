@@ -6,7 +6,7 @@ set :application,     'phototank'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
-set :workers, { "import" => 2 }
+set :workers, { "import" => 1 }
 set :resque_environment_task, true
 
 # Don't change these unless you know what you're doing

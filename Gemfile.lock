@@ -88,6 +88,8 @@ GEM
     execjs (2.6.0)
     font-awesome-sass (4.5.0)
       sass (>= 3.2)
+    foreman (0.78.0)
+      thor (~> 0.19.1)
     geocoder (1.2.14)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -242,6 +244,7 @@ DEPENDENCIES
   dropbox-sdk
   execjs
   font-awesome-sass (~> 4.5.0)
+  foreman
   geocoder
   jbuilder (~> 2.0)
   jquery-rails
