@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
   def index
-    @locations = Location.order(:country).page params[:page]
+    @locations = Location.where{(latitude.not_eq(0) & longitude.not_eq(0))}.order(:country).page params[:page]
   end
   
   def show
@@ -15,9 +15,7 @@ class LocationsController < ApplicationController
   end
   
   def lookup
-    Photo.geo_lookup.each do |photo|
-      Resque.enqueue(Locator, photo.id)
-    end
+    Location.geolocate
     redirect_to :action => 'index'
   end 
   

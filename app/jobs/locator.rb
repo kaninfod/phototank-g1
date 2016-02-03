@@ -13,7 +13,7 @@ class Locator
       elsif geosearch
         return true
       else
-        @photo.location = nil
+        @photo.location = get_no_location
         @photo.save
         return true
       end 
@@ -27,7 +27,7 @@ class Locator
   def self.no_coordinates()
     
     if @photo.latitude.blank? || @photo.longitude.blank?
-      @photo.location = nil
+      @photo.location = get_no_location
       @photo.save
       return true
     end
@@ -62,5 +62,20 @@ class Locator
       end  
     end
   end
+  
+  def self.get_no_location
+    
+    no_loc = Location.where{(latitude.eq(0) & longitude.eq(0))}
+    if no_loc.count > 0
+      return no_loc.first
+    else
+      new_no_loc = Location.new
+      new_no_loc.latitude = 0
+      new_no_loc.longitude = 0    
+      new_no_loc.save
+      return new_no_loc
+    end
+  end
+  
   
 end

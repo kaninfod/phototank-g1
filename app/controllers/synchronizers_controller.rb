@@ -6,6 +6,7 @@ class SynchronizersController < ApplicationController
 
     access_token = 'UFefx_vmXWwAAAAAAAKYUjujc9-a8rdTeQHz_2vfgewJqvaHCByQ9Xe3_fM2T7Tm'
     dropbox_client = login(access_token)
+    
     Photo.all.each do |photo|
       file_path_local = File.join(photo.default_instance, photo.path, photo.filename + photo.file_extension)
       file_path_dropbox = File.join('/', 'rails', photo.path, photo.filename + photo.file_extension)

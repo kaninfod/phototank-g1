@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
 
   get '/catalogs/test' => 'catalogs#test'
+  get '/catalogs/:id/manage' => 'catalogs#manage'
   resources :catalogs, :concerns => :paginatable
   get '/catalogs/:id/import' => 'catalogs#import'
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
@@ -44,7 +45,7 @@ Rails.application.routes.draw do
   
   require 'resque/server'
   
-  mount Resque::Server.new, at: "/resque"
+  mount Resque::Server.new, at: "/jobs"
   
 
 end

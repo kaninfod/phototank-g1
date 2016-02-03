@@ -21,7 +21,7 @@
 					<th>Name</th>
 					<th>Storage path</th>
 					<th>Watch path</th>
-					<th>Default</th>
+					<th></th>
 					<th></th>
 					<th></th>
 					<th></th>
@@ -35,10 +35,23 @@
 					<td><%= catalog.name %></td>
 					<td><%= catalog.path %></td>
 					<td><%= catalog.watch_path %></td>
-					<td><%= catalog.default %></td>
-					<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'import', id: catalog, remote: true %></td>
+					<td>
+						<% if catalog.default %>
+							Master
+						<% end %>
+					
+					</td>
+					<td>
+						<% if catalog.online %>
+							<%= icon('toggle-on') %>
+						<% else %>
+							<%=icon('toggle-off') %>
+						<% end %>
+					
+					</td>
+					<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'import', id: catalog %></td>
 					<td><%= link_to icon('picture-o'), catalog %></td>
-					<td><%= link_to icon('pencil'), edit_catalog_path(catalog) %></td>
+					<td><%= link_to icon('pencil'), action: 'manage', id:catalog %></td>
 					<td><%= link_to icon('close'), catalog,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
         
 				</tr>
@@ -47,7 +60,7 @@
 		</table>
 
 		<div class="col-sm-6 col-sm-offset-3">
-			<%= paginate @catalogs %>
+			<%= paginate @catalogs, :theme => 'twitter-bootstrap-3' %>
 		</div>
 	</div>
 </div>

@@ -70,6 +70,13 @@ class CatalogsController < ApplicationController
     end
   end
   
+  def manage
+    @catalog = Catalog.find(params[:id])
+  end
+  
+  
+  
+  
   def test
     @cat = Catalog.new()
 

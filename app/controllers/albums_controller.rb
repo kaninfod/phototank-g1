@@ -5,7 +5,7 @@ class AlbumsController < ApplicationController
   def show
 
     @album = Album.find(params[:id])
-    @photos = Photo.album(@album)
+    @photos = @album.photos
     @photos = @photos.page params[:page]
     @bucket = session[:bucket]
   end

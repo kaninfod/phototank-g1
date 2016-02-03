@@ -2,7 +2,7 @@ class PhotoProcessor
   @queue = :import
 
   IMAGE_THUMB = '125x125'
-  IMAGE_MEDIUM = '600x800'
+  IMAGE_MEDIUM = '480x680'
   IMAGE_LARGE = '1024x1200'  
 
 
@@ -19,27 +19,28 @@ class PhotoProcessor
       instance.save
 
     rescue MiniMagick::Invalid
-      raise "The file is not a valid JPEG file"
+      Rails.logger.debug  e
     rescue Exception => e 
-      
-      raise "An error occured while executing the PhotoProcessor: #{e}" 
-
+      Rails.logger.debug  e
+      #raise "An error occured while executing the PhotoProcessor: #{e}" 
     end
   end  
   
   private
     
-  def self.resize_photo(suffix, size, sub_path, photo_obj)
-    file_path = File.join(sub_path, photo_obj['filename'] + suffix + photo_obj['file_extension']).to_s
-    if not File.exists?(file_path)
-      @image.resize size
-      @image.write file_path
-    end
-  end
     
   def self.process_photo(path, catalog_path, photo_obj)
     @image = MiniMagick::Image.open(path)
     photo_obj['filename'] = @image.signature
+    
+    #Check if file already exists in system (db and file)
+    if Photo.where{filename.eq(photo_obj['filename']) & date_taken.eq(photo_obj['date_taken'])}.present?
+      p = Photo.where{filename.eq(photo_obj['filename']) & date_taken.eq(photo_obj['date_taken'])}.first
+      if p.validate_files
+        raise "Photo #{p.filename} already exists"
+      end 
+    end
+    
     photo_obj['original_width'] = @image.width
     photo_obj['original_height'] = @image.height
     photo_obj['file_size'] = @image.size
@@ -66,6 +67,15 @@ class PhotoProcessor
     
     return photo_obj    
   end
+
+  def self.resize_photo(suffix, size, sub_path, photo_obj)
+    file_path = File.join(sub_path, photo_obj['filename'] + suffix + photo_obj['file_extension']).to_s
+    if not File.exist?(file_path)
+      @image.resize size
+      @image.write file_path
+    end
+  end
+
   
   def self.get_exif(path, photo_obj)
     
