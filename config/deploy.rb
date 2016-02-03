@@ -35,7 +35,7 @@ set :branch,        :master
 ## Linked Files & Directories (Default None):
 # set :linked_files, %w{config/database.yml}
 
-set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system db/production.sqlite3}
 
 
 namespace :puma do
