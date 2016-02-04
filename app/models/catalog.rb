@@ -55,7 +55,7 @@ class Catalog < ActiveRecord::Base
   def only_one_master_catalog
     #return unless default?
 
-    if default? and Catalog.master.exists?
+    if default? and Catalog.master
       Catalog.master.update(default: false)
     elsif not default? and  Catalog.master == self
       errors.add(:default, 'cannot have another active game')
