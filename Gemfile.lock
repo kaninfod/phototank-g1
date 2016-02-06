@@ -125,6 +125,7 @@ GEM
     net-ssh (3.0.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    pg (0.18.4)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
     puma (2.16.0)
@@ -254,6 +255,7 @@ DEPENDENCIES
   kaminari
   mini_exiftool
   mini_magick
+  pg
   puma
   rails (= 4.2.5)
   resque
