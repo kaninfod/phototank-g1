@@ -21,10 +21,5 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: phototank
-  pool: 5
-  host: localhost
-  username: pguser
-  password: bart
+  <<: *default
+  database: db/production.sqlite3
