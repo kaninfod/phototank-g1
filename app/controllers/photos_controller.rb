@@ -31,8 +31,13 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
+    if params.has_key?(:size)
+      @size = params[:size]
+    else
+      @size = 'medium'
+    end
     @photo = set_photo
-    @photoimage = '/photos/' + @photo.id.to_s + '/image'
+    #@photoimage = '/photos/' + @photo.id.to_s + '/image'
   end
 
   # GET /photos/new
@@ -87,9 +92,6 @@ class PhotosController < ApplicationController
     end
   end
 
-  def data_from_file
-    
-  end
   private
 
 

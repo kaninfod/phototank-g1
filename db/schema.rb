@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160204094713) do
+ActiveRecord::Schema.define(version: 20160206211809) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name"
@@ -49,8 +49,7 @@ ActiveRecord::Schema.define(version: 20160204094713) do
     t.string  "path"
   end
 
-  add_index "instances", ["catalog_id"], name: "index_instances_on_catalog_id"
-  add_index "instances", ["photo_id"], name: "index_instances_on_photo_id"
+  add_index "instances", ["photo_id", "catalog_id"], name: "index_instances_on_photo_id_and_catalog_id", unique: true
 
   create_table "locations", force: :cascade do |t|
     t.string   "status"

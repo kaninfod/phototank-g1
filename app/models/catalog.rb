@@ -20,11 +20,15 @@ class Catalog < ActiveRecord::Base
   end
 
   def clone_from_catalog(from_catalog_id)
-    
     Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
       new_instance = instance.dup
       new_instance.catalog_id = self.id
-      new_instance.save
+      begin
+        new_instance.save
+      rescue ActiveRecord::RecordNotUnique
+        logger.debug "instance exists"
+      end
+
     end
         
   end
@@ -35,7 +39,12 @@ class Catalog < ActiveRecord::Base
     from_album.photos.each do |photo|
       new_instance = photo.instances.first.dup
       new_instance.catalog_id = self.id
-      new_instance.save
+      begin
+        new_instance.save
+      rescue ActiveRecord::RecordNotUnique
+        logger.debug "instance exists"
+      end
+
     end
   end
 

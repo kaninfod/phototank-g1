@@ -29,7 +29,6 @@ class CatalogsController < ApplicationController
   end
 
   def create
-    byebug
     @catalog = Catalog.new(catalog_params)
     respond_to do |format|
       if @catalog.save

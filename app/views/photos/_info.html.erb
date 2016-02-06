@@ -1,0 +1,54 @@
+
+	<div class="panel panel-default">
+		<div class="panel-body">
+				
+			<dl >
+	
+				<dt>Date taken:</dt>
+				<dd><%= @photo.date_taken.strftime("%b %d %Y %H:%m") %></dd>
+	
+				<dt>Make:</dt>
+				<dd ><%= @photo.make %></dd>
+	
+				<dt>Model</dt>
+				<dd><%= @photo.model %></dd>
+	
+				<% if not (@photo.longitude.blank? | @photo.latitude.blank?) %>
+
+				<dt>Country</dt>
+				<dd><%= @photo.location.country %></dd>
+
+				<dt>City</dt>
+				<dd><%= @photo.location.city %></dd>
+
+				<dt>Address</dt>
+				<dd><address><%= @photo.location.address %></address></dd>
+				<dt>Map</dt>
+				<dd>
+					<%= image_tag "http://maps.google.com/maps/api/staticmap?size=350x300&sensor=false&zoom=10&markers=#{@photo.location.latitude}%2C#{@photo.location.longitude}" %>
+				</dd>
+		
+		
+				<% end %>
+				<dt>Filename:</dt>
+				<dd class="trunc-text"><%= @photo.filename %></dd>
+			
+				<dt>Original Path:</dt>
+				<dd><%= @photo.path %></dd>
+			
+				<dt>Thumb Path:</dt>
+				<dd><%= @photo.file_thumb_path %></dd>
+			
+				<dt>Extension:</dt>
+
+				<dt>Present in catalog(s):</dt>
+				<% @photo.catalogs.each do |catalog| %>
+					<dd class="trunc-text"><%= catalog.name %> (<%= @photo.absolutepath(catalog.id) %>)</dd>					
+				<% end %>
+
+
+
+					 
+			</dl>
+		</div>		
+	</div>

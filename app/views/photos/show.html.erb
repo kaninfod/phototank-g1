@@ -1,69 +1,30 @@
+<ul class="text-right list-inline">
+	<li><%= link_to icon('picture-o', class: 'fa-lg'), controller: 'photos', action: 'show', size: 'medium' %></li>
+	<li><%= link_to icon('picture-o', class: 'fa-2x	'), controller: 'photos', action: 'show', size: 'large' %></li>
+	<li><%= link_to icon('picture-o', class: 'fa-3x'), controller: 'photos', action: 'show', size: 'original' %></li>
+</ul>
 
-<%= link_to icon('chevron-circle-left', class: 'fa-3x'), :back %>
+
 <div class="row">
-	
+	<% if @size == 'medium' %>
 	<div class="col-md-6">	
-		<div class="panel panel-default">
+	<% else%>
+	<div class="col-md-12">
+	<% end %>		
+		<div  class="panel panel-default">
 			<div class="panel-body">
-				<ul class="text-right list-inline">
-					<li><%= link_to icon('picture-o', class: 'fa-lg'), :back %></li>
-					<li><%= link_to icon('picture-o', class: 'fa-2x	'), :back %></li>
-					<li><%= link_to icon('picture-o', class: 'fa-3x'), :back %></li>
-				</ul>
-				<%= image_tag '/photos/' + @photo.id.to_s + '/image/medium', {class: "img-responsive"} %>
+				<%= image_tag "/photos/#{@photo.id.to_s}/image/#{@size}", {style:"margin: 0 auto;", class: "img-responsive"} %>
 			</div>
 		</div>		
 	</div>
-	
 
-	
 
-	
+<% if @size == 'medium' %>
+<%=@size%>
 	<div class="col-md-6">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				
-				<dl >
+		<%= render "info" %>
+	</div>		
+<% end %>
 	
-					<dt>Date taken:</dt>
-					<dd><%= @photo.date_taken.strftime("%b %d %Y %H:%m") %></dd>
 	
-					<dt>Make:</dt>
-					<dd ><%= @photo.make %></dd>
-	
-					<dt>Model</dt>
-					<dd><%= @photo.model %></dd>
-	
-					<% if not (@photo.longitude.blank? | @photo.latitude.blank?) %>
-
-					<dt>Country</dt>
-					<dd><%= @photo.location.country %></dd>
-
-					<dt>City</dt>
-					<dd><%= @photo.location.city %></dd>
-
-					<dt>Address</dt>
-					<dd><address><%= @photo.location.address %></address></dd>
-					<dt>Map</dt>
-					<dd>
-						<%= image_tag "http://maps.google.com/maps/api/staticmap?size=350x300&sensor=false&zoom=10&markers=#{@photo.location.latitude}%2C#{@photo.location.longitude}" %>
-					</dd>
-		
-		
-					<% end %>
-					<dt>Filename:</dt>
-					<dd class="trunc-text"><%= @photo.filename %></dd>
-			
-					<dt>Original Path:</dt>
-					<dd><%= @photo.path %></dd>
-			
-					<dt>Thumb Path:</dt>
-					<dd><%= @photo.file_thumb_path %></dd>
-			
-					<dt>Extension:</dt>
-					
-				</dl>
-			</div>		
-		</div>
-	</div>
 </div>		
