@@ -37,3 +37,10 @@ $(function() {
 	})
 
 })
+
+$(function() { 
+	$('.show_map').popover({
+		container: 'body'
+	}) 
+})
+

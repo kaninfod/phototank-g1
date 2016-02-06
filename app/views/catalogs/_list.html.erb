@@ -1,0 +1,13 @@
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<% Catalog.all.each do |catalog| %>
+		<div class="radio">
+			<label>
+				<input type="radio" name="catalog_id" id="optionsRadios1" value="<%= catalog.id %>" checked>
+				<%= catalog.name %>	    
+			</label>
+		</div>	
+		<% end %>
+	</div>
+</div>

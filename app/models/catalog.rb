@@ -1,4 +1,5 @@
 class Catalog < ActiveRecord::Base
+  #self.inheritance_column = :race
   has_many :instances, dependent: :destroy
   has_many :photos, through: :instances 
 
@@ -6,11 +7,16 @@ class Catalog < ActiveRecord::Base
   scope :master, -> { where{default.eq(true)}.first }
 
 
+  
+  
   validate :only_one_master_catalog
-  #scope :active, where(:active => true)
 
-  def online
-    File.exist?(self.path)
+  def catalogtype
+    if self.type == "LocalCatalog"
+      "Local"
+    elsif self.type == "DropboxCatalog"
+      "Dropbox"
+    end
   end
 
   def clone_from_catalog(from_catalog_id)
@@ -20,9 +26,7 @@ class Catalog < ActiveRecord::Base
       new_instance.catalog_id = self.id
       new_instance.save
     end
-    
-    
-    
+        
   end
 
   def add_from_album(from_album_id)
@@ -35,20 +39,6 @@ class Catalog < ActiveRecord::Base
     end
   end
 
-  def local_sync
-    photos.each do |photo|
-       Resque.enqueue(LocalSynchronizer, photo.id, self.id) 
-    end
-  end
-
-
-
-  def dropbox_sync
-    photos.each do |photo|
-       Resque.enqueue(DropboxSynchronizer, photo.id) 
-    end
-  end
-
 
   protected
 
@@ -56,7 +46,7 @@ class Catalog < ActiveRecord::Base
     #return unless default?
 
     if default? and Catalog.master
-      Catalog.master.update(default: false)
+      # Catalog.master.update(default: false)
     elsif not default? and  Catalog.master == self
       errors.add(:default, 'cannot have another active game')
     end

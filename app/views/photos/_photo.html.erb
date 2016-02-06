@@ -1,0 +1,30 @@
+
+<div class="square">
+	<div class="content">
+		<div class="table">
+			<div class="table-cell">
+				
+				<%= link_to image_tag('/photos/' + photo.id.to_s + '/image/small',{class: "rs"}), photo %>
+				
+				<div class=" photo-text text-left small">
+					<b>Date taken:</b>
+				</div>
+				<div class="photo-text text-right">
+					<p><%= photo.date_taken.strftime("%b %d %Y %H:%m") %></p>
+				</div>
+				<div class="photo-text text-left">
+					<ul class="list-inline">
+						<li><%= check_box_tag 'bucket', 'accepted', (@bucket.include? photo.id), photo_id: photo.id  %></li>
+						<% if not (photo.longitude.blank? && photo.latitude.blank?) %>
+						<li><i tabindex="0" id="pis" class="fa fa-globe show_map" data-html="true" role="button" data-toggle="popover" data-trigger="focus" data-content="<img src='http://maps.google.com/maps/api/staticmap?size=250x200&sensor=false&zoom=4&markers=<%= photo.latitude %>%2C<%= photo.longitude %>' />" ></i></li>
+						<% end %>
+					</div>
+				</ul>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+

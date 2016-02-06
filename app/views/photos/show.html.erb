@@ -1,57 +1,69 @@
-<p id="notice"><%= notice %></p>
 
-
-
+<%= link_to icon('chevron-circle-left', class: 'fa-3x'), :back %>
 <div class="row">
-	<div class="col-md-12">
-<%= link_to icon('chevron-circle-left'), :back %>
-		<dl class="dl-horizontal">
 	
-			<dt>Filename:</dt>
-			<dd><%= @photo.filename %></dd>
-	
-			<dt>Date taken:</dt>
-			<dd><%= @photo.date_taken %></dd>
-	
-			<dt>Make:</dt>
-			<dd><%= @photo.make %></dd>
-	
-			<dt>Model</dt>
-			<dd><%= @photo.model %></dd>
-	
-			<% if not @photo.location.blank? %>
-
-				<dt>Country</dt>
-				<dd><%= @photo.location.country %></dd>
-
-				<dt>City</dt>
-				<dd><%= @photo.location.city %></dd>
-
-				<dt>Address</dt>
-				<dd><address><%= @photo.location.address %></address></dd>
-
-				<dt>Map</dt>
-				<dd>
-					<%= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=10&markers=#{@photo.location.latitude}%2C#{@photo.location.longitude}" %>
-				</dd>
-		
-			<% end %>
-
-			<dt>Original Path:</dt>
-			<dd><%= @photo.path %></dd>
-			
-			<dt>Thumb Path:</dt>
-			<dd><%= @photo.file_thumb_path %></dd>
-			
-			<dt>Extension:</dt>
-			<dd><%= @photo.file_extension %></dd>
-			
-			<dt>File size:</dt>
-			<dd><%= @photo.file_size %></dd>
-			
-			<dt>Photo:</dt>
-			<dd><%= image_tag '/photos/' + @photo.id.to_s + '/image/medium' %></dd>
-		</dl>
+	<div class="col-md-6">	
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<ul class="text-right list-inline">
+					<li><%= link_to icon('picture-o', class: 'fa-lg'), :back %></li>
+					<li><%= link_to icon('picture-o', class: 'fa-2x	'), :back %></li>
+					<li><%= link_to icon('picture-o', class: 'fa-3x'), :back %></li>
+				</ul>
+				<%= image_tag '/photos/' + @photo.id.to_s + '/image/medium', {class: "img-responsive"} %>
+			</div>
+		</div>		
 	</div>
-</div>
+	
 
+	
+
+	
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				
+				<dl >
+	
+					<dt>Date taken:</dt>
+					<dd><%= @photo.date_taken.strftime("%b %d %Y %H:%m") %></dd>
+	
+					<dt>Make:</dt>
+					<dd ><%= @photo.make %></dd>
+	
+					<dt>Model</dt>
+					<dd><%= @photo.model %></dd>
+	
+					<% if not (@photo.longitude.blank? | @photo.latitude.blank?) %>
+
+					<dt>Country</dt>
+					<dd><%= @photo.location.country %></dd>
+
+					<dt>City</dt>
+					<dd><%= @photo.location.city %></dd>
+
+					<dt>Address</dt>
+					<dd><address><%= @photo.location.address %></address></dd>
+					<dt>Map</dt>
+					<dd>
+						<%= image_tag "http://maps.google.com/maps/api/staticmap?size=350x300&sensor=false&zoom=10&markers=#{@photo.location.latitude}%2C#{@photo.location.longitude}" %>
+					</dd>
+		
+		
+					<% end %>
+					<dt>Filename:</dt>
+					<dd class="trunc-text"><%= @photo.filename %></dd>
+			
+					<dt>Original Path:</dt>
+					<dd><%= @photo.path %></dd>
+			
+					<dt>Thumb Path:</dt>
+					<dd><%= @photo.file_thumb_path %></dd>
+			
+					<dt>Extension:</dt>
+					
+				</dl>
+			</div>		
+		</div>
+	</div>
+</div>		

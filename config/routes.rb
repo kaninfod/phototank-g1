@@ -8,8 +8,11 @@ Rails.application.routes.draw do
 
   get 'albums/select' => 'albums/select'
   post 'albums/select' => 'albums/select'
+
   resources :albums, :concerns => :paginatable
+  get 'albums/:id/grid' => 'albums#grid'
   
+    
   resources :photos, :concerns => :paginatable
   get '/photos/:id/display' => 'photos#display'
   get '/photos/:id/image/:size' => 'photos#image'
@@ -18,6 +21,10 @@ Rails.application.routes.draw do
   get '/catalogs/test' => 'catalogs#test'
   get '/catalogs/:id/manage' => 'catalogs#manage'
   resources :catalogs, :concerns => :paginatable
+  resources :catalogdropboxes, controller: 'catalogs', type: 'DropboxCatalog', :concerns => :paginatable
+  resources :cataloglocals, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
+  
+  
   get '/catalogs/:id/import' => 'catalogs#import'
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
 

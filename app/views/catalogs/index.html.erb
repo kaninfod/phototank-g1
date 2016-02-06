@@ -35,6 +35,7 @@
 					<td><%= catalog.name %></td>
 					<td><%= catalog.path %></td>
 					<td><%= catalog.watch_path %></td>
+					<td><%= catalog.catalogtype %></td>
 					<td>
 						<% if catalog.default %>
 							Master
@@ -49,10 +50,10 @@
 						<% end %>
 					
 					</td>
-					<td><%= link_to icon('cloud-upload'), controller: 'catalogs', action: 'import', id: catalog %></td>
-					<td><%= link_to icon('picture-o'), catalog %></td>
+					<td><%= link_to icon('cloud-upload'), action: 'import', id: catalog %></td>
+					<td><%= link_to icon('picture-o'), action: 'show', id: catalog %></td>
 					<td><%= link_to icon('pencil'), action: 'manage', id:catalog %></td>
-					<td><%= link_to icon('close'), catalog,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
         
 				</tr>
 				<% end %>

@@ -1,9 +1,10 @@
 class AlbumsController < ApplicationController
-  def search
+  def grid 
+    @photos = Photo.all
+    @bucket = session[:bucket]
   end
 
   def show
-
     @album = Album.find(params[:id])
     @photos = @album.photos
     @photos = @photos.page params[:page]

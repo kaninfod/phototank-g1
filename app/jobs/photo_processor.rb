@@ -9,7 +9,7 @@ class PhotoProcessor
   def self.perform( path, catalog, photo )
     
     begin
-
+      
       photo = get_exif(path, photo)
       photo = process_photo(path, catalog['path'], photo)
       photo = Photo.new(photo)
@@ -19,9 +19,9 @@ class PhotoProcessor
       instance.save
 
     rescue MiniMagick::Invalid
-      Rails.logger.debug  e
+      Rails.logger.debug  "#{e}"
     rescue Exception => e 
-      Rails.logger.debug  e
+      Rails.logger.debug  "#{e}"
       #raise "An error occured while executing the PhotoProcessor: #{e}" 
     end
   end  
@@ -53,7 +53,9 @@ class PhotoProcessor
     
     resize_photo("_lg", IMAGE_LARGE, sub_path, photo_obj)
     resize_photo("_md", IMAGE_MEDIUM, sub_path ,photo_obj)
-    resize_photo("_tm", IMAGE_THUMB, sub_path, photo_obj)
+
+    create_thumbnail(path, sub_path, photo_obj)
+
     
     photo_obj['file_thumb_path'] = File.join('phototank', 'thumbs', date_path)
             
@@ -66,6 +68,19 @@ class PhotoProcessor
     photo_obj['path'] = File.join('phototank', 'originals', date_path)
     
     return photo_obj    
+  end
+
+
+  def self.create_thumbnail(src, sub_path, photo_obj)
+
+    dst = File.join(sub_path, photo_obj['filename'] + "_tm" + photo_obj['file_extension']).to_s
+    MiniMagick::Tool::Convert.new do |convert|
+      convert.merge! ["-size", "200x200", src]
+      convert.merge! ["-thumbnail", "125x125^"]
+      convert.merge! ["-gravity", "center"]
+      convert.merge! ["-extent", "125x125", "+profile", "'*'"]
+      convert << dst
+    end
   end
 
   def self.resize_photo(suffix, size, sub_path, photo_obj)
@@ -94,3 +109,13 @@ class PhotoProcessor
   end
   
 end
+
+MiniMagick::Tool::Convert.new do |convert|
+  convert.merge! ["-size", "200x200", "/Users/martinhinge/Downloads/pics/watch/1b492cc5a39286b04d8b76abdbf65c22435aacace36870b066e6d6a91df8658c.jpg"]
+  convert.merge! ["-thumbnail", "125x125^"]
+  convert.merge! ["-gravity", "center"]
+  convert.merge! ["-extent", "125x125", "+profile", "'*'"]
+  convert << "out.jpg"
+end
+MiniMagick::Tool::Convert.new('-size", "200x200", "/Users/martinhinge/Downloads/pics/watch/1b492cc5a39286b04d8b76abdbf65c22435aacace36870b066e6d6a91df8658c.jpg -thumbnail 125x125^ -gravity center -extent 125x125 +profile "*" out.jpg')
+

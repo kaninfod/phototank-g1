@@ -25,9 +25,11 @@ class CatalogsController < ApplicationController
 
   def new
     @catalog = Catalog.new
+    @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
   end
 
   def create
+    byebug
     @catalog = Catalog.new(catalog_params)
     respond_to do |format|
       if @catalog.save
@@ -71,25 +73,20 @@ class CatalogsController < ApplicationController
   end
   
   def manage
+
+
+    if params[:album_id]
+      Catalog.find(params[:id]).add_from_album(params[:album_id])
+    elsif params[:catalog_id]
+      Catalog.find(params[:id]).clone_from_catalog(params[:catalog_id])
+    end
+
+    
+    
+    @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
     @catalog = Catalog.find(params[:id])
   end
   
-  
-  
-  
-  def test
-    @cat = Catalog.new()
-
-    if @cat.save
-      Resque.enqueue(Sleeper, 10)
-
-      
-      render :inline => "<%= @cat %>"
-    else
-      render :inline => "nothing saved"
-    end
-  end
-
   private
     
     def set_catalog
@@ -98,6 +95,6 @@ class CatalogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def catalog_params
-      params.require(:catalog).permit(:name, :path, :default, :watch_path)
+      params.require(:catalog).permit(:name, :path, :default, :watch_path, :type)
     end
 end

@@ -1,0 +1,13 @@
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<% Album.all.each do |album| %>
+		<div class="radio">
+			<label>
+				<input type="radio" name="album_id" id="optionsRadios1" value="<%= album.id %>" checked>
+				<%= album.name %>	    
+			</label>
+		</div>	
+		<% end %>
+	</div>
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160201222342) do
+ActiveRecord::Schema.define(version: 20160204094713) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20160201222342) do
     t.string   "path"
     t.boolean  "default"
     t.string   "watch_path"
+    t.string   "type"
   end
 
   create_table "doubles", force: :cascade do |t|
