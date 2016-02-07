@@ -13,10 +13,4 @@ catalog_list.each do |name, path, watch_path, default, type|
     )
   end
 
-    
-
-
-
-
-
-    
+  
