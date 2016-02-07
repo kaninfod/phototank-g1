@@ -51,9 +51,16 @@ class CatalogsController < ApplicationController
   end  
 
   def show
+    if params.has_key?(:viewmode)
+      @view = params[:viewmode]
+    else
+      @view = 'grid'
+    end
+    @bucket = session[:bucket]
+        
     @catalog = Catalog.find(params[:id])
     @photos = Catalog.find(params[:id]).photos.page params[:page]
-    @bucket = session[:bucket]
+
   end
   
 

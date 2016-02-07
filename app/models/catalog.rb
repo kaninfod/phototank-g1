@@ -51,6 +51,8 @@ class Catalog < ActiveRecord::Base
 
   protected
 
+
+
   def only_one_master_catalog
     #return unless default?
 

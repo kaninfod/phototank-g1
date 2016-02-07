@@ -5,10 +5,17 @@ class AlbumsController < ApplicationController
   end
 
   def show
-    @album = Album.find(params[:id])
-    @photos = @album.photos
-    @photos = @photos.page params[:page]
+    if params.has_key?(:viewmode)
+      @view = params[:viewmode]
+    else
+      @view = 'grid'
+    end
     @bucket = session[:bucket]
+
+
+    @album = Album.find(params[:id])
+    @photos = @album.photos.page params[:page]
+
   end
 
   def index

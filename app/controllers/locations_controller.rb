@@ -8,7 +8,12 @@ class LocationsController < ApplicationController
   end
   
   def view
-
+    if params.has_key?(:viewmode)
+      @view = params[:viewmode]
+    else
+      @view = 'grid'
+    end
+    @bucket = session[:bucket]
     @photos = Photo.where(:location => params[:id]).page params[:page]
     @location = Location.find(params[:id])
     @bucket = session[:bucket]
