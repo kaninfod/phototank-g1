@@ -40,26 +40,25 @@ class Photo < ActiveRecord::Base
   end
 
   def absolutepath(catalog_id=Catalog.master)
-    File.join(self.catalog(catalog_id).path, original_filename)    
+    File.join(self.catalog(catalog_id).path, self.path, self.filename + self.file_extension)    
   end
 
-  def original_filename
-    original_filename = File.join(self.path, self.filename + self.file_extension)
-    original_filename
+  def original_filename(catalog_id=Catalog.master)
+    absolutepath(catalog_id)
   end
     
-  def small_filename
-    small_filename = File.join(self.file_thumb_path,self.filename + "_tm" + self.file_extension)
+  def small_filename(catalog_id=Catalog.master)
+    small_filename = File.join(self.catalog(catalog_id).path, self.file_thumb_path,self.filename + "_tm" + self.file_extension)
     small_filename
   end
   
-  def medium_filename
-    medium_filename = File.join(self.file_thumb_path,self.filename + "_md" + self.file_extension)
+  def medium_filename(catalog_id=Catalog.master)
+    medium_filename = File.join(self.catalog(catalog_id).path, self.file_thumb_path,self.filename + "_md" + self.file_extension)
     medium_filename
   end
   
-  def large_filename
-    large_filename = File.join(self.file_thumb_path, self.filename + "_lg" + self.file_extension)
+  def large_filename(catalog_id=Catalog.master)
+    large_filename = File.join(self.catalog(catalog_id).path, self.file_thumb_path, self.filename + "_lg" + self.file_extension)
     large_filename
   end
   

@@ -13,7 +13,7 @@
 				<dt>Model</dt>
 				<dd><%= @photo.model %></dd>
 	
-				<% if not (@photo.longitude.blank? | @photo.latitude.blank?) %>
+				<% if not (@photo.longitude.blank? | @photo.latitude.blank?) & (not @photo.location_id.blank?) %>
 
 				<dt>Country</dt>
 				<dd><%= @photo.location.country %></dd>

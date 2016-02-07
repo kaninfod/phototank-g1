@@ -8,13 +8,13 @@ class PhotosController < ApplicationController
     localpath = @photo.default_instance
     
     if params[:size] == "original"
-      filepath = File.join(localpath, @photo.original_filename)
+      filepath = File.join(@photo.original_filename)
     elsif params[:size] == "large"
-      filepath = File.join(localpath, @photo.large_filename)
+      filepath = File.join(@photo.large_filename)
     elsif params[:size] == "small"
-      filepath = File.join(localpath, @photo.small_filename)
+      filepath = File.join(@photo.small_filename)
     else
-      filepath = File.join(localpath, @photo.medium_filename)    
+      filepath = File.join(@photo.medium_filename)    
     end
     
     send_file filepath, :disposition => 'inline'

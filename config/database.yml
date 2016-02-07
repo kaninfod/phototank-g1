@@ -21,5 +21,12 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: /home/deploy/apps/phototank/shared/db/production.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  database: phototank
+  username: root
+  password: bart
+  host: 127.0.0.1
+  port: 3306
+#  <<: *default
+#  database: /home/deploy/apps/phototank/shared/db/production.sqlite3

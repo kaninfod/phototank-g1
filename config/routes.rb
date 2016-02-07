@@ -37,9 +37,10 @@ Rails.application.routes.draw do
   post 'bucket/:id/add' => 'bucket#add'
   post 'bucket/:id/remove' => 'bucket#remove'
   get  'bucket' => 'bucket#index'
-  get 'bucket/clear' => 'bucket#clear'
-  get 'bucket/count' => 'bucket#count'
+  get  'bucket/clear' => 'bucket#clear'
+  get  'bucket/count' => 'bucket#count'
   get  'bucket/save' => 'bucket#save_to_album'
+  get  'bucket/delete_photos' => 'bucket#delete_photos'
 
   get 'doubles/find'
   get 'doubles/index'

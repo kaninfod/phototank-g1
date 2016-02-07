@@ -2,15 +2,12 @@ class BucketController < ApplicationController
 
   def add
     session[:bucket].push params[:id].to_i
-    puts session[:bucket]
     render :json => {'count' => session[:bucket].count}
   end
 
   def remove
     get_bucket
     session[:bucket].delete(params[:id].to_i) 
-    
-    puts session[:bucket]
     render :json => {'count' => session[:bucket].count}
   end
 
@@ -40,7 +37,13 @@ class BucketController < ApplicationController
     end
   end
   
-
+  def delete_photos
+    session[:bucket].each do |photo_id|
+      Resque.enqueue(DeletePhoto, photo_id)
+    end
+    session[:bucket] = []
+    redirect_to bucket_path
+  end
   
   private
   
