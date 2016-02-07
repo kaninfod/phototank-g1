@@ -21,11 +21,18 @@
 			</ul>
       
 			<ul class="nav navbar-nav navbar-right">
-				<li><span id="jobs-pending-pending" class="badge">3</span></li>
-				<li><span id="jobs-pending-failed" class="badge">3</span></li>
-				<li><span id="jobs-pending-working" class="badge">3</span></li>
-				<li><span id="jobs-pending-import" class="badge">3</span></li>
-				<li><span id="jobs-pending-locate" class="badge">3</span></li>
+				<li class="dropdown">
+					<a href="#" id="job-data" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li>Pending: <span id="jobs-pending-pending" class="badge">3</span></li>
+						<li>Failed: <span id="jobs-pending-failed" class="badge">3</span></li>
+						<li>Working:<span id="jobs-pending-working" class="badge">3</span></li>
+						<li>Import:<span id="jobs-pending-import" class="badge">3</span></li>
+						<li>Locator: <span id="jobs-pending-locate" class="badge">3</span></li>
+						<li>Git revision: <%= @GR%></li>
+
+					</ul>
+				</li>
        
 			</ul>
 		</div><!-- /.navbar-collapse -->

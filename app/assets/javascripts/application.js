@@ -20,10 +20,10 @@
 
 
 $(function() {
-	setTimeout(updateJobs, 2000)
-	}
-
-)
+	
+		setTimeout(updateJobs, 2000);
+	
+})
 
 function updateJobs() {
 	

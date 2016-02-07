@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
    if not session.include? 'bucket'
      session[:bucket] = []
    end
+   @GR = GITREVISION
    
  end
  
