@@ -110,12 +110,6 @@ class PhotoProcessor
   
 end
 
-MiniMagick::Tool::Convert.new do |convert|
-  convert.merge! ["-size", "200x200", "/Users/martinhinge/Downloads/pics/watch/1b492cc5a39286b04d8b76abdbf65c22435aacace36870b066e6d6a91df8658c.jpg"]
-  convert.merge! ["-thumbnail", "125x125^"]
-  convert.merge! ["-gravity", "center"]
-  convert.merge! ["-extent", "125x125", "+profile", "'*'"]
-  convert << "out.jpg"
+
 end
-MiniMagick::Tool::Convert.new('-size", "200x200", "/Users/martinhinge/Downloads/pics/watch/1b492cc5a39286b04d8b76abdbf65c22435aacace36870b066e6d6a91df8658c.jpg -thumbnail 125x125^ -gravity center -extent 125x125 +profile "*" out.jpg')
 
