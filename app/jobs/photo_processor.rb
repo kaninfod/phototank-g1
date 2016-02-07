@@ -111,5 +111,4 @@ class PhotoProcessor
 end
 
 
-end
 
