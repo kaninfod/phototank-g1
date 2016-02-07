@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
 
   get 'administration/generate_timebased_albums'
+  get 'administration/jobs_pending'
   
   get 'synchronizers/dropbox'
   

@@ -17,3 +17,30 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require_tree .
+
+
+$(function() {
+	setTimeout(updateJobs, 2000)
+	}
+
+)
+
+function updateJobs() {
+	
+	
+	$.ajax({
+	  method: "GET",
+	  url: "/administration/jobs_pending?format=json",
+	  data: {  },
+	  success : function(resque)
+      {
+		  $("#jobs-pending-pending").html(resque['pending'])
+		  $("#jobs-pending-failed").html(resque['failed'])
+		  $("#jobs-pending-working").html(resque['working'])
+		  $("#jobs-pending-import").html(resque['import'])
+		  $("#jobs-pending-locate").html(resque['locate'])
+      }
+	})
+	setTimeout(updateJobs, 5000)
+	
+}
