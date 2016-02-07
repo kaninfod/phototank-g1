@@ -17,6 +17,7 @@ class PhotoProcessor
       instance = photo.instances.new
       instance.catalog_id = catalog['id']
       instance.save
+      Resque.enqueue(Locator, photo.id)
 
     rescue MiniMagick::Invalid
       Rails.logger.debug  "#{e}"
@@ -29,7 +30,7 @@ class PhotoProcessor
   private
     
     
-  def self.process_photo(path, catalog_path, photo_obj)
+  def self.process_photo(path, catalog_path, photo_obj, clone_mode = 'copy')
     @image = MiniMagick::Image.open(path)
     photo_obj['filename'] = @image.signature
     
@@ -62,8 +63,11 @@ class PhotoProcessor
     sub_path = File.join(catalog_path, 'phototank', 'originals', date_path).to_s
     file_path = File.join(sub_path, photo_obj['filename'] + photo_obj['file_extension']).to_s
     FileUtils.mkdir_p sub_path
-    FileUtils.cp path, file_path
-    #File.rename path, file_path
+    if clone_mode == 'copy'
+      FileUtils.cp path, file_path
+    else
+      File.rename path, file_path
+    end 
     
     photo_obj['path'] = File.join('phototank', 'originals', date_path)
     

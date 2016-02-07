@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Phototank</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+	<title>Phototank</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
 </head>
 <body>
 	<%= render :partial => 'common/navbar' %>
-<div class="container">
+	<div class="container">
 
-<%= yield %>
+		<%= yield %>
 
-</div>
+	</div>
 </body>
 </html>

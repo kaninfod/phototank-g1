@@ -1,5 +1,5 @@
 class Locator
-  @queue = :import
+  @queue = :locate
 
   def self.perform(photo_id)
 
