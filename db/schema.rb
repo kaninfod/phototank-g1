@@ -11,81 +11,81 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160206211809) do
+ActiveRecord::Schema.define(version: 20160207224501) do
 
   create_table "albums", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "start"
     t.datetime "end"
-    t.string   "make"
-    t.string   "model"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "country"
-    t.string   "city"
-    t.string   "photo_ids"
+    t.string   "make",       limit: 255
+    t.string   "model",      limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "country",    limit: 255
+    t.string   "city",       limit: 255
+    t.string   "photo_ids",  limit: 255
   end
 
   create_table "catalogs", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "path"
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "path",       limit: 255
     t.boolean  "default"
-    t.string   "watch_path"
-    t.string   "type"
+    t.string   "watch_path", limit: 255
+    t.string   "type",       limit: 255
   end
 
   create_table "doubles", force: :cascade do |t|
-    t.text     "items"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "deleted"
+    t.text     "items",      limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "deleted",    limit: 4
   end
 
   create_table "instances", force: :cascade do |t|
-    t.integer "photo_id"
-    t.integer "catalog_id"
-    t.string  "path"
+    t.integer "photo_id",   limit: 4
+    t.integer "catalog_id", limit: 4
+    t.string  "path",       limit: 255
   end
 
-  add_index "instances", ["photo_id", "catalog_id"], name: "index_instances_on_photo_id_and_catalog_id", unique: true
+  add_index "instances", ["photo_id", "catalog_id"], name: "index_instances_on_photo_id_and_catalog_id", unique: true, using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string   "status"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "location"
-    t.string   "country"
-    t.string   "state"
-    t.string   "address"
-    t.string   "road"
-    t.string   "city"
-    t.string   "suburb"
-    t.string   "postcode"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "status",     limit: 255
+    t.float    "latitude",   limit: 24
+    t.float    "longitude",  limit: 24
+    t.string   "location",   limit: 255
+    t.string   "country",    limit: 255
+    t.string   "state",      limit: 255
+    t.string   "address",    limit: 255
+    t.string   "road",       limit: 255
+    t.string   "city",       limit: 255
+    t.string   "suburb",     limit: 255
+    t.string   "postcode",   limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "photos", force: :cascade do |t|
-    t.string   "filename"
+    t.string   "filename",        limit: 255
     t.datetime "date_taken"
-    t.string   "path"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.string   "file_thumb_path"
-    t.string   "file_extension"
-    t.integer  "file_size"
-    t.integer  "location_id"
-    t.string   "make"
-    t.string   "model"
-    t.integer  "original_height"
-    t.integer  "original_width"
-    t.decimal  "longitude"
-    t.decimal  "latitude"
-    t.integer  "status"
+    t.string   "path",            limit: 255
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.string   "file_thumb_path", limit: 255
+    t.string   "file_extension",  limit: 255
+    t.integer  "file_size",       limit: 4
+    t.integer  "location_id",     limit: 4
+    t.string   "make",            limit: 255
+    t.string   "model",           limit: 255
+    t.integer  "original_height", limit: 4
+    t.integer  "original_width",  limit: 4
+    t.decimal  "longitude",                   precision: 10
+    t.decimal  "latitude",                    precision: 10
+    t.integer  "status",          limit: 4
   end
 
-  add_index "photos", ["location_id"], name: "index_photos_on_location_id"
+  add_index "photos", ["location_id"], name: "index_photos_on_location_id", using: :btree
 
 end
