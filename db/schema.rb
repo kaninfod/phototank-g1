@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(version: 20160206211809) do
     t.string   "path"
     t.boolean  "default"
     t.string   "watch_path"
-    t.string   "type"
   end
 
   create_table "doubles", force: :cascade do |t|
