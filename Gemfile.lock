@@ -120,6 +120,7 @@ GEM
     minitest (5.8.4)
     mono_logger (1.1.0)
     multi_json (1.11.2)
+    mysql2 (0.4.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.2)
@@ -254,6 +255,7 @@ DEPENDENCIES
   kaminari
   mini_exiftool
   mini_magick
+  mysql2
   puma
   rails (= 4.2.5)
   resque
