@@ -10,8 +10,13 @@ default: &default
   timeout: 5000
 
 development:
-  <<: *default
-  database: db/development.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  database: phototank
+  username: deploy
+  password: bart
+  host: 127.0.0.1
+  port: 3306
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -24,7 +29,7 @@ production:
   adapter: mysql2
   encoding: utf8
   database: phototank
-  username: root
+  username: deploy
   password: bart
   host: 127.0.0.1
   port: 3306
