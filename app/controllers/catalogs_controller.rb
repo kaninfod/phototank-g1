@@ -81,7 +81,7 @@ class CatalogsController < ApplicationController
   end
   
   def manage
-    
+    puts params
     @catalog = Catalog.find(params[:id])
     @wp = ['/users/uus1', '/users/uus2','/users/uus3','/users/uus4']
     @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]

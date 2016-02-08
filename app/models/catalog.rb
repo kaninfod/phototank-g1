@@ -1,6 +1,6 @@
 class Catalog < ActiveRecord::Base
   #self.inheritance_column = :race
-  serialize :watch_path
+  serialize :watch_path, Array
   has_many :instances, dependent: :destroy
   has_many :photos, through: :instances 
 

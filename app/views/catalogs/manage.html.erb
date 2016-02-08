@@ -24,10 +24,7 @@
 					<div class="actions">
 						<%= f.submit class:"btn btn-default" %>
 					</div>
-					<div class="form-group">
-						<%= label_tag(:q, "Watch path:") %>
-						<%= f.text_field(:watch_path, :value => @catalog.watch_path.join(", "), class:"form-control") %>
-					</div>
+
 				
 				
 					<%= button_tag("Upload", action: 'upload', class:"btn btn-default")%>
