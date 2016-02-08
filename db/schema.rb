@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160207224501) do
+ActiveRecord::Schema.define(version: 20160208105912) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20160207224501) do
 
   create_table "locations", force: :cascade do |t|
     t.string   "status",     limit: 255
-    t.float    "latitude",   limit: 24
-    t.float    "longitude",  limit: 24
+    t.decimal  "latitude",               precision: 16, scale: 10
+    t.decimal  "longitude",              precision: 16, scale: 10
     t.string   "location",   limit: 255
     t.string   "country",    limit: 255
     t.string   "state",      limit: 255
@@ -63,16 +63,16 @@ ActiveRecord::Schema.define(version: 20160207224501) do
     t.string   "city",       limit: 255
     t.string   "suburb",     limit: 255
     t.string   "postcode",   limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
   end
 
   create_table "photos", force: :cascade do |t|
     t.string   "filename",        limit: 255
     t.datetime "date_taken"
     t.string   "path",            limit: 255
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.string   "file_thumb_path", limit: 255
     t.string   "file_extension",  limit: 255
     t.integer  "file_size",       limit: 4
@@ -81,8 +81,8 @@ ActiveRecord::Schema.define(version: 20160207224501) do
     t.string   "model",           limit: 255
     t.integer  "original_height", limit: 4
     t.integer  "original_width",  limit: 4
-    t.decimal  "longitude",                   precision: 10
-    t.decimal  "latitude",                    precision: 10
+    t.decimal  "longitude",                   precision: 16, scale: 10
+    t.decimal  "latitude",                    precision: 16, scale: 10
     t.integer  "status",          limit: 4
   end
 

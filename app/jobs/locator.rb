@@ -2,10 +2,11 @@ class Locator
   @queue = :locate
 
   def self.perform(photo_id)
-
+    
     begin
       
       @photo = Photo.find(photo_id)
+      
       if no_coordinates
         return true
       elsif reuse_location
@@ -35,8 +36,9 @@ class Locator
   end
 
   def self.reuse_location()
+    
     similar_locations = @photo.nearbys(1).where.not(location_id: nil)
-    if similar_locations.count > 0
+    if similar_locations.count(:all) > 0
       @photo.location = similar_locations.first.location
       @photo.save
       return true

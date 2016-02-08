@@ -104,6 +104,7 @@ class PhotoProcessor
     else
       photo_obj['date_taken'] = File.ctime(path)
     end
+
     photo_obj['longitude'] = exif.gpslongitude
     photo_obj['latitude'] = exif.gpslatitude
     photo_obj['make'] = exif.make
