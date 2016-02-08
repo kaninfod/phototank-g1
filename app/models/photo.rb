@@ -18,10 +18,10 @@ class Photo < ActiveRecord::Base
   def validate_files(catalog_id=1)
     catalog_path = self.catalog(catalog_id).path
     
-    org = File.exist?(absolutepath)
-    sm = File.exist?(File.join(catalog_path, small_filename))
-    md = File.exist?(File.join(catalog_path, medium_filename))
-    lg = File.exist?(File.join(catalog_path, large_filename))
+    org = File.exist?(original_filename)
+    sm = File.exist?(small_filename)
+    md = File.exist?(medium_filename)
+    lg = File.exist?(large_filename)
 
     return org & lg & md & sm   
   end
