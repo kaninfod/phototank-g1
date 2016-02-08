@@ -39,30 +39,30 @@ class Photo < ActiveRecord::Base
     self.latitude.to_s + "," + self.longitude.to_s
   end
 
-  def absolutepath(catalog_id=Catalog.master)
+  def absolutepath(catalog_id=Catalog.master.id)
     File.join(self.catalog(catalog_id).path, self.path, self.filename + self.file_extension)    
   end
 
-  def original_filename(catalog_id=Catalog.master)
+  def original_filename(catalog_id=Catalog.master.id)
     absolutepath(catalog_id)
   end
     
-  def small_filename(catalog_id=Catalog.master)
+  def small_filename(catalog_id=Catalog.master.id)
     small_filename = File.join(self.catalog(catalog_id).path, self.file_thumb_path,self.filename + "_tm" + self.file_extension)
     small_filename
   end
   
-  def medium_filename(catalog_id=Catalog.master)
+  def medium_filename(catalog_id=Catalog.master.id)
     medium_filename = File.join(self.catalog(catalog_id).path, self.file_thumb_path,self.filename + "_md" + self.file_extension)
     medium_filename
   end
   
-  def large_filename(catalog_id=Catalog.master)
+  def large_filename(catalog_id=Catalog.master.id)
     large_filename = File.join(self.catalog(catalog_id).path, self.file_thumb_path, self.filename + "_lg" + self.file_extension)
     large_filename
   end
   
-  def catalog(catalog_id=Catalog.master)
+  def catalog(catalog_id=Catalog.master.id)
     self.catalogs.where{id.eq(catalog_id)}.first
   end
   

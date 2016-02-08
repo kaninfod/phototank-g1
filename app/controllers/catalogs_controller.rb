@@ -68,29 +68,36 @@ class CatalogsController < ApplicationController
 
     @catalog = Catalog.find(params[:id])
     watch_path = @catalog.watch_path
-
-    if File.exist?(watch_path)
-      Resque.enqueue(Importer, watch_path, @catalog.id) 
-      @photos = Catalog.find(params[:id]).photos.page params[:page]
-      @bucket = session[:bucket]
-    else 
-      logger.debug "Watch filepath did not exist"  
+    watch_path.each do |path|
+      if File.exist?(path)
+        Resque.enqueue(Importer, path, @catalog.id) 
+        @photos = Catalog.find(params[:id]).photos.page params[:page]
+        @bucket = session[:bucket]
+      else 
+        logger.debug "path #{path} did not exist"  
+      end
     end
+    
   end
   
   def manage
-
-
-    if params[:album_id]
-      Catalog.find(params[:id]).add_from_album(params[:album_id])
-    elsif params[:catalog_id]
-      Catalog.find(params[:id]).clone_from_catalog(params[:catalog_id])
-    end
-
     
-    
-    @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
     @catalog = Catalog.find(params[:id])
+    @wp = ['/users/uus1', '/users/uus2','/users/uus3','/users/uus4']
+    @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
+    
+    if params.has_key? :album_id
+      Catalog.find(params[:id]).add_from_album(params[:album_id])
+    elsif params.has_key? :catalog_id
+      Catalog.find(params[:id]).clone_from_catalog(params[:catalog_id])
+    elsif params.has_key? :wp_1
+      watch_path =[]
+      params.each do |k, v|
+        watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
+      end
+      @catalog.watch_path = watch_path
+      @catalog.save
+    end
   end
   
   private

@@ -1,0 +1,11 @@
+
+<div id="watch-path-group" "class="list-group">	
+	<% 	
+		cnt = 0 
+		@catalog.watch_path.each do |item|
+			cnt = cnt +1 
+	%>
+	<input type="text" id="wp_<%=cnt %>" name="wp_<%=cnt %>" class="form-control" value="<%= item %>">
+	<%end%>
+</div>
+<a href"#" id="add-item">add</a>
