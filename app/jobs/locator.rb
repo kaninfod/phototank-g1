@@ -1,4 +1,5 @@
 class Locator
+  include Resque::Plugins::UniqueJob
   @queue = :locate
 
   def self.perform(photo_id)

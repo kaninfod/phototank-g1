@@ -1,4 +1,5 @@
 class Importer
+  include Resque::Plugins::UniqueJob
   @queue = :import
 
   def self.perform(path, catalog_id)

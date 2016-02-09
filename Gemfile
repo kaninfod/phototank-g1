@@ -50,6 +50,7 @@ gem 'puma'
 gem 'dropbox-sdk'
 
 gem 'resque'
+gem 'resque-loner' 
 
 
 # Use ActiveModel has_secure_password

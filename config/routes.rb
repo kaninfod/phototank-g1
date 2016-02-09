@@ -19,7 +19,8 @@ Rails.application.routes.draw do
 
 
   get '/catalogs/test' => 'catalogs#test'
-  get '/catalogs/:id/manage' => 'catalogs#manage'
+  match "/catalogs/:id/manage" => "catalogs#manage", via: [:get, :post]
+  #get '/catalogs/:id/manage' => 'catalogs#manage'
   resources :catalogs, :concerns => :paginatable
   resources :catalogdropboxes, controller: 'catalogs', type: 'DropboxCatalog', :concerns => :paginatable
   resources :cataloglocals, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable

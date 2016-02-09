@@ -5,26 +5,17 @@
 </div>
 
 
-<div class="container">
-	<div class="row">
-		<div class="col-lg-6">
-			<div class="panel panel-default">
-
-				<div class="panel-body">
-					<% if @catalog.type == "MasterCatalog" %>
-
-					<%= render "catalogs/manage/master_catalog"%>
-
-					<% elsif @catalog.type == "LocalCatalog"%>
-
-					<%= render "catalogs/manage/local_catalog"%>
-
-					<% elsif @catalog.type == "DropboxCatalog"%>
 
 
-					<% end %>
-				</div> <!-- Panel body -->
-			</div> <!-- Panel -->
-		</div> <!-- Col -->
-	</div> <!-- Row -->
-</div> <!-- Container -->
+<% if @catalog.type == "MasterCatalog" %>
+
+<%= render "catalogs/manage/master_catalog"%>
+
+<% elsif @catalog.type == "LocalCatalog"%>
+
+<%= render "catalogs/manage/local_catalog"%>
+
+<% elsif @catalog.type == "DropboxCatalog"%>
+
+
+<% end %>

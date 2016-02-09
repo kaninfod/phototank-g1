@@ -1,4 +1,5 @@
 class PhotoProcessor
+  include Resque::Plugins::UniqueJob
   @queue = :import
 
   IMAGE_THUMB = '125x125'
