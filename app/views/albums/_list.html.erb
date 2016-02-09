@@ -2,9 +2,9 @@
 <div class="panel panel-default">
 	<div class="panel-body">
 		<% Album.all.each do |album| %>
-		<div class="radio">
+		<div class="checkbox">
 			<label>
-				<input type="radio" name="album_id" id="optionsRadios1" value="<%= album.id %>" checked>
+				<input type="checkbox" name="album_chk_<%= album.id %>" id="chk_<%= album.id %>" value="<%= album.id %>" >
 				<%= album.name %>	    
 			</label>
 		</div>	

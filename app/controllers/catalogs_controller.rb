@@ -84,19 +84,19 @@ class CatalogsController < ApplicationController
     puts params
     @catalog = Catalog.find(params[:id])
     @wp = ['/users/uus1', '/users/uus2','/users/uus3','/users/uus4']
-    @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
+    @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
     
     if params.has_key? :album_id
-      Catalog.find(params[:id]).add_from_album(params[:album_id])
+      #Catalog.find(params[:id]).add_from_album(params[:album_id])
     elsif params.has_key? :catalog_id
-      Catalog.find(params[:id]).clone_from_catalog(params[:catalog_id])
+      #Catalog.find(params[:id]).clone_from_catalog(params[:catalog_id])
     elsif params.has_key? :wp_1
-      watch_path =[]
-      params.each do |k, v|
-        watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
-      end
-      @catalog.watch_path = watch_path
-      @catalog.save
+      #watch_path =[]
+      #params.each do |k, v|
+      #  watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
+      #end
+      #@catalog.watch_path = watch_path
+      #@catalog.save
     end
   end
   
