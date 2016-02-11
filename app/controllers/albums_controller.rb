@@ -95,7 +95,7 @@ class AlbumsController < ApplicationController
   private
 
     def album_params
-      params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids)
+      params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
     end
 
     def prep_form

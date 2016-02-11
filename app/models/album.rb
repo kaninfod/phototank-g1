@@ -76,7 +76,7 @@ class Album < ActiveRecord::Base
       album.name = 'Photos taken in ' + rec.to_s
       album.start = Date.new(rec.to_i, 1, 1)
       album.end = Date.new(rec.to_i, 12, 31)
-      album.type = "year"
+      album.album_type = "year"
       album.save
     end
   end
@@ -87,7 +87,7 @@ class Album < ActiveRecord::Base
       album.name = 'Photos taken in ' + rec.strftime("%b %y")
       album.start = rec
       album.end = (rec >> 1) -1
-      album.type = "month"
+      album.album_type = "month"
       album.save
     end
   end
@@ -119,7 +119,7 @@ class Album < ActiveRecord::Base
         new_album.name = "Event #{album.min}"
         new_album.start = album.min
         new_album.end = album.max
-        new_album.type = "event"
+        new_album.album_type = "event"
         new_album.save
         false
       end
