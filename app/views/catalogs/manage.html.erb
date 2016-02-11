@@ -4,9 +4,6 @@
 	</div>
 </div>
 
-
-
-
 <% if @catalog.type == "MasterCatalog" %>
 
 <%= render "catalogs/manage/master_catalog"%>
@@ -16,6 +13,5 @@
 <%= render "catalogs/manage/local_catalog"%>
 
 <% elsif @catalog.type == "DropboxCatalog"%>
-
 
 <% end %>

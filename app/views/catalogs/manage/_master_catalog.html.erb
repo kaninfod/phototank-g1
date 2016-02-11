@@ -13,15 +13,16 @@
 					<%= text_field_tag("path", @catalog.path, class:"form-control") %>
 				</div>
 
+
 				<div class="form-group">
 					<%= label_tag("Catalog type:") %>
 					<%= select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control"	) %>
 				</div>
 
-				<div class="form-group">						
+				<div class="form-group">
 					<%= label_tag("Synchronize from:") %>
 					<%= render "watchpath" %>
-				</div>						
+				</div>
 
 
 				<div class="actions">

@@ -6,7 +6,7 @@ set :application,     'phototank'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
-set :workers, { "import" => 1, "dropbox" => 1, "locate" => 1 }
+set :workers, { "import" => 1, "dropbox" => 1, "utility" => 1 }
 set :resque_environment_task, true
 
 # Don't change these unless you know what you're doing
@@ -84,18 +84,12 @@ namespace :deploy do
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
-  
-  
- 
-  
+
+
+
+
 end
 after "deploy:restart", "resque:restart"
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
-
-
-
-
-
-

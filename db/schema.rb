@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208105912) do
+ActiveRecord::Schema.define(version: 20160211203552) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20160208105912) do
     t.string   "country",    limit: 255
     t.string   "city",       limit: 255
     t.string   "photo_ids",  limit: 255
+    t.string   "type",       limit: 255
   end
 
   create_table "catalogs", force: :cascade do |t|

@@ -1,5 +1,5 @@
 class AlbumsController < ApplicationController
-  def grid 
+  def grid
     @photos = Photo.all
     @bucket = session[:bucket]
   end
@@ -19,14 +19,15 @@ class AlbumsController < ApplicationController
   end
 
   def index
-    @albums = Album.order(:created_at).page params[:page]
+    order = params[:order] unless not params.has_key?(:order)
+    @albums = Album.order(order).page params[:page]
   end
 
   def edit
     @album = Album.find(params[:id])
     prep_form
   end
-  
+
   def update
 
     @album = Album.find(params[:id])
@@ -40,14 +41,14 @@ class AlbumsController < ApplicationController
       end
     end
   end
-  
+
 
   # GET /photos/new
   def new
     @album = Album.new
     prep_form
   end
-  
+
   def create
 
     @album = Album.new(album_params)
@@ -60,9 +61,9 @@ class AlbumsController < ApplicationController
         format.html { render :new }
         format.json { render json: @album.errors, status: :unprocessable_entity }
       end
-    end    
+    end
   end
-  
+
   def destroy
     @album = Album.find(params[:id])
     @album.destroy
@@ -70,12 +71,12 @@ class AlbumsController < ApplicationController
       format.html { redirect_to albums_url, notice: 'Album was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end  
-  
+  end
+
   def select
     if request.post?
       if not params[:optionsRadios].blank?
-        
+
         album = Album.find(params[:optionsRadios].to_i)
         a = (album.photo_ids + session[:bucket]).uniq{|x| x}
         album.photo_ids = a
@@ -86,17 +87,17 @@ class AlbumsController < ApplicationController
     else
       @albums = Album.all.page params[:page]
     end
-    
-    
+
+
   end
-  
-  
+
+
   private
-  
+
     def album_params
       params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids)
     end
-  
+
     def prep_form
       @countries = Location.select(:country).distinct.map{ |c| [c.country] }
       @countries = @countries.unshift([''])
@@ -109,9 +110,9 @@ class AlbumsController < ApplicationController
 
       @models = Photo.select(:model).distinct.map{ |c| [c.model] }
       @models = @models.unshift([''])
-    
+
       @bucket = session[:bucket]
     end
-  
-  
+
+
 end

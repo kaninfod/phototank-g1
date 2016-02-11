@@ -11,8 +11,8 @@ Rails.application.routes.draw do
 
   resources :albums, :concerns => :paginatable
   get 'albums/:id/grid' => 'albums#grid'
-  
-    
+
+
   resources :photos, :concerns => :paginatable
   get '/photos/:id/display' => 'photos#display'
   get '/photos/:id/image/:size' => 'photos#image'
@@ -24,8 +24,8 @@ Rails.application.routes.draw do
   resources :catalogs, :concerns => :paginatable
   resources :catalogdropboxes, controller: 'catalogs', type: 'DropboxCatalog', :concerns => :paginatable
   resources :cataloglocals, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
-  
-  
+
+
   get '/catalogs/:id/import' => 'catalogs#import'
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
 
@@ -47,15 +47,15 @@ Rails.application.routes.draw do
   get 'doubles/index'
   get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
 
-  get 'administration/generate_timebased_albums'
+  get 'administration/generate_albums'
   get 'administration/jobs_pending'
-  
+
   get 'synchronizers/dropbox'
-  
-  
+
+
   require 'resque/server'
-  
+
   mount Resque::Server.new, at: "/jobs"
-  
+
 
 end

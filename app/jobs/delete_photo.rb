@@ -1,19 +1,19 @@
 class DeletePhoto
-  @queue = :delete
+  @queue = :utility
 
   def self.perform(photo_id)
 
-    begin 
+    begin
       photo = Photo.find(photo_id)
       photo.instances.each do |instance|
         instance.catalog.delete_photo(photo_id)
       end
-      
-      
-      
-    rescue Exception => e 
+
+
+
+    rescue Exception => e
       raise "An error occured while setting up the Importer: #{e}"
     end
-        
+
   end
 end
