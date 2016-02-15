@@ -1,0 +1,45 @@
+%nav.navbar.navbar-default.navbar-fixed-top
+  .container-fluid
+    / Brand and toggle get grouped for better mobile display
+    .navbar-header
+      %button.navbar-toggle.collapsed{"aria-expanded" => "false", "data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#"} Phototank
+    / Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        %li= link_to 'Catalogs', controller: "catalogs", action: "index"
+        %li= link_to 'Albums', controller: "albums", action: "index"
+        %li= link_to 'Locations', controller: "locations", action: "index"
+      %ul.nav.navbar-nav.navbar-right
+        %li{:role => "presentation"}
+          %a{:href => "/bucket"}
+            Bucket
+            %span#bucket_counter.badge= session[:bucket].count
+        %li.dropdown
+          %a#job-data.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            Dropdown
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              Pending:
+              %span#jobs-pending-pending.badge 3
+            %li
+              Failed:
+              %span#jobs-pending-failed.badge 3
+            %li
+              Working:
+              %span#jobs-pending-working.badge 3
+            %li
+              Import:
+              %span#jobs-pending-import.badge 3
+            %li
+              Locator:
+              %span#jobs-pending-locate.badge 3
+            %li
+              Git revision: #{@GR}
+    / /.navbar-collapse
+  / /.container-fluid

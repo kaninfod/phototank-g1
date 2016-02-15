@@ -1,0 +1,19 @@
+%dl.dl-horizontal
+  %dt Processed
+  %dd= @info[:processed]
+  %dt Pending
+  %dd= @info[:pending]
+  %dt Queues
+  %dd= @info[:queues]
+  %dt Workers
+  %dd= @info[:workers]
+  %dt Working
+  %dd= @info[:working]
+  %dt Failed
+  %dd= @info[:failed]
+  %dt Import Queue
+  %dd= @info['import']
+  %dt Locator Queue
+  %dd= @info['locate']
+  %dt Dropbox Queue
+  %dd= @info['dropbox']

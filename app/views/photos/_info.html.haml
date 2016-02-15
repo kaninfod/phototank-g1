@@ -1,0 +1,32 @@
+.panel.panel-default
+  .panel-body
+    %dl
+      %dt Date taken:
+      %dd= @photo.date_taken.strftime("%b %d %Y %H:%m")
+      %dt Make:
+      %dd= @photo.make
+      %dt Model
+      %dd= @photo.model
+      - if not (@photo.longitude.blank? | @photo.latitude.blank?) & (not @photo.location_id.blank?)
+        %dt Country
+        %dd= @photo.location.country
+        %dt City
+        %dd= @photo.location.city
+        %dt Address
+        %dd
+          %address= @photo.location.address
+        %dt Map
+        %dd
+          = image_tag "http://maps.google.com/maps/api/staticmap?size=350x300&sensor=false&zoom=10&markers=#{@photo.location.latitude}%2C#{@photo.location.longitude}"
+      %dt Filename:
+      %dd.trunc-text= @photo.filename
+      %dt Original Path:
+      %dd= @photo.path
+      %dt Thumb Path:
+      %dd= @photo.file_thumb_path
+      %dt Extension:
+      %dt Present in catalog(s):
+      - @photo.catalogs.each do |catalog|
+        %dd.trunc-text
+          = catalog.name
+          (#{@photo.absolutepath(catalog.id)})

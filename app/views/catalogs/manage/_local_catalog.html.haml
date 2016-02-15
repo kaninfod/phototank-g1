@@ -1,0 +1,29 @@
+.row
+  .col-lg-6
+    .panel.panel-default
+      .panel-body
+        = form_tag("/catalogs/#{@catalog.id}/manage", method: "post") do
+          .form-group
+            = label_tag( "Catalog name:")
+            = text_field_tag("name", @catalog.name,class:"form-control")
+          .form-group
+            = label_tag("Storage path:")
+            = text_field_tag("path", @catalog.path, class:"form-control")
+          .form-group
+            = label_tag("Catalog type:")
+            = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control"	)
+          .form-group
+            = label_tag("This catalog should synchronise from:")
+            = select_tag("sync_from", options_for_select([["Album", "album"], ["Catalog", "catalog"]], :selected=>"catalog"), class:"form-control"	)
+          #catalog-list.form-group
+            = label_tag("Catalogs:")
+            = render partial: "list", locals: {current_catalog: @catalog}
+          #album-list.form-group.hidden
+            = label_tag("Synchronize from:")
+            = render "albums/list"
+          .actions
+            = submit_tag "Save", class:"btn btn-default"
+      / Panel body
+    / Panel
+  / Col
+/ Row

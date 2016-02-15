@@ -1,0 +1,42 @@
+.row
+  .col-lg-3
+    %h4 Catalogs
+.row
+  .pull-right.col-md-1
+    = link_to "New catalog", "/catalogs/new", class:"btn btn-default"
+.row
+  .col-md-12
+    %table.table
+      %thead
+        %tr
+          %th Name
+          %th Storage path
+          %th Type
+          %th
+          %th
+          %th
+      %tbody
+        - @catalogs.each do |catalog|
+          %tr
+            %td= link_to catalog.name, action: 'manage', id:catalog
+            %td= catalog.path
+            %td= catalog.type
+            %td
+              - if catalog.online
+                = icon('toggle-on')
+              - else
+                = icon('toggle-off')
+            %td= link_to icon('picture-o'), action: 'show', id: catalog
+            %td= link_to icon('pencil'), action: 'manage', id:catalog
+            %td
+              %a{"data-catalogid" => "#{catalog.id}", "data-target" => "#import_to_master", "data-toggle" => "modal", :href => "#"}
+                %i.fa.fa-cloud
+    .col-sm-6.col-sm-offset-3
+      = paginate @catalogs, :theme => 'twitter-bootstrap-3'
+= render partial: "catalogs/modals/modal",                                                                                           |
+  locals: {                                                                                                                          |
+  title: "Import photos",                                                                                                            |
+  modal_id: "import_to_master",                                                                                                      |
+  button_text: "Import",                                                                                                             |
+  content: "<strong>Are your sure you want to import photos from the following location(s):</strong><ul class='list-unstyled'></ul>" |
+  }                                                                                                                                  |
