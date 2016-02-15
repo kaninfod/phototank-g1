@@ -19,14 +19,19 @@
 				</div>
 
 				<div class="form-group">
-					<%= label_tag("Catalogs:") %>
-					<%= render "list" %>
+					<%= label_tag("This catalog should synchronise from:") %>
+					<%= select_tag("sync_from", options_for_select([["Album", "album"], ["Catalog", "catalog"]], :selected=>"catalog"), class:"form-control"	) %>
 				</div>
 
-				<div class="form-group">						
+				<div id="catalog-list" class="form-group">
+					<%= label_tag("Catalogs:") %>
+					<%= render partial: "list", locals: {current_catalog: @catalog} %>
+				</div>
+
+				<div id="album-list" class="form-group hidden">
 					<%= label_tag("Synchronize from:") %>
 					<%= render "albums/list" %>
-				</div>	
+				</div>
 
 
 				<div class="actions">
@@ -37,7 +42,3 @@
 		</div> <!-- Panel -->
 	</div> <!-- Col -->
 </div> <!-- Row -->
-
-	
-
-	

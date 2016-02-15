@@ -1,61 +1,75 @@
-	<div class="row">
-		<div class="col-lg-3">
-			<h4>Albums</h4>
+<div class="row">
+	<div class="col-lg-3">
+		<h4>Albums</h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-3 pull-right">
+
+
+	<div class="btn-group btn-group-sm" role="group" aria-label="...">
+		<%= link_to "New album", "/albums/new", class:"btn btn-default"%>
+
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Order by
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li><a href="/albums?order=name">Name</a></li>
+				<li><a href="/albums?order=start">Date</a></li>
+				<li><a href="/albums?order=album_type">Type</a></li>
+			</ul>
+		</div>
+
+		<div class="input-group input-group-sm">
+
+			<input id="search-albums" type="text" class="form-control" value="<%= params[:q]%>" placeholder="Search for...">
+		</div><!-- /input-group -->
+
+
+	</div>
+</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Date from</th>
+					<th>Date to</th>
+					<th>Model</th>
+					<th>Make</th>
+					<th>Country</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<% @albums.each do |album| %>
+				<tr>
+					<td><%= link_to album.name, album %></td>
+					<td><%= album.album_type %></td>
+					<td><%= album.start.strftime("%b %d %Y") unless album.start.blank? %></td>
+					<td><%= album.end.strftime("%b %d %Y") unless album.end.blank?  %></td>
+					<td><%= album.model %></td>
+					<td><%= album.make %></td>
+					<td><%= album.country %></td>
+					<td><%= link_to icon('picture-o'), album %></td>
+					<td><%= link_to icon('pencil'), edit_album_path(album) %></td>
+					<td><%= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+
+
+		<div class="col-sm-6 col-sm-offset-3">
+			<%= paginate @albums, :theme => 'twitter-bootstrap-3' %>
 		</div>
 	</div>
-
-	<div class="row">
-			<div class="btn-group btn-group-sm pull-right" role="group" aria-label="...">
-				<%= link_to "New album", "/albums/new", class:"btn btn-default"%>
-				<div class="btn-group" role="group">
-			     <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			       Order by
-			       <span class="caret"></span>
-			     </button>
-			     <ul class="dropdown-menu">
-			       <li><a href="/albums?order=name">Name</a></li>
-			       <li><a href="/albums?order=start">Date</a></li>
-			     </ul>
-				   </div>
-			</div>
-	</div>
-
-
-
-	<div class="row">
-		<div class="col-md-12">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Date from</th>
-							<th>Date to</th>
-							<th>Model</th>
-							<th>Make</th>
-							<th>Country</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<% @albums.each do |album| %>
-						<tr>
-							<td><%= album.name %></td>
-							<td><%= album.start.strftime("%b %d %Y") unless album.start.blank? %></td>
-							<td><%= album.end.strftime("%b %d %Y") unless album.end.blank?  %></td>
-							<td><%= album.model %></td>
-							<td><%= album.make %></td>
-							<td><%= album.country %></td>
-							<td><%= link_to icon('picture-o'), album %></td>
-							<td><%= link_to icon('pencil'), edit_album_path(album) %></td>
-							<td><%= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' } %></td>
-						</tr>
-						<% end %>
-					</tbody>
-				</table>
-
-
-			<div class="col-sm-6 col-sm-offset-3">
-				<%= paginate @albums, :theme => 'twitter-bootstrap-3' %>
-			</div>
-		</div>
-	</div>
+</div>

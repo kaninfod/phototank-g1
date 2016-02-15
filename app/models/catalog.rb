@@ -2,14 +2,14 @@ class Catalog < ActiveRecord::Base
   #self.inheritance_column = :race
   serialize :watch_path, Array
   has_many :instances, dependent: :destroy
-  has_many :photos, through: :instances 
+  has_many :photos, through: :instances
 
   scope :photos, -> { Photo.joins(:instances).where('catalog_id=?', self.id) }
   scope :master, -> { where{default.eq(true)}.first }
 
 
-  
-  
+
+
   validate :only_one_master_catalog
 
   def catalogtype
@@ -29,14 +29,12 @@ class Catalog < ActiveRecord::Base
       rescue ActiveRecord::RecordNotUnique
         logger.debug "instance exists"
       end
-
     end
-        
   end
 
   def add_from_album(from_album_id)
     from_album = Album.find(from_album_id)
-    
+
     from_album.photos.each do |photo|
       new_instance = photo.instances.first.dup
       new_instance.catalog_id = self.id
@@ -63,5 +61,5 @@ class Catalog < ActiveRecord::Base
       errors.add(:default, 'cannot have another active game')
     end
   end
-  
+
 end

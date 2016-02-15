@@ -19,8 +19,11 @@ class AlbumsController < ApplicationController
   end
 
   def index
+    
     order = params[:order] unless not params.has_key?(:order)
-    @albums = Album.order(order).page params[:page]
+    query = "%#{params[:q]}%" #unless not params.has_key?(:q)
+    query ||="%"
+    @albums = Album.order(order).where{name.matches(query)}.page params[:page]
   end
 
   def edit

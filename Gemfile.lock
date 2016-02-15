@@ -74,6 +74,7 @@ GEM
     capistrano3-puma (1.2.1)
       capistrano (~> 3.0)
       puma (>= 2.6)
+    coderay (1.1.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -94,6 +95,19 @@ GEM
     geocoder (1.2.14)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    haml (4.0.7)
+      tilt
+    haml-rails (0.9.0)
+      actionpack (>= 4.0.1)
+      activesupport (>= 4.0.1)
+      haml (>= 4.0.6, < 5.0)
+      html2haml (>= 1.0.1)
+      railties (>= 4.0.1)
+    html2haml (2.0.0)
+      erubis (~> 2.7.0)
+      haml (~> 4.0.0)
+      nokogiri (~> 1.6.0)
+      ruby_parser (~> 3.5)
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -113,6 +127,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.99)
     mini_exiftool (2.5.1)
     mini_magick (4.3.6)
@@ -128,6 +143,12 @@ GEM
       mini_portile2 (~> 2.0.0.rc2)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     puma (2.16.0)
     rack (1.6.4)
     rack-protection (1.5.3)
@@ -177,6 +198,8 @@ GEM
       redis (~> 3.0)
       resque (~> 1.25)
       rufus-scheduler (~> 3.0)
+    ruby_parser (3.7.3)
+      sexp_processor (~> 4.1)
     rufus-scheduler (3.2.0)
     sass (3.4.21)
     sass-rails (5.0.4)
@@ -191,10 +214,12 @@ GEM
     seed_dump (3.2.4)
       activerecord (>= 4)
       activesupport (>= 4)
+    sexp_processor (4.6.1)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
+    slop (3.6.0)
     spring (1.6.2)
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
@@ -251,6 +276,7 @@ DEPENDENCIES
   font-awesome-sass (~> 4.5.0)
   foreman
   geocoder
+  haml-rails (~> 0.9)
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
@@ -258,6 +284,7 @@ DEPENDENCIES
   mini_exiftool
   mini_magick
   mysql2
+  pry-rails
   puma
   rails (= 4.2.5)
   resque

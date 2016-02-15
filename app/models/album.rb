@@ -73,7 +73,7 @@ class Album < ActiveRecord::Base
   def self.generate_year_based_albums
     distinct_years = Photo.pluck(:date_taken).map{|x| x.year}.uniq.each do |rec|
       album = Album.new
-      album.name = 'Photos taken in ' + rec.to_s
+      album.name =  rec.to_s
       album.start = Date.new(rec.to_i, 1, 1)
       album.end = Date.new(rec.to_i, 12, 31)
       album.album_type = "year"
@@ -84,7 +84,7 @@ class Album < ActiveRecord::Base
   def self.generate_month_based_albums
     distinct_months = Photo.pluck(:date_taken).map{|x| Date.new(x.year, x.month, 1)}.uniq.each do |rec|
       album = Album.new
-      album.name = 'Photos taken in ' + rec.strftime("%b %y")
+      album.name = rec.strftime("%b %Y").to_s
       album.start = rec
       album.end = (rec >> 1) -1
       album.album_type = "month"
@@ -116,7 +116,7 @@ class Album < ActiveRecord::Base
         true
       else
         new_album = self.new
-        new_album.name = "Event #{album.min}"
+        new_album.name = album.min.strftime("%b %Y %d").to_s
         new_album.start = album.min
         new_album.end = album.max
         new_album.album_type = "event"

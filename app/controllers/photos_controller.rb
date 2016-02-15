@@ -1,12 +1,12 @@
 class PhotosController < ApplicationController
   #before_action :set_photo, only: [:image, :display, :show, :edit, :update, :destroy]
 
-  
-  
+
+
   def image
     @photo = set_photo
     localpath = @photo.default_instance
-    
+
     if params[:size] == "original"
       filepath = File.join(@photo.original_filename)
     elsif params[:size] == "large"
@@ -14,18 +14,18 @@ class PhotosController < ApplicationController
     elsif params[:size] == "small"
       filepath = File.join(@photo.small_filename)
     else
-      filepath = File.join(@photo.medium_filename)    
+      filepath = File.join(@photo.medium_filename)
     end
-    
+
     send_file filepath, :disposition => 'inline'
   end
-  
+
   # GET /photos
   # GET /photos.json
   def index
 
     @photos = Photo.order(:date_taken).page params[:page]
-    
+
   end
 
   # GET /photos/1
@@ -84,7 +84,8 @@ class PhotosController < ApplicationController
   # DELETE /photos/1
   # DELETE /photos/1.json
   def destroy
-    @photo = set_photo    
+    @photo = set_photo
+      
     @photo.destroy
     respond_to do |format|
       format.html { redirect_to photos_url, notice: 'Photo was successfully destroyed.' }

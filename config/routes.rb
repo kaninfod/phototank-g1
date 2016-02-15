@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get '/photos/:id/image/:size' => 'photos#image'
 
 
-  get '/catalogs/test' => 'catalogs#test'
+  get '/catalogs/:id/get_catalog' => 'catalogs#get_catalog'
   match "/catalogs/:id/manage" => "catalogs#manage", via: [:get, :post]
   #get '/catalogs/:id/manage' => 'catalogs#manage'
   resources :catalogs, :concerns => :paginatable

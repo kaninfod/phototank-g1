@@ -30,7 +30,7 @@
 			<tbody>
 				<% @catalogs.each do |catalog| %>
 				<tr>
-		
+
 					<td><%= link_to catalog.name, action: 'manage', id:catalog %></td>
 					<td><%= catalog.path %></td>
 					<td><%= catalog.type %></td>
@@ -40,12 +40,16 @@
 						<% else %>
 							<%=icon('toggle-off') %>
 						<% end %>
-					
+
 					</td>
+
 					<td><%= link_to icon('picture-o'), action: 'show', id: catalog %></td>
 					<td><%= link_to icon('pencil'), action: 'manage', id:catalog %></td>
-
-        
+					<td>
+						<a data-toggle="modal" data-target="#import_to_master" data-catalogid="<%=catalog.id %>" href="#">
+							<i class="fa fa-cloud"></i>
+						</a>
+					</td>
 				</tr>
 				<% end %>
 			</tbody>
@@ -58,4 +62,12 @@
 </div>
 
 
-
+<%=
+	render partial: "catalogs/modals/modal",
+		locals: {
+			title: "Import photos",
+			modal_id: "import_to_master",
+			button_text: "Import",
+			content: "<strong>Are your sure you want to import photos from the following location(s):</strong><ul class='list-unstyled'></ul>"
+		}
+%>

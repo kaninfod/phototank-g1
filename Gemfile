@@ -50,7 +50,7 @@ gem 'puma'
 gem 'dropbox-sdk'
 
 gem 'resque'
-gem 'resque-loner' 
+gem 'resque-loner'
 
 
 # Use ActiveModel has_secure_password
@@ -79,7 +79,8 @@ group :development do
   gem "capistrano-resque", "~> 0.2.2", require: false
   gem 'foreman'
   gem 'awesome_print', :require => 'ap'
-  
+  gem "haml-rails", "~> 0.9"
+  gem 'pry-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
@@ -88,5 +89,3 @@ end
 group :production do
   gem 'mysql2'
 end
-
-
