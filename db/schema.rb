@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160211211219) do
+ActiveRecord::Schema.define(version: 20160215205437) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -28,13 +28,15 @@ ActiveRecord::Schema.define(version: 20160211211219) do
   end
 
   create_table "catalogs", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "path",       limit: 255
+    t.string   "name",              limit: 255
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "path",              limit: 255
     t.boolean  "default"
-    t.string   "watch_path", limit: 255
-    t.string   "type",       limit: 255
+    t.string   "watch_path",        limit: 255
+    t.string   "type",              limit: 255
+    t.string   "sync_from_albums",  limit: 255
+    t.integer  "sync_from_catalog", limit: 4
   end
 
   create_table "doubles", force: :cascade do |t|

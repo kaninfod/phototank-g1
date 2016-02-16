@@ -23,7 +23,7 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-
+    byebug
     @photos = Photo.order(:date_taken).page params[:page]
 
   end
@@ -85,7 +85,7 @@ class PhotosController < ApplicationController
   # DELETE /photos/1.json
   def destroy
     @photo = set_photo
-      
+
     @photo.destroy
     respond_to do |format|
       format.html { redirect_to photos_url, notice: 'Photo was successfully destroyed.' }

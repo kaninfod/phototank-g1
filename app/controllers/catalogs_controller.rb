@@ -59,7 +59,7 @@ class CatalogsController < ApplicationController
     @photos = Catalog.find(params[:id]).photos.page params[:page]
   end
 
-  def import
+  def import_to_master
     @catalog = Catalog.find(params[:id])
     watch_path = @catalog.watch_path
     watch_path.each do |path|
@@ -71,26 +71,62 @@ class CatalogsController < ApplicationController
         logger.debug "path #{path} did not exist"
       end
     end
+    render "import"
   end
+
+
+def import_to_slave
+
+  @catalog = Catalog.find(params[:id])
+  if @catalog.sync_from_albums.blank?
+    @catalog.clone_from_catalog(@catalog.sync_from_catalog)
+  else
+    @catalog.sync_from_albums.each do |album_id|
+      @catalog.clone_from_album(album_id)
+    end
+  end
+  render "import"
+end
 
   def manage
     @catalog = Catalog.find(params[:id])
-    @wp = ['/users/uus1', '/users/uus2','/users/uus3','/users/uus4']
-    @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
 
     if request.post?
       catalog = params.permit(:name, :type, :path)
-
-      watch_path =[]
-      params.each do |k, v|
-        watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
+      if params[:type] == "MasterCatalog"
+        watch_path =[]
+        params.each do |k, v|
+          watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
+        end
+        catalog['watch_path'] = watch_path
+      elsif params[:type] == "LocalCatalog"
+        catalog = params.permit(:name, :type, :path)
+        if params[:sync_from] == "catalog"
+          catalog['sync_from_catalog'] = params[:sync_from_catalog_id]
+          catalog['sync_from_albums'] = nil
+        elsif params[:sync_from] == "album"
+          albums = []
+          params.each do |k, v|
+            albums.push(v) if (k.include?('sync_from_album_id_') & not(v.blank?))
+          end
+          catalog['sync_from_albums'] = albums
+          catalog['sync_from_catalog'] = nil
+        end
       end
 
-      catalog['watch_path'] = watch_path
       if @catalog.update(catalog)
         redirect_to action: 'index', notice: 'Catalog was successfully updated.'
       end
+    else #request is GET
+
+      @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
+      if @catalog.sync_from_albums.blank?
+        @sync_from="catalog"
+      else
+        @sync_from="album"
+      end
     end
+
   end
 
   def get_catalog
@@ -105,6 +141,6 @@ class CatalogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def catalog_params
-      params.require(:catalog).permit(:name, :path, :default, :watch_path, :type)
+      params.require(:catalog).permit(:name, :path, :default, :watch_path, :type, :sync_from_catalog, :sync_from_albums)
     end
 end

@@ -29,14 +29,39 @@
             %td= link_to icon('picture-o'), action: 'show', id: catalog
             %td= link_to icon('pencil'), action: 'manage', id:catalog
             %td
-              %a{"data-catalogid" => "#{catalog.id}", "data-target" => "#import_to_master", "data-toggle" => "modal", :href => "#"}
-                %i.fa.fa-cloud
+              - if catalog.type == "MasterCatalog"
+                %a{"data-catalogid" => "#{catalog.id}", "data-target" => "#import_to_master", "data-toggle" => "modal", :href => "#"}
+                  %i.fa.fa-cloud
+              - else
+                %a{"data-catalogid" => "#{catalog.id}", "data-target" => "#import_to_slave", "data-toggle" => "modal", :href => "#"}
+                  %i.fa.fa-cloud
     .col-sm-6.col-sm-offset-3
       = paginate @catalogs, :theme => 'twitter-bootstrap-3'
-= render partial: "catalogs/modals/modal",                                                                                           |
-  locals: {                                                                                                                          |
-  title: "Import photos",                                                                                                            |
-  modal_id: "import_to_master",                                                                                                      |
-  button_text: "Import",                                                                                                             |
-  content: "<strong>Are your sure you want to import photos from the following location(s):</strong><ul class='list-unstyled'></ul>" |
-  }                                                                                                                                  |
+
+
+
+.modal.fade{:id => "import_to_master", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        Import photos
+      .modal-body
+        %strong Are your sure you want to import photos from the following location(s):
+        %ul.list-unstyled
+
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Abort
+        %a.btn.btn-default{:href => "#", :role => "button"} import
+
+
+.modal.fade{:id => "import_to_slave", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        Import photos
+      .modal-body
+        %strong Are your sure you want to synchronize photos from the following location(s):
+        %ul.list-unstyled
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Abort
+        %a.btn.btn-default{:href => "#", :role => "button"} import

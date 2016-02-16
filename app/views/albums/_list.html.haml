@@ -3,5 +3,5 @@
     - Album.all.each do |album|
       .checkbox
         %label
-          %input{:id => "chk_#{album.id}", :name => "album_chk_#{album.id}", :type => "checkbox", :value => "#{album.id}"}/
+          %input{:checked => selected.include?(album.id.to_s), :id => "album.id", :name => "sync_from_album_id_#{album.id}", :type => "checkbox", :value => "#{album.id}"}/
           = album.name
