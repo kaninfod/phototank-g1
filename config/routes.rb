@@ -25,9 +25,10 @@ Rails.application.routes.draw do
   resources :catalogdropboxes, controller: 'catalogs', type: 'DropboxCatalog', :concerns => :paginatable
   resources :cataloglocals, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
 
-
+  match '/catalogs/:id/import' => 'catalogs#import', via: [:get, :post]
   get '/catalogs/:id/import_to_master' => 'catalogs#import_to_master'
   get '/catalogs/:id/import_to_slave' => 'catalogs#import_to_slave'
+
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
 
 

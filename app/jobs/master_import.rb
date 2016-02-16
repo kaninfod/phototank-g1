@@ -1,4 +1,4 @@
-class Importer
+class MasterImport
   include Resque::Plugins::UniqueJob
   @queue = :import
 

@@ -4,5 +4,7 @@
       - next unless catalog != current_catalog
       .radio
         %label
-          %input#optionsRadios1{:checked => "checked", :name => "sync_from_catalog_id", :type => "radio", :value => "#{catalog.id}"}/
+          %input#optionsRadios1{:checked => current_catalog.sync_from_catalog.to_i==catalog.id , :name => "sync_from_catalog_id", :type => "radio", :value => "#{catalog.id}"}/
           = catalog.name
+
+= puts current_catalog.sync_from_catalog.to_i 

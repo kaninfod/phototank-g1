@@ -7,7 +7,7 @@
       %dd= @photo.make
       %dt Model
       %dd= @photo.model
-      - if not (@photo.longitude.blank? | @photo.latitude.blank?) & (not @photo.location_id.blank?)
+      - if (@photo.longitude.blank? | @photo.latitude.blank?) & (not @photo.location_id.blank?)
         %dt Country
         %dd= @photo.location.country
         %dt City

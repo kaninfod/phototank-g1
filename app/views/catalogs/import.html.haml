@@ -1,6 +1,32 @@
 .row
-  .col-md-8
-    %h4
-      = @catalog.name
-      %small Imported photos
-= render :template => 'photos/_index'
+  .col-lg-6
+    .panel.panel-default
+      .panel-body
+        = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
+          - case @catalog.type
+          - when "MasterCatalog"
+            Phototank will import all photos from the following locations:
+            %ul.list-unstyled
+              - @catalog.watch_path.each do |path|
+                %li= path
+            =hidden_field_tag "import_action", "master"
+            .actions
+              = submit_tag "Import", class:"btn btn-default"
+
+          - when "LocalCatalog"
+
+            - if @catalog.sync_from_catalog.nil?
+              Phototank will synchronize this catalog from the following albums:
+              %ul.list-unstyled
+                - @sync_from_albums.each do |album|
+                  %li= album.name
+
+
+            - else
+              Phototank will clone this catalog with the folowing catalog:
+              %ul.list-unstyled
+                %li= @sync_from_catalog.name
+            =hidden_field_tag "import_action", "local"
+
+            .actions
+              =submit_tag "Synchronize", class:"btn btn-default"
