@@ -59,33 +59,27 @@ class CatalogsController < ApplicationController
     @photos = Catalog.find(params[:id]).photos.page params[:page]
   end
 
-  def import_to_master
-    @catalog = Catalog.find(params[:id])
-    watch_path = @catalog.watch_path
-    watch_path.each do |path|
-      if File.exist?(path)
-        Resque.enqueue(Importer, path, @catalog.id)
-        @photos = Catalog.find(params[:id]).photos.page params[:page]
-        @bucket = session[:bucket]
-      else
-        logger.debug "path #{path} did not exist"
-      end
+
+def import
+
+  if request.post?
+
+    case params['import_action']
+    when 'master'
+      import_to_master
+    when 'local'
+      import_to_local
     end
-    render "import"
-  end
 
-
-def import_to_slave
-
-  @catalog = Catalog.find(params[:id])
-  if @catalog.sync_from_albums.blank?
-    @catalog.clone_from_catalog(@catalog.sync_from_catalog)
+    redirect_to action: "show", id: params[:id]
   else
-    @catalog.sync_from_albums.each do |album_id|
-      @catalog.clone_from_album(album_id)
+    @catalog = Catalog.find(params[:id])
+    if @catalog.sync_from_catalog
+      @sync_from_catalog = Catalog.find(@catalog.sync_from_catalog)
+    else
+      @sync_from_albums = Album.find(@catalog.sync_from_albums)
     end
   end
-  render "import"
 end
 
   def manage
@@ -134,6 +128,27 @@ end
   end
 
   private
+  def import_to_master
+    @catalog = Catalog.find(params[:id])
+    @catalog.watch_path.each do |path|
+      if File.exist?(path)
+        Resque.enqueue(MasterImport, path, @catalog.id)
+      else
+        logger.debug "path #{path} did not exist"
+      end
+    end
+  end
+
+  def import_to_local
+    @catalog = Catalog.find(params[:id])
+    if @catalog.sync_from_albums.blank?
+      Resque.enqueue(LocalSyncCatalog, @catalog.id, @catalog.sync_from_catalog)
+    else
+      @catalog.sync_from_albums.each do |album_id|
+        Resque.enqueue(LocalSyncAlbum, @catalog.id, album_id)
+      end
+    end
+  end
 
     def set_catalog
       Catalog.find(params[:id])

@@ -12,45 +12,19 @@ class Catalog < ActiveRecord::Base
   validate :only_one_master_catalog
 
   def catalogtype
-    if self.type == "LocalCatalog"
+    case self.type
+    when "LocalCatalog"
       "Local"
-    elsif self.type == "DropboxCatalog"
+    when "DropboxCatalog"
       "Dropbox"
+    when "MasterCatalog"
+      "Master"
     end
   end
 
-  def clone_from_catalog(from_catalog_id)
-    Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
-      new_instance = instance.dup
-      new_instance.catalog_id = self.id
-      begin
-        new_instance.save
-      rescue ActiveRecord::RecordNotUnique
-        logger.debug "instance exists"
-      end
-    end
-  end
-
-    def clone_from_album(from_album_id)
-    from_album = Album.find(from_album_id)
-
-    from_album.photos.each do |photo|
-      new_instance = photo.instances.first.dup
-      new_instance.catalog_id = self.id
-      begin
-        new_instance.save
-      rescue ActiveRecord::RecordNotUnique
-        logger.debug "instance exists"
-      end
-
-    end
-  end
 
 
   protected
-
-
-
   def only_one_master_catalog
     #return unless default?
 

@@ -127,9 +127,9 @@ class Photo < ActiveRecord::Base
     FileUtils.mkdir_p _absolute_path_original
 
 
-    self.resize_photo("_lg", IMAGE_LARGE, _absolute_path_thumbs)
-    self.resize_photo("_md", IMAGE_MEDIUM, _absolute_path_thumbs)
-    self.create_thumbnail(_absolute_path_thumbs)
+    resize_photo("_lg", IMAGE_LARGE, _absolute_path_thumbs)
+    resize_photo("_md", IMAGE_MEDIUM, _absolute_path_thumbs)
+    create_thumbnail(_absolute_path_thumbs)
 
 
     if clone_mode == 'copy'

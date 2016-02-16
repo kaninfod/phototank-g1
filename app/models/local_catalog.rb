@@ -1,17 +1,45 @@
 class LocalCatalog < Catalog
-  
+
   def sync
     photos.each do |photo|
-       Resque.enqueue(LocalSynchronizer, photo.id, self.id) 
+       Resque.enqueue(LocalSynchronizer, photo.id, self.id)
     end
-  end  
-  
+  end
+
+  def import_from_catalog(from_catalog_id)
+    Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
+      new_instance = instance.dup
+      new_instance.catalog_id = self.id
+      begin
+        new_instance.save
+      rescue ActiveRecord::RecordNotUnique
+        logger.debug "instance exists"
+      end
+    end
+  end
+
+  def import_from_album(from_album_id)
+    from_album = Album.find(from_album_id)
+
+    from_album.photos.each do |photo|
+      new_instance = photo.instances.first.dup
+      new_instance.catalog_id = self.id
+      begin
+        new_instance.save
+      rescue ActiveRecord::RecordNotUnique
+        logger.debug "instance exists"
+      end
+    end
+  end
+
+
+
   def online
     true
   end
-  
+
   def delete_photo(photo_id)
-    
+
     begin
       FileUtils.rm((self.photos.find(photo_id).original_filename))
       FileUtils.rm((self.photos.find(photo_id).large_filename))
@@ -23,6 +51,6 @@ class LocalCatalog < Catalog
       logger.debug "#{e}"
     end
   end
-  
-  
+
+
 end
