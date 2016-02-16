@@ -1,0 +1,15 @@
+%ul.text-right.list-inline
+  %li= link_to icon('picture-o', class: 'fa-lg'), controller: 'photos', action: 'show', size: 'medium'
+  %li= link_to icon('picture-o', class: 'fa-2x	'), controller: 'photos', action: 'show', size: 'large'
+  %li= link_to icon('picture-o', class: 'fa-3x'), controller: 'photos', action: 'show', size: 'original'
+.row
+  - if @size == 'medium'
+    .col-md-6
+      - else
+        .col-md-12
+          .panel.panel-default
+            .panel-body
+              = image_tag "/photos/#{@photo.id.to_s}/image/#{@size}", {style:"margin: 0 auto;image-orientation:90deg;", class: "img-responsive"}
+        - if @size == 'medium'
+          .col-md-6
+            = render "info"

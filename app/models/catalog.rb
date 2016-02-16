@@ -1,14 +1,13 @@
 class Catalog < ActiveRecord::Base
   #self.inheritance_column = :race
   serialize :watch_path, Array
+  serialize :sync_from_albums, Array
+
   has_many :instances, dependent: :destroy
   has_many :photos, through: :instances
 
   scope :photos, -> { Photo.joins(:instances).where('catalog_id=?', self.id) }
   scope :master, -> { where{default.eq(true)}.first }
-
-
-
 
   validate :only_one_master_catalog
 
@@ -32,7 +31,7 @@ class Catalog < ActiveRecord::Base
     end
   end
 
-  def add_from_album(from_album_id)
+    def clone_from_album(from_album_id)
     from_album = Album.find(from_album_id)
 
     from_album.photos.each do |photo|

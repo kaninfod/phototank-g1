@@ -1,0 +1,48 @@
+.row
+  .col-lg-3
+    %h4 Albums
+.row
+  .col-lg-3.pull-right
+    .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
+      = link_to "New album", "/albums/new", class:"btn btn-default"
+      .btn-group{:role => "group"}
+        %button.btn.btn-default.dropdown-toggle.btn-sm{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          Order by
+          %span.caret
+        %ul.dropdown-menu
+          %li
+            %a{:href => "/albums?order=name"} Name
+          %li
+            %a{:href => "/albums?order=start"} Date
+          %li
+            %a{:href => "/albums?order=album_type"} Type
+      .input-group.input-group-sm
+        %input#search-albums.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}/
+      / /input-group
+.row
+  .col-md-12
+    %table.table
+      %thead
+        %tr
+          %th Name
+          %th Type
+          %th Date from
+          %th Date to
+          %th Model
+          %th Make
+          %th Country
+      %tbody
+        - @albums.each do |album|
+          %tr
+            %td= link_to album.name, album
+            %td= album.album_type
+            %td= album.start.strftime("%b %d %Y") unless album.start.blank?
+            %td= album.end.strftime("%b %d %Y") unless album.end.blank?
+            %td= album.model
+            %td= album.make
+            %td= album.country
+            %td= link_to icon('picture-o'), album
+            %td= link_to icon('pencil'), edit_album_path(album)
+            %td= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' }
+    .col-sm-6.col-sm-offset-3
+      = paginate @albums, :theme => 'twitter-bootstrap-3'

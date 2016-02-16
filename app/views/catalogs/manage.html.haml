@@ -1,0 +1,10 @@
+.row
+  .col-lg-3
+    %h4
+      = @catalog.name
+      %small Manage Catalog
+- if @catalog.type == "MasterCatalog"
+  = render "catalogs/manage/master_catalog"
+- elsif @catalog.type == "LocalCatalog"
+  = render "catalogs/manage/local_catalog"
+- elsif @catalog.type == "DropboxCatalog"

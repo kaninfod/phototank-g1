@@ -26,7 +26,8 @@ Rails.application.routes.draw do
   resources :cataloglocals, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
 
 
-  get '/catalogs/:id/import' => 'catalogs#import'
+  get '/catalogs/:id/import_to_master' => 'catalogs#import_to_master'
+  get '/catalogs/:id/import_to_slave' => 'catalogs#import_to_slave'
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
 
 

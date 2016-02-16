@@ -1,0 +1,7 @@
+.panel.panel-default
+  .panel-body
+    - Album.all.each do |album|
+      .checkbox
+        %label
+          %input{:checked => selected.include?(album.id.to_s), :id => "album.id", :name => "sync_from_album_id_#{album.id}", :type => "checkbox", :value => "#{album.id}"}/
+          = album.name

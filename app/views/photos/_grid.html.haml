@@ -1,0 +1,8 @@
+.col-lg-12
+  - if @photos.blank?
+    No Photos to display
+  - else
+    .row
+      = render @photos
+    .row.text-center
+      = paginate @photos, :theme => 'twitter-bootstrap-3'
