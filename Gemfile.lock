@@ -127,12 +127,15 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (2.99)
     mini_exiftool (2.5.1)
     mini_magick (4.3.6)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
     mono_logger (1.1.0)
     multi_json (1.11.2)
     mysql2 (0.4.2)
@@ -143,6 +146,7 @@ GEM
       mini_portile2 (~> 2.0.0.rc2)
     polyamorous (1.1.0)
       activerecord (>= 3.0)
+    power_assert (0.2.7)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -239,6 +243,8 @@ GEM
     sshkit (1.8.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    test-unit (3.1.7)
+      power_assert
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
@@ -286,6 +292,7 @@ DEPENDENCIES
   kaminari
   mini_exiftool
   mini_magick
+  mocha
   mysql2
   pry-byebug
   pry-rails
@@ -299,6 +306,7 @@ DEPENDENCIES
   spring
   sqlite3
   squeel
+  test-unit
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)

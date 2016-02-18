@@ -13,17 +13,18 @@ Rails.application.routes.draw do
   get 'albums/:id/grid' => 'albums#grid'
 
 
-  resources :photos, :concerns => :paginatable
+  resources :photos, :except => [:index], :concerns => :paginatable 
   get '/photos/:id/display' => 'photos#display'
   get '/photos/:id/image/:size' => 'photos#image'
 
 
   get '/catalogs/:id/get_catalog' => 'catalogs#get_catalog'
   match "/catalogs/:id/manage" => "catalogs#manage", via: [:get, :post]
+  get "/catalogs/:id/destroy" => "catalogs#destroy"
   #get '/catalogs/:id/manage' => 'catalogs#manage'
   resources :catalogs, :concerns => :paginatable
-  resources :catalogdropboxes, controller: 'catalogs', type: 'DropboxCatalog', :concerns => :paginatable
-  resources :cataloglocals, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
+  #resources :catalogdropboxes, controller: 'catalogs', type: 'DropboxCatalog', :concerns => :paginatable
+  resources :localcatalogs, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
 
   match '/catalogs/:id/import' => 'catalogs#import', via: [:get, :post]
   get '/catalogs/:id/import_to_master' => 'catalogs#import_to_master'

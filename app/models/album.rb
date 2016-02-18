@@ -133,6 +133,4 @@ class Album < ActiveRecord::Base
   def get_predicate(col, value, predicate)
     Squeel::Nodes::Predicate.new(Squeel::Nodes::Stub.new(col), predicate, value)
   end
-
-
 end

@@ -65,6 +65,9 @@ gem 'resque-loner'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem "haml-rails", "~> 0.9"
+  gem 'mocha'
+  gem 'test-unit'
 end
 
 group :development do
@@ -79,7 +82,7 @@ group :development do
   gem "capistrano-resque", "~> 0.2.2", require: false
   gem 'foreman'
   gem 'awesome_print', :require => 'ap'
-  gem "haml-rails", "~> 0.9"
+
   gem 'pry-rails'
   gem 'pry-byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring

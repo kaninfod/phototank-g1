@@ -7,6 +7,9 @@ one:
   make: kaj
   model: otto
   country: Denmark
+  city:
+  album_type:
+  photo_ids:
 
 two:
   name: my_album_2
@@ -15,3 +18,6 @@ two:
   make: Hugo
   model: bjerke
   country: Australia
+  city:
+  album_type:
+  photo_ids:

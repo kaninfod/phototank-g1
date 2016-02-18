@@ -27,9 +27,11 @@
               - else
                 = icon('toggle-off')
             %td= link_to icon('picture-o'), action: 'show', id: catalog
-            %td= link_to icon('pencil'), action: 'manage', id:catalog
+            %td= link_to icon('pencil'), action: 'manage', id: catalog
+            %td= link_to icon('cloud'), action: 'import', id: catalog
             %td
-              %a{"data-catalogid" => "#{catalog.id}", "data-target" => "#import_to_slavex", :href => "catalogs/#{catalog.id}/import"}
-                %i.fa.fa-cloud
+              -if not catalog.type=="MasterCatalog"
+                = link_to icon('close'), controller: "catalogs", action: 'destroy', id: catalog, method: :delete
+
     .col-sm-6.col-sm-offset-3
       = paginate @catalogs, :theme => 'twitter-bootstrap-3'

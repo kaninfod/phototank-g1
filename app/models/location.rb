@@ -21,6 +21,7 @@ class Location < ActiveRecord::Base
     elsif geosearch
       return true
     else
+
       @photo.location = get_no_location
       puts "no location returned"
       return true

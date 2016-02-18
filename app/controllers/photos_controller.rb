@@ -22,11 +22,7 @@ class PhotosController < ApplicationController
 
   # GET /photos
   # GET /photos.json
-  def index
-    byebug
-    @photos = Photo.order(:date_taken).page params[:page]
 
-  end
 
   # GET /photos/1
   # GET /photos/1.json

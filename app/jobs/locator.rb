@@ -8,6 +8,7 @@ class Locator
 
       @photo = Photo.find(photo_id)
       @photo.locate
+      @photo.save
     rescue Exception => e
       "An error occured while executing the Locator: #{e}"
     end

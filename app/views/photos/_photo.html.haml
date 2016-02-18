@@ -12,7 +12,7 @@
             %li= check_box_tag 'bucket', 'accepted', (@bucket.include? photo.id), photo_id: photo.id
             - if not (photo.longitude.blank? && photo.latitude.blank?)
               %li
-                %i.fa.fa-globe.show_map{"data-content" => "#{photo.latitude}%2C#{photo.longitude}' />", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
+                %i.fa.fa-globe.show_map{"data-content" => "<img src='http://maps.google.com/maps/api/staticmap?size=250x200&sensor=false&zoom=4&markers=#{photo.latitude}%2C#{photo.longitude}'/>", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
               %li
                 .dropdown.dropdown-toggle
                   %i#dropdownMenu1.fa.fa-repeat{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown"}

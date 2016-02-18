@@ -5,13 +5,14 @@ class LocalSynchronizer
   def self.perform(photo_id, catalog_id)
 
     begin
+
       photo = Photo.find(photo_id)
       src = photo.absolutepath
-      dst = photo.absolutepath(catalog_id)
-      copy_file(src, dst) unless File.exist?(dst)
+      dst = File.join(Catalog.find(catalog_id).path, photo.path)
+      copy_file(src, dst) unless File.exist?(photo.absolutepath(catalog_id))
     rescue Exception => e
 
-      raise "An error while synchonizing to Dropbox: #{e}"
+      raise "An error occured: #{e}"
     end
   end
 

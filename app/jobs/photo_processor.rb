@@ -21,7 +21,7 @@ class PhotoProcessor
       instance.save
       Resque.enqueue(Locator, photo.id)
 
-    rescue MiniMagick::Invalid
+    rescue MiniMagick::Invalid => e
       Rails.logger.debug  "#{e}"
     rescue Exception => e
       #Rails.logger.debug  "#{e}"

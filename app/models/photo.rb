@@ -80,7 +80,6 @@ class Photo < ActiveRecord::Base
     raise "File does not exist" unless File.exist?(self.import_path)
 
     exif = MiniExiftool.new(self.import_path, opts={:numerical=>true})
-
     if not exif.datetimeoriginal.blank?
       self.date_taken = exif.datetimeoriginal
     else
@@ -94,50 +93,28 @@ class Photo < ActiveRecord::Base
     self
   end
 
-
   def process( clone_mode = 'copy')
 
     raise "File does not exist" unless File.exist?(self.import_path)
-
     @image = MiniMagick::Image.open(self.import_path)
-    self.filename = @image.signature
+    image_signature = @image.signature
 
     #Check if file already exists in system (db and file)
-
-    existing_photo = Photo.where(filename: self.filename).where(date_taken: self.date_taken)
-    if existing_photo.present?
+    if photo_exist(image_signature, self.date_taken)
       raise "Photo #{existing_photo.first.filename} already exists"
     end
+    set_paths
 
-    self.original_width = @image.width
-    self.original_height = @image.height
-    self.file_size = @image.size
-    self.file_extension = ".jpg"
+    set_attributes
 
-    #set relative paths
-    date_path = File.join(self.date_taken.strftime("%Y"), self.date_taken.strftime("%m"), self.date_taken.strftime("%d"))
-    self.file_thumb_path = File.join('phototank', 'thumbs', date_path)
-    self.path = File.join('phototank', 'originals', date_path).to_s
+    FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)
+    FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
 
-    #Create absolute path for thumbs in master archive
-    _absolute_path_thumbs = File.join(Catalog.master.path, 'phototank', 'thumbs', date_path)
-    FileUtils.mkdir_p _absolute_path_thumbs
-    #Create absolute path for originals in master archive
-    _absolute_path_original = File.join(Catalog.master.path, 'phototank', 'originals', date_path)
-    FileUtils.mkdir_p _absolute_path_original
+    resize_photo("_lg", IMAGE_LARGE)
+    resize_photo("_md", IMAGE_MEDIUM)
+    create_thumbnail
 
-
-    resize_photo("_lg", IMAGE_LARGE, _absolute_path_thumbs)
-    resize_photo("_md", IMAGE_MEDIUM, _absolute_path_thumbs)
-    create_thumbnail(_absolute_path_thumbs)
-
-
-    if clone_mode == 'copy'
-      FileUtils.cp self.import_path, File.join(_absolute_path_original, self.filename + self.file_extension)
-    else
-      File.rename self.import_path, File.join(_absolute_path_original, self.filename + self.file_extension)
-    end
-
+    handle_file(clone_mode)
   end
 
   def locate
@@ -146,9 +123,37 @@ class Photo < ActiveRecord::Base
 
 private
 
-  def create_thumbnail(_absolute_path_thumbs)
+  def set_attributes
+    self.filename = @image.signature
+    self.original_width = @image.width
+    self.original_height = @image.height
+    self.file_size = @image.size
+    self.file_extension = ".jpg"
+    self.file_thumb_path = @relative_path_clones
+    self.path = @relative_path_original
+  end
 
-    dst = File.join(_absolute_path_thumbs, self.filename + "_tm" + self.file_extension)
+  def get_date_path()
+    date_path = File.join(
+      self.date_taken.strftime("%Y"),
+      self.date_taken.strftime("%m"),
+      self.date_taken.strftime("%d")
+      )
+    return date_path
+  end
+
+  def set_paths
+    @date_path = get_date_path
+    @relative_path_clones = File.join('phototank', 'thumbs', @date_path)
+    @relative_path_original = File.join('phototank', 'originals', @date_path)
+    #Create absolute path for thumbs in master archive
+    @absolute_path_clones = File.join(Catalog.master.path, 'phototank', 'thumbs', @date_path)
+    #Create absolute path for originals in master archive
+    @absolute_path_original = File.join(Catalog.master.path, 'phototank', 'originals', @date_path)
+  end
+
+  def create_thumbnail()
+    dst = File.join(@absolute_path_clones, self.filename + "_tm" + self.file_extension)
     MiniMagick::Tool::Convert.new do |convert|
       convert.merge! ["-size", "200x200", self.import_path]
       convert.merge! ["-thumbnail", "125x125^"]
@@ -158,11 +163,28 @@ private
     end
   end
 
-  def resize_photo(suffix, size, _absolute_path_original)
-    file_path = File.join(_absolute_path_original, self.filename + suffix + self.file_extension)
+  def resize_photo(suffix, size)
+    file_path = File.join(@absolute_path_clones, self.filename + suffix + self.file_extension)
     if not File.exist?(file_path)
       @image.resize size
       @image.write file_path
+    end
+  end
+
+  def photo_exist(image_signature, date_taken)
+    existing_photo = Photo.where(filename: image_signature).where(date_taken: date_taken)
+    if existing_photo.present?
+        true
+    else
+      false
+    end
+  end
+
+  def handle_file(clone_mode)
+    if clone_mode == 'copy'
+      FileUtils.cp self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
+    else
+      File.rename self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
     end
   end
 

@@ -1,8 +1,9 @@
-#watch-path-group>
-"class="list-group input-group"&gt;
-- cnt = 0
-- @catalog.watch_path.each do |item|
-  - cnt = cnt +1
-  %input#wp_{:type => "text"}/
-  = cnt
-  " name="wp_#{cnt}" class="form-control" value="#{item}"&gt;
+#watch-path-group.list-group.input-group
+  - cnt = 0
+  - @catalog.watch_path.each do |item|
+    - cnt = cnt +1
+    %input.form-control{:type => "text", :id => "wp_#{cnt}", :name => "wp_#{cnt}", :value => "#{item}"}
+
+.text-right
+  %a#add-item{:href => "#"}
+    %i.fa.fa-plus

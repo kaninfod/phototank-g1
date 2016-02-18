@@ -4,13 +4,7 @@ class PhotosControllerTest < ActionController::TestCase
   setup do
     @photo = photos(:one)
     @photo_no_location = photos(:two)
-    @photo_reuse_location = photos(:three) 
-  end
-
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:photos)
+    @photo_reuse_location = photos(:three)
   end
 
   test "should get new" do
@@ -20,21 +14,14 @@ class PhotosControllerTest < ActionController::TestCase
 
   test "should get geocoder data" do
     assert_difference('Location.count') do
+      @photo_no_location.locate
       @photo_no_location.save
     end
     assert_not_nil(@photo_no_location.location)
     assert_equal("Australia",@photo_no_location.location.country)
   end
-  
-  test "should reuse location" do
-    @photo_no_location.save
-    assert_no_difference('Location.count') do
-      @photo_reuse_location.save
-    end
-    assert_equal(@photo_no_location.location, @photo_reuse_location.location)
-  end
-  
-  
+
+
   test "should create photo" do
     assert_difference('Photo.count') do
       post :create, photo: {
@@ -51,8 +38,8 @@ class PhotosControllerTest < ActionController::TestCase
           original_width: @photo.original_width,
           longitude: @photo.longitude,
           latitude: @photo.latitude
-      }    
-  
+      }
+
     end
 
     assert_redirected_to photo_path(assigns(:photo))
@@ -81,4 +68,7 @@ class PhotosControllerTest < ActionController::TestCase
 
     assert_redirected_to photos_path
   end
+
+
+
 end

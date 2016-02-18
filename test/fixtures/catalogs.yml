@@ -1,11 +1,31 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: test_local_1
-  path: /Users/martinhinge/test
-  default: false
+  id: 1
+  name: test_master_1
+  path: <%= File.join(Rails.root, '/test/test_files/store')%>
+  watch_path: ["<%= File.join(Rails.root, '/test/test_files/import/path_a')%>", "<%= File.join(Rails.root, '/test/test_files/import/path_b')%>"]
+  type: MasterCatalog
+  sync_from_albums:
+  sync_from_catalog:
+  default: true
 
 two:
-  name: test_local_2
-  path: /Users/martinhinge/Downloads
-  default: true
+  id: 2
+  name: test_local_1
+  path: <%= File.join(Rails.root, '/test/test_files/')%>
+  watch_path:
+  type: LocalCatalog
+  sync_from_albums:
+  sync_from_catalog: one
+  default: false
+
+three:
+  id: 3
+  name: test_local_1
+  path: <%= File.join(Rails.root, '/test/test_files/')%>
+  watch_path:
+  type: LocalCatalog
+  sync_from_albums: [1,2]
+  sync_from_catalog:
+  default: false

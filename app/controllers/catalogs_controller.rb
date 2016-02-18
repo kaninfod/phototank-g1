@@ -1,8 +1,9 @@
-
 class CatalogsController < ApplicationController
 
+
+
   def index
-    @catalogs = Catalog.order(:name).page params[:page]
+    @catalogs = Catalog.order(:id).page params[:page]
   end
   def edit
     @catalog = Catalog.find(params[:id])
@@ -24,13 +25,14 @@ class CatalogsController < ApplicationController
   def new
     @catalog = Catalog.new
     @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
+
   end
 
   def create
     @catalog = Catalog.new(catalog_params)
     respond_to do |format|
       if @catalog.save
-        format.html { redirect_to action: 'index', notice: 'Catalog was successfully created.' }
+        format.html { redirect_to action: 'manage', id:@catalog, notice: 'Catalog was successfully created.' }
         format.json { render :show, status: :created, location: @catalog }
       else
         format.html { render :new }
@@ -40,10 +42,11 @@ class CatalogsController < ApplicationController
   end
 
   def destroy
+
     @catalog = Catalog.find(params[:id])
     @catalog.destroy
     respond_to do |format|
-      format.html { redirect_to catalogs_url, notice: 'Catalog was successfully destroyed.' }
+      format.html { redirect_to "index", notice: 'Catalog was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -87,12 +90,14 @@ end
 
     if request.post?
       catalog = params.permit(:name, :type, :path)
+
       if params[:type] == "MasterCatalog"
         watch_path =[]
         params.each do |k, v|
           watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
         end
         catalog['watch_path'] = watch_path
+
       elsif params[:type] == "LocalCatalog"
         catalog = params.permit(:name, :type, :path)
         if params[:sync_from] == "catalog"
@@ -129,13 +134,18 @@ end
 
   private
   def import_to_master
-    @catalog = Catalog.find(params[:id])
-    @catalog.watch_path.each do |path|
-      if File.exist?(path)
-        Resque.enqueue(MasterImport, path, @catalog.id)
-      else
-        logger.debug "path #{path} did not exist"
+    begin
+      @catalog = Catalog.find(params[:id])
+      @catalog.watch_path.each do |path|
+        if File.exist?(path)
+          Resque.enqueue(MasterImport, path, @catalog.id)
+        else
+          logger.debug "path #{path} did not exist"
+        end
       end
+      return true
+    rescue Exception => e
+      raise e
     end
   end
 

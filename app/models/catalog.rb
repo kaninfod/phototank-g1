@@ -3,7 +3,7 @@ class Catalog < ActiveRecord::Base
   serialize :watch_path, Array
   serialize :sync_from_albums, Array
 
-  has_many :instances, dependent: :destroy
+  has_many :instances
   has_many :photos, through: :instances
 
   scope :photos, -> { Photo.joins(:instances).where('catalog_id=?', self.id) }

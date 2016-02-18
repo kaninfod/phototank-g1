@@ -1,6 +1,20 @@
 class LocalCatalog < Catalog
+  before_destroy :clean_up
 
-  def sync
+  def clean_up
+    photos.each do |photo|
+      if File.exist?(photo.absolutepath(self.id))
+        FileUtils.rm(photo.absolutepath(self.id))
+      end
+    end
+
+    Instance.where(catalog_id: self.id).each do |instance|
+      instance.destroy
+    end
+
+  end
+
+  def sync_files
     photos.each do |photo|
        Resque.enqueue(LocalSynchronizer, photo.id, self.id)
     end
