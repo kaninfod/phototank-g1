@@ -75,6 +75,12 @@ class Photo < ActiveRecord::Base
     default.path
   end
 
+  def import(path)
+    self.import_path = path
+    self.set_exif
+    self.process
+  end
+
   def set_exif(path=false)
 
     raise "File does not exist" unless File.exist?(self.import_path)
@@ -101,27 +107,38 @@ class Photo < ActiveRecord::Base
 
     #Check if file already exists in system (db and file)
     if photo_exist(image_signature, self.date_taken)
-      raise "Photo #{existing_photo.first.filename} already exists"
+      raise "Photo already exists: #{photo.filename}"
     end
     set_paths
-
     set_attributes
-
-    FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)
-    FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
-
-    resize_photo("_lg", IMAGE_LARGE)
-    resize_photo("_md", IMAGE_MEDIUM)
-    create_thumbnail
-
     handle_file(clone_mode)
+    create_photos
   end
 
   def locate
     Location.locate_photo(self)
   end
 
+
+  def handle_file(clone_mode)
+    FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
+    if clone_mode == 'copy'
+      FileUtils.cp self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
+    else
+      File.rename self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
+    end
+  end
+
 private
+
+  def create_photos
+
+    FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)
+
+    resize_photo("_lg", IMAGE_LARGE)
+    resize_photo("_md", IMAGE_MEDIUM)
+    create_thumbnail
+  end
 
   def set_attributes
     self.filename = @image.signature
@@ -153,9 +170,11 @@ private
   end
 
   def create_thumbnail()
+
     dst = File.join(@absolute_path_clones, self.filename + "_tm" + self.file_extension)
+    src = File.join(@absolute_path_original, self.filename + self.file_extension)
     MiniMagick::Tool::Convert.new do |convert|
-      convert.merge! ["-size", "200x200", self.import_path]
+      convert.merge! ["-size", "200x200", src]
       convert.merge! ["-thumbnail", "125x125^"]
       convert.merge! ["-gravity", "center"]
       convert.merge! ["-extent", "125x125", "+profile", "'*'"]
@@ -180,12 +199,6 @@ private
     end
   end
 
-  def handle_file(clone_mode)
-    if clone_mode == 'copy'
-      FileUtils.cp self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
-    else
-      File.rename self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
-    end
-  end
+
 
 end

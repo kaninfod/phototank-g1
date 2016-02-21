@@ -14,13 +14,26 @@ class LocalCatalog < Catalog
 
   end
 
-  def sync_files
+  def sync_files(use_resque=true)
+
     photos.each do |photo|
-       Resque.enqueue(LocalSynchronizer, photo.id, self.id)
+      if use_resque
+        Resque.enqueue(LocalSynchronizer, photo.id, self.id)
+      else
+        sync(photo.id)
+      end
     end
   end
 
-  def import_from_catalog(from_catalog_id)
+  def sync(photo_id)
+    photo = Photo.find(photo_id)
+    src = photo.absolutepath
+    dst = File.join(self.path, photo.path)
+    copy_file(src, dst) unless File.exist?(photo.absolutepath(self.id))
+  end
+
+  def import_from_catalog(from_catalog_id=self.sync_from_catalog)
+
     Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
       new_instance = instance.dup
       new_instance.catalog_id = self.id
@@ -65,6 +78,10 @@ class LocalCatalog < Catalog
       logger.debug "#{e}"
     end
   end
-
+  private
+    def copy_file(src, dst)
+      FileUtils.mkdir_p dst
+      FileUtils.cp src, dst
+    end
 
 end

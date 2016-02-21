@@ -12,14 +12,14 @@ class PhotosControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get geocoder data" do
-    assert_difference('Location.count') do
-      @photo_no_location.locate
-      @photo_no_location.save
-    end
-    assert_not_nil(@photo_no_location.location)
-    assert_equal("Australia",@photo_no_location.location.country)
-  end
+  # test "should get geocoder data" do
+  #   assert_difference('Location.count') do
+  #     @photo_no_location.locate
+  #     @photo_no_location.save
+  #   end
+  #   assert_not_nil(@photo_no_location.location)
+  #   assert_equal("Australia",@photo_no_location.location.country)
+  # end
 
 
   test "should create photo" do
@@ -41,7 +41,6 @@ class PhotosControllerTest < ActionController::TestCase
       }
 
     end
-
     assert_redirected_to photo_path(assigns(:photo))
 
   end

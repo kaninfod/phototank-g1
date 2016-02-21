@@ -4,7 +4,7 @@ function updateBucketCounter(count) {
 
 
 $(function() {
-	$('input[type="checkbox"]').change(function(){
+	$('.bucket-check').change(function(){
 
 		if ($(this).is(':checked')) {
 			url = "/bucket/" + $(this).attr('photo_id') + "/add"

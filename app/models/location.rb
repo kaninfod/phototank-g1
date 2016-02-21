@@ -29,6 +29,10 @@ class Location < ActiveRecord::Base
 
   end
 
+  def get_map(zoom=10, size="350x300")
+    marker = "#{self.latitude}%2C#{self.longitude}"
+    return "http://maps.google.com/maps/api/staticmap?size=#{size}&sensor=false&zoom=#{zoom}&markers=#{marker}"
+  end
   private
   def self.no_coordinates()
     if @photo.latitude.blank? || @photo.longitude.blank?

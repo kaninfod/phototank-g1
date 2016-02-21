@@ -27,5 +27,59 @@ class CatalogsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  test "can create master catalog" do
+    assert_difference "Catalog.count" do
+      get :create, {:catalog => {:name => "catalog name", :type => "MasterCatalog", :path => "/my/path"}}
+    end
+    assert_response :redirect
+  end
 
+  test "can edit master catalog" do
+    post :manage, {
+      :id => 1,
+      :name => "catalog name",
+      :type => "MasterCatalog",
+      :path => "/my/path",
+      :wp_1 => "/me/own/path_a",
+      :wp_2 => "/me/own/path_b"
+    }
+    assert_equal ["/me/own/path_a","/me/own/path_b"], Catalog.find(1).watch_path
+    assert_response :redirect
+  end
+
+  test "can create local catalog" do
+    assert_difference "Catalog.count" do
+      get :create, {:catalog => {:name => "catalog name", :type => "LocalCatalog", :path => "/my/path"}}
+    end
+    assert_response :redirect
+  end
+
+  test "can edit local catalog -album" do
+    post :manage, {
+      :id => 3,
+      :name => "catalog name",
+      :type => "LocalCatalog",
+      :path => "/my/path",
+      :sync_from => "album",
+      :sync_from_album_id_3 => "3",
+      :sync_from_album_id_4 => "4"
+    }
+    assert_equal ["3", "4"], Catalog.find(3).sync_from_albums
+    assert_response :redirect
+  end
+
+  test "can edit local catalog -catalog" do
+    post :manage, {
+      :id => 2,
+      :name => "catalog name",
+      :type => "LocalCatalog",
+      :path => "/my/path",
+      :sync_from => "catalog",
+      :sync_from_catalog_id => "3"
+    }
+    assert_equal 3, Catalog.find(2).sync_from_catalog
+    assert_response :redirect
+  end
+
+  
 end

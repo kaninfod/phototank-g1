@@ -2,12 +2,10 @@ $(function(){
 	$('#add-item').click(function(){
 		id=$("#watch-path-group").children().length + 1
 		$("#watch-path-group").append(
-			'<input id=wp_"' + id + '" name=wp_"' + id + '" type="text" class="form-control" placeholder="New path here...">'
+			'<input style="margin-top: 4px;" id=wp_"' + id + '" name=wp_"' + id + '" type="text" class="form-control" placeholder="New path...">'
 		)
 	})
 })
-
-
 
 
 

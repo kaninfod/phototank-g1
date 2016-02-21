@@ -1,17 +1,21 @@
 class MasterCatalog < Catalog
-  
+
   def sync
     photos.each do |photo|
-       Resque.enqueue(LocalSynchronizer, photo.id, self.id) 
+       Resque.enqueue(LocalSynchronizer, photo.id, self.id)
     end
-  end  
+  end
+
+  def import(path)
+    Resque.enqueue(MasterImport, path)
+  end
   
   def online
     true
   end
-  
+
   def delete_photo(photo_id)
-    
+
     begin
       FileUtils.rm((self.photos.find(photo_id).original_filename))
       FileUtils.rm((self.photos.find(photo_id).large_filename))
@@ -23,6 +27,6 @@ class MasterCatalog < Catalog
       logger.debug "#{e}"
     end
   end
-  
-  
+
+
 end
