@@ -1,0 +1,8 @@
+development:
+  RUN_AT_EXIT_HOOKS: 1
+
+test:
+  RUN_AT_EXIT_HOOKS: 1
+
+production:
+  RUN_AT_EXIT_HOOKS: 1

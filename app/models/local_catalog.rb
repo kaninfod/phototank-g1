@@ -11,7 +11,6 @@ class LocalCatalog < Catalog
     Instance.where(catalog_id: self.id).each do |instance|
       instance.destroy
     end
-
   end
 
   def sync_files(use_resque=true)
