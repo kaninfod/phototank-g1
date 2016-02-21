@@ -39,11 +39,11 @@ class CatalogsController < ApplicationController
   end
 
   def destroy
-
+    byebug
     @catalog = Catalog.find(params[:id])
     @catalog.destroy
     respond_to do |format|
-      format.html { redirect_to "index", notice: 'Catalog was successfully destroyed.' }
+      format.html { redirect_to :index, notice: 'Catalog was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
