@@ -1,8 +1,8 @@
 development:
-  RUN_AT_EXIT_HOOKS: 1
+  RUN_AT_EXIT_HOOKS: "true"
 
 test:
-  RUN_AT_EXIT_HOOKS: 1
+  RUN_AT_EXIT_HOOKS: "true"
 
 production:
-  RUN_AT_EXIT_HOOKS: 1
+  RUN_AT_EXIT_HOOKS: "true"
