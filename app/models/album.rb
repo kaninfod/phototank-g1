@@ -1,6 +1,10 @@
 class Album < ActiveRecord::Base
   serialize :photo_ids
 
+  def count
+    return photos.count
+  end
+
   def photos
 
     if not self.start.blank?

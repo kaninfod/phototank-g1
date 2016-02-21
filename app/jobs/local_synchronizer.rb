@@ -5,11 +5,11 @@ class LocalSynchronizer
   def self.perform(photo_id, catalog_id)
 
     begin
-
-      photo = Photo.find(photo_id)
-      src = photo.absolutepath
-      dst = File.join(Catalog.find(catalog_id).path, photo.path)
-      copy_file(src, dst) unless File.exist?(photo.absolutepath(catalog_id))
+      Catalog.find(catalog_id).sync(photo_id)
+      #photo = Photo.find(photo_id)
+      #src = photo.absolutepath
+      #dst = File.join(Catalog.find(catalog_id).path, photo.path)
+      #copy_file(src, dst) unless File.exist?(photo.absolutepath(catalog_id))
     rescue Exception => e
 
       raise "An error occured: #{e}"

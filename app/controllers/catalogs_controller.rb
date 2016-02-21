@@ -1,7 +1,4 @@
 class CatalogsController < ApplicationController
-
-
-
   def index
     @catalogs = Catalog.order(:id).page params[:page]
   end
@@ -66,7 +63,6 @@ class CatalogsController < ApplicationController
 def import
 
   if request.post?
-
     case params['import_action']
     when 'master'
       import_to_master
@@ -90,15 +86,15 @@ end
 
     if request.post?
       catalog = params.permit(:name, :type, :path)
-
-      if params[:type] == "MasterCatalog"
+      case params[:type]
+      when "MasterCatalog"
         watch_path =[]
         params.each do |k, v|
           watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
         end
         catalog['watch_path'] = watch_path
 
-      elsif params[:type] == "LocalCatalog"
+      when "LocalCatalog"
         catalog = params.permit(:name, :type, :path)
         if params[:sync_from] == "catalog"
           catalog['sync_from_catalog'] = params[:sync_from_catalog_id]
@@ -117,7 +113,6 @@ end
         redirect_to action: 'index', notice: 'Catalog was successfully updated.'
       end
     else #request is GET
-
       @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
       if @catalog.sync_from_albums.blank?
         @sync_from="catalog"
@@ -138,7 +133,7 @@ end
       @catalog = Catalog.find(params[:id])
       @catalog.watch_path.each do |path|
         if File.exist?(path)
-          Resque.enqueue(MasterImport, path, @catalog.id)
+          @catalog.import(path)
         else
           logger.debug "path #{path} did not exist"
         end

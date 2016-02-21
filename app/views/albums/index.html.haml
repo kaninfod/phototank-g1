@@ -25,6 +25,7 @@
       %thead
         %tr
           %th Name
+          %th Count
           %th Type
           %th Date from
           %th Date to
@@ -35,6 +36,7 @@
         - @albums.each do |album|
           %tr
             %td= link_to album.name, album
+            %td= album.count
             %td= album.album_type
             %td= album.start.strftime("%b %d %Y") unless album.start.blank?
             %td= album.end.strftime("%b %d %Y") unless album.end.blank?

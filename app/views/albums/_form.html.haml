@@ -1,28 +1,34 @@
 .container
-  .row
-    .col-lg-3
+  .panel.panel-default
+    .panel-body
       = form_for(@album) do |f|
-        .form-group
-          = label_tag(:q, "Album name:")
-          = f.text_field(:name, class:"form-control")
-        .form-group
-          = label_tag(:q, "Start date:")
-          = f.datetime_field(:start, class:"form-control")
-        .form-group
-          = label_tag(:q, "End date:")
-          = f.datetime_field :end, class:"form-control"
-        .form-group
-          = label_tag(:q, "Make:")
-          = f.select :make, options_for_select(@makes, @album.make), {}, {class:"form-control"}
-        .form-group
-          = label_tag(:q, "Model:")
-          = f.select :model, options_for_select(@models, @album.model), {}, {class:"form-control"}
-        .form-group
-          = label_tag(:q, "Country:")
-          = f.select :country, options_for_select(@countries, @album.country), {}, {class:"form-control"}
-        .form-group
-          = label_tag(:q, "City:")
-          = f.select :city, options_for_select(@cities, @album.city), {}, {class:"form-control"}
-        %div
-        .actions
-          = f.submit class:"btn btn-default"
+        .row
+          .col-lg-3
+            .form-group
+              = label_tag(:q, "Album name:")
+              = f.text_field(:name, class:"form-control")
+            .form-group
+              = label_tag(:q, "Country:")
+              = f.select :country, options_for_select(@countries, @album.country), {}, {class:"form-control"}
+            .form-group
+              = label_tag(:q, "City:")
+              = f.select :city, options_for_select(@cities, @album.city), {}, {class:"form-control"}
+
+          .col-lg-3
+            .form-group
+              = label_tag(:q, "Start date:")
+              = f.datetime_field(:start, class:"form-control")
+            .form-group
+              = label_tag(:q, "End date:")
+              = f.datetime_field :end, class:"form-control"
+
+          .col-lg-3
+            .form-group
+              = label_tag(:q, "Make:")
+              = f.select :make, options_for_select(@makes, @album.make), {}, {class:"form-control"}
+            .form-group
+              = label_tag(:q, "Model:")
+              = f.select :model, options_for_select(@models, @album.model), {}, {class:"form-control"}
+        .row
+          .actions.text-right
+            = f.submit class:"btn btn-default"

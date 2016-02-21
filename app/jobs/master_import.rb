@@ -2,15 +2,9 @@ class MasterImport
   include Resque::Plugins::UniqueJob
   @queue = :import
 
-  def self.perform(path, catalog_id)
+  def self.perform(path)
 
     begin
-      catalog = Catalog.find(catalog_id)
-      objid = 0
-
-      photo = Photo.new
-      photo.status = 0
-
       #Dir['**/*.jpg']
       Dir.glob("#{path}/**/*.jpg").each do |import_file_path|
         if File.file?(import_file_path)

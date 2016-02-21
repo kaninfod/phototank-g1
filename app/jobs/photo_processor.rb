@@ -10,7 +10,7 @@ class PhotoProcessor
   def self.perform(path)
 
     begin
-
+      
       photo = Photo.new
       photo.import_path = path
       photo.set_exif
@@ -24,7 +24,6 @@ class PhotoProcessor
     rescue MiniMagick::Invalid => e
       Rails.logger.debug  "#{e}"
     rescue Exception => e
-      #Rails.logger.debug  "#{e}"
       raise "An error occured while executing the PhotoProcessor: #{e}"
     end
   end

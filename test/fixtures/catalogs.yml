@@ -26,6 +26,6 @@ three:
   path: <%= File.join(Rails.root, '/test/test_files/')%>
   watch_path:
   type: LocalCatalog
-  sync_from_albums: [1,2]
+  sync_from_albums: ["1","2"]
   sync_from_catalog:
   default: false
