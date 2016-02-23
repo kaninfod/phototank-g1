@@ -13,9 +13,11 @@ Rails.application.routes.draw do
   get 'albums/:id/grid' => 'albums#grid'
 
 
-  resources :photos, :except => [:index], :concerns => :paginatable 
+  match '/photos/search' => 'photos#search', via: [:get, :post]
+  resources :photos, :except => [:index], :concerns => :paginatable
   get '/photos/:id/display' => 'photos#display'
   get '/photos/:id/image/:size' => 'photos#image'
+
 
 
   get '/catalogs/:id/get_catalog' => 'catalogs#get_catalog'

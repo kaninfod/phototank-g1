@@ -19,7 +19,7 @@ class AlbumsController < ApplicationController
   end
 
   def index
-    
+
     order = params[:order] unless not params.has_key?(:order)
     query = "%#{params[:q]}%" #unless not params.has_key?(:q)
     query ||="%"
@@ -102,18 +102,10 @@ class AlbumsController < ApplicationController
     end
 
     def prep_form
-      @countries = Location.select(:country).distinct.map{ |c| [c.country] }
-      @countries = @countries.unshift([''])
-
-      @cities = Location.select(:city).distinct.map{ |c| [c.city] }
-      @cities = @cities.unshift([''])
-
-      @makes = Photo.select(:make).distinct.map{ |c| [c.make] }
-      @makes = @makes.unshift([''])
-
-      @models = Photo.select(:model).distinct.map{ |c| [c.model] }
-      @models = @models.unshift([''])
-
+      @countries = Location.distinct_countries
+      @cities = Location.distinct_cities
+      @makes = Photo.distinct_makes
+      @models = Photo.distinct_models
       @bucket = session[:bucket]
     end
 

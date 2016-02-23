@@ -10,7 +10,7 @@
         .photo-text.text-left
           %ul.list-inline
             %li= check_box_tag 'bucket', 'accepted', (@bucket.include? photo.id), photo_id: photo.id, class: "bucket-check"
-            - if not (photo.longitude.blank? && photo.latitude.blank?)
+            - if not photo.location_id.blank?
               %li
                 %i.fa.fa-globe.show_map{"data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
               %li

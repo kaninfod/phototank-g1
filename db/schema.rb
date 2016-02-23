@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160215205437) do
+ActiveRecord::Schema.define(version: 20160223185726) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.datetime "start"
-    t.datetime "end"
+    t.date     "start"
+    t.date     "end"
     t.string   "make",       limit: 255
     t.string   "model",      limit: 255
     t.datetime "created_at",             null: false

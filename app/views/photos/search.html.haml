@@ -1,0 +1,55 @@
+
+.row
+  #accordion.panel-group.col-lg-12{"aria-multiselectable" => "true", :role => "tablist"}
+    .panel.panel-default
+      #headingOne.panel-heading{:role => "tab"}
+        %h4.panel-title
+          %a{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne", :role => "button"}
+            Search options
+      #collapseOne.panel-collapse.collapse.out{"aria-labelledby" => "headingOne", :role => "tabpanel"}
+        .panel-body
+          = form_for(@searchalbum,  url: {action: "search"}) do |f|
+            .row
+              .col-lg-6
+                = label_tag(:q, "Time span:")
+                #datepicker.input-daterange.input-group
+                  = f.text_field :start, class: "input input-sm form-control"
+                  %span.input-group-addon to
+                  = f.text_field :end, class: "input input-sm form-control"
+
+              .col-lg-3
+                .form-group
+                  = label_tag(:q, "Country:")
+                  = f.select :country, options_for_select(@countries, @searchalbum.country), {}, {class:"form-control"}
+                .form-group
+                  = label_tag(:q, "City:")
+                  = f.select :city, options_for_select(@cities, @searchalbum.city), {}, {class:"form-control"}
+              .col-lg-3
+                .form-group
+                  = label_tag(:q, "Make:")
+                  = f.select :make, options_for_select(@makes, @searchalbum.make), {}, {class:"form-control"}
+                .form-group
+                  = label_tag(:q, "Model:")
+                  = f.select :model, options_for_select(@models, @searchalbum.model), {}, {class:"form-control"}
+
+            .row
+              = submit_tag "Search", class:"btn btn-default pull-right cs"
+
+.row
+  = render :template => 'photos/_index'
+
+:javascript
+  $('.input-daterange').datepicker({
+      todayHighlight: true,
+      toggleActive: true,
+      autoclose: true,
+      format: "dd/mm/yyyy"
+  });
+:css
+  #accordion{
+    margin-top:20px;
+    margin-bottom:20px ;
+  }
+  .cs {
+    margin-right:15px;
+  }

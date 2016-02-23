@@ -20,12 +20,18 @@ class PhotosController < ApplicationController
     send_file filepath, :disposition => 'inline'
   end
 
-  # GET /photos
-  # GET /photos.json
+def search
+  
+  if request.post?
+    @searchalbum = Album.new(album_params)
+  else
+    @searchalbum = Album.new
+  end
+  prep_form
+  @photos = @searchalbum.photos.page params[:page]
 
+end
 
-  # GET /photos/1
-  # GET /photos/1.json
   def show
     if params.has_key?(:size)
       @size = params[:size]
@@ -90,7 +96,17 @@ class PhotosController < ApplicationController
   end
 
   private
+  def album_params
+    params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
+  end
 
+  def prep_form
+    @countries = Location.distinct_countries
+    @cities = Location.distinct_cities
+    @makes = Photo.distinct_makes
+    @models = Photo.distinct_models
+    @bucket = session[:bucket]
+  end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_photo

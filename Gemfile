@@ -28,14 +28,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Pagination
 gem 'kaminari'
-
 gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
 gem 'bootstrap_form'
-
-gem 'seed_dump'
-
 gem 'font-awesome-sass', '~> 4.5.0'
+gem 'bootstrap-datepicker-rails'
+gem 'seed_dump'
 
 gem 'geocoder'
 

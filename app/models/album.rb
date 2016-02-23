@@ -8,12 +8,14 @@ class Album < ActiveRecord::Base
   def photos
 
     if not self.start.blank?
-      p_start = get_predicate('date_taken', self.start, :gteq)
+      date_start = self.start.to_datetime
+      p_start = get_predicate('date_taken', date_start, :gteq)
       exp = p_start
     end
 
     if not self.end.blank?
-      p_end = get_predicate('date_taken', self.end, :lteq)
+      date_end = self.end.to_time + 25.hours - 1.seconds
+      p_end = get_predicate('date_taken', date_end, :lteq)
       if not exp.blank?
         exp = exp&p_end
       else
@@ -69,7 +71,7 @@ class Album < ActiveRecord::Base
         exp = p_photo_ids
       end
     end
-
+    puts Photo.joins(:location).where(exp).to_sql
     Photo.joins(:location).where(exp)
 
   end

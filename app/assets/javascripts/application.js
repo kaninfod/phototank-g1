@@ -13,21 +13,23 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
-
 //= require turbolinks
-//= require bootstrap-sprockets
-//= require_tree .
 
+//= require bootstrap-sprockets
+
+//= require_tree .
+//= require bootstrap
+//= require bootstrap-datepicker
 
 $(function() {
-	
+
 		//setTimeout(updateJobs, 2000);
-	
+
 })
 
 function updateJobs() {
-	
-	
+
+
 	$.ajax({
 	  method: "GET",
 	  url: "/administration/jobs_pending?format=json",
@@ -42,5 +44,5 @@ function updateJobs() {
       }
 	})
 	setTimeout(updateJobs, 5000)
-	
+
 }

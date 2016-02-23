@@ -19,7 +19,17 @@ class Photo < ActiveRecord::Base
     joins(:location).where('locations.country = ?', country)
   }
 
+  scope :distinct_models, -> {
+    ary = select(:model).distinct.map { |c| [c.model] }.unshift([''])
+    ary.delete([nil])
+    ary.sort_by{|el| el[0] }
+  }
 
+  scope :distinct_makes, -> {
+    ary = select(:make).distinct.map { |c| [c.make] }.unshift([''])
+    ary.delete([nil])
+    ary.sort_by{|el| el[0] }
+  }
 
   def validate_files(catalog_id=1)
     catalog_path = self.catalog(catalog_id).path
@@ -86,6 +96,7 @@ class Photo < ActiveRecord::Base
     raise "File does not exist" unless File.exist?(self.import_path)
 
     exif = MiniExiftool.new(self.import_path, opts={:numerical=>true})
+    
     if not exif.datetimeoriginal.blank?
       self.date_taken = exif.datetimeoriginal
     else
@@ -100,14 +111,13 @@ class Photo < ActiveRecord::Base
   end
 
   def process( clone_mode = 'copy')
-
     raise "File does not exist" unless File.exist?(self.import_path)
     @image = MiniMagick::Image.open(self.import_path)
     image_signature = @image.signature
 
     #Check if file already exists in system (db and file)
     if photo_exist(image_signature, self.date_taken)
-      raise "Photo already exists: #{photo.filename}"
+      raise "Photo already exists: #{self.import_path}"
     end
     set_paths
     set_attributes

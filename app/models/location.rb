@@ -2,6 +2,17 @@ class Location < ActiveRecord::Base
   has_many :photos
   reverse_geocoded_by :latitude, :longitude
 
+  scope :distinct_countries, -> {
+    ary = select(:country).distinct.map { |c| [c.country] }.unshift([''])
+    ary.delete([nil])
+    ary.sort_by{|el| el[0] }
+  }
+  scope :distinct_cities, -> {
+    ary = select(:city).distinct.map { |c| [c.city] }.unshift([''])
+    ary.delete([nil])
+    ary.sort_by{|el| el[0] }
+  }
+
   def query
     self.latitude.to_s + "," + self.longitude.to_s
   end
