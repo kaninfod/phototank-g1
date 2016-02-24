@@ -38,7 +38,7 @@ gem 'seed_dump'
 gem 'geocoder'
 
 gem 'mini_exiftool'
-#gem 'exif'
+gem 'phashion'
 gem "mini_magick"
 
 gem 'jquery-turbolinks'
@@ -49,6 +49,8 @@ gem 'dropbox-sdk'
 
 gem 'resque'
 gem 'resque-loner'
+
+
 gem "haml-rails", "~> 0.9"
 
 # Use ActiveModel has_secure_password

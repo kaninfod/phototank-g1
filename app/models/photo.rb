@@ -96,13 +96,12 @@ class Photo < ActiveRecord::Base
     raise "File does not exist" unless File.exist?(self.import_path)
 
     exif = MiniExiftool.new(self.import_path, opts={:numerical=>true})
-    
-    if not exif.datetimeoriginal.blank?
-      self.date_taken = exif.datetimeoriginal
-    else
-      self.date_taken = File.ctime(self.import_path)
+    if exif.datetimeoriginal.blank?
+      exif.datetimeoriginal = File.ctime(self.import_path)
+      exif.save
+      Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
     end
-
+    self.date_taken = exif.datetimeoriginal
     self.longitude = exif.gpslongitude
     self.latitude = exif.gpslatitude
     self.make = exif.make
@@ -112,11 +111,9 @@ class Photo < ActiveRecord::Base
 
   def process( clone_mode = 'copy')
     raise "File does not exist" unless File.exist?(self.import_path)
-    @image = MiniMagick::Image.open(self.import_path)
-    image_signature = @image.signature
 
     #Check if file already exists in system (db and file)
-    if photo_exist(image_signature, self.date_taken)
+    if photo_exist(self.date_taken)
       raise "Photo already exists: #{self.import_path}"
     end
     set_paths
@@ -151,7 +148,10 @@ private
   end
 
   def set_attributes
-    self.filename = @image.signature
+    @image = MiniMagick::Image.open(self.import_path)
+    @phash = Phashion::Image.new(self.import_path) unless @phash
+
+    self.filename = @phash.fingerprint
     self.original_width = @image.width
     self.original_height = @image.height
     self.file_size = @image.size
@@ -200,10 +200,13 @@ private
     end
   end
 
-  def photo_exist(image_signature, date_taken)
-    existing_photo = Photo.where(filename: image_signature).where(date_taken: date_taken)
+  def photo_exist( date_taken)
+
+    existing_photo = Photo.where(date_taken: date_taken).first
     if existing_photo.present?
-        true
+        @phash = Phashion::Image.new(self.import_path)
+        phash_existing_photo = Phashion::Image.new(existing_photo.absolutepath)
+        @phash.duplicate?(phash_existing_photo)
     else
       false
     end
