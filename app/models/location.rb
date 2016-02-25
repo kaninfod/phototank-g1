@@ -13,10 +13,6 @@ class Location < ActiveRecord::Base
     ary.sort_by{|el| el[0] }
   }
 
-  def query
-    self.latitude.to_s + "," + self.longitude.to_s
-  end
-
   def self.geolocate
     Photo.where{location_id.eq(nil)}.each do |photo|
       Resque.enqueue(Locator, photo.id)
@@ -44,6 +40,7 @@ class Location < ActiveRecord::Base
     marker = "#{self.latitude}%2C#{self.longitude}"
     return "http://maps.google.com/maps/api/staticmap?size=#{size}&sensor=false&zoom=#{zoom}&markers=#{marker}"
   end
+
   private
   def self.no_coordinates()
     if @photo.latitude.blank? || @photo.longitude.blank?

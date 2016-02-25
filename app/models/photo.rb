@@ -85,6 +85,25 @@ class Photo < ActiveRecord::Base
     default.path
   end
 
+  def similar(similarity=1, count=3)
+    Photo.where("HAMMINGDISTANCE(#{self.filename}, filename) < ?", similarity)
+      .limit(count)
+      .order("HAMMINGDISTANCE(#{self.filename}, filename)")
+  end
+
+  def similarity(photo)
+    Phashion.hamming_distance(photo.filename.to_i, self.filename.to_i)
+  end
+
+  def identical()
+    identical_photos = similar 1, 1
+    if identical_photos.count
+      true
+    end
+  end
+
+
+
   def import(path)
     self.import_path = path
     self.set_exif
@@ -112,8 +131,12 @@ class Photo < ActiveRecord::Base
   def process( clone_mode = 'copy')
     raise "File does not exist" unless File.exist?(self.import_path)
 
+    @phash = Phashion::Image.new(self.import_path)
+    self.filename = @phash.fingerprint
+
     #Check if file already exists in system (db and file)
-    if photo_exist(self.date_taken)
+    byebug
+    if self.identical
       raise "Photo already exists: #{self.import_path}"
     end
     set_paths
@@ -149,9 +172,9 @@ private
 
   def set_attributes
     @image = MiniMagick::Image.open(self.import_path)
-    @phash = Phashion::Image.new(self.import_path) unless @phash
 
-    self.filename = @phash.fingerprint
+
+
     self.original_width = @image.width
     self.original_height = @image.height
     self.file_size = @image.size
@@ -202,7 +225,7 @@ private
 
   def photo_exist( date_taken)
 
-    existing_photo = Photo.where(date_taken: date_taken).first
+    existing_photo = self.identical
     if existing_photo.present?
         @phash = Phashion::Image.new(self.import_path)
         phash_existing_photo = Phashion::Image.new(existing_photo.absolutepath)
