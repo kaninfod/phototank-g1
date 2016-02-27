@@ -22,7 +22,7 @@ class PhotosController < ApplicationController
 
 def search
   
-  if request.post?
+  if params.has_key?(:album)
     @searchalbum = Album.new(album_params)
   else
     @searchalbum = Album.new

@@ -11,9 +11,10 @@
     / Collect the nav links, forms, and other content for toggling
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li= link_to 'Catalogs', controller: "catalogs", action: "index"
+        %li= link_to 'Photos', controller: "photos", action: "search"
         %li= link_to 'Albums', controller: "albums", action: "index"
         %li= link_to 'Locations', controller: "locations", action: "index"
+        %li= link_to 'Catalogs', controller: "catalogs", action: "index"
       %ul.nav.navbar-nav.navbar-right
         %li{:role => "presentation"}
           %a{:href => "/bucket"}

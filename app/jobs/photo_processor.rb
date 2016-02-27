@@ -10,7 +10,6 @@ class PhotoProcessor
   def self.perform(path)
 
     begin
-
       photo = Photo.new
       photo.import_path = path
       photo.set_exif

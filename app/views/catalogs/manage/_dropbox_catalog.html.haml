@@ -1,0 +1,17 @@
+.row
+  .col-lg-6
+    .panel.panel-default
+      .panel-body
+        = form_tag("/catalogs/#{@catalog.id}/manage", method: "post") do
+          = hidden_field_tag 'catalog', @catalog.id
+          .form-group
+            = label_tag( "Catalog name:")
+            = text_field_tag("name", @catalog.name,class:"form-control")
+          .form-group
+            = label_tag("Catalog type:")
+            = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control"	)
+          #catalog-list.form-group
+            = label_tag("Catalogs:")
+            = render partial: "list", locals: {current_catalog: @catalog}            
+          .actions
+            = submit_tag "Save", class:"btn btn-default"

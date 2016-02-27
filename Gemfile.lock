@@ -110,6 +110,7 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
+    httpclient (2.7.1)
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -290,6 +291,7 @@ DEPENDENCIES
   foreman
   geocoder
   haml-rails (~> 0.9)
+  httpclient
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks

@@ -23,15 +23,13 @@ Rails.application.routes.draw do
   get '/catalogs/:id/get_catalog' => 'catalogs#get_catalog'
   match "/catalogs/:id/manage" => "catalogs#manage", via: [:get, :post]
   get "/catalogs/:id/destroy" => "catalogs#destroy"
-  #get '/catalogs/:id/manage' => 'catalogs#manage'
+  get '/catalogs/authorize' => 'catalogs#authorize'
+  get '/catalogs/authorize_callback' => 'catalogs#authorize_callback'
   resources :catalogs, :concerns => :paginatable
-  #resources :catalogdropboxes, controller: 'catalogs', type: 'DropboxCatalog', :concerns => :paginatable
   resources :localcatalogs, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
-
   match '/catalogs/:id/import' => 'catalogs#import', via: [:get, :post]
   get '/catalogs/:id/import_to_master' => 'catalogs#import_to_master'
   get '/catalogs/:id/import_to_slave' => 'catalogs#import_to_slave'
-
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
 
 
@@ -55,11 +53,11 @@ Rails.application.routes.draw do
   get 'administration/generate_albums'
   get 'administration/jobs_pending'
 
-  get 'synchronizers/dropbox'
+  #get 'synchronizers/dropbox'
+  #get 'synchronizers/authorize'
 
 
   require 'resque/server'
-
   mount Resque::Server.new, at: "/jobs"
 
 

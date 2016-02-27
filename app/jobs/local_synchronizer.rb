@@ -2,23 +2,33 @@
 class LocalSynchronizer
   @queue = :local_sync
 
-  def self.perform(photo_id, catalog_id)
+  def self.perform(action, options)
 
     begin
-      Catalog.find(catalog_id).sync(photo_id)
-      #photo = Photo.find(photo_id)
-      #src = photo.absolutepath
-      #dst = File.join(Catalog.find(catalog_id).path, photo.path)
-      #copy_file(src, dst) unless File.exist?(photo.absolutepath(catalog_id))
-    rescue Exception => e
+      case action
 
+        when "import_files"
+          photo_id = options["photo_id"]
+          catalog_id = options["catalog_id"]
+          Catalog.find(catalog_id).copy_file(photo_id)
+        when "clone_instances_from_albums"
+          to_catalog_id = options["catalog_id"]
+          album_id = options["album_id"]
+          to_catalog = Catalog.find(to_catalog_id)
+          to_catalog.clone_instances_from_albums(album_id)
+          to_catalog.import_files
+        when "clone_instances_from_catalog"
+          to_catalog_id = options["to_catalog_id"]
+          from_catalog_id = options["from_catalog_id"]
+          to_catalog = Catalog.find(to_catalog_id)
+          to_catalog.clone_instances_from_catalog(from_catalog_id)
+          to_catalog.import_files
+      end
+    rescue Exception => e
+      byebug
       raise "An error occured: #{e}"
     end
   end
 
-  def self.copy_file(src, dst)
-    FileUtils.mkdir_p dst
-    FileUtils.cp src, dst
-  end
 
 end

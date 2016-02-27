@@ -4,29 +4,34 @@
       .panel-body
         = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
           - case @catalog.type
+
           - when "MasterCatalog"
             Phototank will import all photos from the following locations:
             %ul.list-unstyled
               - @catalog.watch_path.each do |path|
                 %li= path
-            =hidden_field_tag "import_action", "master"
+            =hidden_field_tag "import_action", "MasterCatalog"
             .actions
               = submit_tag "Import", class:"btn btn-default"
 
           - when "LocalCatalog"
-
             - if @catalog.sync_from_catalog.nil?
               Phototank will synchronize this catalog from the following albums:
               %ul.list-unstyled
                 - @sync_from_albums.each do |album|
                   %li= album.name
-
-
             - else
               Phototank will clone this catalog with the folowing catalog:
               %ul.list-unstyled
                 %li= @sync_from_catalog.name
-            =hidden_field_tag "import_action", "local"
+            =hidden_field_tag "import_action", "LocalCatalog"
+            .actions
+              =submit_tag "Synchronize", class:"btn btn-default"
 
+          - when "DropboxCatalog"
+            Phototank will clone this catalog with the folowing catalog:
+            %ul.list-unstyled
+              %li= @sync_from_catalog.name
+            =hidden_field_tag "import_action", "DropboxCatalog"
             .actions
               =submit_tag "Synchronize", class:"btn btn-default"

@@ -1,15 +1,26 @@
 class MasterCatalog < Catalog
 
-  def sync
-    photos.each do |photo|
-       Resque.enqueue(LocalSynchronizer, photo.id, self.id)
+  # def sync
+  #   photos.each do |photo|
+  #      Resque.enqueue(LocalSynchronizer, "import_files", {:photo_id => photo.id, :catalog_id => self.id})
+  #   end
+  # end
+
+  def import
+    begin
+      self.watch_path.each do |import_path|
+        if File.exist?(import_path)
+          Resque.enqueue(MasterImport, import_path)
+        else
+          logger.debug "path #{import_path} did not exist"
+        end
+      end
+      return true
+    rescue Exception => e
+      raise e
     end
   end
 
-  def import(path)
-    Resque.enqueue(MasterImport, path)
-  end
-  
   def online
     true
   end

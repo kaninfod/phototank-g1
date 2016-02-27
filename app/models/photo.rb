@@ -97,7 +97,7 @@ class Photo < ActiveRecord::Base
 
   def identical()
     identical_photos = similar 1, 1
-    if identical_photos.count
+    if identical_photos.count > 0
       true
     end
   end
@@ -135,10 +135,10 @@ class Photo < ActiveRecord::Base
     self.filename = @phash.fingerprint
 
     #Check if file already exists in system (db and file)
-    byebug
     if self.identical
       raise "Photo already exists: #{self.import_path}"
     end
+
     set_paths
     set_attributes
     handle_file(clone_mode)
@@ -162,7 +162,6 @@ class Photo < ActiveRecord::Base
 private
 
   def create_photos
-
     FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)
 
     resize_photo("_lg", IMAGE_LARGE)
@@ -172,9 +171,6 @@ private
 
   def set_attributes
     @image = MiniMagick::Image.open(self.import_path)
-
-
-
     self.original_width = @image.width
     self.original_height = @image.height
     self.file_size = @image.size
@@ -188,7 +184,7 @@ private
       self.date_taken.strftime("%Y"),
       self.date_taken.strftime("%m"),
       self.date_taken.strftime("%d")
-      )
+    )
     return date_path
   end
 
@@ -234,7 +230,4 @@ private
       false
     end
   end
-
-
-
 end
