@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+APP_PATH = File.expand_path(appdir = '/srv/staging/strat/fundmgr/config/application',  __FILE__)
+require File.expand_path(appdir + '/../boot',  __FILE__)
+require APP_PATH
+# set Rails.env here if desired
+Rails.application.require_environment!

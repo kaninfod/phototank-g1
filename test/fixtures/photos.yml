@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  filename: f683e370f3a2f1f6b1a84f8dd6b74df6
+  filename: 12490223519992985495
   date_taken: 2010-11-02 17:40:47
-  path: phototank/photos/2010/11/02/         
+  path: phototank/photos/2010/11/02/
   file_thumb_path: phototank/thumbs/2010/11/02/
   file_extension: .jpg
   file_size: 2498376
@@ -16,13 +16,13 @@ one:
   latitude: 37.773972
 
 two:
-  filename: fa35f370f3a2f1f6b1a84f8dd6b74df6
+  filename: 9420188933665403737
   date_taken: 2013-12-02 17:40:47
-  path: phototank/photos/2013/12/02/         
+  path: phototank/photos/2013/12/02/
   file_thumb_path: phototank/thumbs/2013/12/02/
   file_extension: .jpg
   file_size: 2258343
-  location: 
+  location:
   make: SAMSUNG
   model: yu-lods
   original_height: 1434
@@ -31,13 +31,13 @@ two:
   latitude: -33.7558333333
 
 three:
-  filename: 122345670f3a2f1f6b1a84f8dd6b74df6
+  filename: 4196014639040088811
   date_taken: 2013-12-02 17:40:47
-  path: phototank/photos/2013/12/02/         
+  path: phototank/photos/2013/12/02/
   file_thumb_path: phototank/thumbs/2013/12/02/
   file_extension: .jpg
   file_size: 2258343
-  location: 
+  location:
   make: SAMSUNG
   model: yu-lods
   original_height: 1434

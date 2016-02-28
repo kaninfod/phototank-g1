@@ -1,4 +1,4 @@
-class DropboxSynchronizer
+class DropboxCloneInstancesFrom
   @queue = :dropbox
 
   def self.perform(action, options)

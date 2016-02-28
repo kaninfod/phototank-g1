@@ -1,5 +1,6 @@
 development:
   RUN_AT_EXIT_HOOKS: "true"
+  TERM_CHILD: "1"
 
 test:
   RUN_AT_EXIT_HOOKS: "true"

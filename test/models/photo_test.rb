@@ -6,6 +6,7 @@ class PhotoTest < ActiveSupport::TestCase
 
   setup do
     @photo = photos(:one)
+    @photo_B = photos(:two)
   end
 
    test "that an absolutepath is returned" do
@@ -38,12 +39,18 @@ class PhotoTest < ActiveSupport::TestCase
      assert_equal "/path/to/my/photo", photo.small_filename
    end
 
-   test "that photo does exist" do
-     assert @photo.send(:photo_exist, @photo.filename, @photo.date_taken)
+   test "that photo returns similarity factor" do
+     assert @photo.similarity(@photo_B)
    end
 
    test "that photo does not exist" do
-     assert_not @photo.send(:photo_exist, "xxx", @photo.date_taken)
+     none_exist_photo = Photo.new
+     none_exist_photo.filename = 233456789
+     assert_not none_exist_photo.identical
+   end
+
+   test "that photo does exist" do
+     assert @photo.identical
    end
 
    test "that a correct date path is returned" do

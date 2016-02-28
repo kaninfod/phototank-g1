@@ -13,7 +13,7 @@ class CatalogTest < ActiveSupport::TestCase
     end
 
     #create new master
-    master_catelog = Catalog.new(
+    master_catalog = Catalog.new(
       type:"MasterCatalog",
       name:"master",
       default:true,
@@ -21,12 +21,12 @@ class CatalogTest < ActiveSupport::TestCase
       path: File.join(Rails.root, "test/test_files/store/master")
        )
     assert_difference "Catalog.count" do
-        master_catelog.save
+        master_catalog.save
     end
 
     #import 5 photos to master
     assert_difference "Photo.count", 5 do
-      wp_path = master_catelog.watch_path[0]
+      wp_path = master_catalog.watch_path[0]
       Dir.glob("#{wp_path}/**/*.jpg").each do |import_file_path|
         if File.file?(import_file_path)
           p = Photo.new
@@ -39,36 +39,39 @@ class CatalogTest < ActiveSupport::TestCase
       end
     end
 
-    master_catelog.photos.each do |photo|
+    master_catalog.photos.each do |photo|
       assert File.exist?(photo.absolutepath)
     end
 
     #create local
-    local_catelog = Catalog.new(
+    local_catalog = Catalog.new(
        type:"LocalCatalog",
        name:"Local-catalog-clone",
-       sync_from_catalog: master_catelog.id,
+       sync_from_catalog: master_catalog.id,
        path: File.join(Rails.root, "test/test_files/store/local")
         )
     assert_difference "Catalog.count" do
-      local_catelog.save
+      local_catalog.save
     end
 
     #clone local from master
-    assert_difference "local_catelog.instances.count", 5 do
-      local_catelog.import_from_catalog
+    assert_difference "local_catalog.instances.count", 5 do
+      LocalCloneInstancesFromCatalogJob::perform(local_catalog.id, master_catalog.id)
     end
 
-    local_catelog.sync_files(false)
+    local_catalog.photos.each do |photo|
+      LocalImportPhotoJob::perform(local_catalog.id, photo.id)
+    end
+
     files = []
-    local_catelog.photos.each do |photo|
-      files.push(photo.absolutepath(local_catelog.id))
-      assert File.exist?(photo.absolutepath(local_catelog.id))
+    local_catalog.photos.each do |photo|
+      files.push(photo.absolutepath(local_catalog.id))
+      assert File.exist?(photo.absolutepath(local_catalog.id))
     end
 
 
-    assert_difference "local_catelog.instances.count", -5 do
-      local_catelog.destroy
+    assert_difference "local_catalog.instances.count", -5 do
+      local_catalog.destroy
     end
 
     files.each do |path|

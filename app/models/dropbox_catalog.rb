@@ -4,49 +4,53 @@ serialize :ext_store_data, Hash
 
   def import(use_resque=true)
     if not self.sync_from_catalog.blank?
-        Resque.enqueue(DropboxSynchronizer,"clone_instances_from_catalog", {:catalog_id => self.id})
+        Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
     end
   end
 
-  def clone_instances_from_catalog(from_catalog_id=self.sync_from_catalog)
-    Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
-      new_instance = Instance.new
-      new_instance.catalog_id = self.id
-      new_instance.photo_id = instance.photo_id
-      begin
-        new_instance.save
-      rescue ActiveRecord::RecordNotUnique
-        logger.debug "instance exists"
-      end
-    end
-  end
+  def import_photo(photo_id)
 
-  def import_files(use_resque=true)
-    photos.each do |photo|
-      if use_resque
-        Resque.enqueue(DropboxSynchronizer, "import_files", {:photo_id => photo.id, :catalog_id => self.id})
-      else
-        copy_file(photo.id)
-      end
-    end
-  end
-
-
-  def copy_files(photo_id)
     photo = Photo.find(photo_id)
     dropbox_path = File.join(photo.path, photo.filename + photo.file_extension)
+
     response = self.create_folder(photo.path)
-
     response = self.add_file(photo.absolutepath, dropbox_path)
-
-    instance = p.instances.where(catalog_id:self.id)
-    instance.catalog_id =self.id
+    instance = photo.instances.where(catalog_id: self.id).first
+    instance.catalog_id = self.id
     instance.path = response["path"]
     instance.size = response["bytes"]
     instance.modified = response["modified"]
     instance.status = 0
     instance.save
   end
+
+  # def clone_instances_from_catalog(from_catalog_id=self.sync_from_catalog)
+  #   Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
+  #     new_instance = Instance.new
+  #     new_instance.catalog_id = self.id
+  #     new_instance.photo_id = instance.photo_id
+  #     begin
+  #       new_instance.save
+  #     rescue ActiveRecord::RecordNotUnique
+  #       logger.debug "instance exists"
+  #     end
+  #   end
+  # end
+
+  # def import_files(use_resque=true)
+  #   photos.each do |photo|
+  #     if use_resque
+  #       Resque.enqueue(DropboxSynchronizer, "import_files", {:photo_id => photo.id, :catalog_id => self.id})
+  #     else
+  #       copy_file(photo.id)
+  #     end
+  #   end
+  # end
+
+  #
+  # def copy_files(photo_id)
+  #
+  # end
 
 
 

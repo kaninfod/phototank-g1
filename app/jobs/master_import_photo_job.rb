@@ -1,11 +1,6 @@
-class PhotoProcessor
+class MasterImportPhotoJob
   include Resque::Plugins::UniqueJob
   @queue = :import
-
-  IMAGE_THUMB = '125x125'
-  IMAGE_MEDIUM = '480x680'
-  IMAGE_LARGE = '1024x1200'
-
 
   def self.perform(path)
 

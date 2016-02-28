@@ -105,6 +105,7 @@ class Photo < ActiveRecord::Base
 
 
   def import(path)
+
     self.import_path = path
     self.set_exif
     self.process
@@ -130,12 +131,12 @@ class Photo < ActiveRecord::Base
 
   def process( clone_mode = 'copy')
     raise "File does not exist" unless File.exist?(self.import_path)
-
     @phash = Phashion::Image.new(self.import_path)
     self.filename = @phash.fingerprint
 
     #Check if file already exists in system (db and file)
     if self.identical
+      byebug
       raise "Photo already exists: #{self.import_path}"
     end
 
@@ -219,15 +220,14 @@ private
     end
   end
 
-  def photo_exist( date_taken)
-
-    existing_photo = self.identical
-    if existing_photo.present?
-        @phash = Phashion::Image.new(self.import_path)
-        phash_existing_photo = Phashion::Image.new(existing_photo.absolutepath)
-        @phash.duplicate?(phash_existing_photo)
-    else
-      false
-    end
-  end
+  # def photo_exist(date_taken)
+  #   existing_photo = self.identical
+  #   if existing_photo.present?
+  #       @phash = Phashion::Image.new(self.import_path)
+  #       phash_existing_photo = Phashion::Image.new(existing_photo.absolutepath)
+  #       @phash.duplicate?(phash_existing_photo)
+  #   else
+  #     false
+  #   end
+  # end
 end

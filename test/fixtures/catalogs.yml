@@ -22,10 +22,20 @@ two:
 
 three:
   id: 3
-  name: test_local_1
+  name: test_local_2
   path: <%= File.join(Rails.root, '/test/test_files/')%>
   watch_path:
   type: LocalCatalog
   sync_from_albums: ["1","2"]
   sync_from_catalog:
+  default: false
+
+Four:
+  id: 4
+  name: test_dropbox_3
+  path: <%= File.join(Rails.root, '/test/test_files/')%>
+  watch_path:
+  type: DropboxCatalog
+  sync_from_albums:
+  sync_from_catalog: one
   default: false

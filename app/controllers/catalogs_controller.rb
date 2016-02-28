@@ -27,6 +27,7 @@ class CatalogsController < ApplicationController
   end
 
   def create
+
     if params[:catalog][:type] == "DropboxCatalog"
       redirect_to "/catalogs/authorize?name=#{params[:catalog][:name]}"
     else

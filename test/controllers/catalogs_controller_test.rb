@@ -4,26 +4,30 @@ class CatalogsControllerTest < ActionController::TestCase
   setup do
     @catalog = catalogs(:one)
     @catalog_local_catalog = catalogs(:two)
-    Resque::Job.destroy(:import, MasterImport)
-    Resque::Job.destroy(:local_sync, LocalSyncCatalog)
-    Resque::Job.destroy(:local_sync, LocalSyncAlbum)
+    Resque::Job.destroy(:import, MasterSpawnImportJob)
+    Resque::Job.destroy(:import, MasterImportPhotoJob)
+    Resque::Job.destroy(:local, LocalCloneInstancesFromAlbumJob)
+    Resque::Job.destroy(:local, LocalCloneInstancesFromCatalogJob)
+    Resque::Job.destroy(:local, LocalImportPhotoJob)
+    Resque::Job.destroy(:local, LocalSpawnImportJob)
+    Resque::Job.destroy(:dropbox, DropboxCloneInstancesFrom)
   end
 
   test "import to master catalog" do
-    post :import, {:import_action => 'master', :id => 1}
+    post :import, {:import_action => 'MasterCatalog', :id => 1}
     assert_equal 2, Resque.size(:import)
     assert_response :redirect
   end
 
   test "import to local catalog -catalog" do
-    post :import, {:import_action => 'local', :id => 2}
-    assert_equal 1, Resque.size(:local_sync)
+    post :import, {:import_action => 'LocalCatalog', :id => 2}
+    assert_equal 1, Resque.size(:local)
     assert_response :redirect
   end
 
   test "import to local catalog -album" do
-    post :import, {:import_action => 'local', :id => 3}
-    assert_equal 2, Resque.size(:local_sync)
+    post :import, {:import_action => 'LocalCatalog', :id => 3}
+    assert_equal 2, Resque.size(:local)
     assert_response :redirect
   end
 
@@ -81,5 +85,11 @@ class CatalogsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  
+  test "import to Dropbox catalog" do
+    post :import, {:import_action => 'DropboxCatalog', :id => 4}
+    byebug
+    assert_equal 1, Resque.size(:local)
+    assert_response :redirect
+  end
+
 end
