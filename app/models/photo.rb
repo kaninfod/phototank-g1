@@ -5,10 +5,6 @@ class Photo < ActiveRecord::Base
   has_many :catalogs, through: :instances
   reverse_geocoded_by :latitude, :longitude
 
-  IMAGE_THUMB = '125x125'
-  IMAGE_MEDIUM = '480x680'
-  IMAGE_LARGE = '1024x1200'
-
   attr_accessor :import_path
 
   scope :year, ->(year) {
@@ -102,132 +98,8 @@ class Photo < ActiveRecord::Base
     end
   end
 
-
-
-  def import(path)
-
-    self.import_path = path
-    self.set_exif
-    self.process
-  end
-
-  def set_exif(path=false)
-
-    raise "File does not exist" unless File.exist?(self.import_path)
-
-    exif = MiniExiftool.new(self.import_path, opts={:numerical=>true})
-    if exif.datetimeoriginal.blank?
-      exif.datetimeoriginal = File.ctime(self.import_path)
-      exif.save
-      Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
-    end
-    self.date_taken = exif.datetimeoriginal
-    self.longitude = exif.gpslongitude
-    self.latitude = exif.gpslatitude
-    self.make = exif.make
-    self.model = exif.model
-    self
-  end
-
-  def process( clone_mode = 'copy')
-    raise "File does not exist" unless File.exist?(self.import_path)
-    @phash = Phashion::Image.new(self.import_path)
-    self.filename = @phash.fingerprint
-
-    #Check if file already exists in system (db and file)
-    if self.identical
-      byebug
-      raise "Photo already exists: #{self.import_path}"
-    end
-
-    set_paths
-    set_attributes
-    handle_file(clone_mode)
-    create_photos
-  end
-
   def locate
     Location.locate_photo(self)
   end
 
-
-  def handle_file(clone_mode)
-    FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
-    if clone_mode == 'copy'
-      FileUtils.cp self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
-    else
-      File.rename self.import_path, File.join(@absolute_path_original, self.filename + self.file_extension)
-    end
-  end
-
-private
-
-  def create_photos
-    FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)
-
-    resize_photo("_lg", IMAGE_LARGE)
-    resize_photo("_md", IMAGE_MEDIUM)
-    create_thumbnail
-  end
-
-  def set_attributes
-    @image = MiniMagick::Image.open(self.import_path)
-    self.original_width = @image.width
-    self.original_height = @image.height
-    self.file_size = @image.size
-    self.file_extension = ".jpg"
-    self.file_thumb_path = @relative_path_clones
-    self.path = @relative_path_original
-  end
-
-  def get_date_path()
-    date_path = File.join(
-      self.date_taken.strftime("%Y"),
-      self.date_taken.strftime("%m"),
-      self.date_taken.strftime("%d")
-    )
-    return date_path
-  end
-
-  def set_paths
-    @date_path = get_date_path
-    @relative_path_clones = File.join('phototank', 'thumbs', @date_path)
-    @relative_path_original = File.join('phototank', 'originals', @date_path)
-    #Create absolute path for thumbs in master archive
-    @absolute_path_clones = File.join(Catalog.master.path, 'phototank', 'thumbs', @date_path)
-    #Create absolute path for originals in master archive
-    @absolute_path_original = File.join(Catalog.master.path, 'phototank', 'originals', @date_path)
-  end
-
-  def create_thumbnail()
-
-    dst = File.join(@absolute_path_clones, self.filename + "_tm" + self.file_extension)
-    src = File.join(@absolute_path_original, self.filename + self.file_extension)
-    MiniMagick::Tool::Convert.new do |convert|
-      convert.merge! ["-size", "200x200", src]
-      convert.merge! ["-thumbnail", "125x125^"]
-      convert.merge! ["-gravity", "center"]
-      convert.merge! ["-extent", "125x125", "+profile", "'*'"]
-      convert << dst
-    end
-  end
-
-  def resize_photo(suffix, size)
-    file_path = File.join(@absolute_path_clones, self.filename + suffix + self.file_extension)
-    if not File.exist?(file_path)
-      @image.resize size
-      @image.write file_path
-    end
-  end
-
-  # def photo_exist(date_taken)
-  #   existing_photo = self.identical
-  #   if existing_photo.present?
-  #       @phash = Phashion::Image.new(self.import_path)
-  #       phash_existing_photo = Phashion::Image.new(existing_photo.absolutepath)
-  #       @phash.duplicate?(phash_existing_photo)
-  #   else
-  #     false
-  #   end
-  # end
 end

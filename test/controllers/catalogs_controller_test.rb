@@ -87,7 +87,6 @@ class CatalogsControllerTest < ActionController::TestCase
 
   test "import to Dropbox catalog" do
     post :import, {:import_action => 'DropboxCatalog', :id => 4}
-    byebug
     assert_equal 1, Resque.size(:local)
     assert_response :redirect
   end

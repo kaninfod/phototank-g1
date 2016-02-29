@@ -1,4 +1,7 @@
+
 class MasterCatalog < Catalog
+include ImportPhotoHelper
+
 
   def import
     begin
@@ -32,6 +35,17 @@ class MasterCatalog < Catalog
       logger.debug "#{e}"
     end
   end
+
+  def import_photo(path)
+    @photo = Photo.new
+    @photo.import_path = path
+    set_exif
+    process
+    save
+    return @photo
+  end
+
+  private
 
 
 end

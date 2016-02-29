@@ -60,7 +60,7 @@ class CatalogsController < ApplicationController
 
 
   def import
-    
+
     if request.post?
       case params['import_action']
       when 'MasterCatalog'
@@ -154,7 +154,7 @@ end
     flow = DropboxOAuth2Flow.new(catalog.appkey, catalog.appsecret, catalog.redirect_uri, session, :dropbox_auth_csrf_token)
     catalog.access_token, catalog.user_id, url_state = flow.finish(params)
     catalog.save
-    redirect_to "/catalogs"
+    redirect_to action: 'manage', id: catalog
   end
 
   private

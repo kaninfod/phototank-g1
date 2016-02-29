@@ -76,6 +76,8 @@ GEM
     capistrano3-puma (1.2.1)
       capistrano (~> 3.0)
       puma (>= 2.6)
+    chartjs-ror (2.2.0)
+      rails (>= 3.1)
     coderay (1.1.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -110,7 +112,6 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
-    httpclient (2.7.1)
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -284,6 +285,7 @@ DEPENDENCIES
   capistrano-resque (~> 0.2.2)
   capistrano-rvm
   capistrano3-puma
+  chartjs-ror
   coffee-rails (~> 4.1.0)
   dropbox-sdk
   execjs
@@ -291,7 +293,6 @@ DEPENDENCIES
   foreman
   geocoder
   haml-rails (~> 0.9)
-  httpclient
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks

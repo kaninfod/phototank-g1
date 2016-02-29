@@ -29,10 +29,8 @@ class CatalogTest < ActiveSupport::TestCase
       wp_path = master_catalog.watch_path[0]
       Dir.glob("#{wp_path}/**/*.jpg").each do |import_file_path|
         if File.file?(import_file_path)
-          p = Photo.new
-          p.import(import_file_path)
-          p.save
-          instance = p.instances.new
+          photo = master_catalog.import_photo(import_file_path)
+          instance = photo.instances.new
           instance.catalog_id = Catalog.master.id
           instance.save
         end
@@ -78,8 +76,13 @@ class CatalogTest < ActiveSupport::TestCase
       assert_not File.exist?(path)
     end
 
-
-
   end
+
+  # test "that a correct date path is returned" do
+  #   @photo.date_taken = "2000-02-10"
+  #   assert_equal "2000/02/10", @catalog.send(:get_date_path)
+  # end
+
+
 
 end

@@ -8,8 +8,9 @@ class MasterImportPhotoJob
       photo = Photo.new
       photo.import_path = path
       photo.set_exif
-      photo.process
+      #photo.process
       photo.save
+      Catalog.master.import_photo(photo)
       instance = photo.instances.new
       instance.catalog_id = Catalog.master.id
       instance.save

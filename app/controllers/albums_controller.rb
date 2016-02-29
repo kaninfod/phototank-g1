@@ -94,6 +94,9 @@ class AlbumsController < ApplicationController
 
   end
 
+def show_stat
+  
+end
 
   private
 

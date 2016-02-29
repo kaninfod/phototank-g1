@@ -9,9 +9,9 @@
             = text_field_tag("name", @catalog.name,class:"form-control")
           .form-group
             = label_tag("Catalog type:")
-            = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control"	)
+            = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control", disabled: true	)
           #catalog-list.form-group
             = label_tag("Catalogs:")
-            = render partial: "list", locals: {current_catalog: @catalog}            
+            = render partial: "list", locals: {current_catalog: @catalog}
           .actions
             = submit_tag "Save", class:"btn btn-default"
