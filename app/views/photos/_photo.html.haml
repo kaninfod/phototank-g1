@@ -13,16 +13,14 @@
             - if not photo.location_id.blank?
               %li
                 %i.fa.fa-globe.show_map{"data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
-              %li
-                .dropdown.dropdown-toggle
-                  %i#dropdownMenu1.fa.fa-repeat{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown"}
-                  %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1"}
-                    %li
-                      %a{:href => "#"} Action
-                    %li
-                      %a{:href => "#"} Another action
-                    %li
-                      %a{:href => "#"} Something else here
-                    %li.divider{:role => "separator"}
-                    %li
-                      %a{:href => "#"} Separated link
+              .btn-group.sm
+                %button.btn-sm.btn.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  %i.fa.fa-globe
+                  %span.caret
+                %ul.dropdown-menu
+                  %li
+                    %a{:href => "#"}Choice1
+                  %li
+                    %a{:href => "#"}Choice1
+                  %li
+                    %a{:href => "#"}Choice1

@@ -2,6 +2,7 @@ class LocalCatalog < Catalog
   before_destroy :clean_up
 
   def import
+    raise "Catalog is not online" unless online
     if self.sync_from_albums.blank?
       Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
     else
@@ -34,7 +35,7 @@ class LocalCatalog < Catalog
   end
 
   def online
-    true
+    File.exist?(self.path)
   end
 
   def delete_photo(photo_id)

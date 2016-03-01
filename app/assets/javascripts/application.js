@@ -16,12 +16,17 @@
 //= require turbolinks
 
 //= require bootstrap-sprockets
-
-//= require_tree .
 //= require bootstrap
 //= require bootstrap-datepicker
-//= require Chart
-//= require excanvas
+//= require_tree .
+
+$(function() {
+  $('.dropdown-toggle').dropdown();
+});
+
+$(document).on('click',function(){
+	$('.collapse').collapse('hide');
+})
 
 $(function() {
 

@@ -7,14 +7,13 @@ class SynchronizersController < ApplicationController
   REDIRECT_URI = "http://localhost:3000/synchronizers/dpres"
 
   def dpres
-    byebug
+
     flow = DropboxOAuth2Flow.new(APP_KEY, APP_SECRET,REDIRECT_URI, session, :dropbox_auth_csrf_token)
     access_token, user_id, url_state = flow.finish(params)
     render :html => params
   end
 
   def authorize()
-    byebug
 
     flow = DropboxOAuth2Flow.new(APP_KEY, APP_SECRET,REDIRECT_URI, session, :dropbox_auth_csrf_token)
     authorize_url = flow.start()

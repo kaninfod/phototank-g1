@@ -3,6 +3,7 @@ class DropboxCatalog < Catalog
 serialize :ext_store_data, Hash
 
   def import(use_resque=true)
+    raise "Catalog is not online" unless online
     if not self.sync_from_catalog.blank?
         Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
     end
@@ -24,39 +25,9 @@ serialize :ext_store_data, Hash
     instance.save
   end
 
-  # def clone_instances_from_catalog(from_catalog_id=self.sync_from_catalog)
-  #   Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
-  #     new_instance = Instance.new
-  #     new_instance.catalog_id = self.id
-  #     new_instance.photo_id = instance.photo_id
-  #     begin
-  #       new_instance.save
-  #     rescue ActiveRecord::RecordNotUnique
-  #       logger.debug "instance exists"
-  #     end
-  #   end
-  # end
-
-  # def import_files(use_resque=true)
-  #   photos.each do |photo|
-  #     if use_resque
-  #       Resque.enqueue(DropboxSynchronizer, "import_files", {:photo_id => photo.id, :catalog_id => self.id})
-  #     else
-  #       copy_file(photo.id)
-  #     end
-  #   end
-  # end
-
-  #
-  # def copy_files(photo_id)
-  #
-  # end
-
-
-
 
   def online
-    true
+    true if access_token
   end
 
   def appkey=(new_appkey)
@@ -120,9 +91,7 @@ serialize :ext_store_data, Hash
     self.client.put_file(dropbox_path, open(local_path), overwrite=true)
   end
 
-
   def add_file_in_chunks(dropbox_path, local_path)
-
 
     local_file_path = local_path
     dropbox_target_path = dropbox_path
@@ -146,7 +115,7 @@ serialize :ext_store_data, Hash
     end
     puts "Finishing upload..."
     uploader.finish(dropbox_target_path)
-    byebug
+    
     puts "Done."
   end
 
@@ -157,17 +126,6 @@ serialize :ext_store_data, Hash
       self.metadata(path)
     end
   end
-
-  def sync
-    photos.each do |photo|
-       Resque.enqueue(DropboxSynchronizer, photo.id)
-    end
-  end
-
-  def online
-    true
-  end
-
 
 
 

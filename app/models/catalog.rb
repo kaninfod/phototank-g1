@@ -1,7 +1,7 @@
 class Catalog < ActiveRecord::Base
   serialize :watch_path, Array
   serialize :sync_from_albums, Array
-  
+
 
   has_many :instances
   has_many :photos, through: :instances
@@ -22,8 +22,6 @@ class Catalog < ActiveRecord::Base
     end
   end
 
-
-
   protected
   def only_one_master_catalog
     #return unless default?
@@ -34,5 +32,4 @@ class Catalog < ActiveRecord::Base
       errors.add(:default, 'cannot have another active game')
     end
   end
-
 end

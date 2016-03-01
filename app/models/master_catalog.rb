@@ -4,6 +4,7 @@ include ImportPhotoHelper
 
 
   def import
+    raise "Catalog is not online" unless online
     begin
       self.watch_path.each do |import_path|
         if File.exist?(import_path)
@@ -19,7 +20,7 @@ include ImportPhotoHelper
   end
 
   def online
-    true
+    File.exist?(self.path)
   end
 
   def delete_photo(photo_id)
