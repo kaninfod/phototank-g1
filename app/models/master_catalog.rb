@@ -37,13 +37,14 @@ include ImportPhotoHelper
     end
   end
 
-  def import_photo(path)
+  def import_photo(import_path)
     @photo = Photo.new
-    @photo.import_path = path
+    @photo.import_path = import_path
+
     set_exif
     process
-    save
-    return @photo
+    @photo.save
+    return @photo.id
   end
 
   private

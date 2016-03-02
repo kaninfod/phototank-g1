@@ -2,19 +2,17 @@ class MasterImportPhotoJob
   include Resque::Plugins::UniqueJob
   @queue = :import
 
-  def self.perform(path)
+  def self.perform(import_path)
 
     begin
-      photo = Photo.new
-      photo.import_path = path
-      #photo.set_exif
-      #photo.process
-      photo.save
-      Catalog.master.import_photo(photo)
-      instance = photo.instances.new
+
+      
+      photo_id = Catalog.master.import_photo(import_path)
+      instance = Instance.new
+      instance.photo_id = photo_id
       instance.catalog_id = Catalog.master.id
       instance.save
-      Resque.enqueue(Locator, photo.id)
+      Resque.enqueue(Locator, photo_id)
 
     rescue MiniMagick::Invalid => e
       Rails.logger.debug  "#{e}"

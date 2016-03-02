@@ -4,9 +4,9 @@ module ImportPhotoHelper
   IMAGE_MEDIUM = '480x680'
   IMAGE_LARGE = '1024x1200'
 
-  def set_exif(path=false)
+  def set_exif()
     raise "File does not exist" unless File.exist?(@photo.import_path)
-
+    
     exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})
     if exif.datetimeoriginal.blank?
       exif.datetimeoriginal = File.ctime(@photo.import_path)
