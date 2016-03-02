@@ -7,7 +7,7 @@ class MasterImportPhotoJob
     begin
       photo = Photo.new
       photo.import_path = path
-      photo.set_exif
+      #photo.set_exif
       #photo.process
       photo.save
       Catalog.master.import_photo(photo)
