@@ -1,0 +1,11 @@
+%ul
+- @failed_jobs.each do |j|
+  - case j.fetch('payload').fetch('class')
+    - when "LocalCloneInstancesFromAlbumJob"
+      %li= j.fetch('payload')
+    - when "LocalSpawnImportJob"
+      %li= j.fetch('payload')
+    - when "LocalSpawnImportJob"
+      %li= j.fetch('payload')
+    - else
+      %li= j.fetch('payload')

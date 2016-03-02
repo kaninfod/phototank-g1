@@ -52,7 +52,7 @@ Rails.application.routes.draw do
 
   get 'administration/generate_albums'
   get 'administration/jobs_pending'
-
+  get 'administration/list_jobs'
   #get 'synchronizers/dropbox'
   #get 'synchronizers/authorize'
 
