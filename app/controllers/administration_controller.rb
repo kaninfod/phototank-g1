@@ -2,10 +2,9 @@ class AdministrationController < ApplicationController
 
   def list_jobs
     failed_jobs = [
-      '/media/exthdx/phototank/photos/2015/06/25/21ec85077d3e4adf41c8826164593ed5.jpg',
-      '/media/exthdx/phototank/photos/2015/06/24/8108183b48c68c80a1822fdd7790fc94.jpg',
-      '/media/exthdx/phototank/photos/2015/06/19/9adf618352865f74ba7895ce714c6825.jpg'
-    ]
+      '/media/exthdx/phototank/photos/2015/07/12/3ceaeee65bbbc7dca40635d6ca5e5cc6.jpg',
+      '/media/exthdx/phototank/photos/2015/06/28/7abdf206cfee64dedb297254703d43ef.jpg',
+      '/media/exthdx/phototank/photos/2015/06/28/d03e409355f3155828a19c7e5a9b6a1d.jpg'    ]
     failed_jobs.each do |fpath|
       Resque.enqueue(MasterImportPhotoJob, fpath)
     end
