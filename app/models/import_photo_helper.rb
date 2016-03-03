@@ -26,8 +26,11 @@ module ImportPhotoHelper
   end
 
   def change_exif_data
+    Rails.logger.debug("enter change_exif_data")
     exif = MiniExiftool.new(@photo.absolutepath, opts={:numerical=>true})
+    Rails.logger.debug("after miniexif read")
     exif.datetimeoriginal = File.ctime(@photo.import_path)
+    Rails.logger.debug("after dateset")
     exif.save
     Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
   end
