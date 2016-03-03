@@ -39,14 +39,14 @@ include ImportPhotoHelper
   end
 
   def import_photo(import_path)
-    Rails.logger("enter model.import_photo")
+    Rails.logger.debug("enter model.import_photo")
     @photo = Photo.new
     @photo.import_path = import_path
 
     set_exif
-    Rails.logger("after setexif")
+    Rails.logger.debug("after setexif")
     process
-    Rails.logger("after process")
+    Rails.logger.debug("after process")
     @photo.save
     return @photo.id
   end
