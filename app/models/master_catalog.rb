@@ -3,6 +3,7 @@ class MasterCatalog < Catalog
 include ImportPhotoHelper
 
 
+
   def import
     raise "Catalog is not online" unless online
     begin
@@ -38,11 +39,14 @@ include ImportPhotoHelper
   end
 
   def import_photo(import_path)
+    Rails.logger("enter model.import_photo")
     @photo = Photo.new
     @photo.import_path = import_path
 
     set_exif
+    Rails.logger("after setexif")
     process
+    Rails.logger("after process")
     @photo.save
     return @photo.id
   end
