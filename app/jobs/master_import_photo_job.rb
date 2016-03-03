@@ -18,7 +18,7 @@ class MasterImportPhotoJob
       Rails.logger.debug  "#{e}"
     rescue Exception => e
 
-      raise "An error occured while executing the PhotoProcessor: #{e}"
+      raise "An error occured while importing the photo: #{e}"
     end
   end
 end

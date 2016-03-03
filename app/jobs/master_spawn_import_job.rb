@@ -13,7 +13,7 @@ class MasterSpawnImportJob
       end
 
     rescue Exception => e
-      raise "An error occured while setting up the Importer: #{e}"
+      raise "An error occured while spawning the importer: #{e}"
     end
 
   end
