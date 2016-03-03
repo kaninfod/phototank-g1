@@ -28,11 +28,15 @@ module ImportPhotoHelper
     if @photo.identical
       raise "Photo already exists: #{@photo.import_path}"
     end
-
+    Rails.logger("before set_paths")
     set_paths
+    Rails.logger("after set_paths")
     set_attributes
+    Rails.logger("after set_attributes")
     handle_file(clone_mode)
+    Rails.logger("after handle_file")
     create_photos
+    Rails.logger("after create_photos")
   end
 
   def set_attributes
