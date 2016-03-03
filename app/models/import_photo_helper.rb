@@ -6,7 +6,7 @@ module ImportPhotoHelper
 
   def set_exif()
     raise "File does not exist" unless File.exist?(@photo.import_path)
-    
+
     exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})
     if exif.datetimeoriginal.blank?
       exif.datetimeoriginal = File.ctime(@photo.import_path)

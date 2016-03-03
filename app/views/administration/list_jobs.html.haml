@@ -1,11 +1,6 @@
-%ul
-- @failed_jobs.each do |j|
-  - case j.fetch('payload').fetch('class')
-    - when "LocalCloneInstancesFromAlbumJob"
-      %li= j.fetch('payload')
-    - when "LocalSpawnImportJob"
-      %li= j.fetch('payload')
-    - when "LocalSpawnImportJob"
-      %li= j.fetch('payload')
-    - else
-      %li= j.fetch('payload')
+%table
+  - Resque::Failure.each do |id, job|
+    - Resque.enqueue(MasterImportPhotoJob, job.fetch('payload').fetch('args').first)
+    %tr
+      %td=job.fetch('payload').fetch('class')
+      %td=job.fetch('payload').fetch('args').first

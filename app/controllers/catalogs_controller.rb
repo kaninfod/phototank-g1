@@ -87,11 +87,12 @@ end
 
   def manage
     @catalog = Catalog.find(params[:id])
-
+    
     if request.post?
       catalog = params.permit(:name, :type, :path)
       case params[:type]
         when "MasterCatalog"
+
           watch_path =[]
           params.each do |k, v|
             watch_path.push(v) if (k.include?('wp_') & not(v.blank?))

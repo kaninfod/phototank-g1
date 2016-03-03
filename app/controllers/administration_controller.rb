@@ -1,16 +1,16 @@
 class AdministrationController < ApplicationController
 
   def list_jobs
-    Resque::Failure.each do |j,p|
-      if p.fetch('payload').fetch('class') == "PhotoProcessor"
-        import_file_path = p.fetch('payload').fetch('args').first
-        if File.file?(import_file_path)
-          Resque.enqueue(MasterImportPhotoJob, import_file_path)
-        end
-
-      end
-    end
-    @failed_jobs = Resque::Failure.all(0,20)
+    # Resque::Failure.each do |j,p|
+    #   if p.fetch('payload').fetch('class') == "PhotoProcessor"
+    #     import_file_path = p.fetch('payload').fetch('args').first
+    #     if File.file?(import_file_path)
+    #       Resque.enqueue(MasterImportPhotoJob, import_file_path)
+    #     end
+    #
+    #   end
+    # end
+    @failed_jobs = Resque::Failure.all(0,100)
 
   end
 

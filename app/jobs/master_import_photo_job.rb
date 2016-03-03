@@ -5,8 +5,6 @@ class MasterImportPhotoJob
   def self.perform(import_path)
 
     begin
-
-      
       photo_id = Catalog.master.import_photo(import_path)
       instance = Instance.new
       instance.photo_id = photo_id
