@@ -43,11 +43,14 @@ include ImportPhotoHelper
     @photo = Photo.new
     @photo.import_path = import_path
 
-    set_exif
+    date_changed = set_exif
     Rails.logger.debug("after setexif")
     process
     Rails.logger.debug("after process")
     @photo.save
+    if date_changed
+      change_exif_data
+    end
     return @photo.id
   end
 

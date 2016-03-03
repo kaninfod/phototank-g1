@@ -7,19 +7,29 @@ module ImportPhotoHelper
   def set_exif()
     raise "File does not exist" unless File.exist?(@photo.import_path)
     Rails.logger.debug("just before the exif...")
-
     exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})
     Rails.logger.debug("just after the exif...")
-    if exif.datetimeoriginal.blank?
-      exif.datetimeoriginal = File.ctime(@photo.import_path)
-      exif.save
-      Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
-    end
-    @photo.date_taken = exif.datetimeoriginal
+
     @photo.longitude = exif.gpslongitude
     @photo.latitude = exif.gpslatitude
     @photo.make = exif.make
     @photo.model = exif.model
+
+    if exif.datetimeoriginal.blank?
+      @photo.date_taken = File.ctime(@photo.import_path)
+      return 2
+    else
+      @photo.date_taken = exif.datetimeoriginal
+      return 0
+    end
+
+  end
+
+  def change_exif_data
+    exif = MiniExiftool.new(@photo.absolutepath, opts={:numerical=>true})
+    exif.datetimeoriginal = File.ctime(@photo.import_path)
+    exif.save
+    Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
   end
 
   def process(clone_mode = 'copy')
@@ -38,6 +48,7 @@ module ImportPhotoHelper
     handle_file(clone_mode)
     Rails.logger.debug("after handle_file")
     create_photos
+
     Rails.logger.debug("after create_photos")
   end
 
