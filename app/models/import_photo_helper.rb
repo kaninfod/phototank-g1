@@ -6,8 +6,10 @@ module ImportPhotoHelper
 
   def set_exif()
     raise "File does not exist" unless File.exist?(@photo.import_path)
+    Rails.logger.debug("just before the exif...")
 
     exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})
+    Rails.logger.debug("just after the exif...")
     if exif.datetimeoriginal.blank?
       exif.datetimeoriginal = File.ctime(@photo.import_path)
       exif.save
