@@ -5,7 +5,7 @@ include ImportPhotoHelper
 
 
   def import
-    raise "Catalog is not online" unless online
+    #raise "Catalog is not online" unless online
     begin
       self.watch_path.each do |import_path|
         if File.exist?(import_path)
@@ -27,6 +27,7 @@ include ImportPhotoHelper
   def delete_photo(photo_id)
 
     begin
+
       FileUtils.rm((self.photos.find(photo_id).original_filename))
       FileUtils.rm((self.photos.find(photo_id).large_filename))
       FileUtils.rm((self.photos.find(photo_id).medium_filename))
@@ -39,15 +40,20 @@ include ImportPhotoHelper
   end
 
   def import_photo(import_path)
-    Rails.logger.debug("enter model.import_photo")
+
     @photo = Photo.new
     @photo.import_path = import_path
 
     date_changed = set_exif
-    Rails.logger.debug("after setexif")
     process
-    Rails.logger.debug("after process")
+
     @photo.save
+
+    instance = Instance.new
+    instance.photo_id = @photo.id
+    instance.catalog_id = self.id
+    instance.save
+
     if date_changed
       change_exif_data
     end

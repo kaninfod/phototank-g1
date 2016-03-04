@@ -2,7 +2,7 @@ class LocalCatalog < Catalog
   before_destroy :clean_up
 
   def import
-    raise "Catalog is not online" unless online
+    #raise "Catalog is not online" unless online
     if self.sync_from_albums.blank?
       Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
     else

@@ -39,3 +39,4 @@ Four:
   sync_from_albums:
   sync_from_catalog: one
   default: false
+  ext_store_data: <%= {:appkey => "knb2b9w893ilrlj", :appsecret => "bqsdycbxph2bqdm", :redirect_uri => "http://localhost:3000/catalogs/authorize_callback", :access_token => "UFefx_vmXWwAAAAAAAKbFL5Ia5zBJCg_4r3At4W5-bTN5yr-gPEJQy4zRgJEqsi-", :user_id => '8285415'}.to_yaml.inspect %> 

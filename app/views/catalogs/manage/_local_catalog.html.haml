@@ -12,6 +12,7 @@
           .form-group
             = label_tag("Catalog type:")
             = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control", disabled: true	)
+            = hidden_field_tag 'type', @catalog.type
           .form-group
             = label_tag("This catalog should synchronise from:")
             = select_tag("sync_from", options_for_select([["Album", "album"], ["Catalog", "catalog"]], :selected=>@sync_from), class:"form-control"	)

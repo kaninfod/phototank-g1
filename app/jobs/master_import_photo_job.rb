@@ -6,10 +6,10 @@ class MasterImportPhotoJob
 
     begin
       photo_id = Catalog.master.import_photo(import_path)
-      instance = Instance.new
-      instance.photo_id = photo_id
-      instance.catalog_id = Catalog.master.id
-      instance.save
+      #instance = Instance.new
+      #instance.photo_id = photo_id
+      #instance.catalog_id = Catalog.master.id
+      #instance.save
       Resque.enqueue(Locator, photo_id)
 
     rescue MiniMagick::Invalid => e

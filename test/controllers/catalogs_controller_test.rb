@@ -11,6 +11,7 @@ class CatalogsControllerTest < ActionController::TestCase
     Resque::Job.destroy(:local, LocalImportPhotoJob)
     Resque::Job.destroy(:local, LocalSpawnImportJob)
     Resque::Job.destroy(:dropbox, DropboxCloneInstancesFrom)
+    FileUtils.mkdir_p File.join(Rails.root, "test/test_files/store/")
   end
 
   test "import to master catalog" do

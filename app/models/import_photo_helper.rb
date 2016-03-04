@@ -6,9 +6,9 @@ module ImportPhotoHelper
 
   def set_exif()
     raise "File does not exist" unless File.exist?(@photo.import_path)
-    Rails.logger.debug("just before the exif...")
+
     exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})
-    Rails.logger.debug("just after the exif...")
+
 
     @photo.longitude = exif.gpslongitude
     @photo.latitude = exif.gpslatitude
@@ -26,17 +26,18 @@ module ImportPhotoHelper
   end
 
   def change_exif_data
-    Rails.logger.debug("enter change_exif_data")
+
     photo_path = File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
     exif = MiniExiftool.new(photo_path, opts={:numerical=>true})
-    Rails.logger.debug("after miniexif read")
+
     exif.datetimeoriginal = File.ctime(@photo.import_path)
-    Rails.logger.debug("after dateset")
+    
     exif.save
     Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
   end
 
   def process(clone_mode = 'copy')
+
     @phash = Phashion::Image.new(@photo.import_path)
     @photo.filename = @phash.fingerprint
 
@@ -44,16 +45,16 @@ module ImportPhotoHelper
     if @photo.identical
       raise "Photo already exists: #{@photo.import_path}"
     end
-    Rails.logger.debug("before set_paths")
+
     set_paths
-    Rails.logger.debug("after set_paths")
+
     set_attributes
-    Rails.logger.debug("after set_attributes")
+
     handle_file(clone_mode)
-    Rails.logger.debug("after handle_file")
+
     create_photos
 
-    Rails.logger.debug("after create_photos")
+
   end
 
   def set_attributes
