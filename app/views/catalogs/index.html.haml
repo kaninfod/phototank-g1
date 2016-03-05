@@ -28,7 +28,7 @@
                 = icon('toggle-off')
             %td= link_to icon('picture-o'), action: 'show', id: catalog
             %td= link_to icon('pencil'), action: 'manage', id: catalog
-            %td= link_to icon('cloud'), action: 'import', id: catalog
+            %td= link_to icon('cloud'), action: 'dashboard', id: catalog
             %td
               -if not catalog.type=="MasterCatalog"
                 = link_to icon('close'), controller: "catalogs", action: 'destroy', id: catalog, method: :delete

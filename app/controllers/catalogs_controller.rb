@@ -8,6 +8,10 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
   end
 
+  def dashboard
+    @catalog = Catalog.find(params[:id])
+  end
+
   def update
     @catalog = set_catalog
     respond_to do |format|

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
 
 
+  get '/catalogs/:id/dashboard' => 'catalogs#dashboard'
   get '/catalogs/:id/get_catalog' => 'catalogs#get_catalog'
   match "/catalogs/:id/manage" => "catalogs#manage", via: [:get, :post]
   get "/catalogs/:id/destroy" => "catalogs#destroy"
@@ -31,6 +32,7 @@ Rails.application.routes.draw do
   get '/catalogs/:id/import_to_master' => 'catalogs#import_to_master'
   get '/catalogs/:id/import_to_slave' => 'catalogs#import_to_slave'
   post '/catalogs/:id/bucket' => 'catalogs#bucket'
+
 
 
   get '/locations/lookup'
