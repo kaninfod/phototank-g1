@@ -41,10 +41,7 @@ class CatalogsController < ApplicationController
   def destroy
     @catalog = Catalog.find(params[:id])
     @catalog.destroy
-    respond_to do |format|
-      format.html { redirect_to :index, notice: 'Catalog was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to action: 'index', notice: 'Catalog was successfully destroyed.'
   end
 
   def show
@@ -87,7 +84,7 @@ end
 
   def manage
     @catalog = Catalog.find(params[:id])
-    
+
     if request.post?
       catalog = params.permit(:name, :type, :path)
       case params[:type]
@@ -138,12 +135,16 @@ end
 
   def authorize()
     dropbox_data = {
-      :appkey => "knb2b9w893ilrlj",
-      :appsecret => "bqsdycbxph2bqdm",
+      :appkey => "cea457a609yecr1",
+      :appsecret => "rvx7durrno11xip",
       :redirect_uri => "http://localhost:3000/catalogs/authorize_callback",
       :access_token => "",
       :user_id => ""}
-    catalog = Catalog.new(type: "DropboxCatalog", name: params[:name], ext_store_data: dropbox_data)
+    catalog = Catalog.new(type: "DropboxCatalog",
+      name: params[:name],
+      ext_store_data: dropbox_data,
+      path: "Dropbox"
+      )
     catalog.save
     flow = DropboxOAuth2Flow.new(catalog.appkey, catalog.appsecret, catalog.redirect_uri, session, :dropbox_auth_csrf_token)
     authorize_url = flow.start()

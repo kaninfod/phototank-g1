@@ -133,4 +133,12 @@ class CatalogTest < ActiveSupport::TestCase
 
   end
 
+  test "can report error on non existant photo import" do
+    import_path = File.join(Rails.root, "test/test_files/master/I_DO_NOT EXIST.jpg")
+
+    assert_difference "ImportError.count", 1 do
+      photo_id = @catalog_master.import_photo(import_path)
+    end
+  end
+
 end

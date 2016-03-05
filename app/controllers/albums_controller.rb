@@ -79,7 +79,6 @@ class AlbumsController < ApplicationController
   def select
     if request.post?
       if not params[:optionsRadios].blank?
-
         album = Album.find(params[:optionsRadios].to_i)
         a = (album.photo_ids + session[:bucket]).uniq{|x| x}
         album.photo_ids = a
@@ -95,7 +94,7 @@ class AlbumsController < ApplicationController
   end
 
 def show_stat
-  
+
 end
 
   private

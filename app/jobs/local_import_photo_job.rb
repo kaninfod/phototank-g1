@@ -8,7 +8,10 @@ class LocalImportPhotoJob
     begin
       Catalog.find(catalog_id).import_photo(photo_id)
     rescue Exception => e
-
+      ImportError.create(
+        error_type: "LocalImportPhotoJob",
+        path:  "Photo ID: #{photo_id}",
+        error_message: e)
       raise "An error occured while executing the PhotoProcessor: #{e}"
     end
   end

@@ -40,7 +40,7 @@ include ImportPhotoHelper
   end
 
   def import_photo(import_path)
-
+    raise "File does not exist" unless File.exist?(import_path)
     @photo = Photo.new
     @photo.import_path = import_path
 
@@ -48,11 +48,10 @@ include ImportPhotoHelper
     process
 
     @photo.save
-
-    instance = Instance.new
-    instance.photo_id = @photo.id
-    instance.catalog_id = self.id
-    instance.save
+    instance = Instance.create(
+      photo_id: @photo.id,
+      catalog_id: self.id
+    )
 
     if date_changed
       change_exif_data

@@ -5,7 +5,7 @@ class PhotosController < ApplicationController
 
   def image
     @photo = set_photo
-    localpath = @photo.default_instance
+
 
     if params[:size] == "original"
       filepath = File.join(@photo.original_filename)
@@ -17,10 +17,19 @@ class PhotosController < ApplicationController
       filepath = File.join(@photo.medium_filename)
     end
 
-    send_file filepath, :disposition => 'inline'
+    if File.exist?(filepath)
+      send_file filepath, :disposition => 'inline'
+    else
+      send_file Rails.root.join('app', 'assets', 'images', 'missing.jpg'), :disposition => 'inline'
+    end
   end
 
 def search
+  if params.has_key?(:viewmode)
+    @view = params[:viewmode]
+  else
+    @view = 'grid'
+  end
   
   if params.has_key?(:album)
     @searchalbum = Album.new(album_params)

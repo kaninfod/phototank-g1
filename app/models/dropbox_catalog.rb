@@ -3,7 +3,7 @@ class DropboxCatalog < Catalog
 serialize :ext_store_data, Hash
 
   def import(use_resque=true)
-    byebug
+    
     raise "Catalog is not online" unless online
     if not self.sync_from_catalog.blank?
         Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)

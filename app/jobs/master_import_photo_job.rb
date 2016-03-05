@@ -6,18 +6,28 @@ class MasterImportPhotoJob
 
     begin
       photo_id = Catalog.master.import_photo(import_path)
-      #instance = Instance.new
-      #instance.photo_id = photo_id
-      #instance.catalog_id = Catalog.master.id
-      #instance.save
       Resque.enqueue(Locator, photo_id)
 
     rescue MiniMagick::Invalid => e
+
+      ImportError.create(
+        error_type: "MasterImportPhotoJob",
+        path:  import_path,
+        error_message: e)
       Rails.logger.debug  "#{e}"
     rescue RuntimeError => e
+
+      ImportError.create(
+        error_type: "MasterImportPhotoJob",
+        path:  import_path,
+        error_message: e)
       Rails.logger.debug  "#{e}"
     rescue Exception => e
-
+      
+      ImportError.create(
+        error_type: "MasterImportPhotoJob",
+        path:  import_path,
+        error_message: e)
       raise "An error occured while importing the photo: #{e}"
     end
   end

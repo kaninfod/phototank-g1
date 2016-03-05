@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226195717) do
+ActiveRecord::Schema.define(version: 20160305134557) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 20160226195717) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "deleted",    limit: 4
+  end
+
+  create_table "import_errors", force: :cascade do |t|
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "error_type",    limit: 255
+    t.string   "path",          limit: 255
+    t.string   "error_message", limit: 255
   end
 
   create_table "instances", force: :cascade do |t|

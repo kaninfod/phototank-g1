@@ -1,5 +1,5 @@
-.row
-  .col-lg-6.col-lg-offset-3.text-center
+.row{:style => "margin-top:100px"}
+  .col-lg-6.col-lg-offset-3
     .panel.panel-default
       .panel-body
         = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
@@ -11,7 +11,8 @@
               - @catalog.watch_path.each do |path|
                 %li= path
             =hidden_field_tag "import_action", "MasterCatalog"
-            .actions
+            .actions.pull-right
+              = submit_tag "Cancel", class:"btn btn-default"
               = submit_tag "Import", class:"btn btn-default"
 
           - when "LocalCatalog"
@@ -25,7 +26,8 @@
               %ul.list-unstyled
                 %li= @sync_from_catalog.name
             =hidden_field_tag "import_action", "LocalCatalog"
-            .actions
+            .actions.pull-right
+              = submit_tag "Cancel", class:"btn btn-default"
               =submit_tag "Synchronize", class:"btn btn-default"
 
           - when "DropboxCatalog"
@@ -33,5 +35,6 @@
             %ul.list-unstyled
               %li= @sync_from_catalog.name
             =hidden_field_tag "import_action", "DropboxCatalog"
-            .actions
+            .actions.pull-right
+              = submit_tag "Cancel", class:"btn btn-default"
               =submit_tag "Synchronize", class:"btn btn-default"
