@@ -27,6 +27,6 @@
       %dt Extension:
       %dt Present in catalog(s):
       - @photo.catalogs.each do |catalog|
-        %dd.trunc-text
+        %dd.photo-trunc-text
           = catalog.name
           (#{@photo.absolutepath(catalog.id)})

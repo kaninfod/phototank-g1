@@ -11,45 +11,9 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
-
 //= require bootstrap-sprockets
-//= require bootstrap
-//= require bootstrap-datepicker
+//= require bootstrap.min
+//= require adminlte
+//= require bootstrap-datepicker/core
 //= require_tree .
-
-$(function() {
-  $('.dropdown-toggle').dropdown();
-});
-
-$(document).on('click',function(){
-	$('.collapse').collapse('hide');
-})
-
-$(function() {
-
-		//setTimeout(updateJobs, 2000);
-
-})
-
-function updateJobs() {
-
-
-	$.ajax({
-	  method: "GET",
-	  url: "/administration/jobs_pending?format=json",
-	  data: {  },
-	  success : function(resque)
-      {
-		  $("#jobs-pending-pending").html(resque['pending'])
-		  $("#jobs-pending-failed").html(resque['failed'])
-		  $("#jobs-pending-working").html(resque['working'])
-		  $("#jobs-pending-import").html(resque['import'])
-		  $("#jobs-pending-locate").html(resque['locate'])
-      }
-	})
-	setTimeout(updateJobs, 5000)
-
-}

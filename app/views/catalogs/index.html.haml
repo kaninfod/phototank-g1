@@ -1,11 +1,13 @@
-.row
-  .col-lg-3
-    %h4 Catalogs
-.row
-  .pull-right.col-md-1
-    = link_to "New catalog", "/catalogs/new", class:"btn btn-default"
-.row
-  .col-md-12
+=content_for :title, "Catalogs"
+=content_for :subtitle, "all"
+
+.box
+  .box-header.with-border
+    .pull-right
+      = link_to "New catalog", "/catalogs/new", class:"btn btn-default"
+  / /.box-header
+  .box-body
+    %table.table.table-bordered
     %table.table
       %thead
         %tr
@@ -32,6 +34,6 @@
             %td
               -if not catalog.type=="MasterCatalog"
                 = link_to icon('close'), controller: "catalogs", action: 'destroy', id: catalog, method: :delete
-
-    .col-sm-6.col-sm-offset-3
-      = paginate @catalogs, :theme => 'twitter-bootstrap-3'
+  / /.box-body
+  .box-footer.clearfix
+    = paginate @catalogs, :theme => 'twitter-bootstrap-3'

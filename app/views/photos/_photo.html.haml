@@ -1,7 +1,7 @@
-.square
-  .content
-    .table
-      .table-cell
+.photo-square
+  .photo-content
+    .photo-table
+      .photo-table-cell
         = link_to image_tag('/photos/' + photo.id.to_s + '/image/small',{class: "rs"}), photo
         .photo-text.text-left.small
           %b Date taken:
@@ -13,14 +13,13 @@
             - if not photo.location_id.blank?
               %li
                 %i.fa.fa-globe.show_map{"data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
-              .btn-group.sm
-                %button.btn-sm.btn.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                  %i.fa.fa-globe
-                  %span.caret
-                %ul.dropdown-menu
-                  %li
-                    %a{:href => "#"}Choice1
-                  %li
-                    %a{:href => "#"}Choice1
-                  %li
-                    %a{:href => "#"}Choice1
+              %li.dropdown
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  %i.fa.fa-caret-square-o-down
+                  %ul.dropdown-menu
+                    %li
+                      %a{:href => "#"}Choice1
+                    %li
+                      %a{:href => "#"}Choice1
+                    %li
+                      %a{:href => "#"}Choice1

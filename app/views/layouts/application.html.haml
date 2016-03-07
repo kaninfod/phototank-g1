@@ -3,10 +3,22 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title Phototank
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
     = csrf_meta_tags
-  %body
-    = render :partial => 'common/navbar'
-    .container
-      = yield
+  %body.skin-black.sidebar-collapse{"data-no-turbolink" => true}
+    .wrapper
+      / Main Header
+      %header.main-header
+        / Logo
+        %a.logo{:href => "/photos/search"}
+          / mini logo for sidebar mini 50x50 pixels
+          %span.logo-mini
+            %b PT
+          / logo for regular state and mobile devices
+          %span.logo-lg
+            %b Phototank
+        =render "layouts/header_navbar"
+      =render "layouts/side_navbar"
+      =render "layouts/content"
+      =render "layouts/control_sidebar"

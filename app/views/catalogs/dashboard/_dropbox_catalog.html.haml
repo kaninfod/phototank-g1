@@ -1,0 +1,8 @@
+.col-md-6
+  .box.box-primary
+    .box-header.with-border
+      %h3.box-title Quick Example
+    = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
+      .box-body
+        =hidden_field_tag "import_action", "MasterCatalog"
+        %button.btn.btn-default{:type => "submit"} Submit

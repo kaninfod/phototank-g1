@@ -1,8 +1,14 @@
-.col-lg-12
-  - if @photos.blank?
-    No Photos to display
-  - else
-    .row
-      = render @photos
-    .row.text-center
-      = paginate @photos, :theme => 'twitter-bootstrap-3'
+.col-md-12
+  .box
+    .box-header.with-border
+
+    / /.box-header
+    .box-body
+
+      - if @photos.blank?
+        No Photos to display
+      - else
+        .row
+          = render @photos
+        .row.text-center
+          = paginate @photos, :theme => 'twitter-bootstrap-3'
