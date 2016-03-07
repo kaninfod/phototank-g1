@@ -7,7 +7,7 @@ class BucketController < ApplicationController
 
   def remove
     get_bucket
-    session[:bucket].delete(params[:id].to_i) 
+    session[:bucket].delete(params[:id].to_i)
     render :json => {'count' => session[:bucket].count}
   end
 
@@ -24,7 +24,13 @@ class BucketController < ApplicationController
     @bucket = get_bucket
     @photos = Photo.where(id:@bucket).page params[:page]
   end
-  
+
+  def list
+    @bucket = get_bucket
+    @photos_in_bucket = Photo.where(id:@bucket)
+    render layout: false
+  end
+
   def save_to_album
 
     @album = Album.new
@@ -36,7 +42,7 @@ class BucketController < ApplicationController
       redirect_to edit_album_path @album
     end
   end
-  
+
   def delete_photos
     session[:bucket].each do |photo_id|
       Resque.enqueue(DeletePhoto, photo_id)
@@ -44,11 +50,11 @@ class BucketController < ApplicationController
     session[:bucket] = []
     redirect_to bucket_path
   end
-  
+
   private
-  
-  
-  def get_bucket    
+
+
+  def get_bucket
     if session.include? 'bucket'
       session[:bucket]
     else

@@ -19,13 +19,14 @@
           %span Catalogs
       %li.treeview
         %a{:href => "#"}
-          %i.fa.fa-link
+          %i.fa.fa-cogs
           %span Resque
           %i.fa.fa-angle-left.pull-right
         %ul.treeview-menu
           %li
-            %a{:href => "/jobs/overview"} Jobs
+            = link_to "Jobs", "/jobs/overview", :target => "_blank"
           %li
-            %a{:href => "/jobs/failed"} Failure
+            = link_to "Failed", "/jobs/failed", :target => "_blank"
+
     / /.sidebar-menu
   / /.sidebar

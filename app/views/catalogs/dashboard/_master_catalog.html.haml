@@ -1,8 +1,34 @@
 .col-md-6
   .box.box-primary
     .box-header.with-border
-      %h3.box-title Quick Example
+      %h3.box-title Check for new photos
     = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
       .box-body
         =hidden_field_tag "import_action", "MasterCatalog"
         %button.btn.btn-default{:type => "submit"} Submit
+
+.col-lg-3.col-xs-6
+  / small box
+  .small-box.bg-green
+    .inner
+      %h3
+        53
+        %sup{:style => "font-size: 20px"} %
+      %p Bounce Rate
+    .icon
+      %i.ion.ion-stats-bars
+    %a.small-box-footer{:href => "#"}
+      More info
+      %i.fa.fa-arrow-circle-right
+
+.col-lg-3.col-xs-6
+  / small box
+  .small-box.bg-yellow
+    .inner
+      %h3 44
+      %p User Registrations
+    .icon
+      %i.ion.ion-person-add
+    %a.small-box-footer{:href => "#"}
+      More info
+      %i.fa.fa-arrow-circle-right

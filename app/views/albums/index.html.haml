@@ -1,25 +1,27 @@
 =content_for :title, "Albums"
 =content_for :subtitle, "all"
-.row
-  .col-lg-3.pull-right
-    .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
-      = link_to "New album", "/albums/new", class:"btn btn-default"
-      .btn-group{:role => "group"}
-        %button.btn.btn-default.dropdown-toggle.btn-sm{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-          Order by
-          %span.caret
-        %ul.dropdown-menu
-          %li
-            %a{:href => "/albums?order=name"} Name
-          %li
-            %a{:href => "/albums?order=start"} Date
-          %li
-            %a{:href => "/albums?order=album_type"} Type
-      .input-group.input-group-sm
-        %input#search-albums.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}/
-      / /input-group
-.row
-  .col-md-12
+
+.box
+  .box-header.with-border
+    .pull-right
+      .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
+        = link_to "New album", "/albums/new", class:"btn btn-default"
+        .btn-group{:role => "group"}
+          %button.btn.btn-default.dropdown-toggle.btn-sm{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            Order by
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              %a{:href => "/albums?order=name"} Name
+            %li
+              %a{:href => "/albums?order=start"} Date
+            %li
+              %a{:href => "/albums?order=album_type"} Type
+        .input-group.input-group-sm
+          %input#search-albums.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}/
+
+  / /.box-header
+  .box-body
     %table.table
       %thead
         %tr

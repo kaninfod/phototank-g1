@@ -1,8 +1,5 @@
-.row
-  .col-md-8
-    %h4
-      = @album.name
-      %small
-        = @photos.count
-        photos in Album
+=content_for :title, @album.name
+=content_for :subtitle, "#{@photos.count} photos in Album"
+
+
 = render :template => 'photos/_index'

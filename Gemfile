@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
 
@@ -33,7 +34,7 @@ gem 'bootstrap-kaminari-views'
 gem 'bootstrap_form'
 
 gem 'font-awesome-sass', '~> 4.5.0'
-gem 'bootstrap-datepicker-rails'
+
 gem 'seed_dump'
 
 gem 'geocoder'
@@ -64,8 +65,10 @@ gem "haml-rails", "~> 0.9"
 # gem 'capistrano-rails', group: :development
 
 
-source 'https://rails-assets.org/' do 
+source 'https://rails-assets.org' do
   gem 'rails-assets-adminlte'
+  gem 'rails-assets-slimscroll'
+  gem 'rails-assets-bootstrap-datepicker'
 end
 
 group :development, :test do

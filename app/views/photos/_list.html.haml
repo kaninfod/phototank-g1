@@ -1,50 +1,46 @@
-.row
-  .col-lg-12
-    - if @photos.count == 0
-      No Photos to display
-    - else
-      %table.table.table-condensed
-        %thead
-          %tr
-            %th
-            %th
-            %th Date taken
-            %th Country
-            %th City
-            %th Coordinates
-            %th Camera
-            %th size
-            %th Catalog(s)
-        %tbody
-          - @photos.each do |photo|
-            %tr
-              %td
-                = link_to image_tag('/photos/' + photo.id.to_s + '/image/small'), photo
-              %td= check_box_tag 'bucket', 'accepted', (@bucket.include? photo.id), photo_id: photo.id, class: "bucket-check"
-              %td
-                = photo.date_taken.strftime("%b %d %Y")
-                %br/
-                = photo.date_taken.strftime("%H:%m")
-              - if not photo.location.blank?
-                %td= photo.location.country
-                %td= photo.location.city
-              - else
-                %td
-                %td
-              - if not (photo.longitude.blank? && photo.latitude.blank?)
-                %td Yes
-              - else
-                %td No
-              %td
-                = photo.make
-                %br/
-                = photo.model
-              %td
-                = photo.original_width
-                x#{photo.original_height}
-              %td
-                - photo.catalogs.each do |catalog|
-                  = catalog.name
-              %td= link_to icon('pencil'), edit_photo_path(photo)
-      .row
-        = paginate @photos, :theme => 'twitter-bootstrap-3'
+- if @photos.count == 0
+  No Photos to display
+- else
+  %table.table.table-condensed
+    %thead
+      %tr
+        %th
+        %th
+        %th Date taken
+        %th Country
+        %th City
+        %th Coordinates
+        %th Camera
+        %th size
+        %th Catalog(s)
+    %tbody
+      - @photos.each do |photo|
+        %tr
+          %td
+            = link_to image_tag('/photos/' + photo.id.to_s + '/image/small'), photo
+          %td= check_box_tag 'bucket', 'accepted', (@bucket.include? photo.id), photo_id: photo.id, class: "bucket-check"
+          %td
+            = photo.date_taken.strftime("%b %d %Y")
+            %br/
+            = photo.date_taken.strftime("%H:%m")
+          - if not photo.location.blank?
+            %td= photo.location.country
+            %td= photo.location.city
+          - else
+            %td
+            %td
+          - if not (photo.longitude.blank? && photo.latitude.blank?)
+            %td Yes
+          - else
+            %td No
+          %td
+            = photo.make
+            %br/
+            = photo.model
+          %td
+            = photo.original_width
+            x#{photo.original_height}
+          %td
+            - photo.catalogs.each do |catalog|
+              = catalog.name
+          %td= link_to icon('pencil'), edit_photo_path(photo)

@@ -1,8 +1,16 @@
-%row
-  %ul.text-right.list-inline
-    %li= link_to icon('fa fa-th', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'grid'
-    %li= link_to icon('fa fa-th-list', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'list'
-- if @view == 'list'
-  = render :template => "photos/_list"
-- else
-  = render :template => "photos/_grid"
+.col-md-12
+  .box.box-solid
+    .box-header.with-border
+      %ul.text-right.list-inline
+        %li= link_to icon('fa fa-th', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'grid'
+        %li= link_to icon('fa fa-th-list', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'list'
+
+    / /.box-header
+    .box-body
+      - if @view == 'list'
+        = render :template => "photos/_list"
+      - else
+        = render :template => "photos/_grid"
+    .box-footer
+      .pull-right
+        = paginate @photos, :theme => 'twitter-bootstrap-3'

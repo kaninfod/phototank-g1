@@ -15,5 +15,6 @@
 //= require bootstrap-sprockets
 //= require bootstrap.min
 //= require adminlte
-//= require bootstrap-datepicker/core
+
+//= require bootstrap-datepicker
 //= require_tree .

@@ -8,8 +8,6 @@ $(function(){
 })
 
 
-
-
 $(function(){
 	$("#sync_from").change(function(val) {
 		$("#album-list").toggleClass('hidden');
