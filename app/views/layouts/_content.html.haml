@@ -1,0 +1,12 @@
+/ Content Wrapper. Contains page content
+
+.content-wrapper
+  / Content Header (Page header)
+  %section.content-header
+    %h1
+      = yield :title
+      %small
+        = yield :subtitle
+  / Main content
+  %section.content{"style"=>"overflow: scroll;"}
+    = yield

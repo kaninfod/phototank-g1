@@ -1,26 +1,30 @@
-.row
-  .col-lg-6
-    .panel.panel-default
-      .panel-body
-        = form_tag("/catalogs/#{@catalog.id}/manage", method: "post") do
-          .form-group
-            = label_tag( "Catalog name:")
-            = text_field_tag("name", @catalog.name,class:"form-control")
-          .form-group
-            = label_tag("Storage path:")
-            = text_field_tag("path", @catalog.path, class:"form-control")
-          .form-group
-            = label_tag("Catalog type:")
-            = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control", disabled: true	)
-            = hidden_field_tag 'type', @catalog.type
-          .form-group
-            = label_tag("This catalog should synchronise from:")
-            = select_tag("sync_from", options_for_select([["Album", "album"], ["Catalog", "catalog"]], :selected=>@sync_from), class:"form-control"	)
-          #catalog-list.form-group
-            = label_tag("Catalogs:")
-            = render partial: "list", locals: {current_catalog: @catalog}
-          #album-list.form-group
-            = label_tag("Synchronize from:")
-            = render partial: "albums/list", locals: {selected: @catalog.sync_from_albums}
-          .actions
-            = submit_tag "Save", class:"btn btn-default"
+.box.box-primary
+  .box-header.with-border
+    %h3.box-title Catalog settings
+  / /.box-header
+  / form start
+  = form_tag("/catalogs/#{@catalog.id}/manage", method: "post") do
+    .box-body
+      .form-group
+        = label_tag( "Catalog name:")
+        = text_field_tag("name", @catalog.name,class:"form-control")
+      .form-group
+        = label_tag("Storage path:")
+        = text_field_tag("path", @catalog.path, class:"form-control")
+      .form-group
+        = label_tag("Catalog type:")
+        = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control", disabled: true	)
+        = hidden_field_tag 'type', @catalog.type
+      .form-group
+        = label_tag("This catalog should synchronise from:")
+        = select_tag("sync_from", options_for_select([["Album", "album"], ["Catalog", "catalog"]], :selected=>@sync_from), class:"form-control"	)
+      #catalog-list.form-group
+        = label_tag("Catalogs:")
+        = render partial: "list", locals: {current_catalog: @catalog}
+      #album-list.form-group
+        = label_tag("Synchronize from:")
+        = render partial: "albums/list", locals: {selected: @catalog.sync_from_albums}
+
+    / /.box-body
+    .box-footer
+      = submit_tag "Save", class:"btn btn-default"

@@ -1,4 +1,5 @@
-
+=content_for :title, "Photos"
+=content_for :subtitle, "Search"
 .row
   #accordion.panel-group.col-lg-12{"aria-multiselectable" => "true", :role => "tablist"}
     .panel.panel-default
@@ -43,7 +44,8 @@
       todayHighlight: true,
       toggleActive: true,
       autoclose: true,
-      format: "dd/mm/yyyy"
+      format: "dd/mm/yyyy",
+      language: 'en'
   });
 :css
   #accordion{

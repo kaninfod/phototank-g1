@@ -31,6 +31,7 @@ gem 'kaminari'
 gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
 gem 'bootstrap_form'
+
 gem 'font-awesome-sass', '~> 4.5.0'
 gem 'bootstrap-datepicker-rails'
 gem 'seed_dump'
@@ -61,6 +62,11 @@ gem "haml-rails", "~> 0.9"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+
+source 'https://rails-assets.org/' do 
+  gem 'rails-assets-adminlte'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

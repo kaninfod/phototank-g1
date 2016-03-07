@@ -1,0 +1,31 @@
+/ Left side column. contains the logo and sidebar
+%aside.main-sidebar
+  / sidebar: style can be found in sidebar.less
+  %section.sidebar
+    / Sidebar Menu
+    %ul.sidebar-menu
+      / Optionally, you can add icons to the links
+      %li.active
+        %a{:href => "/photos/search"}
+          %i.fa.fa-picture-o
+          %span  Photos
+      %li
+        %a{:href => "/albums"}
+          %i.fa.fa-book
+          %span Albums
+      %li
+        %a{:href => "/catalogs"}
+          %i.fa.fa-folder
+          %span Catalogs
+      %li.treeview
+        %a{:href => "#"}
+          %i.fa.fa-link
+          %span Resque
+          %i.fa.fa-angle-left.pull-right
+        %ul.treeview-menu
+          %li
+            %a{:href => "/jobs/overview"} Jobs
+          %li
+            %a{:href => "/jobs/failed"} Failure
+    / /.sidebar-menu
+  / /.sidebar
