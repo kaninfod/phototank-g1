@@ -66,9 +66,9 @@ gem "haml-rails", "~> 0.9"
 
 
 source 'https://rails-assets.org' do
-  gem 'rails-assets-adminlte'
-  gem 'rails-assets-slimscroll'
-  gem 'rails-assets-bootstrap-datepicker'
+
+  #gem 'rails-assets-slimscroll'
+  #gem 'rails-assets-bootstrap-datepicker'
 end
 
 group :development, :test do

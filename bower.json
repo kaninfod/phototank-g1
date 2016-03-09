@@ -1,0 +1,20 @@
+{
+  "name": "phototank",
+  "homepage": "https://github.com/kaninfod/phototank-rails",
+  "authors": [
+    "kaninfod <martinhinge@gmail.com>"
+  ],
+  "description": "Damn nice photo management system",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/components",
+    "test",
+    "tests"
+  ]
+}

@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootstrap.min
-//= require adminlte
-//= require jquery.slimscroll
+//= require AdminLTE
+//= require slimscroll/jquery.slimscroll
 //= require bootstrap-datepicker
 //= require_tree .
