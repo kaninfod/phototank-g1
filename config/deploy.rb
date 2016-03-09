@@ -34,7 +34,7 @@ set :branch,        :master
 
 ## Linked Files & Directories (Default None):
 #set :linked_files, %w{db/production.sqlite3}
-set :linked_dirs,  %w{ log tmp/pids tmp/cache tmp/sockets vendor/assets public/system }
+set :linked_dirs,  %w{ log tmp/pids tmp/cache tmp/sockets public/system }
 #set :bundle_binstubs, nil
 
 namespace :puma do
