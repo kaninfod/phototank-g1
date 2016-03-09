@@ -1,14 +1,13 @@
-.row
-  .col-lg-3
-    %h4 Select Albums
-.row
-  .col-md-12
+.box.box-primary
+  .box-header.with-border
+    %h3.box-title Select Albums
+  .box-body
     = form_tag do
       - @albums.each do |album|
         .radio
           %label
             %input#optionsRadios1{:checked => "checked", :name => "optionsRadios", :type => "radio", :value => "#{album.id}"}/
             = album.name
-      = submit_tag("Select")
-    .col-sm-6.col-sm-offset-3
-      = paginate @albums
+      = submit_tag "Select", class:"btn btn-default"
+  .box-footer
+    = paginate @albums

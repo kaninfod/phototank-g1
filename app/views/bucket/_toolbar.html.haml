@@ -1,0 +1,13 @@
+.btn-group
+  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+    Actions
+    %span.caret
+  %ul.dropdown-menu
+    %li
+      %a{:href => "/bucket/save"} To new Album
+    %li
+      %a{:href => "/albums/select"} To Album
+    %li
+      %a{:href => "/bucket/delete_photos"} Delete Photos
+    %li
+      %a{:href => "/bucket/clear"} Empty

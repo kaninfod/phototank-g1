@@ -15,13 +15,13 @@
               %li
                 %i.fa.fa-globe.show_map{"data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
                 %li{}>= '|'
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %li
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#kaj"}
                 %i.fa.fa-caret-square-o-down
-                %ul.dropdown-menu
-                  %li
-                    %a.fa.fa-repeat{:href => "#"}>= '  Rotate'
-                  %li
-                    %a.fa.fa-trash-o{:href => "#"}>= '  Delete'
-                  %li
-                    %a.fa.fa-download{:href => "#"}>= '  Download'
+              %ul.dropdown-menu
+                %li
+                  %a.fa.fa-repeat{:href => "#"}>= '  Rotate'
+                %li
+                  %a.fa.fa-trash-o{:href => "#"}>= '  Delete'
+                %li
+                  %a.fa.fa-download{:href => "#"}>= '  Download'

@@ -1,9 +1,9 @@
-%ul.media-list
+.col
   - @photos_in_bucket.each do |photo|
-    %li.media
-      .media-left
-        %a{:href => "#"}
-          %img.media-object{:alt => "...", :src => "/photos/#{photo.id.to_s}/image/small", "height"=>"64", "width"=>"64"}
-      .media-body
-        %h8.media-heading
-          %p= photo.date_taken.strftime("%b %d %Y %H:%m")
+    %img.img-responsive{:alt => "...", :src => "/photos/#{photo.id.to_s}/image/small", "height"=>"64", "width"=>"64", :style=>"display:inline"}
+
+
+:javascript
+  $('.media-list').slimScroll({
+    height: "300px"
+  });
