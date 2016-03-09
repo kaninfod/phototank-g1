@@ -1,7 +1,9 @@
 .col
-  - @photos_in_bucket.each do |photo|
-    %img.img-responsive{:alt => "...", :src => "/photos/#{photo.id.to_s}/image/small", "height"=>"64", "width"=>"64", :style=>"display:inline"}
-
+  - if @photos_in_bucket.count > 0
+    - @photos_in_bucket.each do |photo|
+      %img.img-responsive{:alt => "...", :src => "/photos/#{photo.id.to_s}/image/small", "height"=>"64", "width"=>"64", :style=>"display:inline"}
+  - else
+    empty
 
 :javascript
   $('.media-list').slimScroll({

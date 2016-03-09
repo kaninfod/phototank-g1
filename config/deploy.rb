@@ -33,9 +33,9 @@ set :branch,        :master
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{db/production.sqlite3}
-set :linked_dirs,  %w{ log tmp/pids tmp/cache tmp/sockets vendor/bundle vendor/assets/components public/system }
-set :bundle_binstubs, nil
+#set :linked_files, %w{db/production.sqlite3}
+set :linked_dirs,  %w{ log tmp/pids tmp/cache tmp/sockets vendor/assets public/system }
+#set :bundle_binstubs, nil
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -48,9 +48,6 @@ namespace :puma do
 
   before :start, :make_dirs
 end
-
-
-
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
