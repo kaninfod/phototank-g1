@@ -16,6 +16,5 @@
 //= require bootstrap.min
 //= require slimscroll/jquery.slimscroll
 //= require bootstrap-datepicker
-//= require icheck
 //= require_tree .
 //= require AdminLTE
