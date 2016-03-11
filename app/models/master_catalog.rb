@@ -2,8 +2,6 @@
 class MasterCatalog < Catalog
 include ImportPhotoHelper
 
-
-
   def import
     #raise "Catalog is not online" unless online
     begin
@@ -59,7 +57,18 @@ include ImportPhotoHelper
     return @photo.id
   end
 
+  def self.create_master()
+    c = Catalog.new
+    c.type = "MasterCatalog"
+    c.name = "Master Catalog"
+    c.default = true
+    c.path = "/Users/martinhinge/Pictures/phototank"
+    c.watch_path = []
+    c.save
+  end
+
   private
+
 
 
 end

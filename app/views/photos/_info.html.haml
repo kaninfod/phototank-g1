@@ -1,32 +1,40 @@
-.panel.panel-default
-  .panel-body
-    %dl
-      %dt Date taken:
-      %dd= @photo.date_taken.strftime("%b %d %Y %H:%m")
-      %dt Make:
-      %dd= @photo.make
-      %dt Model
-      %dd= @photo.model
-      - if not @photo.location_id.blank?
-        %dt Country
-        %dd= @photo.location.country
-        %dt City
-        %dd= @photo.location.city
-        %dt Address
-        %dd
-          %address= @photo.location.address
-        %dt Map
-        %dd
-          = image_tag @photo.location.get_map(zoom=10, size="350x300")
-      %dt Filename:
-      %dd.trunc-text= @photo.filename
-      %dt Original Path:
-      %dd= @photo.path
-      %dt Thumb Path:
-      %dd= @photo.file_thumb_path
-      %dt Extension:
-      %dt Present in catalog(s):
-      - @photo.catalogs.each do |catalog|
-        %dd.photo-trunc-text
-          = catalog.name
-          (#{@photo.absolutepath(catalog.id)})
+.col-md-12
+  .box.box-primary
+    .box-header.with-border
+      %h3.box-title Information
+      .box-tools.pull-right
+        %button.btn.btn-box-tool{"data-widget" => "collapse", :type => "button"}
+          %i.fa.fa-minus
+      .box-body
+
+        %dl
+          %dt Date taken:
+          %dd= @photo.date_taken.strftime("%b %d %Y %H:%m")
+          - if not @photo.location_id.blank?
+            %dt Country
+            %dd= @photo.location.country
+            %dt City
+            %dd= @photo.location.city
+            %dt Address
+            %dd
+              %address= @photo.location.address
+            %dt Map
+            %dd
+              = image_tag @photo.location.get_map(zoom=10, size="350x300")
+          %dt Make:
+          %dd= @photo.make
+          %dt Model
+          %dd= @photo.model
+
+          %dt Filename:
+          %dd.trunc-text= @photo.filename
+          %dt Original Path:
+          %dd= @photo.path
+          %dt Thumb Path:
+          %dd= @photo.file_thumb_path
+          %dt Extension:
+          %dt Present in catalog(s):
+          - @photo.catalogs.each do |catalog|
+            %dd.photo-trunc-text
+              = catalog.name
+              (#{@photo.absolutepath(catalog.id)})

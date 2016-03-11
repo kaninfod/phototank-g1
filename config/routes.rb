@@ -59,9 +59,13 @@ Rails.application.routes.draw do
   #get 'synchronizers/dropbox'
   #get 'synchronizers/authorize'
 
+  resources :jobs, :except => [:index], :concerns => :paginatable
+
+
+
 
   require 'resque/server'
-  mount Resque::Server.new, at: "/jobs"
+  mount Resque::Server.new, at: "/resque"
 
 
 end

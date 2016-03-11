@@ -1,0 +1,47 @@
+=content_for :title, "Job Log"
+=content_for :subtitle, "all"
+
+.col-lg-12
+  .box
+    .box-header
+
+    / /.box-header
+    .box-body.table-responsive.no-padding
+      %table.table.table-hover
+        %thead
+          %tr
+            %th ID
+            %th Status
+            %th Type
+            %th Queue
+            %th Created
+            %th Duration
+            %th Arguments
+            %th Errors
+        %tboby
+          -@jobs.each do |job|
+            %tr
+              %td=job.id
+              %td
+                - case job.status
+                - when 0
+                  %span.label.label-success Success
+                - when 1
+                  %span.label.label-warning=job.status
+                - when 2
+                  %span.label.label-danger Error
+              %td=job.job_type
+              %td=job.queue
+              %td=job.created_at.strftime("%b %d %Y %H:%M:%S")
+              %td=job.completed_at - job.created_at
+              %td=job.arguments
+              %td=job.job_error
+    .box-footer
+      =paginate @jobs, :theme => 'twitter-bootstrap-3', :pagination_class=>"pull-right"
+
+
+
+:css
+  td {
+    word-break:break-all;
+  }

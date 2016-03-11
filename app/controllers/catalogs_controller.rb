@@ -61,7 +61,7 @@ class CatalogsController < ApplicationController
 
 
   def import
-    
+
     if request.post?
       case params['import_action']
       when 'MasterCatalog'
@@ -75,7 +75,7 @@ class CatalogsController < ApplicationController
         catalog.import
 
       end
-      redirect_to action: "show", id: params[:id]
+      redirect_to action: "dashboard", id: params[:id]
     else
       @catalog = Catalog.find(params[:id])
       if @catalog.sync_from_catalog

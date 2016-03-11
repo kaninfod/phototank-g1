@@ -1,34 +1,63 @@
-.col-md-6
+
+
+.col-md-12
   .box.box-primary
     .box-header.with-border
       %h3.box-title Check for new photos
     = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
       .box-body
+
         =hidden_field_tag "import_action", "MasterCatalog"
         %button.btn.btn-default{:type => "submit"} Submit
+-if @catalog.photos.count > 0
+  .col-lg-3.col-xs-6
+    / small box
+    .small-box.bg-green
+      .inner
+        %h3
+          =number_with_delimiter @catalog.photos.count
+        %p Photos in catalog
+      .icon
+        %i.fa.fa-photo
+      %a.small-box-footer{:href => "#"}
+        More info
+        %i.fa.fa-arrow-circle-right
 
-.col-lg-3.col-xs-6
-  / small box
-  .small-box.bg-green
-    .inner
-      %h3
-        53
-        %sup{:style => "font-size: 20px"} %
-      %p Bounce Rate
-    .icon
-      %i.ion.ion-stats-bars
-    %a.small-box-footer{:href => "#"}
-      More info
-      %i.fa.fa-arrow-circle-right
+  .col-lg-3.col-xs-6
+    / small box
+    .small-box.bg-yellow
+      .inner
+        %h3
+          = @catalog.photos.order(:created_at).limit(1).first.created_at.strftime("%b %d %Y")
+        %p Last photo uploaded
+      .icon
+        %i.fa.fa-clock-o
+      %a.small-box-footer{:href => "#"}
+        More info
+        %i.fa.fa-arrow-circle-right
 
-.col-lg-3.col-xs-6
-  / small box
-  .small-box.bg-yellow
-    .inner
-      %h3 44
-      %p User Registrations
-    .icon
-      %i.ion.ion-person-add
-    %a.small-box-footer{:href => "#"}
-      More info
-      %i.fa.fa-arrow-circle-right
+  .col-lg-3.col-xs-6
+    / small box
+    .small-box.bg-red
+      .inner
+        %h3
+          = @catalog.photos.order(:date_taken).limit(1).first.date_taken.strftime("%b %d %Y")
+        %p First photo taken
+      .icon
+        %i.fa.fa-clock-o
+      %a.small-box-footer{:href => "#"}
+        More info
+        %i.fa.fa-arrow-circle-right
+
+  .col-lg-3.col-xs-6
+    / small box
+    .small-box.bg-aqua
+      .inner
+        %h3
+          = @catalog.photos.order(date_taken: :desc).limit(1).first.date_taken.strftime("%b %d %Y")
+        %p Last photo taken
+      .icon
+        %i.fa.fa-clock-o
+      %a.small-box-footer{:href => "#"}
+        More info
+        %i.fa.fa-arrow-circle-right

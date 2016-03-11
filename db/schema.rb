@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160305134557) do
+ActiveRecord::Schema.define(version: 20160311193628) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -47,14 +47,6 @@ ActiveRecord::Schema.define(version: 20160305134557) do
     t.integer  "deleted",    limit: 4
   end
 
-  create_table "import_errors", force: :cascade do |t|
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "error_type",    limit: 255
-    t.string   "path",          limit: 255
-    t.string   "error_message", limit: 255
-  end
-
   create_table "instances", force: :cascade do |t|
     t.integer  "photo_id",   limit: 4
     t.integer  "catalog_id", limit: 4
@@ -65,6 +57,17 @@ ActiveRecord::Schema.define(version: 20160305134557) do
   end
 
   add_index "instances", ["photo_id", "catalog_id"], name: "index_instances_on_photo_id_and_catalog_id", unique: true, using: :btree
+
+  create_table "jobs", force: :cascade do |t|
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "job_type",     limit: 255
+    t.string   "job_error",    limit: 255
+    t.string   "arguments",    limit: 255
+    t.datetime "completed_at"
+    t.string   "queue",        limit: 255
+    t.integer  "status",       limit: 4
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string   "status",     limit: 255
