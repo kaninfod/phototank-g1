@@ -33,7 +33,9 @@
               %td=job.job_type
               %td=job.queue
               %td=job.created_at.strftime("%b %d %Y %H:%M:%S")
-              %td=job.completed_at - job.created_at
+              %td
+                - if not job.completed_at.nil?
+                  =job.completed_at - job.created_at
               %td=job.arguments
               %td=job.job_error
     .box-footer
