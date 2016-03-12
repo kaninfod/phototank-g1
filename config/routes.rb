@@ -59,7 +59,9 @@ Rails.application.routes.draw do
   #get 'synchronizers/dropbox'
   #get 'synchronizers/authorize'
 
+  post 'jobs/list' => 'jobs#list'
   resources :jobs, :except => [:index], :concerns => :paginatable
+
 
 
 

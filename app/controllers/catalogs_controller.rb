@@ -10,6 +10,7 @@ class CatalogsController < ApplicationController
 
   def dashboard
     @catalog = Catalog.find(params[:id])
+    @jobs = Job.order(created_at: :desc, id: :desc ).page params[:page]
   end
 
   def update
