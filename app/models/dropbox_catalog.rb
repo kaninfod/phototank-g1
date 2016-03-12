@@ -3,7 +3,7 @@ class DropboxCatalog < Catalog
 serialize :ext_store_data, Hash
 
   def import(use_resque=true)
-    
+
     raise "Catalog is not online" unless online
     if not self.sync_from_catalog.blank?
         Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
@@ -14,16 +14,22 @@ serialize :ext_store_data, Hash
 
     photo = Photo.find(photo_id)
     dropbox_path = File.join(photo.path, photo.filename + photo.file_extension)
+    byebug
+    if not self.exists(dropbox_path)
+      response = self.create_folder(photo.path)
+      response = self.add_file(photo.absolutepath, dropbox_path)
 
-    response = self.create_folder(photo.path)
-    response = self.add_file(photo.absolutepath, dropbox_path)
-    instance = photo.instances.where(catalog_id: self.id).first
-    instance.catalog_id = self.id
-    instance.path = response["path"]
-    instance.size = response["bytes"]
-    instance.modified = response["modified"]
-    instance.status = 0
-    instance.save
+      instance = photo.instances.where(catalog_id: self.id).first
+      instance.catalog_id = self.id
+      instance.path = response["path"]
+      instance.size = response["bytes"]
+      instance.rev = response["rev"]
+      instance.modified = response["modified"]
+      instance.status = 0
+      instance.save
+    else
+      raise "File exists in Dropbox with same revision id and path"
+    end
   end
 
 
@@ -72,7 +78,11 @@ serialize :ext_store_data, Hash
   end
 
   def client
-    DropboxClient.new(self.access_token)
+
+    if not defined?(@client)
+      @client = DropboxClient.new(self.access_token)
+    end
+    @client
   end
 
   def account_info
@@ -83,13 +93,13 @@ serialize :ext_store_data, Hash
     begin
       self.client.metadata(path)
     rescue
-
     end
   end
 
   def add_file(local_path, dropbox_path)
 
     self.client.put_file(dropbox_path, open(local_path), overwrite=true)
+
   end
 
   def add_file_in_chunks(dropbox_path, local_path)
@@ -128,6 +138,16 @@ serialize :ext_store_data, Hash
     end
   end
 
-
+  def exists(path)
+    response = self.metadata(path)
+    if not response.nil?
+      if Instance.where(rev: response["rev"]).present?
+        return true
+      else
+        return false
+      end
+    end
+    return false
+  end
 
 end

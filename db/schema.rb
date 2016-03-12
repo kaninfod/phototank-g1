@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311193628) do
+ActiveRecord::Schema.define(version: 20160312150253) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20160311193628) do
     t.integer  "size",       limit: 4
     t.datetime "modified"
     t.integer  "status",     limit: 4
+    t.string   "rev",        limit: 255
   end
 
   add_index "instances", ["photo_id", "catalog_id"], name: "index_instances_on_photo_id_and_catalog_id", unique: true, using: :btree

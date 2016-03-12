@@ -1,8 +1,14 @@
 class ResqueJob
 
   def self.after_perform(*args)
+    
+    if @job.status != 2
+      status = 0
+    else
+      status = 2
+    end
     @job.update(
-      status: 0 ,
+      status: status ,
       completed_at: Time.now
     )
   end
