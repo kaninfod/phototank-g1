@@ -3,6 +3,7 @@
 .content-wrapper
   / Content Header (Page header)
   %section.content-header
+    = render partial: "common/flash_messages", flash: flash
     %h1
       = yield :title
       %small

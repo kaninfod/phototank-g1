@@ -24,6 +24,7 @@ class PhotosController < ApplicationController
   end
 
 def search
+
   if params.has_key?(:viewmode)
     @view = params[:viewmode]
   else
