@@ -1,4 +1,9 @@
 =content_for :title, "Photos in bucket"
-=content_for :subtitle, "#{session[:bucket].count.to_s} photos" 
+=content_for :subtitle, "#{session[:bucket].count.to_s} photos"
 
 = render :partial => 'photos/index', locals: {extra_tools: "bucket/toolbar"}
+
+
+:coffee
+  $(document).ready ->
+    $(".photo-widget-overlay").removeClass("bucket")

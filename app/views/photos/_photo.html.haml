@@ -1,6 +1,9 @@
 .photo-widget
-  .photo-widget-header.photo-widget-overlay
-    %img{:photo_id=>(photo.id), :src=>"/photos/#{photo.id.to_s}/image/small", :class => ("bucket" if @bucket.include? photo.id)}
+  .photo-widget-header
+    .photo-widget-overlay{:class => ("bucket" if @bucket.include? photo.id)}
+      .text-center In Bucket
+    %img{:photo_id=>(photo.id), :src=>"/photos/#{photo.id.to_s}/image/small"}
+
 
 
   .photo-widget-footer

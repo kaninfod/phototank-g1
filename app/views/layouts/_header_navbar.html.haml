@@ -9,32 +9,16 @@
       / Messages: style can be found in dropdown.less
       %li.dropdown.messages-menu
         / Menu toggle button
-        %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-          %i.fa.fa-envelope-o
-          %span.label.label-success 4
+        %a.dropdown-toggle#photo_bucket_panel{"data-toggle" => "dropdown", :href => "#"}
+          %i.fa.fa-shopping-cart#photo_bucket_panel
+          %span.label.label-success#bucket_counter
         %ul.dropdown-menu
-          %li.header You have 4 messages
+          %li.header Photos in bucket
           %li
             / inner menu: contains the messages
-            %ul.menu
-              %li
-                / start message
-                %a{:href => "#"}
-                  .pull-left
-                    / User Image
-                    %img.img-circle{:alt => "User Image", :src => ""}
-                  / Message title and timestamp
-                  %h4
-                    Support Team
-                    %small
-                      %i.fa.fa-clock-o
-                      5 mins
-                  / The message
-                  %p Why not buy a new awesome theme?
-              / end message
-            / /.menu
+            %span#photos_in_bucket
           %li.footer
-            %a{:href => "#"} See All Messages
+            %a{:href => "/bucket"} Open Bucket
       / /.messages-menu
       / Notifications Menu
       %li.dropdown.notifications-menu
@@ -111,6 +95,3 @@
             .pull-right
               %a.btn.btn-default.btn-flat{:href => "#"} Sign out
       / Control Sidebar Toggle Button
-      %li#photo_bucket_panel
-        %a{"data-toggle" => "control-sidebar", :href => "#"}
-          %i.fa.fa-gears

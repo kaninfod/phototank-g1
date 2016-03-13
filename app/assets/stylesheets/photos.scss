@@ -13,20 +13,29 @@
 }
 
 .photo-widget-overlay {
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
   position:relative;
   top:0px;
   width:125px;
-  height:125px;
+  height:20px;
   background:#FF2400;
-  opacity:1;
+  opacity:0;
+  position: absolute;
+  z-index:1;
+  color: white;
+  font-weight: 900
 }
 
 .bucket {
-  opacity:0.5;
+  opacity:0.3;
+
 }
+
 .photo-widget-header img {
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
+  position: absolute;
 }
 .photo-widget-footer {
   background-color:#e2dcdc;
@@ -42,7 +51,6 @@
   margin-top: -7px;
 }
 .photo-tool {
-
   margin-top: 1px;
   padding-bottom: 5px;
 }

@@ -1,39 +1,43 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+
+$ ->
+  $('.photo-widget .photo-widget-header img').click (e) ->
+
+    overlay = $(e.target).prev(".photo-widget-overlay")
+    console.log(overlay)
+    overlay.toggleClass("bucket")
+
+    if $(overlay).hasClass('bucket')
+      url = '/bucket/' + $(this).attr('photo_id') + '/add'
+    else
+      url = '/bucket/' + $(this).attr('photo_id') + '/remove'
+
+    $.ajax
+      method: 'POST'
+      url: url
+      data: {}
+      success: (response) ->
+        $('#bucket_counter').html response['count']
+        return
+    return
+  return
+
 $ ->
   $('#photo_bucket_panel').click ->
-    $.get '/bucket/list', (data) ->
-      $('#photos_in_bucket').html data
+    if $(this).closest(".dropdown").hasClass("open")
+      $.get '/bucket/list', (data) ->
+        $('#photos_in_bucket').html data
+        return
       return
     return
   return
 
-$.fn.visibleHeight = ->
-  elBottom = undefined
-  elTop = undefined
-  scrollBot = undefined
-  scrollTop = undefined
-  visibleBottom = undefined
-  visibleTop = undefined
-  _ref = undefined
-  _ref1 = undefined
-  scrollTop = $(window).scrollTop()
-  scrollBot = scrollTop + $(window).height()
-  elTop = @offset().top
-  elBottom = elTop + @outerHeight()
-  visibleTop = if elTop < scrollTop then scrollTop else elTop
-  visibleBottom = if elBottom > scrollBot then scrollBot else elBottom
-  visibleBottom - visibleTop
 
-$(document).click (e) ->
-  # check that your clicked
-  # element has no id=info
-  if (!$('#photos_in_bucket').find(e.target).length)
-    if (e.target.id != 'photo_bucket_panel' && !$('#photo_bucket_panel').find(e.target).length && $('#photos_in_bucket').hasClass("control-sidebar-open"))
-      console.log(e.target)
-      $('#photos_in_bucket').toggleClass("control-sidebar-open")
-    return
-  else
-    window.location = "/bucket"
-  return
+update_bucket_count = ->
+  $.get '/bucket/count', (data) ->
+    $('#bucket_counter').html data['count']
+
+$(document).ready ->
+  update_bucket_count()
