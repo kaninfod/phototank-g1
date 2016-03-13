@@ -37,8 +37,10 @@ def search
     @searchalbum = Album.new
   end
   prep_form
-  @photos = @searchalbum.photos.page params[:page]
-
+  @photos = @searchalbum.photos.paginate(:page => params[:page], :per_page => 16)
+  if request.xhr?
+    render :partial=>"photos/view/grid"
+  end
 end
 
   def show

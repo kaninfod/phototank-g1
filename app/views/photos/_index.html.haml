@@ -14,10 +14,8 @@
       - else
         = render :partial => "photos/view/grid"
 
-      
-      - flash.each do |name, msg|
-        = content_tag :div, msg, class: name
 
-    .box-footer
+    .box-footer#infinite-scrolling
       .pull-right
-        = paginate @photos, :theme => 'twitter-bootstrap-3'
+        = will_paginate @photos
+        =# paginate @photos, :theme => 'twitter-bootstrap-3'

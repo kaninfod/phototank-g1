@@ -29,6 +29,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Pagination
 gem 'kaminari'
+gem 'will_paginate', '~> 3.0.6'
+
 gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
 gem 'bootstrap_form'
