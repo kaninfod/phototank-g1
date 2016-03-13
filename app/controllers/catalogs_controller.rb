@@ -74,8 +74,8 @@ class CatalogsController < ApplicationController
       when 'DropboxCatalog'
         catalog = Catalog.find(params[:id])
         catalog.import
-
       end
+      flash[:success] = "Checking for new photos to import to #{catalog.name}"
       redirect_to action: "dashboard", id: params[:id]
     else
       @catalog = Catalog.find(params[:id])

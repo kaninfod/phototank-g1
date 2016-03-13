@@ -1,4 +1,18 @@
+.col-md-6
+  .box.box-primary
+    .box-header.with-border
+      %h3.box-title Check for new photos in the catalog path(s)
+    = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
+      .box-body
+        %ul.list-unstyled
+          -@catalog.watch_path.each do |path|
+            %li
+              .h4
+                %span.label.label-default=path
 
+        =hidden_field_tag "import_action", "MasterCatalog"
+      .box-footer
+        %button.btn.btn-default{:type => "submit"} Check
 
 .col-md-6
   .box.box-primary
