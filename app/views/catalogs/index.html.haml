@@ -1,39 +1,21 @@
 =content_for :title, "Catalogs"
 =content_for :subtitle, "all"
 
-.box
-  .box-header.with-border
-    .pull-right
-      = link_to "New catalog", "/catalogs/new", class:"btn btn-default"
-  / /.box-header
-  .box-body
-    %table.table.table-bordered
-    %table.table
-      %thead
-        %tr
-          %th Name
-          %th Storage path
-          %th Type
-          %th
-          %th
-          %th
-      %tbody
-        - @catalogs.each do |catalog|
-          %tr
-            %td= link_to catalog.name, action: 'manage', id:catalog
-            %td= catalog.path
-            %td= catalog.catalogtype
-            %td
-              - if catalog.online
-                = icon('toggle-on')
-              - else
-                = icon('toggle-off')
-            %td= link_to icon('picture-o'), action: 'show', id: catalog
-            %td= link_to icon('pencil'), action: 'manage', id: catalog
-            %td= link_to icon('cloud'), action: 'dashboard', id: catalog
-            %td
-              -if not catalog.type=="MasterCatalog"
-                = link_to icon('close'), controller: "catalogs", action: 'destroy', id: catalog, method: :delete
-  / /.box-body
-  .box-footer.clearfix
-    = paginate @catalogs, :theme => 'twitter-bootstrap-3'
+
+- @catalogs.each do |catalog|
+  .col-lg-3.col-xs-6
+    / small box
+    .small-box.bg-aqua
+      .inner
+        %h3=catalog.name
+        %p=catalog.type
+      .icon
+        -if catalog.type == "DropboxCatalog"
+          %i.fa.fa-dropbox
+        -elsif catalog.type == "MasterCatalog"
+          %i.fa.fa-cloud
+        -elsif catalog.type == "LocalCatalog"
+          %i.fa.fa-pencil
+      %a.small-box-footer{:href => "/catalogs/#{catalog.id}/dashboard"}
+        Dashboard
+        %i.fa.fa-arrow-circle-right

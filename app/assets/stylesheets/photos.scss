@@ -1,55 +1,48 @@
-
-.photo-square {
-    float:left;
-    position: relative;
-    width: 155px;
-	  height: 215px;
-    #padding-bottom : 20%; /* = width for a 1:1 aspect ratio */
-    margin:0.5%;
-    background-color:#F7F7F7;
-
+.photo-widget {
+  float: left;
+  border: none;
+  position: relative;
+  width:125px;
+  padding-bottom: 15px;
+  margin-left:10px;
+  margin-right:10px;
+}
+.photo-widget-header {
+  height: 125px;
+  width: 125px;
 }
 
-.photo-content {
-    position:absolute;
-    height:90%; /* = 100% - 2*5% padding */
-    width:100%; /* = 100% - 2*5% padding */
-    padding: 5%;
-
-}
-.photo-table{
-    display:table;
-    width:100%;
-    height:100%;
-}
-.photo-table-cell{
-  display:table-cell;
-  vertical-align:top;
-	text-align:center;
-	padding-bottom: 2px;
+.photo-widget-overlay {
+  position:relative;
+  top:0px;
+  width:125px;
+  height:125px;
+  background:#FF2400;
+  opacity:1;
 }
 
-.photo-text{
-
+.bucket {
+  opacity:0.5;
 }
-.photo-content .rs{
-    width:auto;
-    height:auto;
-    max-height:90%;
-    max-width:100%;
+.photo-widget-header img {
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
 }
-/*  For responsive images as background */
-
-.bg{
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-size:cover; /* you change this to "contain" if you don't want the images to be cropped */
-    color:#fff;
+.photo-widget-footer {
+  background-color:#e2dcdc;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
+.photo-title-label {
+  padding-left: 4px;
+  font-weight: bold;
+}
+.photo-title {
+  padding-left: 14px;
+  margin-top: -7px;
+}
+.photo-tool {
 
-.photo-trunc-text {
-	width:300px;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow: ellipsis;
+  margin-top: 1px;
+  padding-bottom: 5px;
 }

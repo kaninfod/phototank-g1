@@ -6,3 +6,8 @@
       .box-body
         =hidden_field_tag "import_action", "MasterCatalog"
         %button.btn.btn-default{:type => "submit"} Submit
+
+-if @catalog.photos.count > 0
+  = render :partial => "catalogs/dashboard/stat_cards"
+
+= render :partial => "jobs/list", locals: {compact: true}

@@ -3,14 +3,23 @@
 updateBucketCounter = (count) ->
   $('#bucket_counter').html count
   return
+  
+$ ->
+  $('.show_map').popover container: 'body'
+  return
+
 
 $ ->
-  $('.bucket-check').change ->
+  $('.photo-widget .photo-widget-header img').click (e) ->
+    console.log this
+    $(this).toggleClass("bucket")
 
-    if $(this).is(':checked')
+    if $(this).hasClass('bucket')
       url = '/bucket/' + $(this).attr('photo_id') + '/add'
     else
       url = '/bucket/' + $(this).attr('photo_id') + '/remove'
+
+
     $.ajax
       method: 'POST'
       url: url
@@ -19,8 +28,5 @@ $ ->
         $('#bucket_counter').html response['count']
         return
     return
-  return
 
-$ ->
-  $('.show_map').popover container: 'body'
-  return
+    return

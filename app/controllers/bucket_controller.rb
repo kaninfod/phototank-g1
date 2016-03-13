@@ -3,10 +3,11 @@ class BucketController < ApplicationController
   def add
     session[:bucket].push params[:id].to_i
     render :json => {'count' => session[:bucket].count}
+
   end
 
   def remove
-    get_bucket
+
     session[:bucket].delete(params[:id].to_i)
     render :json => {'count' => session[:bucket].count}
   end
@@ -23,6 +24,7 @@ class BucketController < ApplicationController
   def index
     @bucket = get_bucket
     @photos = Photo.where(id:@bucket).page params[:page]
+    
   end
 
   def list
