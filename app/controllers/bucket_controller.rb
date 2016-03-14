@@ -24,7 +24,6 @@ class BucketController < ApplicationController
   def index
     @bucket = get_bucket
     @photos = Photo.where(id:@bucket).page params[:page]
-    
   end
 
   def list

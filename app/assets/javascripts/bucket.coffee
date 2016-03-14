@@ -2,27 +2,26 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
-  $('.photo-widget .photo-widget-header img').click (e) ->
 
-    overlay = $(e.target).prev(".photo-widget-overlay")
-    console.log(overlay)
-    overlay.toggleClass("bucket")
 
-    if $(overlay).hasClass('bucket')
-      url = '/bucket/' + $(this).attr('photo_id') + '/add'
-    else
-      url = '/bucket/' + $(this).attr('photo_id') + '/remove'
+toggleBucket = (photoOverlay) ->
+  photoOverlay.toggleClass("bucket")
+  imgDiv = photoOverlay.next()
 
-    $.ajax
-      method: 'POST'
-      url: url
-      data: {}
-      success: (response) ->
-        $('#bucket_counter').html response['count']
-        return
-    return
+  if $(photoOverlay).hasClass('bucket')
+    url = '/bucket/' + $(imgDiv).attr('photo_id') + '/add'
+  else
+    url = '/bucket/' + $(imgDiv).attr('photo_id') + '/remove'
+
+  $.ajax
+    method: 'POST'
+    url: url
+    data: {}
+    success: (response) ->
+      $('#bucket_counter').html response['count']
+      return
   return
+
 
 $ ->
   $('#photo_bucket_panel').click ->
@@ -34,10 +33,16 @@ $ ->
     return
   return
 
-
 update_bucket_count = ->
   $.get '/bucket/count', (data) ->
     $('#bucket_counter').html data['count']
 
+
 $(document).ready ->
+
   update_bucket_count()
+
+  $('#photos').on 'click', '.photo-widget .photo-widget-header img', ->
+    overlay = $(this).prev(".photo-widget-overlay")
+    toggleBucket(overlay)
+    return
