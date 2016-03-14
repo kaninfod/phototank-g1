@@ -42,6 +42,7 @@ include ImportPhotoHelper
     @photo = Photo.new
     @photo.import_path = import_path
 
+    phash_photo
     date_changed = set_exif
     process
 

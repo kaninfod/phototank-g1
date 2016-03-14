@@ -4,6 +4,29 @@ module ImportPhotoHelper
   IMAGE_MEDIUM = '480x680'
   IMAGE_LARGE = '1024x1200'
 
+
+  def process(clone_mode = 'copy')
+
+    set_paths
+
+    set_attributes
+
+    handle_file(clone_mode)
+
+    create_photos
+
+  end
+
+  def phash_photo()
+    @phash = Phashion::Image.new(@photo.import_path)
+    @photo.filename = @phash.fingerprint
+
+    #Check if file already exists in system (db and file)
+    if @photo.identical
+      raise "Photo already exists: #{@photo.import_path}"
+    end
+  end
+  
   def set_exif()
     raise "File does not exist" unless File.exist?(@photo.import_path)
 
@@ -31,31 +54,12 @@ module ImportPhotoHelper
     exif = MiniExiftool.new(photo_path, opts={:numerical=>true})
 
     exif.datetimeoriginal = File.ctime(@photo.import_path)
-    
+
     exif.save
     Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
   end
 
-  def process(clone_mode = 'copy')
 
-    @phash = Phashion::Image.new(@photo.import_path)
-    @photo.filename = @phash.fingerprint
-
-    #Check if file already exists in system (db and file)
-    if @photo.identical
-      raise "Photo already exists: #{@photo.import_path}"
-    end
-
-    set_paths
-
-    set_attributes
-
-    handle_file(clone_mode)
-
-    create_photos
-
-
-  end
 
   def set_attributes
     @image = MiniMagick::Image.open(@photo.import_path)
