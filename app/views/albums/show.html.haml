@@ -1,3 +1,4 @@
 =content_for :title, @album.name
 =content_for :subtitle, "#{@photos.count} photos in Album"
-= render :template => 'photos/_index'
+.row
+  = render :template => 'photos/_index'

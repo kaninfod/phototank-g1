@@ -49,13 +49,8 @@ Rails.application.routes.draw do
   get 'administration/jobs_pending'
   get 'administration/list_jobs'
 
-
   post 'jobs/list' => 'jobs#list'
-  resources :jobs, :except => [:index]
-
-
-
-
+  resources :jobs
 
   require 'resque/server'
   mount Resque::Server.new, at: "/resque"

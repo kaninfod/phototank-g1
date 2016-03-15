@@ -1,6 +1,6 @@
 class LocalImportPhotoJob < ResqueJob
   include Resque::Plugins::UniqueJob
-  @queue = :local
+  @queue = :import
 
 
 

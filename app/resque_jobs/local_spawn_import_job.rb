@@ -1,6 +1,6 @@
 class LocalSpawnImportJob < ResqueJob
   include Resque::Plugins::UniqueJob
-  @queue = :local
+  @queue = :import
 
   def self.perform(catalog_id)
 

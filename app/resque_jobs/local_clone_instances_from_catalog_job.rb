@@ -1,6 +1,6 @@
 class LocalCloneInstancesFromCatalogJob < ResqueJob
   include Resque::Plugins::UniqueJob
-  @queue = :local
+  @queue = :import
 
   def self.perform(to_catalog_id, from_catalog_id)
 
