@@ -7,3 +7,6 @@
   = render "catalogs/dashboard/local_catalog"
 - elsif @catalog.type == "DropboxCatalog"
   = render "catalogs/dashboard/dropbox_catalog"
+
+= render :partial => "catalogs/dashboard/stat_cards"
+= render :partial => "jobs/list", locals: {compact: true}

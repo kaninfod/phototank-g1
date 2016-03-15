@@ -1,0 +1,6 @@
+.btn-group{:role=>"group"}
+  %a.btn.btn-default{:type=>"button", :href=>"edit"}Manage
+  %a.btn.btn-default{:type=>"button", :href=>"destroy"}Delete
+  %a.btn.btn-default{:type=>"button", :href=>"/catalogs/#{@catalog.id}"}photos
+  %a.btn.btn-default{:type=>"button", :href=>"/catalogs/#{@catalog.id}/import"}Update
+  %a.btn.btn-default{:type=>"button", :href=>"/jobs"}Jobs

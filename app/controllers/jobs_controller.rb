@@ -3,17 +3,17 @@ class JobsController < ApplicationController
   def list
     if params.has_key?("query")
       if params[:query] == "failed"
-        @jobs = Job.where(status: 2).order(created_at: :desc, id: :desc ).page params[:page]
+        @jobs = Job.where(status: 2).order(created_at: :desc, id: :desc ).paginate(:page => params[:page], :per_page => 16)
       end
 
     else
-      @jobs = Job.order(created_at: :desc, id: :desc ).page params[:page]
+      @jobs = Job.order(created_at: :desc, id: :desc ).paginate(:page => params[:page], :per_page => 16)
     end
     render :partial => "jobs/list", locals: {compact: params[:compact]},  :layout => false
   end
 
   def index
-    @jobs = Job.all.order(created_at: :desc, id: :desc ).page params[:page]
+    @jobs = Job.all.order(created_at: :desc, id: :desc ).paginate(:page => params[:page], :per_page => 16)
   end
 
 end

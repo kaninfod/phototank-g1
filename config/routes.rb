@@ -9,30 +9,23 @@ Rails.application.routes.draw do
   match 'albums/select' => 'albums/select', via: [:get, :post]
   #get 'albums/show_stat' => 'albums#show_stat'
   resources :albums, :concerns => :paginatable
-  #get 'albums/:id/grid' => 'albums#grid'
+
 
   match "photos" => "photos#index", :via => [:post, :get]
   resources :photos, :except => [:create, :index]
   get '/photos/:id/image/:size' => 'photos#image'
   get '/photos/:id/display' => 'photos#display'
 
-
-
-
+  resources :catalogs
   get '/catalogs/:id/dashboard' => 'catalogs#dashboard'
   get '/catalogs/:id/get_catalog' => 'catalogs#get_catalog'
-  match "/catalogs/:id/manage" => "catalogs#manage", via: [:get, :post]
+  match "/catalogs/:id/edit" => "catalogs#edit", via: [:get, :post]
   get "/catalogs/:id/destroy" => "catalogs#destroy"
   get '/catalogs/authorize' => 'catalogs#authorize'
   get '/catalogs/authorize_callback' => 'catalogs#authorize_callback'
-  resources :catalogs, :concerns => :paginatable
-  resources :localcatalogs, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
+
+  #resources :localcatalogs, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
   match '/catalogs/:id/import' => 'catalogs#import', via: [:get, :post]
-  get '/catalogs/:id/import_to_master' => 'catalogs#import_to_master'
-  get '/catalogs/:id/import_to_slave' => 'catalogs#import_to_slave'
-  post '/catalogs/:id/bucket' => 'catalogs#bucket'
-
-
 
   get '/locations/lookup'
   resources :locations, :concerns => :paginatable
@@ -55,11 +48,10 @@ Rails.application.routes.draw do
   get 'administration/generate_albums'
   get 'administration/jobs_pending'
   get 'administration/list_jobs'
-  #get 'synchronizers/dropbox'
-  #get 'synchronizers/authorize'
+
 
   post 'jobs/list' => 'jobs#list'
-  resources :jobs, :except => [:index], :concerns => :paginatable
+  resources :jobs, :except => [:index]
 
 
 

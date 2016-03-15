@@ -1,3 +1,9 @@
 =content_for :title, @catalog.name
-=content_for :subtitle, "Edit Catalog"
-= render 'form'
+=content_for :subtitle, "Manage Catalog"
+
+- if @catalog.type == "MasterCatalog"
+  = render "catalogs/manage/master_catalog"
+- elsif @catalog.type == "LocalCatalog"
+  = render "catalogs/manage/local_catalog"
+- elsif @catalog.type == "DropboxCatalog"
+  = render "catalogs/manage/dropbox_catalog"

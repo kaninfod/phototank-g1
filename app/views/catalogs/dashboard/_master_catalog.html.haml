@@ -1,40 +1,15 @@
 .col-md-6
   .box.box-primary
     .box-header.with-border
-      %h3.box-title Check for new photos in the catalog path(s)
-    = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
-      .box-body
-        .btn-group{:role=>"group"}
-          %a.btn.btn-default{:type=>"button", :href=>"manage"}Manage
-          %a.btn.btn-default{:type=>"button", :href=>"destroy"}Delete
-          %a.btn.btn-default{:type=>"button", :href=>"/jobs"}Jobs
+      .pull-right
 
+        =render :partial => "catalogs/dashboard/catalog_actions"
+      .box-body
+
+      .box-footer
+        Photos will be imported from:
         %ul.list-unstyled
           -@catalog.watch_path.each do |path|
             %li
               .h4
                 %span.label.label-default=path
-
-        =hidden_field_tag "import_action", "MasterCatalog"
-      .box-footer
-        %button.btn.btn-default{:type => "submit"} Check
-
-.col-md-6
-  .box.box-primary
-    .box-header.with-border
-      %h3.box-title Check for new photos in the catalog path(s)
-    = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
-      .box-body
-        %ul.list-unstyled
-          -@catalog.watch_path.each do |path|
-            %li
-              .h4
-                %span.label.label-default=path
-
-        =hidden_field_tag "import_action", "MasterCatalog"
-      .box-footer
-        %button.btn.btn-default{:type => "submit"} Check
--if @catalog.photos.count > 0
-  = render :partial => "catalogs/dashboard/stat_cards"
-
-= render :partial => "jobs/list", locals: {compact: true}

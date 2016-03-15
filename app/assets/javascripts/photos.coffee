@@ -1,7 +1,8 @@
+$(document).ready ->
+  #Event binding for adding photos to the bucket
+  $('[data-toggle="popover"]').popover();
 
-$ ->
-  $('.show_map').popover container: 'body'
-  return
+
 
 $ ->
   if $('#infinite-scrolling').size() > 0
@@ -14,7 +15,7 @@ $ ->
             url: more_posts_url
             success: (data) ->
               $("#photos").append(data)
-
+              $('[data-toggle="popover"]').popover();
       if !more_posts_url
         $('.pagination').html("")
     return

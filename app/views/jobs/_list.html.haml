@@ -41,7 +41,8 @@
                 %td=job.arguments
                 %td=job.job_error
     .box-footer
-      =paginate @jobs, :theme => 'twitter-bootstrap-3', :pagination_class=>"pull-right"
+      = will_paginate @jobs
+      =#paginate @jobs, :theme => 'twitter-bootstrap-3', :pagination_class=>"pull-right"
 
 :css
   td {

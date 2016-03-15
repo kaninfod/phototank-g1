@@ -3,7 +3,7 @@
     %h3.box-title Catalog settings
   / /.box-header
   / form start
-  = form_tag("/catalogs/#{@catalog.id}/manage", method: "post") do
+  = form_tag("/catalogs/#{@catalog.id}/edit", method: "post") do
     .box-body
       .form-group
         = label_tag( "Catalog name:")

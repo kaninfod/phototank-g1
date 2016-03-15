@@ -3,7 +3,5 @@
     No Photos to display
   - else
     = render @photos
-
-  = will_paginate @photos
-
-:javascript
+  .hide
+    = will_paginate @photos

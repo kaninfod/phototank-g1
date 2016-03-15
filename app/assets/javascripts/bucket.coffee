@@ -12,6 +12,9 @@ $(document).ready ->
     toggleBucket(overlay)
     return
 
+
+
+
 toggleBucket = (photoOverlay) ->
   photoOverlay.toggleClass("bucket")
   imgDiv = photoOverlay.next()

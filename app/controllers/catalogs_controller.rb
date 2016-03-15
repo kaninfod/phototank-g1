@@ -4,13 +4,13 @@ class CatalogsController < ApplicationController
     @catalogs = Catalog.order(:id).page params[:page]
   end
 
-  def edit
-    @catalog = Catalog.find(params[:id])
-  end
+  # def edit
+  #   @catalog = Catalog.find(params[:id])
+  # end
 
   def dashboard
     @catalog = Catalog.find(params[:id])
-    @jobs = Job.order(created_at: :desc, id: :desc ).page params[:page]
+    @jobs = Job.order(created_at: :desc, id: :desc ).paginate(:page => params[:page], :per_page => 10)
   end
 
   def update
@@ -51,59 +51,52 @@ class CatalogsController < ApplicationController
   end
 
   def show
-    if params.has_key?(:viewmode)
-      @view = params[:viewmode]
-    else
-      @view = 'grid'
-    end
+    viewmode
     @bucket = session[:bucket]
     @catalog = Catalog.find(params[:id])
     @photos = Catalog.find(params[:id]).photos.page params[:page]
+    #If this was requested from an ajax call it should be rendered with slim view
+    if request.xhr?
+      render :partial=>"photos/view/grid"
+    end
   end
 
 
   def import
-    if request.post?
-      case params['import_action']
-      when 'MasterCatalog'
-        catalog = Catalog.master
-        catalog.import
-      when 'LocalCatalog'
-        catalog = Catalog.find(params[:id])
-        catalog.import
-      when 'DropboxCatalog'
-        catalog = Catalog.find(params[:id])
-        catalog.import
-      end
-      flash[:success] = "Checking for new photos to import to #{catalog.name}"
-      redirect_to action: "dashboard", id: params[:id]
-    else
-      byebug
-      @catalog = Catalog.find(params[:id])
-      if @catalog.sync_from_catalog
-        @sync_from_catalog = Catalog.find(@catalog.sync_from_catalog)
-      else
-        @sync_from_albums = Album.find(@catalog.sync_from_albums)
-      end
-    end
+    byebug
+    #if request.post?
+      # case params['import_action']
+      # when 'MasterCatalog'
+      #   catalog = Catalog.master
+      # when 'LocalCatalog'
+      #   catalog = Catalog.find(params[:id])
+      # when 'DropboxCatalog'
+      #   catalog = Catalog.find(params[:id])
+      # end
+    catalog = Catalog.find(params[:id])
+    catalog.import
+    flash[:success] = "Checking for new photos to import to #{catalog.name}"
+    redirect_to action: "dashboard", id: params[:id]
+    #else
+      # @catalog = Catalog.find(params[:id])
+      # if @catalog.sync_from_catalog
+      #   @sync_from_catalog = Catalog.find(@catalog.sync_from_catalog)
+      # else
+      #   @sync_from_albums = Album.find(@catalog.sync_from_albums)
+      # end
+    #end
 end
 
-  def manage
+  def edit
     @catalog = Catalog.find(params[:id])
 
     if request.post?
       catalog = params.permit(:name, :type, :path)
       case params[:type]
         when "MasterCatalog"
-
-          watch_path =[]
-          params.each do |k, v|
-            watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
-          end
-          catalog['watch_path'] = watch_path
-
+          catalog['watch_path'] = generate_watch_path
         when "LocalCatalog"
-          catalog = params.permit(:name, :type, :path)
+
           if params[:sync_from] == "catalog"
             catalog['sync_from_catalog'] = params[:sync_from_catalog_id]
             catalog['sync_from_albums'] = nil
@@ -140,7 +133,6 @@ end
     render :json => Catalog.find(params[:id]).to_json
   end
 
-
   def authorize()
     dropbox_data = {
       :appkey => "cea457a609yecr1",
@@ -168,6 +160,22 @@ end
   end
 
   private
+
+  def generate_watch_path
+    watch_path =[]
+    params.each do |k, v|
+      watch_path.push(v) if (k.include?('wp_') & not(v.blank?))
+    end
+    return watch_path
+  end
+
+  def viewmode
+    if params.has_key?(:viewmode)
+      @view = params[:viewmode]
+    else
+      @view = 'grid'
+    end
+  end
 
   def set_catalog
     Catalog.find(params[:id])

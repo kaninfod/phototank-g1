@@ -5,7 +5,7 @@
 - @catalogs.each do |catalog|
   .col-lg-3.col-xs-6
     / small box
-    .small-box.bg-aqua
+    %a.small-box.bg-aqua{:href => "/catalogs/#{catalog.id}/dashboard"}
       .inner
         %h3=catalog.name
         %p=catalog.type
@@ -16,19 +16,19 @@
           %i.fa.fa-asterisk
         -elsif catalog.type == "LocalCatalog"
           %i.fa.fa-map-marker
-      %a.small-box-footer{:href => "/catalogs/#{catalog.id}/dashboard"}
+      .small-box-footer
         Dashboard
         %i.fa.fa-arrow-circle-right
 
 
 .col-lg-3.col-xs-6
   / small box
-  .small-box.bg-green
+  %a.small-box.bg-green{:href => "/catalogs/new"}
     .inner
       %h3  New catalog
       %p Any...
     .icon
       %i.fa.fa-plus
-    %a.small-box-footer{:href => "/catalogs/new"}
+    .small-box-footer
       Add new catalog
       %i.fa.fa-arrow-circle-right

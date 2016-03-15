@@ -1,17 +1,6 @@
 .col-md-6
   .box.box-primary
     .box-header.with-border
-      %h3.box-title Quick Example
-    = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
+      .pull-right
+        =render :partial => "catalogs/dashboard/catalog_actions"
       .box-body
-        .btn-group{:role=>"group"}
-          %a.btn.btn-default{:type=>"button", :href=>"manage"}Manage
-          %a.btn.btn-default{:type=>"button", :href=>"destroy"}Delete
-          %a.btn.btn-default{:type=>"button", :href=>"/jobs"}Jobs
-
-        =hidden_field_tag "import_action", "DropboxCatalog"
-        %button.btn.btn-default{:type => "submit"} Submit
--if @catalog.photos.count > 0
-  = render :partial => "catalogs/dashboard/stat_cards"
-
-= render :partial => "jobs/list", locals: {compact: true}
