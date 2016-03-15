@@ -1,7 +1,4 @@
 class PhotosController < ApplicationController
-  #before_action :set_photo, only: [:image, :display, :show, :edit, :update, :destroy]
-
-
 
   def image
     @photo = set_photo
@@ -23,25 +20,25 @@ class PhotosController < ApplicationController
     end
   end
 
-def search
+  def index
+    viewmode
+    prep_form
+    
+    #has the user set any search paramaters
+    if params.has_key?(:album)
+      @album = Album.new(album_params)
+    else
+      @album = Album.new
+    end
 
-  if params.has_key?(:viewmode)
-    @view = params[:viewmode]
-  else
-    @view = 'grid'
-  end
+    #Get photos
+    @photos = @album.photos.order(:date_taken).paginate(:page => params[:page], :per_page => 16)
 
-  if params.has_key?(:album)
-    @searchalbum = Album.new(album_params)
-  else
-    @searchalbum = Album.new
+    #If this was requested from an ajax call it should be rendered with slim view
+    if request.xhr?
+      render :partial=>"photos/view/grid"
+    end
   end
-  prep_form
-  @photos = @searchalbum.photos.paginate(:page => params[:page], :per_page => 16)
-  if request.xhr?
-    render :partial=>"photos/view/grid"
-  end
-end
 
   def show
     if params.has_key?(:size)
@@ -49,66 +46,20 @@ end
     else
       @size = 'medium'
     end
-    @photo = set_photo
-    #@photoimage = '/photos/' + @photo.id.to_s + '/image'
-  end
-
-  # GET /photos/new
-  def new
-    @photo = Photo.new
-  end
-
-  # GET /photos/1/edit
-  def edit
-    @photo = set_photo
-  end
-
-  # POST /photos
-  # POST /photos.json
-  def create
-    @photo = Photo.new(photo_params)
-
-    respond_to do |format|
-      if @photo.save
-        format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
-        format.json { render :show, status: :created, location: @photo }
-      else
-        format.html { render :new }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /photos/1
-  # PATCH/PUT /photos/1.json
-  def update
-    @photo = set_photo
-    respond_to do |format|
-      if @photo.update(photo_params)
-        format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
-        format.json { render :show, status: :ok, location: @photo }
-      else
-        format.html { render :edit }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /photos/1
-  # DELETE /photos/1.json
-  def destroy
-    @photo = set_photo
-
-    @photo.destroy
-    respond_to do |format|
-      format.html { redirect_to photos_url, notice: 'Photo was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @photo = Photo.find(params[:id])
   end
 
   private
   def album_params
     params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
+  end
+
+  def viewmode
+    if params.has_key?(:viewmode)
+      @view = params[:viewmode]
+    else
+      @view = 'grid'
+    end
   end
 
   def prep_form

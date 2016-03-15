@@ -25,7 +25,6 @@ include ImportPhotoHelper
   def delete_photo(photo_id)
 
     begin
-
       FileUtils.rm((self.photos.find(photo_id).original_filename))
       FileUtils.rm((self.photos.find(photo_id).large_filename))
       FileUtils.rm((self.photos.find(photo_id).medium_filename))

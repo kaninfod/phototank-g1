@@ -3,11 +3,9 @@ class BucketController < ApplicationController
   def add
     session[:bucket].push params[:id].to_i
     render :json => {'count' => session[:bucket].count}
-
   end
 
   def remove
-
     session[:bucket].delete(params[:id].to_i)
     render :json => {'count' => session[:bucket].count}
   end
@@ -28,12 +26,11 @@ class BucketController < ApplicationController
 
   def list
     @bucket = get_bucket
-    @photos_in_bucket = Photo.where(id:@bucket)
+    @photos_in_bucket = Photo.where(id:@bucket).limit(28)
     render layout: false
   end
 
   def save_to_album
-
     @album = Album.new
     @album.name = "Saved from bucket"
     @album.photo_ids = session[:bucket]

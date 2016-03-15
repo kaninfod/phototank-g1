@@ -16,6 +16,7 @@ class CatalogsController < ApplicationController
   def update
     @catalog = set_catalog
     respond_to do |format|
+
       if @catalog.update(catalog_params)
         format.html { redirect_to action: 'index', notice: 'Catalog was successfully updated.' }
         format.json { render :show, status: :ok, location: @catalog }
@@ -62,7 +63,6 @@ class CatalogsController < ApplicationController
 
 
   def import
-
     if request.post?
       case params['import_action']
       when 'MasterCatalog'
@@ -78,6 +78,7 @@ class CatalogsController < ApplicationController
       flash[:success] = "Checking for new photos to import to #{catalog.name}"
       redirect_to action: "dashboard", id: params[:id]
     else
+      byebug
       @catalog = Catalog.find(params[:id])
       if @catalog.sync_from_catalog
         @sync_from_catalog = Catalog.find(@catalog.sync_from_catalog)
@@ -117,10 +118,12 @@ end
         when "DropboxCatalog"
           catalog['sync_from_catalog'] = params[:sync_from_catalog_id]
           catalog['sync_from_albums'] = nil
+          catalog['access_token'] = params["access_token"]
       end
 
       if @catalog.update(catalog)
-        redirect_to action: 'index', notice: 'Catalog was successfully updated.'
+        flash[:notice] = 'Catalog was successfully updated.'
+        redirect_to action: 'dashboard'
       end
     else #request is GET
       @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]

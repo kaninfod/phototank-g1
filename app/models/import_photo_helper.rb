@@ -26,12 +26,9 @@ module ImportPhotoHelper
       raise "Photo already exists: #{@photo.import_path}"
     end
   end
-  
+
   def set_exif()
-    raise "File does not exist" unless File.exist?(@photo.import_path)
-
     exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})
-
 
     @photo.longitude = exif.gpslongitude
     @photo.latitude = exif.gpslatitude
@@ -45,21 +42,16 @@ module ImportPhotoHelper
       @photo.date_taken = exif.datetimeoriginal
       return 0
     end
-
   end
 
   def change_exif_data
 
     photo_path = File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
     exif = MiniExiftool.new(photo_path, opts={:numerical=>true})
-
     exif.datetimeoriginal = File.ctime(@photo.import_path)
-
     exif.save
     Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
   end
-
-
 
   def set_attributes
     @image = MiniMagick::Image.open(@photo.import_path)
@@ -69,15 +61,6 @@ module ImportPhotoHelper
     @photo.file_extension = ".jpg"
     @photo.file_thumb_path = @relative_path_clones
     @photo.path = @relative_path_original
-  end
-
-  def get_date_path()
-    date_path = File.join(
-      @photo.date_taken.strftime("%Y"),
-      @photo.date_taken.strftime("%m"),
-      @photo.date_taken.strftime("%d")
-    )
-    return date_path
   end
 
   def set_paths
@@ -90,6 +73,15 @@ module ImportPhotoHelper
     @absolute_path_original = File.join(Catalog.master.path, 'phototank', 'originals', @date_path)
   end
 
+  def get_date_path()
+    date_path = File.join(
+      @photo.date_taken.strftime("%Y"),
+      @photo.date_taken.strftime("%m"),
+      @photo.date_taken.strftime("%d")
+    )
+    return date_path
+  end
+
   def handle_file(clone_mode)
     FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
     if clone_mode == 'copy'
@@ -98,7 +90,6 @@ module ImportPhotoHelper
       File.rename @photo.import_path, File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
     end
   end
-
 
   def create_photos
     FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)

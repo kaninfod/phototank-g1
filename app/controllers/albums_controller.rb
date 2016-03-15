@@ -1,25 +1,26 @@
 class AlbumsController < ApplicationController
-  def grid
-    @photos = Photo.all
-    @bucket = session[:bucket]
-  end
+
+  # def grid
+  #   @photos = Photo.all
+  #   @bucket = session[:bucket]
+  # end
 
   def show
-    if params.has_key?(:viewmode)
-      @view = params[:viewmode]
-    else
-      @view = 'grid'
-    end
+    viewmode
+
     @bucket = session[:bucket]
-
-
     @album = Album.find(params[:id])
-    @photos = @album.photos.page params[:page]
 
+    #Get photos
+    @photos = @album.photos.paginate(:page => params[:page], :per_page => 16)
+
+    #If this was requested from an ajax call it should be rendered with slim view
+    if request.xhr?
+      render :partial=>"photos/view/grid"
+    end
   end
 
   def index
-
     order = params[:order] unless not params.has_key?(:order)
     query = "%#{params[:q]}%" #unless not params.has_key?(:q)
     query ||="%"
@@ -32,7 +33,6 @@ class AlbumsController < ApplicationController
   end
 
   def update
-
     @album = Album.find(params[:id])
     respond_to do |format|
       if @album.update(album_params)
@@ -45,7 +45,6 @@ class AlbumsController < ApplicationController
     end
   end
 
-
   # GET /photos/new
   def new
     @album = Album.new
@@ -53,7 +52,6 @@ class AlbumsController < ApplicationController
   end
 
   def create
-
     @album = Album.new(album_params)
 
     respond_to do |format|
@@ -93,9 +91,9 @@ class AlbumsController < ApplicationController
 
   end
 
-def show_stat
-
-end
+# def show_stat
+#
+# end
 
   private
 
@@ -111,5 +109,12 @@ end
       @bucket = session[:bucket]
     end
 
+    def viewmode
+      if params.has_key?(:viewmode)
+        @view = params[:viewmode]
+      else
+        @view = 'grid'
+      end
+    end
 
 end

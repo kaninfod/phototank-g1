@@ -13,7 +13,7 @@ class LocalCloneInstancesFromAlbumJob < ResqueJob
         begin
           new_instance.save
         rescue ActiveRecord::RecordNotUnique
-          logger.debug "instance exists"
+          Rails.logger.debug "instance exists"
         end
       end
 

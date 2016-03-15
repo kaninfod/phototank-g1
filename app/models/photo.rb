@@ -38,6 +38,10 @@ class Photo < ActiveRecord::Base
     return org & lg & md & sm
   end
 
+  def date_taken_formated
+    date_taken.strftime("%b %d %Y %H:%M:%S")
+  end
+
   def delete_from_catalog(catalog_id)
     File.delete(self.absolutepath(catalog_id))
     File.delete(self.absolutepath(catalog_id))

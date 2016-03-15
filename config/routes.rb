@@ -6,17 +6,16 @@ Rails.application.routes.draw do
 
   root to: 'albums#index'
 
-  get 'albums/select' => 'albums/select'
-  post 'albums/select' => 'albums/select'
-  get 'albums/show_stat' => 'albums#show_stat'
+  match 'albums/select' => 'albums/select', via: [:get, :post]
+  #get 'albums/show_stat' => 'albums#show_stat'
   resources :albums, :concerns => :paginatable
-  get 'albums/:id/grid' => 'albums#grid'
+  #get 'albums/:id/grid' => 'albums#grid'
 
-
-  match '/photos/search' => 'photos#search', via: [:get, :post]
-  resources :photos, :except => [:index], :concerns => :paginatable
-  get '/photos/:id/display' => 'photos#display'
+  match "photos" => "photos#index", :via => [:post, :get]
+  resources :photos, :except => [:create, :index]
   get '/photos/:id/image/:size' => 'photos#image'
+  get '/photos/:id/display' => 'photos#display'
+
 
 
 

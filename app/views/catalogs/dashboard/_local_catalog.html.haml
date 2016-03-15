@@ -4,8 +4,20 @@
       %h3.box-title Quick Example
     = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
       .box-body
-        =hidden_field_tag "import_action", "MasterCatalog"
+        .btn-group{:role=>"group"}
+          %a.btn.btn-default{:type=>"button", :href=>"manage"}Manage
+          %a.btn.btn-default{:type=>"button", :href=>"destroy"}Delete
+          %a.btn.btn-default{:type=>"button", :href=>"/jobs"}Jobs
+        %ul.list-unstyled
+          -@catalog.sync_from_albums.each do |album|
+            %li
+              .h4
+                %span.label.label-default=album
+
+        =hidden_field_tag "import_action", "LocalCatalog"
         %button.btn.btn-default{:type => "submit"} Submit
+
+
 
 -if @catalog.photos.count > 0
   = render :partial => "catalogs/dashboard/stat_cards"

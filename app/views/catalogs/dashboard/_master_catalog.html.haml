@@ -4,6 +4,11 @@
       %h3.box-title Check for new photos in the catalog path(s)
     = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
       .box-body
+        .btn-group{:role=>"group"}
+          %a.btn.btn-default{:type=>"button", :href=>"manage"}Manage
+          %a.btn.btn-default{:type=>"button", :href=>"destroy"}Delete
+          %a.btn.btn-default{:type=>"button", :href=>"/jobs"}Jobs
+
         %ul.list-unstyled
           -@catalog.watch_path.each do |path|
             %li

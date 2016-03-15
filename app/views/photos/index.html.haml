@@ -1,5 +1,5 @@
 =content_for :title, "Photos"
-=content_for :subtitle, "Search"
+=content_for :subtitle, ""
 .row
   #accordion.panel-group.col-lg-12{"aria-multiselectable" => "true", :role => "tablist"}
     .panel.panel-default
@@ -9,7 +9,7 @@
             Search options
       #collapseOne.panel-collapse.collapse.out{"aria-labelledby" => "headingOne", :role => "tabpanel"}
         .panel-body
-          = form_for(@searchalbum,  url: {action: "search"}) do |f|
+          = form_for(@album,  url: {action: "index"}, method: "get") do |f|
             .row
               .col-lg-6
                 = label_tag(:q, "Time span:")
@@ -21,17 +21,17 @@
               .col-lg-3
                 .form-group
                   = label_tag(:q, "Country:")
-                  = f.select :country, options_for_select(@countries, @searchalbum.country), {}, {class:"form-control"}
+                  = f.select :country, options_for_select(@countries, @album.country), {}, {class:"form-control"}
                 .form-group
                   = label_tag(:q, "City:")
-                  = f.select :city, options_for_select(@cities, @searchalbum.city), {}, {class:"form-control"}
+                  = f.select :city, options_for_select(@cities, @album.city), {}, {class:"form-control"}
               .col-lg-3
                 .form-group
                   = label_tag(:q, "Make:")
-                  = f.select :make, options_for_select(@makes, @searchalbum.make), {}, {class:"form-control"}
+                  = f.select :make, options_for_select(@makes, @album.make), {}, {class:"form-control"}
                 .form-group
                   = label_tag(:q, "Model:")
-                  = f.select :model, options_for_select(@models, @searchalbum.model), {}, {class:"form-control"}
+                  = f.select :model, options_for_select(@models, @album.model), {}, {class:"form-control"}
 
             .row
               = submit_tag "Search", class:"btn btn-default pull-right cs"

@@ -2,7 +2,15 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+$(document).ready ->
+  #update the photo count in the bucket
+  update_bucket_count()
 
+  #Event binding for addinf photos to the bucket
+  $('#photos').on 'click', '.photo-widget .photo-widget-header img', ->
+    overlay = $(this).prev(".photo-widget-overlay")
+    toggleBucket(overlay)
+    return
 
 toggleBucket = (photoOverlay) ->
   photoOverlay.toggleClass("bucket")
@@ -36,13 +44,3 @@ $ ->
 update_bucket_count = ->
   $.get '/bucket/count', (data) ->
     $('#bucket_counter').html data['count']
-
-
-$(document).ready ->
-
-  update_bucket_count()
-
-  $('#photos').on 'click', '.photo-widget .photo-widget-header img', ->
-    overlay = $(this).prev(".photo-widget-overlay")
-    toggleBucket(overlay)
-    return

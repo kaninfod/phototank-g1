@@ -14,7 +14,7 @@ serialize :ext_store_data, Hash
 
     photo = Photo.find(photo_id)
     dropbox_path = File.join(photo.path, photo.filename + photo.file_extension)
-    byebug
+    
     if not self.exists(dropbox_path)
       response = self.create_folder(photo.path)
       response = self.add_file(photo.absolutepath, dropbox_path)

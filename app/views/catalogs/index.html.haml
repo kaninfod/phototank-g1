@@ -13,9 +13,22 @@
         -if catalog.type == "DropboxCatalog"
           %i.fa.fa-dropbox
         -elsif catalog.type == "MasterCatalog"
-          %i.fa.fa-cloud
+          %i.fa.fa-asterisk
         -elsif catalog.type == "LocalCatalog"
-          %i.fa.fa-pencil
+          %i.fa.fa-map-marker
       %a.small-box-footer{:href => "/catalogs/#{catalog.id}/dashboard"}
         Dashboard
         %i.fa.fa-arrow-circle-right
+
+
+.col-lg-3.col-xs-6
+  / small box
+  .small-box.bg-green
+    .inner
+      %h3  New catalog
+      %p Any...
+    .icon
+      %i.fa.fa-plus
+    %a.small-box-footer{:href => "/catalogs/new"}
+      Add new catalog
+      %i.fa.fa-arrow-circle-right

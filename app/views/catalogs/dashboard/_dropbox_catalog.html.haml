@@ -4,6 +4,11 @@
       %h3.box-title Quick Example
     = form_tag("/catalogs/#{@catalog.id}/import", method: "post") do
       .box-body
+        .btn-group{:role=>"group"}
+          %a.btn.btn-default{:type=>"button", :href=>"manage"}Manage
+          %a.btn.btn-default{:type=>"button", :href=>"destroy"}Delete
+          %a.btn.btn-default{:type=>"button", :href=>"/jobs"}Jobs
+
         =hidden_field_tag "import_action", "DropboxCatalog"
         %button.btn.btn-default{:type => "submit"} Submit
 -if @catalog.photos.count > 0

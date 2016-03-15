@@ -71,7 +71,7 @@ class Album < ActiveRecord::Base
         exp = p_photo_ids
       end
     end
-    puts Photo.joins(:location).where(exp).to_sql
+    
     Photo.joins(:location).where(exp)
 
   end
