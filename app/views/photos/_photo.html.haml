@@ -3,7 +3,8 @@
     .photo-widget-overlay{:class => ("bucket" if @bucket.include? photo.id)}
       .text-center In Bucket
     %img{:photo_id=>(photo.id), :src=>"/photos/#{photo.id.to_s}/image/small"}
-
+  .photo-widget-date
+    =photo.date_taken_formated
   .photo-widget-footer
     .photo-tool.btn-group.btn-group-justified.btn-group-xs{:role=>"group"}
       .btn-group{:role=>"group"}
@@ -21,9 +22,3 @@
       %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"/photos/#{photo.id}"}
 
       %a.btn.btn-default.fa.fa-globe.show_map{"data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
-
-
-    .photo-title-label
-      Date taken:
-    .photo-title
-      =photo.date_taken.strftime("%b %d %Y %H:%m")

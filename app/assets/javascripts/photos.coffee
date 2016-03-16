@@ -22,7 +22,7 @@ getCountryUrl = ->
   country = $("#country").val()
   if country != "Filter on country..."
     return "/country/" + country
-  return
+  return ""
 
 
 

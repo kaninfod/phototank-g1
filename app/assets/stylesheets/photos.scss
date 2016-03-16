@@ -70,11 +70,22 @@
   border-top-left-radius: 3px;
   position: absolute;
 }
+
+.photo-widget-date {
+  background-color: #6E7C84;
+  color: white;
+  text-align: center;
+  height: 14px;
+  font-size: 10px;
+  font-weight: 900;
+}
+
 .photo-widget-footer {
   background-color:#e2dcdc;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
+
 .photo-title-label {
   padding-left: 4px;
   font-weight: bold;
@@ -85,5 +96,4 @@
 }
 .photo-tool {
   margin-top: 1px;
-  padding-bottom: 5px;
 }
