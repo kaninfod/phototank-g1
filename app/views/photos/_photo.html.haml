@@ -4,19 +4,19 @@
       .text-center In Bucket
     %img{:photo_id=>(photo.id), :src=>"/photos/#{photo.id.to_s}/image/small"}
 
-
-
   .photo-widget-footer
     .photo-tool.btn-group.btn-group-justified.btn-group-xs{:role=>"group"}
       .btn-group{:role=>"group"}
         %a.fa.fa-caret-square-o-down.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
         %ul.dropdown-menu
           %li
-            %a.fa.fa-repeat{:href => "#"}>= '  Rotate'
+            %a{:href => "#"} Rotate
           %li
-            %a.fa.fa-trash-o{:href => "#"}>= '  Delete'
+            %a{:href => "#"} Edit data
           %li
-            %a.fa.fa-download{:href => "/photos/#{photo.id.to_s}/image/original", :download=>true}>= '  Download'
+            %a{:href => "#"} Delete
+          %li
+            %a{:href => "/photos/#{photo.id.to_s}/image/original", :download=>true} Download
 
       %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"/photos/#{photo.id}"}
 

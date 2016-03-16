@@ -7,7 +7,6 @@
         %li= link_to icon('fa fa-th', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'grid'
         %li= link_to icon('fa fa-th-list', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'list'
 
-    / /.box-header
     .box-body
       - if @view == 'list'
         = render :partial => "photos/view/list"
@@ -17,5 +16,3 @@
 
     .box-footer#infinite-scrolling
       .pull-right
-        =# will_paginate @photos
-        =# paginate @photos, :theme => 'twitter-bootstrap-3'

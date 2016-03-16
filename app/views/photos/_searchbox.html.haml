@@ -1,0 +1,43 @@
+
+.row
+  .col-lg-10
+    - case @searchbox[:type]
+    - when "all"
+      - @searchbox[:values].each do |rec|
+        - url = "/photos/year/#{rec.value}"
+        - title = rec.value
+        %a.searchbox{:href=>url}
+          .searchbox-header
+            Year
+          .searchbox-body
+            =title
+    - when "year"
+      - @searchbox[:values].each do |rec|
+        - url = "/photos/year/#{@searchbox[:year]}/month/#{rec.value}"
+        - title = Date.new(2000,rec.value,1).strftime("%b")
+        %a.searchbox{:href=>url}
+          .searchbox-header
+            Month
+          .searchbox-body
+            =title
+    - when "month"
+      - @searchbox[:values].each do |rec|
+        - url = "/photos/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{rec.value}"
+        - title = Date.new(2000,1,rec.value).strftime("%d")
+        %a.searchbox{:href=>url}
+          .searchbox-header
+            Day
+          .searchbox-body
+            =title
+    - when "day"
+      - @searchbox[:values].each do |rec|
+        - url = "/photos/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{rec.value}"
+        - title = Date.new(2000,1,rec.value).strftime("%d")
+        %a.searchbox{:href=>url}
+          .searchbox-header
+            Day
+          .searchbox-body
+            =title
+  .col-lg-2
+    .form-group
+      = select_tag "country", options_for_select(@countries, @album.country), {class:"form-control"}

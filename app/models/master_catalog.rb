@@ -62,7 +62,7 @@ include ImportPhotoHelper
     c.type = "MasterCatalog"
     c.name = "Master Catalog"
     c.default = true
-    c.path = "/Users/martinhinge/Pictures/phototank"
+    c.path = ""
     c.watch_path = []
     c.save
   end

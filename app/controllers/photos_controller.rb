@@ -21,18 +21,16 @@ class PhotosController < ApplicationController
   end
 
   def index
-    viewmode
-    prep_form
-    
-    #has the user set any search paramaters
-    if params.has_key?(:album)
-      @album = Album.new(album_params)
-    else
-      @album = Album.new
-    end
-
+    #get album from url params through set_query_data
+    @album = Album.new({:start => set_start_date, :country=>params[:country]})
     #Get photos
-    @photos = @album.photos.order(:date_taken).paginate(:page => params[:page], :per_page => 16)
+    @photos = @album.photos.order(date_taken: :asc).paginate(:page => params[:page], :per_page => 24)
+
+    #grid or table
+    viewmode
+
+    #get distinct data for dropdowns
+    prep_form
 
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
@@ -50,6 +48,47 @@ class PhotosController < ApplicationController
   end
 
   private
+
+  def set_start_date
+
+    start = {:year=>Date.today.year, :month=>1, :day=>1}
+    start[:year]=params[:year].to_i unless not params.has_key?(:year)
+    start[:month]=params[:month].to_i unless not params.has_key?(:month)
+    start[:day]=params[:day].to_i unless not params.has_key?(:day)
+
+    if params.has_key?(:day)
+      @searchbox = {
+          :type => "day",
+          :day => start[:day],
+          :month => start[:month],
+          :year => start[:year],
+          :values => Photo.days(start[:year], start[:month])}
+    elsif params.has_key?(:month)
+      @searchbox = {
+          :type=>"month",
+          :day => start[:day],
+          :month => start[:month],
+          :year => start[:year],
+          :values => Photo.days(start[:year], start[:month])}
+    elsif params.has_key?(:year)
+      @searchbox = {
+          :type=>"year",
+          :day => start[:day],
+          :month => start[:month],
+          :year => start[:year],
+          :values => Photo.months(start[:year])}
+    else
+      @searchbox = {
+          :type=>"all",
+          :day => start[:day],
+          :month => start[:month],
+          :year => start[:year],
+          :values => Photo.years}
+    end
+    start = Date.new(start[:year], start[:month], start[:day])
+
+  end
+
   def album_params
     params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
   end
@@ -64,6 +103,7 @@ class PhotosController < ApplicationController
 
   def prep_form
     @countries = Location.distinct_countries
+    @countries[0] = "Filter on country..."
     @cities = Location.distinct_cities
     @makes = Photo.distinct_makes
     @models = Photo.distinct_models

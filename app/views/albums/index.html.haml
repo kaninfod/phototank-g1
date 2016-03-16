@@ -7,7 +7,7 @@
       .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
         = link_to "New album", "/albums/new", class:"btn btn-default"
         .btn-group{:role => "group"}
-          %button.btn.btn-default.dropdown-toggle.btn-sm{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          %button.btn.btn-default.dropdown-toggle.btn-sm{"data-toggle" => "dropdown", :type => "button"}
             Order by
             %span.caret
           %ul.dropdown-menu

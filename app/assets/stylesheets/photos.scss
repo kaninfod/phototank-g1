@@ -1,3 +1,36 @@
+.searchbox {
+  float: left;
+  position: relative;
+  border-width: 0.5px;
+  border-style: solid;
+  width:35px;
+  height:45px;
+  margin-bottom:10px;
+  margin-left: 10px;
+  background-color: white;
+}
+
+.searchbox-header {
+  background-color: #139CF2;
+  color: white;
+  text-align: center;
+  height: 14px;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.searchbox-body{
+  padding-top: 4px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.breadcrumb {
+  background-color: white;
+  margin-bottom: 0;
+  padding: 0px;
+}
+
 .photo-widget {
   float: left;
   border: none;

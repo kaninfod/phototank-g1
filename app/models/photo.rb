@@ -7,14 +7,6 @@ class Photo < ActiveRecord::Base
 
   attr_accessor :import_path
 
-  scope :year, ->(year) {
-    where(date_taken: Date.new(year, 1, 1)..Date.new(year, 12, 31))
-  }
-
-  scope :country, ->(country) {
-    joins(:location).where('locations.country = ?', country)
-  }
-
   scope :distinct_models, -> {
     ary = select(:model).distinct.map { |c| [c.model] }.unshift([''])
     ary.delete([nil])
@@ -25,6 +17,20 @@ class Photo < ActiveRecord::Base
     ary = select(:make).distinct.map { |c| [c.make] }.unshift([''])
     ary.delete([nil])
     ary.sort_by{|el| el[0] }
+  }
+
+  scope :years, -> {
+    sql = "select distinct(year(date_taken)) as value from photos order by value;"
+    find_by_sql(sql)
+  }
+  scope :months, -> (year) {
+    sql = "select distinct(month(date_taken)) as value from photos where year(date_taken) = #{year} order by value;"
+    find_by_sql(sql)
+  }
+
+  scope :days, -> (year, month) {
+    sql = "select distinct(day(date_taken)) as value from photos where year(date_taken) = #{year} and month(date_taken) = #{month} order by value;"
+    find_by_sql(sql)
   }
 
   def validate_files(catalog_id=1)
