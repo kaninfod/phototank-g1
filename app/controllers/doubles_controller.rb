@@ -1,4 +1,5 @@
 class DoublesController < ApplicationController
+  before_action :authenticate_user!
   def find
     doubles_array = Array.new
 
@@ -12,18 +13,18 @@ class DoublesController < ApplicationController
 
     end
   end
-  
+
   def index
     @doubles = Double.where(deleted: nil)
   end
-  
+
   def delete
     puts params[:photo_id], params[:doubles_id]
     entry = Double.find(params[:doubles_id])
     entry.deleted = params[:photo_id]
     entry.save
     puts entry.items
-    
+
     redirect_to action: "index"
   end
 end

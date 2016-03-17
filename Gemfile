@@ -45,6 +45,8 @@ gem 'mini_exiftool'
 gem 'phashion'
 gem "mini_magick"
 
+gem 'devise'
+
 gem 'jquery-turbolinks'
 gem 'squeel'
 gem 'puma'
