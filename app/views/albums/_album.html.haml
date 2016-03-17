@@ -2,7 +2,7 @@
   .album-widget
     %a.album-widget-photo{:href=>"/albums/#{album.id}"}
       .album-widget-label.badge="#{album.count}"
-      %img{:src=> "/photos/#{album.random_photo.id}/image/original"}
+      %img{:src=> "/photos/#{album.random_photo.id}/image/small"}
     .album-widget-content
       .album-widget-title
         =album.name
