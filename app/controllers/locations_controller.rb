@@ -1,12 +1,13 @@
 class LocationsController < ApplicationController
+  before_action :authenticate_user!
   def index
     @locations = Location.where{(latitude.not_eq(0) & longitude.not_eq(0))}.order(:country).page params[:page]
   end
-  
+
   def show
     @location = Location.find(params[:id])
   end
-  
+
   def view
     if params.has_key?(:viewmode)
       @view = params[:viewmode]
@@ -18,10 +19,10 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
     @bucket = session[:bucket]
   end
-  
+
   def lookup
     Location.geolocate
     redirect_to :action => 'index'
-  end 
-  
+  end
+
 end

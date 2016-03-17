@@ -1,0 +1,17 @@
+
+.register-box
+  .register-logo
+    %a{:href => "sign_in"}
+      %b> Phototank
+  .register-box-body
+    %p.login-box-msg Register a new account
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+      .form-group.has-feedback
+        = f.email_field :email, autofocus: true, placeholder: "Email", type: "text", class: "form-control"
+        %span.glyphicon.glyphicon-envelope.form-control-feedback
+      .row
+        .col-xs-8
+        .col-xs-4
+          %button.btn.btn-primary.btn-block.btn-flat{:type => "submit"} Register
+
+      = render "devise/shared/links"

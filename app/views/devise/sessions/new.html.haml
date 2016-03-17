@@ -1,0 +1,36 @@
+.login-box
+  .login-logo
+    %a{:href => "sign_in"}
+      %b> Phototank
+  / /.login-logo
+  .login-box-body
+    %p.login-box-msg Sign in to start your session
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .form-group.has-feedback
+        = f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email"
+        %span.glyphicon.glyphicon-envelope.form-control-feedback
+      .form-group.has-feedback
+        = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "password"
+        %span.glyphicon.glyphicon-lock.form-control-feedback
+      .row
+        .col-xs-8
+          .checkbox
+            %label
+              %input{:type => "checkbox"}
+                Remember Me
+        / /.col
+        .col-xs-4
+          %button.btn.btn-primary.btn-block.btn-flat{:type => "submit"} Sign In
+        / /.col
+    .social-auth-links.text-center
+      %p - OR -
+      %a.btn.btn-block.btn-social.btn-facebook.btn-flat{:href => "#"}
+        %i.fa.fa-facebook
+        Sign in using
+        Facebook
+      %a.btn.btn-block.btn-social.btn-google.btn-flat{:href => "#"}
+        %i.fa.fa-google-plus
+        Sign in using
+        Google+
+    / /.social-auth-links
+    = render "devise/shared/links"

@@ -1,5 +1,5 @@
 class BucketController < ApplicationController
-
+  before_action :authenticate_user!
   def add
     session[:bucket].push params[:id].to_i
     render :json => {'count' => session[:bucket].count}
