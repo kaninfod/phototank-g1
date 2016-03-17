@@ -1,3 +1,74 @@
 // Place all the styles related to the Albums controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.album-widget {
+  display: block;
+  min-height: 90px;
+  background: #fff;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  margin-bottom: 15px;
+}
+
+.album-widget-photo {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 2px;
+  display: block;
+  float: left;
+  height: 90px;
+  width: 90px;
+  text-align: center;
+  font-size: 45px;
+  line-height: 90px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.album-widget-photo > img{
+  max-width: 100%;
+  margin-top: -10px;
+}
+
+.album-widget-content {
+  padding: 5px 10px;
+  margin-left: 90px;
+  height:72px;
+}
+
+.album-widget > .album-widget-footer {
+  background-color: grey;
+  height: 18px;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 90px;
+  display: block;
+  z-index: 10;
+}
+
+.album-widget-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.album-widget-text {
+  font-size: 13px;
+}
+
+.album-widget-text:first-letter {
+  text-transform: uppercase;
+}
+
+.album-widget-label {
+  margin-left: 6px;
+  margin-top:6px;
+  font-size: 10px;
+  position: absolute;
+  z-index:99;
+  opacity:0.8;
+}

@@ -26,7 +26,7 @@
         - title = Date.new(2000,1,rec.value).strftime("%d")
         %a.searchbox{:href=>url}
           .searchbox-header
-            =Date.new(2000,@searchbox[:month],1).strftime("%b")
+            =Date.new(@searchbox[:year],@searchbox[:month],rec.value).strftime("%a")
           .searchbox-body
             =title
     - when "day"
@@ -35,7 +35,7 @@
         - title = Date.new(2000,1,rec.value).strftime("%d")
         %a.searchbox{:href=>url}
           .searchbox-header
-            Day
+            =Date.new(@searchbox[:year],@searchbox[:month],rec.value).strftime("%a")
           .searchbox-body
             =title
   .col-lg-2

@@ -19,33 +19,9 @@
               %a{:href => "/albums?order=album_type"} Type
         .input-group.input-group-sm
           %input#search-albums.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}/
-
-  / /.box-header
   .box-body
-    %table.table
-      %thead
-        %tr
-          %th Name
-          %th Count
-          %th Type
-          %th Date from
-          %th Date to
-          %th Model
-          %th Make
-          %th Country
-      %tbody
-        - @albums.each do |album|
-          %tr
-            %td= link_to album.name, album
-            %td= album.count
-            %td= album.album_type
-            %td= album.start.strftime("%b %d %Y") unless album.start.blank?
-            %td= album.end.strftime("%b %d %Y") unless album.end.blank?
-            %td= album.model
-            %td= album.make
-            %td= album.country
-            %td= link_to icon('picture-o'), album
-            %td= link_to icon('pencil'), edit_album_path(album)
-            %td= link_to icon('close'), album,  method: :delete, data: { confirm: 'Are you sure?' }
-    .col-sm-6.col-sm-offset-3
-      = paginate @albums, :theme => 'twitter-bootstrap-3'
+    =render :partial => @albums
+
+
+.col-sm-6.col-sm-offset-3
+  = will_paginate @albums

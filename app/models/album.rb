@@ -5,6 +5,11 @@ class Album < ActiveRecord::Base
     return photos.count
   end
 
+  def random_photo
+    r = rand(0..self.count-1)
+    photos[r]
+  end
+
   def photos
 
     if not self.start.blank?
@@ -71,7 +76,7 @@ class Album < ActiveRecord::Base
         exp = p_photo_ids
       end
     end
-    
+
     Photo.joins(:location).where(exp)
 
   end
