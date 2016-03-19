@@ -1,6 +1,7 @@
 .col-lg-10
-  %form.form-horizontal
-    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  .form-horizontal
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :patch }) do |f|
+      = devise_error_messages!
       .form-group
         %label.col-sm-2.control-label{:for => "inputName"} Name
         .col-sm-10
@@ -9,14 +10,31 @@
         %label.col-sm-2.control-label{:for => "inputEmail"} Email
         .col-sm-10
           = f.email_field :email, placeholder: "Name", type: "email", class: "form-control"
+        - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+          %div
+            Currently waiting confirmation for: #{resource.unconfirmed_email}
       .form-group
         = f.label :password, class: "col-sm-2 control-label"
+        %i (leave blank if you don't want to change it)
         .col-sm-10
           = f.password_field :password, autocomplete: "off", placeholder: "Password", type: "password", class: "form-control"
+
       .form-group
         = f.label :password_confirmation, class: "col-sm-2 control-label"
+        %i (leave blank if you don't want to change it)
         .col-sm-10
-          = f.password_field :password_confirmation, autocomplete: "off", :placeholder => "Retype password", :type => "password", class: "form-control"
+          = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm Password", type: "password", class: "form-control"
+
+      .form-group
+        = f.label :current_password, class: "col-sm-2 control-label"
+        %i (we need your current password to confirm your changes)
+        .col-sm-10
+          = f.password_field :current_password, autocomplete: "off", :placeholder => "Current password", :type => "password", class: "form-control"
+      .form-group
+        = f.label :avatar, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.file_field :avatar
+
 
 
       .form-group

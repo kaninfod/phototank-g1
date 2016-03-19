@@ -25,6 +25,6 @@ module Phototank
 
     #Include bower components in asset pipeline
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
-
+    
   end
 end

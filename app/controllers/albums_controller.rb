@@ -12,7 +12,7 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
 
     #Get photos
-    @photos = @album.photos.paginate(:page => params[:page], :per_page => 16)
+    @photos = @album.photos.paginate(:page => params[:page], :per_page => 24)
 
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
