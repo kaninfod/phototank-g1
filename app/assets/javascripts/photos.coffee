@@ -1,7 +1,10 @@
+
+
 $(document).ready ->
   #Event binding for adding photos to the bucket
   $('[data-toggle="popover"]').popover();
 
+#prepare url when breadcrumb part is clicked
 $ ->
   $('.searchbox, .breadcrumb li a').on 'click', ->
     el = $(this)
@@ -9,13 +12,13 @@ $ ->
     url = url + extendUrl()
     el.attr("href", url)
 
-
+#prepare url and redirect when change dropdowns
 $ ->
   $('#country, #direction').on 'change', ->
     dateUrl =$('.breadcrumb').attr('date_url')
     window.location = dateUrl + extendUrl()
 
-
+#extend url before actions
 extendUrl = ->
   direction = $("#direction").val()
   country = $("#country").val()
@@ -23,7 +26,13 @@ extendUrl = ->
     return "/country/" + country + "/direction/" + direction
   return "/direction/" + direction
 
+#wire things up when rotating an image
+$ ->
+  $('#rotate').on 'click', ->
+    rotateValue = $("input[name=rotate]:checked").val()
+    window.location = rotateValue
 
+#infinite scrolling
 $ ->
   if $('#infinite-scrolling').size() > 0
     $(window).on 'scroll', ->

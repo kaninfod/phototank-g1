@@ -1,0 +1,22 @@
+
+
+.box.box-primary
+  .box-header.with-border
+    %h3.box-title
+      Select rotation angle
+    .box-body
+      .radio
+        %label
+          %input{:name => "rotate", :type => "radio", :value => "90", :checked => true}
+            Rotate 90 degrees clockwise
+      .radio
+        %label
+          %input{:name => "rotate", :type => "radio", :value => "180"}
+            Rotate 180 degrees
+      .radio
+        %label
+          %input{:name => "rotate", :type => "radio", :value => "-90"}
+            Rotate 90 degrees counter clockwise
+
+    .box-footer
+      %a.btn.btn-default#rotate Rotate

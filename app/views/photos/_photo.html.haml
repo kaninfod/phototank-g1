@@ -1,17 +1,17 @@
 .photo-widget
   .photo-widget-header
-    .photo-widget-overlay{:class => ("bucket" if @bucket.include? photo.id)}
+    .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket", photo.status && "changed"]}
       .text-center In Bucket
     %img{:photo_id=>(photo.id), :src=>"/photos/#{photo.id.to_s}/image/small"}
   .photo-widget-date
-    =photo.date_taken_formated
+    =photo.date_taken_formatted
   .photo-widget-footer
     .photo-tool.btn-group.btn-group-justified.btn-group-xs{:role=>"group"}
       .btn-group{:role=>"group"}
         %a.fa.fa-caret-square-o-down.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
         %ul.dropdown-menu
           %li
-            %a{:href => "#"} Rotate
+            %a{:href => "photos/#{photo.id}/rotate/"} Rotate
           %li
             %a{:href => "#"} Edit data
           %li

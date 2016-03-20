@@ -49,6 +49,22 @@ class BucketController < ApplicationController
     redirect_to bucket_path
   end
 
+
+  def rotate
+
+    if params.has_key? :degrees
+      @bucket = get_bucket
+      Photo.find(@bucket).each do |photo|
+        photo.rotate(params[:degrees])
+      end
+      redirect_to session[:finalurl]
+    else
+      session[:finalurl] = request.referer
+    end
+
+  end
+
+
   private
 
 

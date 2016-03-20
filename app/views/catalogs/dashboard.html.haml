@@ -1,6 +1,7 @@
 =content_for :title, "Dashboard"
 =content_for :subtitle, @catalog.name
 
+
 - if @catalog.type == "MasterCatalog"
   = render "catalogs/dashboard/master_catalog"
 - elsif @catalog.type == "LocalCatalog"
@@ -8,5 +9,8 @@
 - elsif @catalog.type == "DropboxCatalog"
   = render "catalogs/dashboard/dropbox_catalog"
 
-= render :partial => "catalogs/dashboard/stat_cards"
-= render :partial => "jobs/list", locals: {compact: true}
+.row
+  = render :partial => "catalogs/dashboard/stat_cards"
+.row
+  .col-lg-12
+    = render :partial => "jobs/list", locals: {compact: true}

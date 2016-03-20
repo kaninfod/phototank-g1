@@ -24,7 +24,7 @@ class PhotosController < ApplicationController
     album_hash = {}
     if params.has_key? :query
       query = Hash[params[:query].split("/").each_slice(2).to_a].symbolize_keys
-      
+
       if query.has_key? :country
         album_hash[:country] = query[:country] unless query[:country] == "All"
       end
@@ -42,14 +42,13 @@ class PhotosController < ApplicationController
         end
       else
         order = "desc"
-        album_hash[:start] = set_date(query)
+        album_hash[:end] = set_date(query)
+        @searchbox[:direction] = "Down"
       end
-
-
     else
       order = "asc"
-      album_hash[:start] = set_date(nil)
-
+      album_hash[:end] = set_date(nil)
+      @searchbox[:direction] = "Down"
     end
 
     #get album from url params through set_query_data
@@ -81,6 +80,17 @@ class PhotosController < ApplicationController
 
   def edit
     @photo = Photo.find(params[:id])
+  end
+
+  def rotate
+
+    @photo = Photo.find(params[:id])
+    if params.has_key? :degrees
+      @photo.rotate(params[:degrees])
+      redirect_to session[:finalurl]
+    else
+      session[:finalurl] = request.referer
+    end
   end
 
   private

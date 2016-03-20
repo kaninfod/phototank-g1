@@ -44,7 +44,7 @@ class Photo < ActiveRecord::Base
     return org & lg & md & sm
   end
 
-  def date_taken_formated
+  def date_taken_formatted
     date_taken.strftime("%b %d %Y %H:%M:%S")
   end
 
@@ -112,4 +112,7 @@ class Photo < ActiveRecord::Base
     Location.locate_photo(self)
   end
 
+  def rotate(degrees)
+    Resque.enqueue(PhotoRotate, self.id, degrees.to_i)
+  end
 end

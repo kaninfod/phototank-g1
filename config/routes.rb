@@ -17,7 +17,8 @@
           match "photos/(q/*query)" => "photos#index", :via => [:post, :get]
           resources :photos, :except => [:create, :index]
           get '/photos/:id/image/:size' => 'photos#image'
-          get '/photos/:id/display' => 'photos#display'
+          get '/photos/:id/rotate/(:degrees)' => 'photos#rotate'
+          #get '/photos/:id/display' => 'photos#display'
 
           resources :catalogs
           get '/catalogs/:id/dashboard' => 'catalogs#dashboard'
@@ -43,6 +44,7 @@
           get  'bucket/count' => 'bucket#count'
           get  'bucket/save' => 'bucket#save_to_album'
           get  'bucket/delete_photos' => 'bucket#delete_photos'
+          get '/bucket/rotate/(:degrees)' => 'bucket#rotate'
 
           get 'doubles/find'
           get 'doubles/index'
