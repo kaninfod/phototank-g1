@@ -6,24 +6,22 @@ $ ->
   $('.searchbox, .breadcrumb li a').on 'click', ->
     el = $(this)
     url = el.attr("href")
-    url = url + getCountryUrl()
+    url = url + extendUrl()
     el.attr("href", url)
 
 
 $ ->
-  $('#country').on 'change', ->
+  $('#country, #direction').on 'change', ->
     dateUrl =$('.breadcrumb').attr('date_url')
-    if country != "Filter on country..."
-      window.location = dateUrl + getCountryUrl()
-    else
-      window.location = dateUrl
+    window.location = dateUrl + extendUrl()
 
-getCountryUrl = ->
+
+extendUrl = ->
+  direction = $("#direction").val()
   country = $("#country").val()
-  if country != "Filter on country..."
-    return "/country/" + country
-  return ""
-
+  if country != "All"
+    return "/country/" + country + "/direction/" + direction
+  return "/direction/" + direction
 
 
 $ ->

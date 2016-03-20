@@ -1,28 +1,28 @@
 
 .row
   .col-lg-12
-    %ol.breadcrumb{:date_url => "/photos/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{@searchbox[:day]}"}
+    %ol.breadcrumb{:date_url => "/photos/q/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{@searchbox[:day]}"}
       - case @searchbox[:type]
       - when "all"
         %li.active All
       - when "year"
         %li
-          %a{:href=>"/photos/"}="All"
+          %a{:href=>"/photos/q"}="All"
         %li.active
           =@searchbox[:year]
       - when "month"
         %li
-          %a{:href=>"/photos/"}="All"
+          %a{:href=>"/photos/q"}="All"
         %li
-          %a{:href=>"/photos/year/#{@searchbox[:year]}"}=@searchbox[:year]
+          %a{:href=>"/photos/q/year/#{@searchbox[:year]}"}=@searchbox[:year]
         %li.active
           =Date.new(2000,@searchbox[:month],1).strftime("%b")
       - when "day"
         %li
-          %a{:href=>"/photos/"}="All"
+          %a{:href=>"/photos/q"}="All"
         %li
-          %a{:href=>"/photos/year/#{@searchbox[:year]}"}=@searchbox[:year]
+          %a{:href=>"/photos/q/year/#{@searchbox[:year]}"}=@searchbox[:year]
         %li
-          %a{:href=>"/photos/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}"}=Date.new(2000,@searchbox[:month],1).strftime("%b")
+          %a{:href=>"/photos/q/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}"}=Date.new(2000,@searchbox[:month],1).strftime("%b")
         %li.active
           =Date.new(2000,1,@searchbox[:day]).strftime("%d")

@@ -3,7 +3,7 @@
   - case @searchbox[:type]
   - when "all"
     - @searchbox[:values].each do |rec|
-      - url = "/photos/year/#{rec.value}"
+      - url = "/photos/q/year/#{rec.value}"
       - title = rec.value
       %a.searchbox{:href=>url}
         .searchbox-header
@@ -12,7 +12,7 @@
           =title
   - when "year"
     - @searchbox[:values].each do |rec|
-      - url = "/photos/year/#{@searchbox[:year]}/month/#{rec.value}"
+      - url = "/photos/q/year/#{@searchbox[:year]}/month/#{rec.value}"
       - title = Date.new(2000,rec.value,1).strftime("%b")
       %a.searchbox{:href=>url}
         .searchbox-header
@@ -21,7 +21,7 @@
           =title
   - when "month"
     - @searchbox[:values].each do |rec|
-      - url = "/photos/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{rec.value}"
+      - url = "/photos/q/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{rec.value}"
       - title = Date.new(2000,1,rec.value).strftime("%d")
       %a.searchbox{:href=>url}
         .searchbox-header
@@ -30,7 +30,7 @@
           =title
   - when "day"
     - @searchbox[:values].each do |rec|
-      - url = "/photos/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{rec.value}"
+      - url = "/photos/q/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}/day/#{rec.value}"
       - title = Date.new(2000,1,rec.value).strftime("%d")
       %a.searchbox{:href=>url}
         .searchbox-header
@@ -38,4 +38,5 @@
         .searchbox-body
           =title
 .col-lg-2.col-md-6.col-sm-12.col-xs-12
-  = select_tag "country", options_for_select(@countries, @album.country), {class:"form-control"}
+  = select_tag :country, options_for_select(@countries, @album.country), {class:"form-control"}
+  = select_tag :direction, options_for_select(["Up", "Down"], @searchbox[:direction]), {class:"form-control"}

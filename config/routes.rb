@@ -13,7 +13,8 @@
           resources :albums, :concerns => :paginatable
 
 
-          match "photos/(year/:year)/(month/:month)/(day/:day)/(country/:country)" => "photos#index", :via => [:post, :get]
+          #match "photos/(year/:year)/(month/:month)/(day/:day)/(country/:country)" => "photos#index", :via => [:post, :get]
+          match "photos/(q/*query)" => "photos#index", :via => [:post, :get]
           resources :photos, :except => [:create, :index]
           get '/photos/:id/image/:size' => 'photos#image'
           get '/photos/:id/display' => 'photos#display'

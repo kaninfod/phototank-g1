@@ -1,8 +1,8 @@
 =content_for :title, "Info"
 =content_for :subtitle, "Photo taken #{@photo.date_taken_formated}"
 .row
-
-  = button_to("Back", action: "index", params: {album:{start: @photo.date_taken}})
+  .col-lg-12
+    %a.btn.btn-default{:href=>@backurl}Back
 .row
   - if @size == 'medium'
     .col-md-6

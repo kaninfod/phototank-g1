@@ -21,10 +21,41 @@ class PhotosController < ApplicationController
   end
 
   def index
+    album_hash = {}
+    if params.has_key? :query
+      query = Hash[params[:query].split("/").each_slice(2).to_a].symbolize_keys
+      
+      if query.has_key? :country
+        album_hash[:country] = query[:country] unless query[:country] == "All"
+      end
+
+      if query.has_key? :direction
+        case query[:direction].downcase
+        when "up"
+          album_hash[:start] = set_date(query)
+          @searchbox[:direction] = "Up"
+          order = "asc"
+        when "down"
+          album_hash[:end] = set_date(query)
+          @searchbox[:direction] = "Down"
+          order = "desc"
+        end
+      else
+        order = "desc"
+        album_hash[:start] = set_date(query)
+      end
+
+
+    else
+      order = "asc"
+      album_hash[:start] = set_date(nil)
+
+    end
+
     #get album from url params through set_query_data
-    @album = Album.new({:start => set_start_date, :country=>params[:country]})
+    @album = Album.new(album_hash)
     #Get photos
-    @photos = @album.photos.order(date_taken: :asc).paginate(:page => params[:page], :per_page => 24)
+    @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 25)
 
     #grid or table
     viewmode
@@ -45,32 +76,47 @@ class PhotosController < ApplicationController
       @size = 'medium'
     end
     @photo = Photo.find(params[:id])
+    @backurl = request.referer
+  end
+
+  def edit
+    @photo = Photo.find(params[:id])
   end
 
   private
 
-  def set_start_date
+  def set_date(query)
 
     start = {:year=>Date.today.year, :month=>1, :day=>1}
-    start[:year]=params[:year].to_i unless not params.has_key?(:year)
-    start[:month]=params[:month].to_i unless not params.has_key?(:month)
-    start[:day]=params[:day].to_i unless not params.has_key?(:day)
+    if query != nil
+      start[:year]=query[:year].to_i unless not query.has_key?(:year)
+      start[:month]=query[:month].to_i unless not query.has_key?(:month)
+      start[:day]=query[:day].to_i unless not query.has_key?(:day)
+    end
 
-    if params.has_key?(:day)
+
+    if query == nil
+      @searchbox = {
+          :type=>"all",
+          :day => start[:day],
+          :month => start[:month],
+          :year => start[:year],
+          :values => Photo.years}
+    elsif query.has_key?(:day)
       @searchbox = {
           :type => "day",
           :day => start[:day],
           :month => start[:month],
           :year => start[:year],
           :values => Photo.days(start[:year], start[:month])}
-    elsif params.has_key?(:month)
+    elsif query.has_key?(:month)
       @searchbox = {
           :type=>"month",
           :day => start[:day],
           :month => start[:month],
           :year => start[:year],
           :values => Photo.days(start[:year], start[:month])}
-    elsif params.has_key?(:year)
+    elsif query.has_key?(:year)
       @searchbox = {
           :type=>"year",
           :day => start[:day],
@@ -85,10 +131,10 @@ class PhotosController < ApplicationController
           :year => start[:year],
           :values => Photo.years}
     end
+
     start = Date.new(start[:year], start[:month], start[:day])
 
   end
-
   def album_params
     params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
   end
@@ -103,7 +149,7 @@ class PhotosController < ApplicationController
 
   def prep_form
     @countries = Location.distinct_countries
-    @countries[0] = "Filter on country..."
+    @countries[0] = "All"
     @cities = Location.distinct_cities
     @makes = Photo.distinct_makes
     @models = Photo.distinct_models

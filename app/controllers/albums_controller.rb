@@ -22,7 +22,7 @@ class AlbumsController < ApplicationController
 
   def index
     order = params[:order] unless not params.has_key?(:order)
-    query = "%#{params[:q]}%" #unless not params.has_key?(:q)
+    query = "%#{params[:q]}%"
     query ||="%"
     @albums = Album.order(order).where{name.matches(query)}.paginate(:page => params[:page], :per_page => 20)
   end
