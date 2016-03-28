@@ -1,18 +1,18 @@
-class MasterImportPhotoJob < ResqueJob
+class PhotoUpdateExif < ResqueJob
   include Resque::Plugins::UniqueJob
-  @queue = :import
+  @queue = :utility
 
-  def self.perform(import_path, photo_id= nil, import_mode = true)
+  def self.perform(photo_id)
 
     begin
-      photo_id = Catalog.master.import_photo(import_path, photo_id, import_mode)
-      Resque.enqueue(Locator, photo_id)
-
+      photo = Photo.find(photo_id)
+      photo.update_exif
     rescue Exception => e
       @job.update(job_error: e, status: 2, completed_at: Time.now)
       Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"
       return
     end
+
   end
 
 end

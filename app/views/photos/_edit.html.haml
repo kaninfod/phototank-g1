@@ -1,0 +1,11 @@
+.col-lg-10
+  .form-horizontal
+    = form_tag(@submit_path, :method => :patch ) do |f|
+      .form-group
+        %label.col-sm-2.control-label{:for => :date_taken} Date taken
+        .col-sm-10
+          = datetime_field_tag :date_taken, "", autofocus: true, value: (@photo.date_taken unless @photo.nil?), placeholder: "Date taken", class: "form-control"
+
+      .form-group
+        .col-sm-offset-2.col-sm-10
+          %button.btn.btn-danger{:type => "submit"} Submit

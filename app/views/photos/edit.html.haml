@@ -2,16 +2,4 @@
 =content_for :subtitle, @photo.date_taken_formatted
 
 
-.col-lg-10
-  .form-horizontal
-    = form_tag(photo_path, :method => :patch ) do |f|
-      .form-group
-        %label.col-sm-2.control-label{:for => :date_taken} Date taken
-        .col-sm-10
-          = date_field_tag :date_taken, "", autofocus: true, placeholder: "Date", class: "form-control"
-
-
-
-      .form-group
-        .col-sm-offset-2.col-sm-10
-          %button.btn.btn-danger{:type => "submit"} Submit
+=render :partial => "edit"

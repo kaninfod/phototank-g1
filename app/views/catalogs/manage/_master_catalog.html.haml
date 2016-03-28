@@ -3,7 +3,7 @@
     %h3.box-title Catalog settings
   / /.box-header
   / form start
-  = form_tag("/catalogs/#{@catalog.id}/edit", method: "post") do
+  = form_tag("/catalogs/#{@catalog.id}", method: "put") do
     .box-body
       = hidden_field_tag 'catalog', @catalog.id
       .form-group
@@ -12,6 +12,10 @@
       .form-group
         = label_tag("Storage path:")
         = text_field_tag("path", @catalog.path, class:"form-control")
+      .form-group
+        = label_tag("Move photos to catalog and remove originals:")
+        = hidden_field_tag :import_mode, false
+        = check_box_tag(:import_mode, 1, @catalog.import_mode)
       .form-group
         = label_tag("Catalog type:")
         = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control", disabled: true)

@@ -39,7 +39,7 @@ class CatalogsController < ApplicationController
     else
       @catalog = Catalog.new(catalog_params)
       if @catalog.save
-        redirect_to action: 'manage', id:@catalog
+        redirect_to action: 'edit', id:@catalog
       end
     end
   end
@@ -63,70 +63,42 @@ class CatalogsController < ApplicationController
 
 
   def import
-    #if request.post?
-      # case params['import_action']
-      # when 'MasterCatalog'
-      #   catalog = Catalog.master
-      # when 'LocalCatalog'
-      #   catalog = Catalog.find(params[:id])
-      # when 'DropboxCatalog'
-      #   catalog = Catalog.find(params[:id])
-      # end
     catalog = Catalog.find(params[:id])
     catalog.import
     flash[:success] = "Checking for new photos to import to #{catalog.name}"
     redirect_to action: "dashboard", id: params[:id]
-    #else
-      # @catalog = Catalog.find(params[:id])
-      # if @catalog.sync_from_catalog
-      #   @sync_from_catalog = Catalog.find(@catalog.sync_from_catalog)
-      # else
-      #   @sync_from_albums = Album.find(@catalog.sync_from_albums)
-      # end
-    #end
-end
+  end
+
 
   def edit
     @catalog = Catalog.find(params[:id])
-
-    if request.post?
-      catalog = params.permit(:name, :type, :path)
-      case params[:type]
-        when "MasterCatalog"
-          catalog['watch_path'] = generate_watch_path
-        when "LocalCatalog"
-
-          if params[:sync_from] == "catalog"
-            catalog['sync_from_catalog'] = params[:sync_from_catalog_id]
-            catalog['sync_from_albums'] = nil
-          elsif params[:sync_from] == "album"
-            albums = []
-            params.each do |k, v|
-              albums.push(v) if (k.include?('sync_from_album_id_') & not(v.blank?))
-            end
-            catalog['sync_from_albums'] = albums
-            catalog['sync_from_catalog'] = nil
-          end
-        when "DropboxCatalog"
-          catalog['sync_from_catalog'] = params[:sync_from_catalog_id]
-          catalog['sync_from_albums'] = nil
-          catalog['access_token'] = params["access_token"]
-      end
-
-      if @catalog.update(catalog)
-        flash[:notice] = 'Catalog was successfully updated.'
-        redirect_to action: 'dashboard'
-      end
-    else #request is GET
-      @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
-      if @catalog.sync_from_albums.blank?
-        @sync_from="catalog"
-      else
-        @sync_from="album"
-      end
+    @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
+    if @catalog.sync_from_albums.blank?
+      @sync_from="catalog"
+    else
+      @sync_from="album"
     end
-
   end
+
+def update
+  catalog = Catalog.find(params[:id])
+
+  case params[:type]
+    when "MasterCatalog"
+      catalog_attribs = update_master
+    when "LocalCatalog"
+      catalog_attribs = update_local
+    when "DropboxCatalog"
+      catalog_attribs = update_dropbox
+  end
+
+  if catalog.update(catalog_attribs)
+    flash[:notice] = 'Catalog was successfully updated.'
+    redirect_to action: 'dashboard'
+  end
+end
+
+
 
   def get_catalog
     render :json => Catalog.find(params[:id]).to_json
@@ -160,6 +132,37 @@ end
 
   private
 
+  def update_master
+    catalog_attribs = params.permit(:name, :type, :path, :import_mode)
+    catalog_attribs['watch_path'] = generate_watch_path
+    #catalog_attribs['import_mode'] = params['import_mode']
+    return catalog_attribs
+  end
+
+  def update_local
+    catalog_attribs = params.permit(:name, :type, :path)
+    if params[:sync_from] == "catalog"
+      catalog_attribs['sync_from_catalog'] = params[:sync_from_catalog_id]
+      catalog_attribs['sync_from_albums'] = nil
+    elsif params[:sync_from] == "album"
+      albums = []
+      params.each do |k, v|
+        albums.push(v) if (k.include?('sync_from_album_id_') & not(v.blank?))
+      end
+      catalog_attribs['sync_from_albums'] = albums
+      catalog_attribs['sync_from_catalog'] = nil
+    end
+    return catalog_attribs
+  end
+
+  def update_dropbox
+    catalog_attribs = params.permit(:name, :type, :path, :access_token, :sync_from_catalog_id)
+    #catalog_attribs['sync_from_catalog'] = params[:sync_from_catalog_id]
+    catalog_attribs['sync_from_albums'] = nil
+    #catalog_attribs['access_token'] = params["access_token"]
+
+  end
+
   def generate_watch_path
     watch_path =[]
     params.each do |k, v|
@@ -182,6 +185,6 @@ end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def catalog_params
-    params.require(:catalog).permit(:name, :path, :default, :watch_path, :type, :sync_from_catalog, :sync_from_albums)
+    params.require(:catalog).permit(:name, :path, :default, :watch_path, :type, :sync_from_catalog, :sync_from_albums, :import_mode)
   end
 end

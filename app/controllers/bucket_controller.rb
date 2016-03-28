@@ -49,9 +49,7 @@ class BucketController < ApplicationController
     redirect_to bucket_path
   end
 
-
   def rotate
-
     if params.has_key? :degrees
       @bucket = get_bucket
       Photo.find(@bucket).each do |photo|
@@ -61,10 +59,26 @@ class BucketController < ApplicationController
     else
       session[:finalurl] = request.referer
     end
-
   end
 
 
+  def edit
+    session[:finalurl] = request.referer
+    @submit_path = "/bucket/update"
+    @photo = Photo.new
+  end
+
+  def update
+    @bucket = get_bucket
+    Photo.find(@bucket).each do |photo|
+      #update the database entry
+      if photo.update(params.permit(:date_taken))
+        #update the exif data on the original photo
+        Resque.enqueue(PhotoUpdateExif, photo.id)
+      end 
+    end
+    redirect_to session[:finalurl]
+  end
   private
 
 

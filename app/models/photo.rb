@@ -1,5 +1,11 @@
-class Photo < ActiveRecord::Base
+#
+# status meaning:
+#   status = 1 means date_taken was changes
+#   status = 2 means photo was rotated
+#
 
+class Photo < ActiveRecord::Base
+  before_update :move_by_date, if: :date_taken_changed?
   belongs_to :location
   has_many :instances, dependent: :destroy
   has_many :catalogs, through: :instances
@@ -115,4 +121,35 @@ class Photo < ActiveRecord::Base
   def rotate(degrees)
     Resque.enqueue(PhotoRotate, self.id, degrees.to_i)
   end
+
+  def update_exif
+    #Get from the original only
+    exif = MiniExiftool.new(self.absolutepath, opts={:numerical=>true})
+    #update each piece of exif data that can be changed
+    exif.datetimeoriginal = self.date_taken.strftime("%Y:%m:%d %H:%M:%S")
+    exif.imageuniqueid = self.filename
+    exif["usercomment"] = "This photo is handled by PhotoTank as of #{self.date_taken.strftime("%Y:%m:%d %H:%M:%S")}"
+    #...
+    #save exif back to the photo
+    exif.save
+  end
+
+  def set_phash
+
+    if !self.import_path.blank?
+      _path = self.import_path
+    else
+      _path = self.absolutepath
+    end
+
+    phash = Phashion::Image.new(_path)
+    self.filename = self.phash = phash.fingerprint
+
+  end
+
+  private
+    def move_by_date
+      Resque.enqueue(PhotoMoveByDate, self.id)
+    end
+
 end

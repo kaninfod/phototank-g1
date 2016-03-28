@@ -5,15 +5,11 @@ module ImportPhotoHelper
   IMAGE_LARGE = '1024x1200'
 
 
-  def process(clone_mode = 'copy')
-
+  def process(import_mode)
     set_paths
-
     set_attributes
-
-    handle_file(clone_mode)
-
     create_photos
+    handle_file(import_mode)
 
   end
 
@@ -42,15 +38,6 @@ module ImportPhotoHelper
       @photo.date_taken = exif.datetimeoriginal
       return 0
     end
-  end
-
-  def change_exif_data
-
-    photo_path = File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
-    exif = MiniExiftool.new(photo_path, opts={:numerical=>true})
-    exif.datetimeoriginal = File.ctime(@photo.import_path)
-    exif.save
-    Rails.logger.debug "exif.datetimeoriginal was set to #{exif.datetimeoriginal}"
   end
 
   def set_attributes
@@ -82,15 +69,6 @@ module ImportPhotoHelper
     return date_path
   end
 
-  def handle_file(clone_mode)
-    FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
-    if clone_mode == 'copy'
-      FileUtils.cp @photo.import_path, File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
-    else
-      File.rename @photo.import_path, File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
-    end
-  end
-
   def create_photos
     FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)
     resize_photo("_lg", IMAGE_LARGE)
@@ -100,7 +78,7 @@ module ImportPhotoHelper
 
   def create_thumbnail()
     dst = File.join(@absolute_path_clones, @photo.filename + "_tm" + @photo.file_extension)
-    src = File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
+    src = @photo.import_path#File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
     MiniMagick::Tool::Convert.new do |convert|
       convert.merge! ["-size", "200x200", src]
       convert.merge! ["-thumbnail", "125x125^"]
@@ -117,4 +95,14 @@ module ImportPhotoHelper
       @image.write file_path
     end
   end
+
+  def handle_file(import_mode)
+    FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
+    if import_mode
+      File.rename @photo.import_path, File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
+    else
+      FileUtils.cp @photo.import_path, File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
+    end
+  end
+
 end

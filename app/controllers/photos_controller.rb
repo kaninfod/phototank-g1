@@ -78,12 +78,24 @@ class PhotosController < ApplicationController
     @backurl = request.referer
   end
 
+
   def edit
     @photo = Photo.find(params[:id])
+    session[:finalurl] = request.referer
+    @submit_path = "/photos/#{params[:id]}"
+  end
+
+  def update
+    photo = Photo.find(params[:id])
+    if request.patch?
+      if photo.update(params.permit(:date_taken))
+        Resque.enqueue(PhotoUpdateExif, photo.id)
+        redirect_to session[:finalurl]
+      end
+    end
   end
 
   def rotate
-
     @photo = Photo.find(params[:id])
     if params.has_key? :degrees
       @photo.rotate(params[:degrees])

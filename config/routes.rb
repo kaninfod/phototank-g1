@@ -27,8 +27,6 @@
           get "/catalogs/:id/destroy" => "catalogs#destroy"
           get '/catalogs/authorize' => 'catalogs#authorize'
           get '/catalogs/authorize_callback' => 'catalogs#authorize_callback'
-
-          #resources :localcatalogs, controller: 'catalogs', type: 'LocalCatalog', :concerns => :paginatable
           match '/catalogs/:id/import' => 'catalogs#import', via: [:get, :post]
 
           get '/locations/lookup'
@@ -45,6 +43,8 @@
           get  'bucket/save' => 'bucket#save_to_album'
           get  'bucket/delete_photos' => 'bucket#delete_photos'
           get '/bucket/rotate/(:degrees)' => 'bucket#rotate'
+          get  'bucket/edit' => 'bucket#edit'
+          patch  'bucket/update' => 'bucket#update'
 
           get 'doubles/find'
           get 'doubles/index'

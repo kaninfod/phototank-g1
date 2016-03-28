@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160318213006) do
+ActiveRecord::Schema.define(version: 20160328133209) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20160318213006) do
     t.string   "sync_from_albums",  limit: 255
     t.integer  "sync_from_catalog", limit: 4
     t.string   "ext_store_data",    limit: 255
+    t.boolean  "import_mode"
   end
 
   create_table "doubles", force: :cascade do |t|
@@ -90,8 +91,8 @@ ActiveRecord::Schema.define(version: 20160318213006) do
     t.string   "filename",        limit: 255
     t.datetime "date_taken"
     t.string   "path",            limit: 255
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
     t.string   "file_thumb_path", limit: 255
     t.string   "file_extension",  limit: 255
     t.integer  "file_size",       limit: 4
@@ -100,9 +101,10 @@ ActiveRecord::Schema.define(version: 20160318213006) do
     t.string   "model",           limit: 255
     t.integer  "original_height", limit: 4
     t.integer  "original_width",  limit: 4
-    t.decimal  "longitude",                   precision: 16, scale: 10
-    t.decimal  "latitude",                    precision: 16, scale: 10
+    t.decimal  "longitude",                     precision: 16, scale: 10
+    t.decimal  "latitude",                      precision: 16, scale: 10
     t.integer  "status",          limit: 4
+    t.text     "phash",           limit: 65535
   end
 
   add_index "photos", ["location_id"], name: "index_photos_on_location_id", using: :btree

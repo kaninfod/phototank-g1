@@ -1,7 +1,6 @@
 class ResqueJob
 
   def self.after_perform(*args)
-    
     if @job.status != 2
       status = 0
     else
