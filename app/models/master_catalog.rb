@@ -3,7 +3,6 @@ class MasterCatalog < Catalog
 include ImportPhotoHelper
 
   def import
-    #raise "Catalog is not online" unless online
     begin
       self.watch_path.each do |import_path|
         if File.exist?(import_path)

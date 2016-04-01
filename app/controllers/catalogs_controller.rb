@@ -4,10 +4,6 @@ class CatalogsController < ApplicationController
     @catalogs = Catalog.order(:id).page params[:page]
   end
 
-  # def edit
-  #   @catalog = Catalog.find(params[:id])
-  # end
-
   def dashboard
     @catalog = Catalog.find(params[:id])
     @jobs = Job.order(created_at: :desc, id: :desc ).paginate(:page => params[:page], :per_page => 10)

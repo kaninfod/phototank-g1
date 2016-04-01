@@ -2,32 +2,30 @@ require 'test_helper'
 
 class CatalogsControllerTest < ActionController::TestCase
   setup do
+    sign_in users(:test_user)
     @catalog = catalogs(:one)
     @catalog_local_catalog = catalogs(:two)
-    Resque::Job.destroy(:import, MasterSpawnImportJob)
-    Resque::Job.destroy(:import, MasterImportPhotoJob)
-    Resque::Job.destroy(:local, LocalCloneInstancesFromAlbumJob)
-    Resque::Job.destroy(:local, LocalCloneInstancesFromCatalogJob)
-    Resque::Job.destroy(:local, LocalImportPhotoJob)
-    Resque::Job.destroy(:local, LocalSpawnImportJob)
-    Resque::Job.destroy(:dropbox, DropboxCloneInstancesFrom)
+    Resque.redis.del "queue:#{"import"}"
+    Resque.redis.del "queue:#{"local"}"
+    Resque.redis.del "queue:#{"dropbox"}"
+    Resque.redis.del "queue:#{"utility"}"
     FileUtils.mkdir_p File.join(Rails.root, "test/test_files/store/")
   end
 
   test "import to master catalog" do
-    post :import, {:import_action => 'MasterCatalog', :id => 1}
+    post :import, {:id => 1}
     assert_equal 2, Resque.size(:import)
     assert_response :redirect
   end
 
   test "import to local catalog -catalog" do
-    post :import, {:import_action => 'LocalCatalog', :id => 2}
-    assert_equal 1, Resque.size(:local)
+    post :import, {:id => 2}
+    assert_equal 1, Resque.size(:import)
     assert_response :redirect
   end
 
   test "import to local catalog -album" do
-    post :import, {:import_action => 'LocalCatalog', :id => 3}
+    post :import, {:id => 3}
     assert_equal 2, Resque.size(:local)
     assert_response :redirect
   end
@@ -40,7 +38,7 @@ class CatalogsControllerTest < ActionController::TestCase
   end
 
   test "can edit master catalog" do
-    post :manage, {
+    post :update, {
       :id => 1,
       :name => "catalog name",
       :type => "MasterCatalog",
@@ -60,7 +58,7 @@ class CatalogsControllerTest < ActionController::TestCase
   end
 
   test "can edit local catalog -album" do
-    post :manage, {
+    post :update, {
       :id => 3,
       :name => "catalog name",
       :type => "LocalCatalog",
@@ -74,7 +72,7 @@ class CatalogsControllerTest < ActionController::TestCase
   end
 
   test "can edit local catalog -catalog" do
-    post :manage, {
+    post :update, {
       :id => 2,
       :name => "catalog name",
       :type => "LocalCatalog",
@@ -87,7 +85,7 @@ class CatalogsControllerTest < ActionController::TestCase
   end
 
   test "import to Dropbox catalog" do
-    post :import, {:import_action => 'DropboxCatalog', :id => 4}
+    post :import, {:id => 4}
     assert_equal 1, Resque.size(:local)
     assert_response :redirect
   end

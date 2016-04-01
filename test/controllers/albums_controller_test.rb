@@ -3,16 +3,17 @@ require 'test_helper'
 class AlbumsControllerTest < ActionController::TestCase
 
   setup do
-    @album = albums(:one) 
+    sign_in users(:test_user)
+    @album = albums(:one)
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-  end
+  # test "should get index" do
+  #   get :index
+  #   assert_response :success
+  # end
 
   test "should get edit" do
-    get :edit, id: @album 
+    get :edit, id: @album
     assert_response :success
   end
 
@@ -38,8 +39,8 @@ class AlbumsControllerTest < ActionController::TestCase
         country: @album.country
       }
     end
-    
-    assert_redirected_to album_path(assigns(:album))  
+
+    assert_redirected_to album_path(assigns(:album))
   end
 
   test "should update album" do
@@ -53,7 +54,7 @@ class AlbumsControllerTest < ActionController::TestCase
       }
     assert_redirected_to album_path(assigns(:album))
   end
-  
+
   test "should destroy album" do
     assert_difference('Album.count', -1) do
       delete :destroy, id: @album

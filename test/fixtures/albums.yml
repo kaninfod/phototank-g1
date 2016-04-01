@@ -9,7 +9,7 @@ one:
   country: Denmark
   city:
   album_type:
-  photo_ids:
+  photo_ids: [one, two, three]
 
 two:
   name: my_album_2
@@ -20,4 +20,4 @@ two:
   country: Australia
   city:
   album_type:
-  photo_ids:
+  photo_ids: [one, two, three]
