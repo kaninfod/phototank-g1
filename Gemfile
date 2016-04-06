@@ -61,27 +61,21 @@ gem "haml-rails", "~> 0.9"
 
 gem 'paperclip'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
-
-source 'https://rails-assets.org' do
-
-  #gem 'rails-assets-slimscroll'
-  #gem 'rails-assets-bootstrap-datepicker'
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
+  gem 'resque_spec'
+  gem 'database_cleaner'
 end
 
+
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
   gem 'byebug'
-  gem 'mocha'
-  gem 'test-unit'
 end
 
 group :development do

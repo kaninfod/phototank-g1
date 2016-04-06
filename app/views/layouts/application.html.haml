@@ -11,17 +11,7 @@
       %i.fa.fa-arrow-circle-up.fa-2x
 
     .wrapper
-      / Main Header
-      %header.main-header
-        / Logo
-        %a.logo{:href => "/photos"}
-          / mini logo for sidebar mini 50x50 pixels
-          %span.logo-mini
-            %b PT
-          / logo for regular state and mobile devices
-          %span.logo-lg
-            %b Phototank
-        =render "layouts/header_navbar"
+      =render "layouts/header_navbar"
       =render "layouts/side_navbar"
       =render "layouts/content"
       =render "layouts/control_sidebar"
