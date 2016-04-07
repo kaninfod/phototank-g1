@@ -50,9 +50,9 @@ $ ->
         $('.pagination').html("")
     return
 
-
+#scroll to top marker
 jQuery(document).ready ->
-  offset = 250
+  offset = 550
   duration = 300
   jQuery(window).scroll ->
     if jQuery(this).scrollTop() > offset

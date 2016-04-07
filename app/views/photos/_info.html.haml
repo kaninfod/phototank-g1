@@ -10,7 +10,7 @@
       %dl
         %dt Date taken:
         %dd= @photo.date_taken.strftime("%b %d %Y %H:%m")
-        - if not @photo.location_id.blank?
+        - if not @photo.location == Location.no_location
           %dt Country
           %dd= @photo.location.country
           %dt City
@@ -27,7 +27,7 @@
         %dd= @photo.model
 
         %dt Filename:
-        %dd.trunc-text= @photo.filename
+        %dd.truncate= @photo.filename
         %dt Original Path:
         %dd= @photo.path
         %dt Thumb Path:
@@ -35,6 +35,15 @@
         %dt Extension:
         %dt Present in catalog(s):
         - @photo.catalogs.each do |catalog|
-          %dd.photo-trunc-text
+          %dd.truncate
             = catalog.name
             (#{@photo.absolutepath(catalog.id)})
+
+
+:css
+  .truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

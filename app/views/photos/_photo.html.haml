@@ -21,4 +21,10 @@
 
       %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"/photos/#{photo.id}"}
 
-      %a.btn.btn-default.fa.fa-globe.show_map{"data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>", "data-html" => "true", "data-toggle" => "popover", "data-trigger" => "focus", :role => "button", :tabindex => "0"}
+      %a.btn.btn-default.fa.fa-globe.show_map{"data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>",
+        "data-html" => "true",
+        "data-toggle" => "popover",
+        "data-trigger" => "focus",
+        :role => "button",
+        :tabindex => "0",
+        :class => (photo.location == Location.no_location) && "disabled"}

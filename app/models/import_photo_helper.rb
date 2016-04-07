@@ -13,15 +13,15 @@ module ImportPhotoHelper
 
   end
 
-  def phash_photo()
-    @phash = Phashion::Image.new(@photo.import_path)
-    @photo.filename = @phash.fingerprint
-
-    #Check if file already exists in system (db and file)
-    if @photo.identical
-      raise "Photo already exists: #{@photo.import_path}"
-    end
-  end
+  # def phash_photo()
+  #   @phash = Phashion::Image.new(@photo.import_path)
+  #   @photo.filename = @phash.fingerprint
+  #
+  #   #Check if file already exists in system (db and file)
+  #   if @photo.identical
+  #     raise "Photo already exists: #{@photo.import_path}"
+  #   end
+  # end
 
   def set_exif()
     exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})

@@ -55,7 +55,7 @@ class PhotosController < ApplicationController
     @album = Album.new(album_hash)
     #Get photos
     @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 25)
-
+    
     #grid or table
     viewmode
 
@@ -109,7 +109,7 @@ class PhotosController < ApplicationController
 
   def set_date(query)
 
-    start = {:year=>Date.today.year, :month=>1, :day=>1}
+    start = {:year=>Date.today.year, :month=>Date.today.month, :day=>Date.today.day}
     if query != nil
       start[:year]=query[:year].to_i unless not query.has_key?(:year)
       start[:month]=query[:month].to_i unless not query.has_key?(:month)

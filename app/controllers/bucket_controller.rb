@@ -22,6 +22,10 @@ class BucketController < ApplicationController
   def index
     @bucket = get_bucket
     @photos = Photo.where(id:@bucket).page params[:page]
+    #If this was requested from an ajax call it should be rendered with slim view
+    if request.xhr?
+      render :partial=>"photos/view/grid"
+    end
   end
 
   def list
@@ -75,7 +79,7 @@ class BucketController < ApplicationController
       if photo.update(params.permit(:date_taken))
         #update the exif data on the original photo
         Resque.enqueue(PhotoUpdateExif, photo.id)
-      end 
+      end
     end
     redirect_to session[:finalurl]
   end
