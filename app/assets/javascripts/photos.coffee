@@ -18,9 +18,10 @@ $ ->
     dateUrl =$('.breadcrumb').attr('date_url')
     window.location = dateUrl + extendUrl()
 
+
 #extend url before actions
 extendUrl = ->
-  direction = $("#direction").val()
+  direction = $("#direction").prop('checked')
   country = $("#country").val()
   if country != "All"
     return "/country/" + country + "/direction/" + direction

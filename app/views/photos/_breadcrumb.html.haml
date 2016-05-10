@@ -26,3 +26,6 @@
           %a{:href=>"/photos/q/year/#{@searchbox[:year]}/month/#{@searchbox[:month]}"}=Date.new(2000,@searchbox[:month],1).strftime("%b")
         %li.active
           =Date.new(2000,1,@searchbox[:day]).strftime("%d")
+
+:javascript
+  localStorage.pt_url = dateUrl =$('.breadcrumb').attr('date_url')

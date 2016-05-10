@@ -37,6 +37,17 @@
           =Date.new(@searchbox[:year],@searchbox[:month],rec.value).strftime("%a")
         .searchbox-body
           =title
-.col-lg-2.col-md-6.col-sm-12.col-xs-12
+.col-lg-2.col-md-6.col-sm-12.col-xs-12.direction
+  - if @searchbox[:direction]=="true"
+    %input{:id=>"direction", :type=>"checkbox", :checked=> true,  "data-toggle"=>"toggle", "data-size"=>"small"}
+  - else
+    %input{:id=>"direction", :type=>"checkbox", "data-toggle"=>"toggle", "data-size"=>"small"}
+
   = select_tag :country, options_for_select(@countries, @album.country), {class:"form-control"}
-  = select_tag :direction, options_for_select(["Up", "Down"], @searchbox[:direction]), {class:"form-control"}
+  //= select_tag :direction, options_for_select(["Up", "Down"], @searchbox[:direction]), {class:"form-control"}
+
+:javascript
+  $('#direction').bootstrapToggle({
+    on: 'Forward',
+    off: 'Reverse'
+  });

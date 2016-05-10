@@ -1,3 +1,4 @@
+
 class PhotosController < ApplicationController
   before_action :authenticate_user!
   def image
@@ -22,6 +23,7 @@ class PhotosController < ApplicationController
 
   def index
     album_hash = {}
+
     if params.has_key? :query
       query = Hash[params[:query].split("/").each_slice(2).to_a].symbolize_keys
 
@@ -30,32 +32,33 @@ class PhotosController < ApplicationController
       end
 
       if query.has_key? :direction
-        case query[:direction].downcase
-        when "up"
+        case query[:direction]
+        when "true"
           album_hash[:start] = set_date(query)
-          @searchbox[:direction] = "Up"
+          @searchbox[:direction] = "true"
           order = "asc"
-        when "down"
+        when "false"
           album_hash[:end] = set_date(query)
-          @searchbox[:direction] = "Down"
+          @searchbox[:direction] = "false"
           order = "desc"
         end
       else
         order = "desc"
         album_hash[:end] = set_date(query)
-        @searchbox[:direction] = "Down"
+        @searchbox[:direction] = "false"
       end
     else
-      order = "asc"
+      order = "desc"
       album_hash[:end] = set_date(nil)
-      @searchbox[:direction] = "Down"
+      @searchbox[:direction] = "false"
     end
 
     #get album from url params through set_query_data
     @album = Album.new(album_hash)
     #Get photos
+
     @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 25)
-    
+
     #grid or table
     viewmode
 
@@ -75,7 +78,17 @@ class PhotosController < ApplicationController
       @size = 'medium'
     end
     @photo = Photo.find(params[:id])
-    @backurl = request.referer
+
+    url = URI(request.referer).path
+    url.slice!(0)
+    query = Hash[url.split("/").each_slice(2).to_a].symbolize_keys
+    query[:year] = @photo.date_taken.year
+    query[:month] = @photo.date_taken.month
+    query[:day] = @photo.date_taken.day
+    
+    query.each do |k,v|
+      @backurl = "#{@backurl}/#{k}/#{v}"
+    end
   end
 
 
@@ -109,7 +122,7 @@ class PhotosController < ApplicationController
 
   def set_date(query)
 
-    start = {:year=>Date.today.year, :month=>Date.today.month, :day=>Date.today.day}
+    start = {:year=>Date.today.year, :month=>01, :day=>01}
     if query != nil
       start[:year]=query[:year].to_i unless not query.has_key?(:year)
       start[:month]=query[:month].to_i unless not query.has_key?(:month)
@@ -157,6 +170,7 @@ class PhotosController < ApplicationController
     start = Date.new(start[:year], start[:month], start[:day])
 
   end
+
   def album_params
     params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
   end
