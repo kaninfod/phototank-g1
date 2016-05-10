@@ -127,7 +127,10 @@ class Photo < ActiveRecord::Base
     exif = MiniExiftool.new(self.absolutepath, opts={:numerical=>true})
     #update each piece of exif data that can be changed
     exif.datetimeoriginal = self.date_taken.strftime("%Y:%m:%d %H:%M:%S")
+    byebug
     exif.imageuniqueid = self.filename
+    exif.gpslatitude = self.location.latitude.to_s
+    exif.gpslongitude = self.location.longitude.to_s
     exif["usercomment"] = "This photo is handled by PhotoTank as of #{self.date_taken.strftime("%Y:%m:%d %H:%M:%S")}"
     #...
     #save exif back to the photo

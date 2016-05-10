@@ -14,15 +14,15 @@ $ ->
 
 #prepare url and redirect when change dropdowns
 $ ->
-  $('#country, #direction').on 'change', ->
+  $('#searchbox_country, #searchbox_direction').on 'change', ->
     dateUrl =$('.breadcrumb').attr('date_url')
     window.location = dateUrl + extendUrl()
 
 
 #extend url before actions
 extendUrl = ->
-  direction = $("#direction").prop('checked')
-  country = $("#country").val()
+  direction = $("#searchbox_direction").prop('checked')
+  country = $("#searchbox_country").val()
   if country != "All"
     return "/country/" + country + "/direction/" + direction
   return "/direction/" + direction

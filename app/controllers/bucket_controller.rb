@@ -70,6 +70,8 @@ class BucketController < ApplicationController
     session[:finalurl] = request.referer
     @submit_path = "/bucket/update"
     @photo = Photo.new
+    @locations =Location.text_array
+    @no_location_id = Location.no_location.id
   end
 
   def update

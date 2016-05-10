@@ -57,7 +57,7 @@ class PhotosController < ApplicationController
     @album = Album.new(album_hash)
     #Get photos
 
-    @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 25)
+    @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 50)
 
     #grid or table
     viewmode
@@ -81,14 +81,20 @@ class PhotosController < ApplicationController
 
     url = URI(request.referer).path
     url.slice!(0)
-    query = Hash[url.split("/").each_slice(2).to_a].symbolize_keys
-    query[:year] = @photo.date_taken.year
-    query[:month] = @photo.date_taken.month
-    query[:day] = @photo.date_taken.day
-    
-    query.each do |k,v|
-      @backurl = "#{@backurl}/#{k}/#{v}"
+    qry = Hash[url.split("/").each_slice(2).to_a].symbolize_keys
+    qry[:year] = @photo.date_taken.year
+    qry[:month] = @photo.date_taken.month
+    qry[:day] = @photo.date_taken.day
+    @backurl = "q/year/#{qry[:year]}/month/#{qry[:month]}/day/#{qry[:day]}"
+
+    if qry[:direction]
+      @backurl = "#{@backurl }/direction/#{qry[:direction]}"
     end
+
+    if qry[:country]
+      @backurl = "#{@backurl }/country/#{qry[:country]}"
+    end
+
   end
 
 
@@ -96,12 +102,15 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     session[:finalurl] = request.referer
     @submit_path = "/photos/#{params[:id]}"
+
+    @locations = Location.text_array
   end
 
   def update
+    #byebug
     photo = Photo.find(params[:id])
     if request.patch?
-      if photo.update(params.permit(:date_taken))
+      if photo.update(params.permit(:date_taken, :location_id))
         Resque.enqueue(PhotoUpdateExif, photo.id)
         redirect_to session[:finalurl]
       end

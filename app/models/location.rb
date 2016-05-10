@@ -30,7 +30,7 @@ class Location < ActiveRecord::Base
     else
 
       @photo.location = get_no_location
-      puts "no location returned"
+
       return true
     end
 
@@ -45,6 +45,13 @@ class Location < ActiveRecord::Base
     return get_no_location
   end
 
+  def self.text_array
+    Location.all.map do |x|
+      if not x.address.blank?
+        [x.address, x.id]
+      end
+    end
+  end
 
   private
   def self.no_coordinates()
