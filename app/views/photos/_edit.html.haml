@@ -7,14 +7,22 @@
       .col-sm-2
         %label{:for => :date_taken} Date taken
       .col-sm-9
-        = datetime_field_tag :date_taken, "", value: (@photo.date_taken.strftime("%Y/%m/%d") unless @photo.nil? || @photo.date_taken.nil?), placeholder: "Date taken", class: "form-control", disabled: true
+        = datetime_field_tag :date_taken, "",
+          value: (@photo.date_taken.strftime("%Y/%m/%d") unless @photo.nil? || @photo.date_taken.nil?),
+          placeholder: "Date taken",
+          class: "form-control",
+          disabled: true
     .form-group
       .col-sm-1
         %input.inp_toggle{:type=>"checkbox"}
       .col-sm-2
         %label{:for => :location_id} Location
       .col-sm-9
-        =text_field_tag :location_address, "", placeholder: "Enter address...", class:"form-control typeahead", disabled: true
+        =text_field_tag :location_address,
+          "", placeholder: "Enter address...",
+          value:(@photo.location.address unless @photo.nil? || @photo.location.nil?),
+          class:"form-control typeahead",
+          disabled: true
         =hidden_field_tag :location_id
 
     .form-group

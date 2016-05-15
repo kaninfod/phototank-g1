@@ -82,7 +82,6 @@ class BucketController < ApplicationController
         Resque.enqueue(PhotoUpdateExif, photo.id)
       end
     end
-    byebug
     redirect_to session[:finalurl]
   end
   private
