@@ -2,6 +2,6 @@
   %a.btn.btn-default{:type=>"button", :href=>"edit"}Manage
   - if not @catalog.type = "MasterCatalog"
     %a.btn.btn-default{:type=>"button", :href=>"destroy"}Delete
-  %a.btn.btn-default{:type=>"button", :href=>"/catalogs/#{@catalog.id}"}photos
+  %a.btn.btn-default{:type=>"button", :href=>"/catalogs/#{@catalog.id}"}Photos
   %a.btn.btn-default{:type=>"button", :href=>"/catalogs/#{@catalog.id}/import"}Update
   %a.btn.btn-default{:type=>"button", :href=>"/jobs"}Jobs

@@ -67,22 +67,22 @@ class BucketController < ApplicationController
 
 
   def edit
+
     session[:finalurl] = request.referer
     @submit_path = "/bucket/update"
     @photo = Photo.new
-    @locations =Location.text_array
-    @no_location_id = Location.no_location.id
   end
 
   def update
     @bucket = get_bucket
     Photo.find(@bucket).each do |photo|
       #update the database entry
-      if photo.update(params.permit(:date_taken))
+      if photo.update(params.permit(:date_taken, :location_id))
         #update the exif data on the original photo
         Resque.enqueue(PhotoUpdateExif, photo.id)
       end
     end
+    byebug
     redirect_to session[:finalurl]
   end
   private

@@ -25,4 +25,11 @@ class LocationsController < ApplicationController
     redirect_to :action => 'index'
   end
 
+  def typeahead
+
+    addresses = []
+    search  = Location.typeahead_search(params[:query])
+    render json: search
+  end
+
 end

@@ -5,10 +5,13 @@
 #
 
 class Photo < ActiveRecord::Base
+  validate :date_taken_is_valid_datetime
+
   before_update :move_by_date, if: :date_taken_changed?
   belongs_to :location
   has_many :instances, dependent: :destroy
   has_many :catalogs, through: :instances
+
   reverse_geocoded_by :latitude, :longitude
 
   attr_accessor :import_path
@@ -18,13 +21,11 @@ class Photo < ActiveRecord::Base
     ary.delete([nil])
     ary.sort_by{|el| el[0] }
   }
-
   scope :distinct_makes, -> {
     ary = select(:make).distinct.map { |c| [c.make] }.unshift([''])
     ary.delete([nil])
     ary.sort_by{|el| el[0] }
   }
-
   scope :years, -> {
     sql = "select distinct(year(date_taken)) as value from photos order by value;"
     find_by_sql(sql)
@@ -33,11 +34,16 @@ class Photo < ActiveRecord::Base
     sql = "select distinct(month(date_taken)) as value from photos where year(date_taken) = #{year} order by value;"
     find_by_sql(sql)
   }
-
   scope :days, -> (year, month) {
     sql = "select distinct(day(date_taken)) as value from photos where year(date_taken) = #{year} and month(date_taken) = #{month} order by value;"
     find_by_sql(sql)
   }
+
+  def date_taken_is_valid_datetime
+    if ((DateTime.parse(date_taken.to_s) rescue ArgumentError) == ArgumentError)
+      errors.add(:date_taken, 'must be a valid datetime')
+    end
+  end
 
   def validate_files(catalog_id=1)
     catalog_path = self.catalog(catalog_id).path
@@ -127,12 +133,16 @@ class Photo < ActiveRecord::Base
     exif = MiniExiftool.new(self.absolutepath, opts={:numerical=>true})
     #update each piece of exif data that can be changed
     exif.datetimeoriginal = self.date_taken.strftime("%Y:%m:%d %H:%M:%S")
-    byebug
     exif.imageuniqueid = self.filename
-    exif.gpslatitude = self.location.latitude.to_s
-    exif.gpslongitude = self.location.longitude.to_s
+
+    if not self.location.nil?
+      exif.gpslatitude = self.location.latitude.to_s
+      exif.gpslongitude = self.location.longitude.to_s
+    end
+
     exif["usercomment"] = "This photo is handled by PhotoTank as of #{self.date_taken.strftime("%Y:%m:%d %H:%M:%S")}"
     #...
+
     #save exif back to the photo
     exif.save
   end

@@ -35,6 +35,8 @@ gem 'bootstrap-sass'
 gem 'bootstrap-kaminari-views'
 gem 'bootstrap_form'
 
+gem 'bootstrap-typeahead-rails'
+
 gem 'font-awesome-sass', '~> 4.5.0'
 
 gem 'seed_dump'

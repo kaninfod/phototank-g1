@@ -20,16 +20,18 @@ Rails.application.routes.draw do
   get '/photos/:id/rotate/(:degrees)' => 'photos#rotate'
   #get '/photos/:id/display' => 'photos#display'
 
+
+  get '/catalogs/authorize' => 'catalogs#authorize'
+  get '/catalogs/authorize_callback' => 'catalogs#authorize_callback'
   resources :catalogs
   get '/catalogs/:id/dashboard' => 'catalogs#dashboard'
   get '/catalogs/:id/get_catalog' => 'catalogs#get_catalog'
   match "/catalogs/:id/edit" => "catalogs#edit", via: [:get, :post]
   get "/catalogs/:id/destroy" => "catalogs#destroy"
-  get '/catalogs/authorize' => 'catalogs#authorize'
-  get '/catalogs/authorize_callback' => 'catalogs#authorize_callback'
   match '/catalogs/:id/import' => 'catalogs#import', via: [:get, :post]
 
   get '/locations/lookup'
+  get 'locations/typeahead/:query' => 'locations#typeahead'
   resources :locations, :concerns => :paginatable
   get '/locations/:id/view' => 'locations#view'
 

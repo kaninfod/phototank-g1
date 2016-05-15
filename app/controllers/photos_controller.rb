@@ -102,8 +102,6 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     session[:finalurl] = request.referer
     @submit_path = "/photos/#{params[:id]}"
-
-    @locations = Location.text_array
   end
 
   def update

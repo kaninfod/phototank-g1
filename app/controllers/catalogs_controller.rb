@@ -78,7 +78,7 @@ class CatalogsController < ApplicationController
 
 def update
   catalog = Catalog.find(params[:id])
-
+  
   case params[:type]
     when "MasterCatalog"
       catalog_attribs = update_master
@@ -123,7 +123,7 @@ end
     flow = DropboxOAuth2Flow.new(catalog.appkey, catalog.appsecret, catalog.redirect_uri, session, :dropbox_auth_csrf_token)
     catalog.access_token, catalog.user_id, url_state = flow.finish(params)
     catalog.save
-    redirect_to action: 'manage', id: catalog
+    redirect_to action: 'edit', id: catalog
   end
 
   private
@@ -152,9 +152,10 @@ end
   end
 
   def update_dropbox
-    catalog_attribs = params.permit(:name, :type, :path, :access_token, :sync_from_catalog_id)
-    #catalog_attribs['sync_from_catalog'] = params[:sync_from_catalog_id]
+    catalog_attribs = params.permit(:name, :type, :path, :access_token)
+    catalog_attribs['sync_from_catalog'] = params[:sync_from_catalog_id]
     catalog_attribs['sync_from_albums'] = nil
+    return catalog_attribs
     #catalog_attribs['access_token'] = params["access_token"]
 
   end

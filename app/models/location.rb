@@ -45,12 +45,10 @@ class Location < ActiveRecord::Base
     return get_no_location
   end
 
-  def self.text_array
-    Location.all.map do |x|
-      if not x.address.blank?
-        [x.address, x.id]
-      end
-    end
+  def self.typeahead_search(query)
+    match  = Location.where("address LIKE ?", "%#{query}%")
+    match = match.as_json
+    return match
   end
 
   private

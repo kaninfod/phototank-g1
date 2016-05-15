@@ -1,7 +1,7 @@
 
 class MasterCatalog < Catalog
 include ImportPhotoHelper
-
+validates :type, uniqueness: true
   def import
     begin
       self.watch_path.each do |import_path|
@@ -72,13 +72,15 @@ include ImportPhotoHelper
   end
 
   def self.create_master()
-    c = Catalog.new
-    c.type = "MasterCatalog"
-    c.name = "Master Catalog"
-    c.default = true
-    c.path = ""
-    c.watch_path = []
-    c.save
+    if MasterCatalog.count == 0
+      c = Catalog.new
+      c.type = "MasterCatalog"
+      c.name = "Master Catalog"
+      c.default = true
+      c.path = ""
+      c.watch_path = []
+      c.save
+    end
   end
 
   private
