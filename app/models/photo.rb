@@ -80,7 +80,17 @@ class Photo < ActiveRecord::Base
   end
 
   def small_filename(catalog_id=Catalog.master.id)
-    small_filename = File.join(self.catalog(catalog_id).path, self.file_thumb_path,self.filename + "_tm" + self.file_extension)
+    
+    _catalog_path = Rails.cache.fetch("catalog/#{catalog_id}/path", expires_in: 2.hours) do
+      self.catalog(catalog_id).path
+    end
+
+    _thumb_path = self.file_thumb_path
+    _filename = self.filename
+    _suffix = "_tm"
+    _extension = self.file_extension
+
+    small_filename = File.join(_catalog_path, _thumb_path, _filename + _suffix + _extension)
     small_filename
   end
 

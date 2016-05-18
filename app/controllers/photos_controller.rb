@@ -56,9 +56,9 @@ class PhotosController < ApplicationController
     #get album from url params through set_query_data
     @album = Album.new(album_hash)
     #Get photos
-
-    @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 50)
-
+    Rack::MiniProfiler.step("fetch projects") do
+      @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 50)
+    end
     #grid or table
     viewmode
 
@@ -193,9 +193,9 @@ class PhotosController < ApplicationController
   def prep_form
     @countries = Location.distinct_countries
     @countries[0] = "All"
-    @cities = Location.distinct_cities
-    @makes = Photo.distinct_makes
-    @models = Photo.distinct_models
+    #@cities = Location.distinct_cities
+    #@makes = Photo.distinct_makes
+    #@models = Photo.distinct_models
     @bucket = session[:bucket]
   end
 

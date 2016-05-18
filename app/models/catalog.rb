@@ -7,7 +7,7 @@ class Catalog < ActiveRecord::Base
   has_many :photos, through: :instances
 
   scope :photos, -> { Photo.joins(:instances).where('catalog_id=?', self.id) }
-  scope :master, -> { where{default.eq(true)}.first }
+  #scope :master, -> { where{default.eq(true)}.first }
 
   validate :only_one_master_catalog
 
@@ -20,6 +20,13 @@ class Catalog < ActiveRecord::Base
     when "MasterCatalog"
       "Master"
     end
+  end
+
+  def self.master
+    Rails.cache.fetch("master_catalog", expires_in: 12.hours) do
+      where{default.eq(true)}.first
+    end
+
   end
 
   protected

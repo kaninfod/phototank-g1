@@ -58,11 +58,11 @@ gem 'dropbox-sdk'
 gem 'resque'
 gem 'resque-loner'
 
-
 gem "haml-rails", "~> 0.9"
 
 gem 'paperclip'
 
+gem 'rack-mini-profiler'
 
 group :test do
   gem 'faker'

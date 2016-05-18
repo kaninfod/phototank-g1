@@ -80,6 +80,7 @@ validates :type, uniqueness: true
       c.path = ""
       c.watch_path = []
       c.save
+      Rails.cache.delete("master_catalog")
     end
   end
 
