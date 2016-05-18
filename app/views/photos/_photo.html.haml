@@ -2,7 +2,7 @@
   .photo-widget-header
     .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket", photo.status && "changed"]}
       .text-center In Bucket
-    %img{:photo_id=>(photo.id), :src=>"/photos/#{photo.id.to_s}/image/small"}
+    %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photos/#{photo.id.to_s}/image/small"}
   .photo-widget-date
     =photo.date_taken_formatted
   .photo-widget-footer

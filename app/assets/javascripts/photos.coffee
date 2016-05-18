@@ -1,8 +1,14 @@
+$ ->
+  $('img.lazy').lazyload() 
+  return
+
 
 
 $(document).ready ->
   #Event binding for adding photos to the bucket
   $('[data-toggle="popover"]').popover();
+
+
 
 #prepare url when breadcrumb part is clicked
 $ ->
@@ -47,6 +53,7 @@ $ ->
               $("#photos").append(data)#.hide().fadeIn(1000)
               $('[data-toggle="popover"]').popover();
               $('.dropdown-toggle').dropdown()
+              $('img.lazy').lazyload()
       if !more_posts_url
         $('.pagination').html("")
     return

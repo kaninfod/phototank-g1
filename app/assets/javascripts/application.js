@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require bootstrap.min
 //= require slimscroll/jquery.slimscroll
+//= require jquery_lazyload
 //= require bootstrap-datepicker
 //= require bootstrap-toggle
 //= require bootstrap-typeahead-rails
