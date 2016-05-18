@@ -13,4 +13,4 @@
         %dd= @location.address
         %dt Map
         %dd
-          = image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@location.latitude}%2C#{@location.longitude}"
+          = image_tag @location.get_map #{}"http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@location.latitude}%2C#{@location.longitude}"

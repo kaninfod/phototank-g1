@@ -30,7 +30,11 @@ Rails.application.routes.draw do
   get "/catalogs/:id/destroy" => "catalogs#destroy"
   match '/catalogs/:id/import' => 'catalogs#import', via: [:get, :post]
 
+  get '/locations/create'
+  get '/locations/new'
+  get '/locations/lookup_address'
   get '/locations/lookup'
+  get 'locations/new_from_coordinate_string' => 'locations#new_from_coordinate_string'
   get 'locations/typeahead/:query' => 'locations#typeahead'
   resources :locations, :concerns => :paginatable
   get '/locations/:id/view' => 'locations#view'

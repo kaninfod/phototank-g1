@@ -1,6 +1,4 @@
-.row
-  .col-md-8
-    %h4
-      = @location.address
-      %small Location
+=content_for :title, @location.address
+=content_for :subtitle, Location
+
 = render :template => 'photos/_index'

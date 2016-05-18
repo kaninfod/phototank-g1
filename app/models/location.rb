@@ -1,4 +1,5 @@
 class Location < ActiveRecord::Base
+  validates :latitude, :longitude, :country, presence: true
   has_many :photos
   reverse_geocoded_by :latitude, :longitude
 
@@ -51,6 +52,30 @@ class Location < ActiveRecord::Base
     return match
   end
 
+  def get_location
+    self.geocoder_lookup
+  end
+
+  def coordinate_string
+    self.latitude.to_s + "," + self.longitude.to_s
+  end
+
+  def geocoder_lookup
+
+    if geo_location = Geocoder.search(self.coordinate_string).first
+      if geo_location.data["error"].blank?
+        self.country = geo_location.country
+        self.city = geo_location.city
+        self.suburb = geo_location.suburb
+        self.postcode = geo_location.postal_code
+        self.address = geo_location.address
+        self.state = geo_location.state
+        self.longitude = geo_location.longitude
+        self.latitude = geo_location.latitude
+      end
+    end
+  end
+
   private
   def self.no_coordinates()
     if @photo.latitude.blank? || @photo.longitude.blank?
@@ -66,6 +91,8 @@ class Location < ActiveRecord::Base
       return true
     end
   end
+
+
 
   def self.geosearch
     if geo_location = Geocoder.search(@photo.coordinate_string).first

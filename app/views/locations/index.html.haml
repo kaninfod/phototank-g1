@@ -1,23 +1,32 @@
-.row
-  .col-lg-3
-    %h4 Locations
-.row
-  .pull-right.col-lg-1
-    .btn-group
-      %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-        Actions
-        %span.caret
-      %ul.dropdown-menu
-        %li
-          %a{:href => "/locations/lookup"} Lookup locations
-.row
-  .col-md-12
+=content_for :title, "Locations"
+=content_for :subtitle, "all"
+
+.box
+  .box-header.with-border
+    .pull-right
+      .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
+        = link_to "New location", "/locations/new", class:"btn btn-default"
+        .btn-group{:role => "group"}
+          %button.btn.btn-default.dropdown-toggle.btn-sm{"data-toggle" => "dropdown", :type => "button"}
+            Order by
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              %a{:href => "/locations?order=country"} Country
+            %li
+              %a{:href => "/locations?order=city"} City
+            %li
+              %a{:href => "/locations?order=address"} Address
+        .input-group.input-group-sm
+          %input#search-locations.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}
+  .box-body
     %table.table
       %thead
         %tr
           %th Country
           %th City
           %th Address
+          %th # photos
           %th
           %th
           %th
@@ -27,8 +36,12 @@
             %td= location.country
             %td= location.city
             %td= location.address
+            %td= location.photos.count
             %td= link_to icon('picture-o'), controller: 'locations', action: 'view', id: location
             %td= link_to icon('eye'), location_path(location)
             %td= link_to icon('pencil'), edit_location_path(location)
-    .col-sm-6.col-sm-offset-3
-      = paginate @locations, :theme => 'twitter-bootstrap-3'
+
+
+  .box-footer
+
+    = will_paginate @locations

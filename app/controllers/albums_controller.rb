@@ -1,9 +1,6 @@
 class AlbumsController < ApplicationController
   before_action :authenticate_user!
-  # def grid
-  #   @photos = Photo.all
-  #   @bucket = session[:bucket]
-  # end
+
 
   def show
     viewmode

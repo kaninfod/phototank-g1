@@ -1,7 +1,11 @@
 class LocationsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @locations = Location.where{(latitude.not_eq(0) & longitude.not_eq(0))}.order(:country).page params[:page]
+    order = :country
+    order = params[:order] unless not params.has_key?(:order)
+    query = "%#{params[:q]}%"
+    query ||="%"
+    @locations = Location.where{address.matches(query)}.where{(latitude.not_eq(0) & longitude.not_eq(0))}.order(order).page params[:page]
   end
 
   def show
@@ -9,15 +13,17 @@ class LocationsController < ApplicationController
   end
 
   def view
-    if params.has_key?(:viewmode)
-      @view = params[:viewmode]
-    else
-      @view = 'grid'
-    end
+
+    @view = 'grid'
+
     @bucket = session[:bucket]
     @photos = Photo.where(:location => params[:id]).page params[:page]
     @location = Location.find(params[:id])
     @bucket = session[:bucket]
+    #If this was requested from an ajax call it should be rendered with slim view
+    if request.xhr?
+      render :partial=>"photos/view/grid"
+    end
   end
 
   def lookup
@@ -26,10 +32,32 @@ class LocationsController < ApplicationController
   end
 
   def typeahead
-
-    addresses = []
     search  = Location.typeahead_search(params[:query])
     render json: search
+  end
+
+  def new_from_coordinate_string
+    new_location = Location.new
+    new_location.longitude = params[:longitude]
+    new_location.latitude = params[:latitude]
+    new_location.get_location
+    render json: new_location
+  end
+
+  def new
+    @return_url = request.referer
+  end
+
+  def create
+    new_location = Location.new(params.permit(:latitude, :longitude, :country, :city, :address, :state, :postcode, :road, :suburb))
+    if new_location == nil or new_location.latitude == nil
+      render status: 406
+    elsif new_location.nearbys(1).count(:all) > 0
+      render status: 409
+    else
+      new_location.save
+      render json: new_location if request.xhr?
+    end
   end
 
 end
