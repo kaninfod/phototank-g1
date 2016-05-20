@@ -1,1 +1,23 @@
-%aside.control-sidebar.control-sidebar-dark#photos_in_bucket
+%aside.control-sidebar.control-sidebar-light
+  = render :partial => 'photos/breadcrumb'
+  = render :partial => 'photos/searchbox'
+
+
+:javascript
+  $( "#sidebar-hover" ).hover(
+    function() {
+      $.AdminLTE.controlSidebar.open()
+    },
+    null
+  )
+  $( ".control-sidebar" ).hover(
+    null,
+    function() {
+      $.AdminLTE.controlSidebar.close()
+    }
+  )
+
+
+  $( "#sidebar-hover" ).on("click", function() {
+      $.AdminLTE.controlSidebar.close()
+  })

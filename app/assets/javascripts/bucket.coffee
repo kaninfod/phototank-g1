@@ -6,14 +6,10 @@ $(document).ready ->
   #update the photo count in the bucket
   update_bucket_count()
 
-  #Event binding for addinf photos to the bucket
-  $('#photos').on 'click', '.photo-widget .photo-widget-header img', ->
-    overlay = $(this).prev(".photo-widget-overlay")
-    toggleBucket(overlay)
+  #Event binding for adding photos to the bucket
+  $(document).on 'click', '.photo-widget-overlay', (event) ->
+    toggleBucket($(this))
     return
-
-
-
 
 toggleBucket = (photoOverlay) ->
   photoOverlay.toggleClass("bucket")

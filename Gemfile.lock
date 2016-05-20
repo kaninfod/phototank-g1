@@ -171,6 +171,7 @@ GEM
       activesupport (>= 3.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
+    lightbox-bootstrap-rails (3.3.0.3)
     listen (3.1.3)
       rb-fsevent (~> 0.9, >= 0.9.7)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -398,6 +399,7 @@ DEPENDENCIES
   jquery-turbolinks
   kaminari
   launchy
+  lightbox-bootstrap-rails
   mini_exiftool
   mini_magick
   mysql2

@@ -106,3 +106,6 @@
                 = link_to('Logout', destroy_user_session_path, :method => :delete, :class=>"btn btn-default btn-flat")
 
         / Control Sidebar Toggle Button
+        %li#sidebar-hover
+          %a{"data-toggle" => "control-sidebar", :href => "#"}
+            %i.fa.fa-gears

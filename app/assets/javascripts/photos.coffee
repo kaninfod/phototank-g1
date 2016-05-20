@@ -1,8 +1,6 @@
 $ ->
-  $('img.lazy').lazyload() 
+  $('img.lazy').lazyload()
   return
-
-
 
 $(document).ready ->
   #Event binding for adding photos to the bucket

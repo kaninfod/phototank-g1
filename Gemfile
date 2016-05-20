@@ -61,6 +61,7 @@ gem 'resque-loner'
 gem "haml-rails", "~> 0.9"
 
 gem 'paperclip'
+gem 'lightbox-bootstrap-rails'
 
 gem 'rack-mini-profiler'
 
