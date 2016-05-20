@@ -4,11 +4,6 @@ class CatalogsController < ApplicationController
     @catalogs = Catalog.order(:id).page params[:page]
   end
 
-  def dashboard
-    @catalog = Catalog.find(params[:id])
-    @jobs = Job.order(created_at: :desc, id: :desc ).paginate(:page => params[:page], :per_page => 10)
-  end
-
   def update
     @catalog = set_catalog
     respond_to do |format|
@@ -25,18 +20,56 @@ class CatalogsController < ApplicationController
 
   def new
     @catalog = Catalog.new
-    @catalog_options = [['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
+    @catalog_options = [
+      ['Local','LocalCatalog'],
+      ['Dropbox','DropboxCatalog'],
+      ['Flickr','FlickrCatalog']
+    ]
   end
 
   def create
-
-    if params[:catalog][:type] == "DropboxCatalog"
-      redirect_to "/catalogs/authorize?name=#{params[:catalog][:name]}"
+    if ["DropboxCatalog", "FlickrCatalog"].include? params[:catalog][:type]
+      redirect_to "/catalogs/authorize?name=#{params[:catalog][:name]}&type=#{params[:catalog][:type]}"
     else
       @catalog = Catalog.new(catalog_params)
       if @catalog.save
         redirect_to action: 'edit', id:@catalog
       end
+    end
+  end
+
+  def edit
+    @catalog = Catalog.find(params[:id])
+    @catalog_options = [
+      ['Master','MasterCatalog'],
+      ['Local','LocalCatalog'],
+      ['Dropbox','DropboxCatalog'],
+      ['Flickr','FlickrCatalog']
+    ]
+    if @catalog.sync_from_albums.blank?
+      @sync_from="catalog"
+    else
+      @sync_from="album"
+    end
+  end
+
+  def update
+    catalog = Catalog.find(params[:id])
+
+    case params[:type]
+      when "MasterCatalog"
+        catalog_attribs = update_master
+      when "LocalCatalog"
+        catalog_attribs = update_local
+      when "DropboxCatalog"
+        catalog_attribs = update_dropbox
+      when "FlickrCatalog"
+        catalog_attribs = update_dropbox
+    end
+
+    if catalog.update(catalog_attribs)
+      flash[:notice] = 'Catalog was successfully updated.'
+      redirect_to action: 'dashboard'
     end
   end
 
@@ -57,6 +90,10 @@ class CatalogsController < ApplicationController
     end
   end
 
+  def dashboard
+    @catalog = Catalog.find(params[:id])
+    @jobs = Job.order(created_at: :desc, id: :desc ).paginate(:page => params[:page], :per_page => 10)
+  end
 
   def import
     catalog = Catalog.find(params[:id])
@@ -65,65 +102,47 @@ class CatalogsController < ApplicationController
     redirect_to action: "dashboard", id: params[:id]
   end
 
-
-  def edit
-    @catalog = Catalog.find(params[:id])
-    @catalog_options = [['Master','MasterCatalog'],['Local','LocalCatalog'], ['Dropbox','DropboxCatalog']]
-    if @catalog.sync_from_albums.blank?
-      @sync_from="catalog"
-    else
-      @sync_from="album"
-    end
-  end
-
-def update
-  catalog = Catalog.find(params[:id])
-  
-  case params[:type]
-    when "MasterCatalog"
-      catalog_attribs = update_master
-    when "LocalCatalog"
-      catalog_attribs = update_local
-    when "DropboxCatalog"
-      catalog_attribs = update_dropbox
-  end
-
-  if catalog.update(catalog_attribs)
-    flash[:notice] = 'Catalog was successfully updated.'
-    redirect_to action: 'dashboard'
-  end
-end
-
-
-
   def get_catalog
     render :json => Catalog.find(params[:id]).to_json
   end
 
   def authorize()
-    dropbox_data = {
-      :appkey => "cea457a609yecr1",
-      :appsecret => "rvx7durrno11xip",
-      :redirect_uri => "http://localhost:3000/catalogs/authorize_callback",
-      :access_token => "",
-      :user_id => ""}
-    catalog = Catalog.new(type: "DropboxCatalog",
-      name: params[:name],
-      ext_store_data: dropbox_data,
-      path: "Dropbox"
-      )
-    catalog.save
-    flow = DropboxOAuth2Flow.new(catalog.appkey, catalog.appsecret, catalog.redirect_uri, session, :dropbox_auth_csrf_token)
-    authorize_url = flow.start()
-    redirect_to authorize_url
+    
+    if request.put?
+      catalog = DropboxCatalog.find(params[:id])
+      catalog.update(verifier: params[:verifier])
+      if catalog.callback
+        redirect_to action: 'edit', id: catalog
+      end
+    else
+      if params[:type] == 'DropboxCatalog'
+        @catalog = DropboxCatalog.new(name: params[:name])
+        @catalog.save
+        @auth_url = @catalog.auth
+      elsif params[:type] == 'FlickrCatalog'
+        catalog = FlickrCatalog.new(name: params[:name])
+        catalog.save
+        auth_url = catalog.auth
+        redirect_to auth_url
+      end
+    end
+
   end
 
   def authorize_callback
-    catalog = Catalog.where(type: "DropboxCatalog").last
-    flow = DropboxOAuth2Flow.new(catalog.appkey, catalog.appsecret, catalog.redirect_uri, session, :dropbox_auth_csrf_token)
-    catalog.access_token, catalog.user_id, url_state = flow.finish(params)
-    catalog.save
-    redirect_to action: 'edit', id: catalog
+
+    if params.has_key? :type
+      if params[:type] == "FlickrCatalog"
+        flickr_catalog = FlickrCatalog.find(params[:id])
+        flickr_catalog.verifier = params[:oauth_verifier]
+        flickr_catalog.save
+        if flickr_catalog.callback
+          redirect_to action: 'edit', id: flickr_catalog
+        end
+      end
+    else
+
+    end
   end
 
   private
@@ -152,7 +171,7 @@ end
   end
 
   def update_dropbox
-    catalog_attribs = params.permit(:name, :type, :path, :access_token)
+    catalog_attribs = params.permit(:name, :type, :path, :access_token, :verifier)
     catalog_attribs['sync_from_catalog'] = params[:sync_from_catalog_id]
     catalog_attribs['sync_from_albums'] = nil
     return catalog_attribs

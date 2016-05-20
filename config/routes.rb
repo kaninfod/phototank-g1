@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
 
   get '/catalogs/authorize' => 'catalogs#authorize'
+  put '/catalogs/authorize' => 'catalogs#authorize'
   get '/catalogs/authorize_callback' => 'catalogs#authorize_callback'
   resources :catalogs
   get '/catalogs/:id/dashboard' => 'catalogs#dashboard'

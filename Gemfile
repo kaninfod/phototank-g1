@@ -63,6 +63,8 @@ gem "haml-rails", "~> 0.9"
 gem 'paperclip'
 gem 'lightbox-bootstrap-rails'
 
+gem 'flickraw', '~> 0.9.8'
+
 gem 'rack-mini-profiler'
 
 group :test do

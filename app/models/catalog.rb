@@ -17,6 +17,8 @@ class Catalog < ActiveRecord::Base
       "Local"
     when "DropboxCatalog"
       "Dropbox"
+    when "FlickrCatalog"
+      "Flickr"
     when "MasterCatalog"
       "Master"
     end

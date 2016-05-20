@@ -10,9 +10,6 @@
         = label_tag( "Catalog name:")
         = text_field_tag("name", @catalog.name,class:"form-control")
       .form-group
-        = label_tag("Storage path:")
-        = text_field_tag("path", @catalog.path, class:"form-control")
-      .form-group
         = label_tag("Catalog type:")
         = select_tag("type", options_for_select(@catalog_options, :selected=>@catalog.type), class:"form-control", disabled: true	)
         = hidden_field_tag 'type', @catalog.type
@@ -20,11 +17,11 @@
         = label_tag("Catalogs:")
         = render partial: "list", locals: {current_catalog: @catalog}
       .form-group
-        = label_tag( "Appkey:")
-        = text_field_tag("appkey", @catalog.appkey, class:"form-control", disabled: true)
+        = label_tag( "oauth_token:")
+        = text_field_tag("oauth_token", @catalog.oauth_token, class:"form-control", disabled: true)
       .form-group
-        = label_tag( "Access token:")
-        = text_field_tag("access_token", @catalog.access_token, class:"form-control")
+        = label_tag( "oauth_token_secret:")
+        = text_field_tag("oauth_token_secret", @catalog.oauth_token_secret, class:"form-control")
 
     / /.box-body
     .box-footer

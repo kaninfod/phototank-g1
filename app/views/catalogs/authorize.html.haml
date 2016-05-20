@@ -1,0 +1,25 @@
+#urldata{:auth_url=>@auth_url, :catalog_id=>@catalog.id}
+.box.box-primary
+  .box-header.with-border
+    %h3.box-title Catalog settings
+  / /.box-header
+  / form start
+  = form_tag("/catalogs/authorize", method: "put") do
+    .box-body
+      = hidden_field_tag 'id', @catalog.id
+      .form-group
+        = label_tag( "Enter verifier key from Dropbox:")
+        = text_field_tag("verifier", '', class:"form-control")
+      .form-group
+    / /.box-body
+    .box-footer
+      = submit_tag "Save", class:"btn btn-default"
+
+:javascript
+  $( document ).ready(function() {
+    auth_url = $("#urldata").attr('auth_url')
+    catalog_id = $("#urldata").attr('catalog_id')
+    console.log(auth_url)
+    window.open(auth_url, '_blank');
+    //window.location = "/catalogs/" + catalog_id + "/edit";
+  });

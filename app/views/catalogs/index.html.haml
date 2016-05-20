@@ -36,6 +36,17 @@
         .small-box-footer
           Dashboard
           %i.fa.fa-arrow-circle-right
+  -elsif catalog.type == "FlickrCatalog"
+    .col-lg-3.col-xs-6
+      %a.small-box.bg-aqua{:href => "/catalogs/#{catalog.id}/dashboard"}
+        .inner
+          %h3=catalog.name
+          %p=catalog.type
+        .icon
+          %i.fa.fa-flickr
+        .small-box-footer
+          Dashboard
+          %i.fa.fa-arrow-circle-right
 
 
 .col-lg-3.col-xs-6

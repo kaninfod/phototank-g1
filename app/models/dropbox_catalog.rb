@@ -2,8 +2,33 @@ require 'dropbox_sdk'
 class DropboxCatalog < Catalog
 serialize :ext_store_data, Hash
 
-  def import(use_resque=true)
+  def auth
+    self.appkey = "cea457a609yecr1"
+    self.appsecret = "rvx7durrno11xip"
+    self.redirect_uri = "http://localhost:3000/catalogs/authorize_callback"
+    self.save
 
+    flow = DropboxOAuth2FlowNoRedirect.new(self.appkey, self.appsecret)
+    authorize_url = flow.start()
+
+  end
+
+  def callback
+    byebug
+    begin
+      flow = DropboxOAuth2FlowNoRedirect.new(self.appkey, self.appsecret)
+      access_token, user_id = flow.finish(self.verifier)
+      self.access_token = access_token
+      self.user_id = user_id
+      self.save
+      return 1
+    rescue Exception => e
+      return 0
+    end
+  end
+
+
+  def import(use_resque=true)
     raise "Catalog is not online" unless online
     if not self.sync_from_catalog.blank?
         Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
@@ -11,10 +36,9 @@ serialize :ext_store_data, Hash
   end
 
   def import_photo(photo_id)
-
     photo = Photo.find(photo_id)
-    dropbox_path = File.join(photo.path, photo.filename + photo.file_extension)
-    
+    dropbox_path = File.join(self.path, photo.path, photo.filename + photo.file_extension)
+
     if not self.exists(dropbox_path)
       response = self.create_folder(photo.path)
       response = self.add_file(photo.absolutepath, dropbox_path)
@@ -45,7 +69,7 @@ serialize :ext_store_data, Hash
     self.ext_store_data[:appkey]
   end
 
-  def appsecret=(appsecret)
+  def appsecret=(new_appsecret)
     self.ext_store_data = self.ext_store_data.merge({:appsecret => new_appsecret})
   end
 
@@ -59,6 +83,14 @@ serialize :ext_store_data, Hash
 
   def redirect_uri
     self.ext_store_data[:redirect_uri]
+  end
+
+  def verifier=(new_verifier)
+    self.ext_store_data = self.ext_store_data.merge({:verifier => new_verifier})
+  end
+
+  def verifier
+    self.ext_store_data[:verifier]
   end
 
   def access_token=(new_access_token)

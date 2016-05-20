@@ -1,6 +1,7 @@
 %aside.control-sidebar.control-sidebar-light
-  = render :partial => 'photos/breadcrumb'
-  = render :partial => 'photos/searchbox'
+  - if params[:controller] == 'photos' && params[:action] == 'index'
+    = render :partial => 'photos/breadcrumb'
+    = render :partial => 'photos/searchbox'
 
 
 :javascript

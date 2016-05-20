@@ -1,0 +1,187 @@
+require 'flickraw'
+class FlickrCatalog < Catalog
+serialize :ext_store_data, Hash
+
+API_KEY = "a52641f4fc5064f017257f7b312f3445"
+SHARED_SECRET = "eaf9c9a478fa37bd"
+
+
+  # Users should hit this method to get the link which sends them to flickr
+  def auth()
+
+    self.appkey = API_KEY
+    self.appsecret = SHARED_SECRET
+    base_url = "http://localhost:3000"
+    url_ext = "/catalogs/authorize_callback"
+    params = "?type=FlickrCatalog&id=#{self.id}"
+    self.redirect_uri = "#{base_url}#{url_ext}#{params}"
+    FlickRaw.api_key=self.appkey
+    FlickRaw.shared_secret = self.appsecret
+
+
+
+    flickr = FlickRaw::Flickr.new
+    token = flickr.get_request_token(:oauth_callback => URI.escape(self.redirect_uri))
+    # You'll need to store the token somewhere for when the user is returned to the callback method
+    # I stick mine in memcache with their session key as the cache key
+    self.request_token = token
+    self.save
+
+    @auth_url = flickr.get_authorize_url(token['oauth_token'], :perms => 'delete')
+    # Stick @auth_url in your template for users to click
+  end
+
+  # Your users browser will be redirected here from Flickr (see @callback_url above)
+  def callback
+
+    begin
+
+      flickr = FlickRaw::Flickr.new
+
+      request_token = self.request_token
+      oauth_token = request_token[:oauth_token]
+      oauth_verifier = self.verifier
+
+      raw_token = flickr.get_access_token(request_token['oauth_token'], request_token['oauth_token_secret'], oauth_verifier)
+      # raw_token is a hash like this {"user_nsid"=>"92023420%40N00", "oauth_token_secret"=>"XXXXXX", "username"=>"boncey", "fullname"=>"Darren%20Greaves", "oauth_token"=>"XXXXXX"}
+      # Use URI.unescape on the nsid and name parameters
+
+      self.oauth_token = raw_token["oauth_token"]
+      self.oauth_token_secret = raw_token["oauth_token_secret"]
+      self.save
+      return 1
+    rescue Exception => e
+      return 0
+    end
+
+  end
+
+  def import(use_resque=true)
+    raise "Catalog is not online" unless online
+    if not self.sync_from_catalog.blank?
+        Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
+    end
+  end
+
+  def import_photo(photo_id)
+
+    photo = Photo.find(photo_id)
+    instance = photo.instances.where(catalog_id: self.id).first
+
+    if instance.rev.blank?
+      begin
+        response = self.client.upload_photo photo.absolutepath
+        instance.rev = response
+        self.set_tag instance.rev, "phototank_id:#{photo.id}"
+        instance.modified = Time.now
+        instance.save
+      rescue Exception => e
+        raise e
+      end
+    end
+  end
+
+  def exists(photo_id)
+    response = self.client.photos.search :tags=>"phototank_id:#{photo_id}", :user_id=> self.user_id
+    !response.blank?
+  end
+
+  def set_tag(flickr_id, photo_id)
+    self.client.photos.setTags :photo_id=>flickr_id, :tags=>"#{photo_id} PHOTOTANK"
+  end
+
+  def online
+    true if oauth_token
+  end
+
+  def appkey=(new_appkey)
+    self.ext_store_data = self.ext_store_data.merge({:appkey => new_appkey})
+  end
+
+  def appkey
+    self.ext_store_data[:appkey]
+  end
+
+  def appsecret=(new_appsecret)
+    self.ext_store_data = self.ext_store_data.merge({:appsecret => new_appsecret})
+  end
+
+  def appsecret
+    self.ext_store_data[:appsecret]
+  end
+
+  def redirect_uri=(new_redirect_uri)
+    self.ext_store_data = self.ext_store_data.merge({:redirect_uri => new_redirect_uri})
+  end
+
+  def redirect_uri
+    self.ext_store_data[:redirect_uri]
+  end
+
+  def verifier=(new_verifier)
+    self.ext_store_data = self.ext_store_data.merge({:verifier => new_verifier})
+  end
+
+  def verifier
+    self.ext_store_data[:verifier]
+  end
+
+  def request_token=(new_request_token)
+    self.ext_store_data = self.ext_store_data.merge({:request_token => new_request_token})
+  end
+
+  def request_token
+    self.ext_store_data[:request_token]
+  end
+
+  def oauth_token=(new_oauth_token)
+    self.ext_store_data = self.ext_store_data.merge({:oauth_token => new_oauth_token})
+  end
+
+  def oauth_token
+    self.ext_store_data[:oauth_token]
+  end
+
+  def oauth_token_secret=(new_oauth_token_secret)
+    self.ext_store_data = self.ext_store_data.merge({:oauth_token_secret => new_oauth_token_secret})
+  end
+
+  def oauth_token_secret
+    self.ext_store_data[:oauth_token_secret]
+  end
+
+  def user_id
+    Rails.cache.fetch("flickr/user_id/#{self.id}", expires_in: 10.days) do
+      response = self.client.test.login
+      response["id"]
+    end
+  end
+
+
+  def client
+
+    if not defined? @client
+      FlickRaw.api_key= self.appkey
+      FlickRaw.shared_secret= self.appsecret
+
+      flickr.access_token = self.oauth_token
+      flickr.access_secret = self.oauth_token_secret
+      @client = flickr
+    end
+    @client
+  end
+
+  def account_info
+    0
+  end
+
+  def metadata(path)
+    begin
+      self.client.metadata(path)
+    rescue
+    end
+  end
+
+
+
+end

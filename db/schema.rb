@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330201017) do
+ActiveRecord::Schema.define(version: 20160520082304) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20160330201017) do
     t.string   "type",              limit: 255
     t.string   "sync_from_albums",  limit: 255
     t.integer  "sync_from_catalog", limit: 4
-    t.string   "ext_store_data",    limit: 255
+    t.string   "ext_store_data",    limit: 1024
     t.boolean  "import_mode"
   end
 
