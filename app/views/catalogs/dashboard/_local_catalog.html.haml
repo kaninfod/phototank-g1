@@ -3,10 +3,10 @@
     .box-header.with-border
       .pull-right
 
-        =render :partial => "catalogs/dashboard/catalog_actions"
+        =render :partial => "catalogs/dashboard/actions"
 
       .box-body
-        
+
         %ul.list-unstyled
           -@catalog.sync_from_albums.each do |album|
             %li

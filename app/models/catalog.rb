@@ -11,6 +11,14 @@ class Catalog < ActiveRecord::Base
 
   validate :only_one_master_catalog
 
+  def synchronized
+    self.instances.where(:status=>1)
+  end
+
+  def not_synchronized
+    self.instances - self.synchronized
+  end
+
   def catalogtype
     case self.type
     when "LocalCatalog"

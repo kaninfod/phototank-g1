@@ -18,8 +18,6 @@ SHARED_SECRET = "eaf9c9a478fa37bd"
     FlickRaw.api_key=self.appkey
     FlickRaw.shared_secret = self.appsecret
 
-
-
     flickr = FlickRaw::Flickr.new
     token = flickr.get_request_token(:oauth_callback => URI.escape(self.redirect_uri))
     # You'll need to store the token somewhere for when the user is returned to the callback method
@@ -68,13 +66,11 @@ SHARED_SECRET = "eaf9c9a478fa37bd"
     photo = Photo.find(photo_id)
     instance = photo.instances.where(catalog_id: self.id).first
 
-    if instance.rev.blank?
+    if not instance.status
       begin
-        response = self.client.upload_photo photo.absolutepath
-        instance.rev = response
-        self.set_tag instance.rev, "phototank_id:#{photo.id}"
-        instance.modified = Time.now
-        instance.save
+        response = self.client.upload_photo photo.absolutepath, :tags=>get_flickr_tags(photo_id )
+        #self.set_tags response, photo.id
+        instance.update(modified: Time.now, rev: response, status: 1)
       rescue Exception => e
         raise e
       end
@@ -82,12 +78,18 @@ SHARED_SECRET = "eaf9c9a478fa37bd"
   end
 
   def exists(photo_id)
-    response = self.client.photos.search :tags=>"phototank_id:#{photo_id}", :user_id=> self.user_id
-    !response.blank?
+    tag_string = get_flickr_tags(photo_id).gsub(' ', ',')
+    response = self.client.photos.search :tags=>tag_string, :user_id=> self.user_id
+    if response.length > 0
+      true
+    else
+      false
+    end
   end
 
-  def set_tag(flickr_id, photo_id)
-    self.client.photos.setTags :photo_id=>flickr_id, :tags=>"#{photo_id} PHOTOTANK"
+  def set_tags(flickr_id, photo_id)
+    tag_string = get_flickr_tags(photo_id )
+    self.client.photos.setTags :photo_id=>flickr_id, :tags=> tag_string
   end
 
   def online
@@ -182,6 +184,10 @@ SHARED_SECRET = "eaf9c9a478fa37bd"
     end
   end
 
+  private
 
+  def get_flickr_tags(photo_id)
+    "photo_id:#{photo_id} catalog_id:#{self.id} PHOTOTANK"
+  end
 
 end

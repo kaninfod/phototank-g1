@@ -1,5 +1,5 @@
-=content_for :title, "Dashboard"
-=content_for :subtitle, @catalog.name
+=content_for :title, @catalog.name
+=content_for :subtitle, @catalog.type
 
 
 - if @catalog.type == "MasterCatalog"
@@ -12,7 +12,7 @@
   = render "catalogs/dashboard/flickr_catalog"
 
 .row
-  = render :partial => "catalogs/dashboard/stat_cards"
+  = render :partial => "catalogs/dashboard/stats"
 .row
   .col-lg-12
     = render :partial => "jobs/list", locals: {compact: true}

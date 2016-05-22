@@ -27,7 +27,6 @@ serialize :ext_store_data, Hash
     end
   end
 
-
   def import(use_resque=true)
     raise "Catalog is not online" unless online
     if not self.sync_from_catalog.blank?
@@ -37,20 +36,22 @@ serialize :ext_store_data, Hash
 
   def import_photo(photo_id)
     photo = Photo.find(photo_id)
+    instance = photo.instances.where(catalog_id: self.id).first
     dropbox_path = File.join(self.path, photo.path, photo.filename + photo.file_extension)
 
-    if not self.exists(dropbox_path)
+    if not instance.status #self.exists(dropbox_path)
       response = self.create_folder(photo.path)
       response = self.add_file(photo.absolutepath, dropbox_path)
 
-      instance = photo.instances.where(catalog_id: self.id).first
-      instance.catalog_id = self.id
-      instance.path = response["path"]
-      instance.size = response["bytes"]
-      instance.rev = response["rev"]
-      instance.modified = response["modified"]
-      instance.status = 0
-      instance.save
+      instance.update(
+        catalog_id: self.id,
+        path: response["path"],
+        size: response["bytes"],
+        rev: response["rev"],
+        modified: response["modified"],
+        status: 1
+      )
+
     else
       raise "File exists in Dropbox with same revision id and path"
     end
@@ -129,9 +130,7 @@ serialize :ext_store_data, Hash
   end
 
   def add_file(local_path, dropbox_path)
-
     self.client.put_file(dropbox_path, open(local_path), overwrite=true)
-
   end
 
   def add_file_in_chunks(dropbox_path, local_path)
