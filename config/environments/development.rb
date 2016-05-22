@@ -40,15 +40,4 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.serve_static_files = true
-
-  config.after_initialize do
-  Rails.application.routes.default_url_options = {
-    host:  'com.es',
-    protocol: 'http',
-    subdomain: 'live.mysite'
-    }
-  end
-  config.action_controller.default_url_options = {
-    host: 'live.mysite.com.es'
-  }
 end

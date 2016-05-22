@@ -11,7 +11,7 @@ SHARED_SECRET = "eaf9c9a478fa37bd"
 
     self.appkey = API_KEY
     self.appsecret = SHARED_SECRET
-    base_url = "http://localhost:3000"
+    base_url = self.redirect_uri
     url_ext = "/catalogs/authorize_callback"
     params = "?type=FlickrCatalog&id=#{self.id}"
     self.redirect_uri = "#{base_url}#{url_ext}#{params}"
