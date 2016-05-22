@@ -15,10 +15,6 @@
     :value=>@catalog.not_synchronized.count,
     :icon=>"fa-tachometer",
     :color=>"bg-aqua"},
-    {:title=>"Photos not synchronised",
-    :value=>@catalog.not_synchronized.count,
-    :icon=>"fa-tachometer",
-    :color=>"bg-aqua"},
     {:title=>"Last photo uploaded",
     :value=>@catalog.photos.order(:created_at).limit(1).first.created_at.strftime("%b %d %Y"),
     :icon=>"fa-clock-o",
@@ -34,3 +30,9 @@
 
   -s.each do |sc|
     = render :partial => "catalogs/dashboard/stat_card", locals: sc
+- else
+  - sc = {:title=>"Photos",
+    :value=>0,
+    :icon=>"fa-tachometer",
+    :color=>"bg-aqua"}
+  = render :partial => "catalogs/dashboard/stat_card", locals: sc

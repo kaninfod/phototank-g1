@@ -3,9 +3,12 @@ class DropboxCatalog < Catalog
 serialize :ext_store_data, Hash
 
   def auth
-    self.appkey = "cea457a609yecr1"
-    self.appsecret = "rvx7durrno11xip"
-    self.redirect_uri = "http://localhost:3000/catalogs/authorize_callback"
+    self.appkey = Rails.configuration.x.dropbox["appkey"]
+    self.appsecret = Rails.configuration.x.dropbox["appsecret"]
+    base_url = self.redirect_uri
+    url_ext = "/catalogs/authorize_callback"
+    #params = "?type=FlickrCatalog&id=#{self.id}"
+    self.redirect_uri = "#{base_url}#{url_ext}"
     self.save
 
     flow = DropboxOAuth2FlowNoRedirect.new(self.appkey, self.appsecret)

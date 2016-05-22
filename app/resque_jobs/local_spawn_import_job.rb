@@ -6,8 +6,8 @@ class LocalSpawnImportJob < ResqueJob
 
     begin
       catalog = Catalog.find(catalog_id)
-      catalog.photos.each do |photo|
-        Resque.enqueue(LocalImportPhotoJob, catalog_id, photo.id)
+      catalog.not_synchronized.each do |instance|
+        Resque.enqueue(LocalImportPhotoJob, catalog_id, instance.photo_id)
       end
 
     rescue Exception => e

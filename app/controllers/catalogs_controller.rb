@@ -117,6 +117,7 @@ class CatalogsController < ApplicationController
     else
       if params[:type] == 'DropboxCatalog'
         @catalog = DropboxCatalog.new(name: params[:name])
+        @catalog.redirect_uri = request.base_url
         @catalog.save
         @auth_url = @catalog.auth
       elsif params[:type] == 'FlickrCatalog'

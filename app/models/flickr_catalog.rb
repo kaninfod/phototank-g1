@@ -2,15 +2,9 @@ require 'flickraw'
 class FlickrCatalog < Catalog
 serialize :ext_store_data, Hash
 
-API_KEY = "a52641f4fc5064f017257f7b312f3445"
-SHARED_SECRET = "eaf9c9a478fa37bd"
-
-
-  # Users should hit this method to get the link which sends them to flickr
   def auth()
-
-    self.appkey = API_KEY
-    self.appsecret = SHARED_SECRET
+    self.appkey = Rails.configuration.x.flickr["appkey"]
+    self.appsecret = Rails.configuration.x.flickr["appsecret"]
     base_url = self.redirect_uri
     url_ext = "/catalogs/authorize_callback"
     params = "?type=FlickrCatalog&id=#{self.id}"
@@ -62,11 +56,10 @@ SHARED_SECRET = "eaf9c9a478fa37bd"
   end
 
   def import_photo(photo_id)
-
     photo = Photo.find(photo_id)
     instance = photo.instances.where(catalog_id: self.id).first
 
-    if not instance.status
+    if instance.status != 1
       begin
         response = self.client.upload_photo photo.absolutepath, :tags=>get_flickr_tags(photo_id )
         #self.set_tags response, photo.id
@@ -187,7 +180,8 @@ SHARED_SECRET = "eaf9c9a478fa37bd"
   private
 
   def get_flickr_tags(photo_id)
-    "photo_id:#{photo_id} catalog_id:#{self.id} PHOTOTANK"
+    instance_name = Rails.configuration.x.phototank["instance_name"]
+    "photo_id:#{photo_id} catalog_id:#{self.id} PHOTOTANK #{instance_name}"
   end
 
 end
