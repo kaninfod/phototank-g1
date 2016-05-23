@@ -1,6 +1,7 @@
 require 'dropbox_sdk'
 class DropboxCatalog < Catalog
-serialize :ext_store_data, Hash
+  before_destroy :delete_contents
+  serialize :ext_store_data, Hash
 
   def auth
     self.appkey = Rails.configuration.x.dropbox["appkey"]
@@ -60,9 +61,29 @@ serialize :ext_store_data, Hash
     end
   end
 
-
   def online
     true if access_token
+  end
+
+  def delete_contents
+    #triggered when entire catalog is deleted
+    photos.each do |photo|
+      delete_photo photo.id
+    end
+  end
+
+  def delete_photo(photo_id)
+
+    begin
+      instance = self.instances.where(photo_id: photo_id).first
+      if not instance.nil?
+        self.client.file_delete instance.path unless instance.path.nil?
+      end
+      #instance.destroy
+    rescue Exception => e
+
+      logger.debug "#{e}"
+    end
   end
 
   def appkey=(new_appkey)

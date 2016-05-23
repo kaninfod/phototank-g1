@@ -1,7 +1,7 @@
 
 class MasterCatalog < Catalog
-include ImportPhotoHelper
-validates :type, uniqueness: true
+  include ImportPhotoHelper
+  validates :type, uniqueness: true
   def import
     begin
       self.watch_path.each do |import_path|
@@ -60,14 +60,17 @@ validates :type, uniqueness: true
 
   def delete_photo(photo_id)
     begin
-      FileUtils.rm((self.photos.find(photo_id).original_filename))
-      FileUtils.rm((self.photos.find(photo_id).large_filename))
-      FileUtils.rm((self.photos.find(photo_id).medium_filename))
-      FileUtils.rm((self.photos.find(photo_id).small_filename))
-      self.instances.where(photo_id: photo_id).each{ |instance| instance.destroy}
-      Photo.find(photo_id).destroy
+      #FileUtils.rm self.photos.find(photo_id).original_filename, :force => true
+      photo = self.photos.find(photo_id)
+      FileUtils.rm photo.large_filename, :force => true
+      FileUtils.rm photo.medium_filename, :force => true
+      FileUtils.rm photo.small_filename, :force => true
+
+      bin_path = File.join(self.path, "bin")
+      FileUtils.mkdir_p bin_path unless File.exists? bin_path
+      File.rename photo.original_filename, File.join(bin_path, "#{photo.filename}#{photo.file_extension}")
     rescue Exception => e
-      logger.debug "#{e}"
+      Rails.logger.debug "Error: #{e}"
     end
   end
 
@@ -83,9 +86,5 @@ validates :type, uniqueness: true
       Rails.cache.delete("master_catalog")
     end
   end
-
-  private
-
-
 
 end

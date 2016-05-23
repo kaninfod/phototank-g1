@@ -1,6 +1,7 @@
 require 'flickraw'
 class FlickrCatalog < Catalog
-serialize :ext_store_data, Hash
+  before_destroy :delete_contents
+  serialize :ext_store_data, Hash
 
   def auth()
     self.appkey = Rails.configuration.x.flickr["appkey"]
@@ -89,6 +90,26 @@ serialize :ext_store_data, Hash
     true if oauth_token
   end
 
+  def delete_contents
+    #triggered when entire catalog is deleted
+    photos.each do |photo|
+      delete_photo photo.id
+    end
+  end
+
+  def delete_photo(photo_id)
+
+    begin
+      instance = self.instances.where(photo_id: photo_id).first
+      if not instance.nil?
+        response = self.client.photos.delete :photo_id=>instance.rev
+      end
+      #instance.destroy
+    rescue Exception => e
+      logger.debug "#{e}"
+    end
+  end
+
   def appkey=(new_appkey)
     self.ext_store_data = self.ext_store_data.merge({:appkey => new_appkey})
   end
@@ -164,17 +185,6 @@ serialize :ext_store_data, Hash
       @client = flickr
     end
     @client
-  end
-
-  def account_info
-    0
-  end
-
-  def metadata(path)
-    begin
-      self.client.metadata(path)
-    rescue
-    end
   end
 
   private

@@ -21,7 +21,7 @@
           %li
             %a{:href => "/photos/#{photo.id}/edit"} Edit data
           %li
-            %a{:href => "#"} Delete
+            %a.delete_photo{:href => "#", :photo_id=>photo.id} Delete
           %li
             %a{:href => "/photos/#{photo.id.to_s}/image/original", :download=>true} Download
 

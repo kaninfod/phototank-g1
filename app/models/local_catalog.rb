@@ -1,5 +1,5 @@
 class LocalCatalog < Catalog
-  before_destroy :clean_up
+  before_destroy :delete_contents
 
   def import
     #raise "Catalog is not online" unless online
@@ -22,35 +22,46 @@ class LocalCatalog < Catalog
     end
   end
 
-  def clean_up
-    photos.each do |photo|
-      if File.exist?(photo.absolutepath(self.id))
-        FileUtils.rm(photo.absolutepath(self.id))
-      end
-    end
-
-    Instance.where(catalog_id: self.id).each do |instance|
-      instance.destroy
-    end
-  end
-
   def online
     File.exist?(self.path)
+  end
+
+  def delete_contents
+    #triggered when entire catalog is deleted
+    photos.each do |photo|
+      delete_photo photo.id
+    end
   end
 
   def delete_photo(photo_id)
 
     begin
-      FileUtils.rm((self.photos.find(photo_id).original_filename))
-      FileUtils.rm((self.photos.find(photo_id).large_filename))
-      FileUtils.rm((self.photos.find(photo_id).medium_filename))
-      FileUtils.rm((self.photos.find(photo_id).small_filename))
-      self.instances.where(photo_id: photo_id).each{ |instance| instance.destroy}
-      Photo.find(photo_id).destroy
+      #instance = self.instances.where{photo_id.eq(photo_id)}.first
+      file_path = self.photos.find(photo_id).original_filename
+      if not instance.nil?
+        if File.exist?(file_path)
+          FileUtils.rm(file_path)
+        end
+      end
+      #instance.destroy
     rescue Exception => e
+
       logger.debug "#{e}"
     end
   end
+
+  # def delete_photo(photo_id)
+  #   begin
+  #     FileUtils.rm((self.photos.find(photo_id).original_filename))
+  #     FileUtils.rm((self.photos.find(photo_id).large_filename))
+  #     FileUtils.rm((self.photos.find(photo_id).medium_filename))
+  #     FileUtils.rm((self.photos.find(photo_id).small_filename))
+  #     self.instances.where(photo_id: photo_id).each{ |instance| instance.destroy}
+  #     Photo.find(photo_id).destroy
+  #   rescue Exception => e
+  #     logger.debug "#{e}"
+  #   end
+  # end
   private
 
 

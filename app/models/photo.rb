@@ -6,10 +6,10 @@
 
 class Photo < ActiveRecord::Base
   validate :date_taken_is_valid_datetime
-
+  before_destroy :_delete
   before_update :move_by_date, if: :date_taken_changed?
   belongs_to :location
-  has_many :instances, dependent: :destroy
+  has_many :instances
   has_many :catalogs, through: :instances
 
   reverse_geocoded_by :latitude, :longitude
@@ -60,11 +60,8 @@ class Photo < ActiveRecord::Base
     date_taken.strftime("%b %d %Y %H:%M:%S")
   end
 
-  def delete_from_catalog(catalog_id)
-    File.delete(self.absolutepath(catalog_id))
-    File.delete(self.absolutepath(catalog_id))
-    File.delete(self.absolutepath(catalog_id))
-    File.delete(self.absolutepath(catalog_id))
+  def delete
+    Resque.enqueue(DeletePhoto, self.id)
   end
 
   def coordinate_string
@@ -80,7 +77,7 @@ class Photo < ActiveRecord::Base
   end
 
   def small_filename(catalog_id=Catalog.master.id)
-    
+
     _catalog_path = Rails.cache.fetch("catalog/#{catalog_id}/path", expires_in: 2.hours) do
       self.catalog(catalog_id).path
     end
@@ -174,5 +171,17 @@ class Photo < ActiveRecord::Base
     def move_by_date
       Resque.enqueue(PhotoMoveByDate, self.id)
     end
+
+    def _delete
+      #Always call destroy!! this is called by the callback.
+      begin
+        self.instances.each do |instance|
+          instance.destroy
+        end
+      rescue Exception => e
+        logger.debug "#{e}"
+      end
+    end
+
 
 end

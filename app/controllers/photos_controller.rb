@@ -128,6 +128,19 @@ class PhotosController < ApplicationController
     end
   end
 
+  def destroy
+    photo = Photo.find(params[:id])
+    photo.delete
+
+    if request.xhr?
+      render json: {:notice=>'Photo has been queued for deletion'}
+    else
+      flash[:notice] = 'Photo has been queued for deletion'
+      redirect_to request.referer
+    end
+  end
+
+
   private
 
   def set_date(query)

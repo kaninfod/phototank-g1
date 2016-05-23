@@ -71,3 +71,19 @@ jQuery(document).ready ->
     jQuery('html, body').animate { scrollTop: 0 }, duration
     false
   return
+
+#menu actions on dropdowns
+#-delete:
+$(document).ready ->
+  $('.delete_photo').on 'click', ->
+    photoId = $(this).attr('photo_id')
+    pw=$('.delete_photo[photo_id="'+photoId+'"]').parents('.photo-widget')
+    $.ajax
+      url: '/photos/' + photoId
+      type: 'DELETE',
+      contentType: 'application/json',
+      success: (data) ->
+        pw.fadeOut(700)
+
+    return false
+  return false
