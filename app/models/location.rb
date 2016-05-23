@@ -116,7 +116,7 @@ class Location < ActiveRecord::Base
 
   def self.get_no_location
     no_loc = Location.where{(latitude.eq(0) & longitude.eq(0))}
-    if no_loc.count > 0
+    if no_loc.length > 0
       return no_loc.first
     else
       new_no_loc = Location.new

@@ -70,8 +70,6 @@ class PhotosController < ApplicationController
     if request.xhr?
       render :partial=>"photos/view/grid"
     end
-
-    @r = request
   end
 
   def show

@@ -48,7 +48,7 @@ $ ->
           $.ajax
             url: more_posts_url
             success: (data) ->
-              $("#photos").append(data)#.hide().fadeIn(1000)
+              $("#photos").append(data)
               $('[data-toggle="popover"]').popover();
               $('.dropdown-toggle').dropdown()
               $('img.lazy').lazyload()
