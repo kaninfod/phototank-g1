@@ -3,8 +3,8 @@
     .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket", photo.status && "changed"]}
       .text-center In Bucket
     %img.lazy{:photo_id=>(photo.id),
-      "data-original"=>"/photos/#{photo.id.to_s}/image/small",
-      :href=>"/photos/#{photo.id.to_s}/image/large",
+      "data-original"=>"/photofiles/#{photo.thumb_id.to_s}/photoserve",
+      :href=>"/photofiles/#{photo.large_id.to_s}/photoserve",
       "data-toggle"=>"lightbox",
       "data-type"=>"image",
       "data-title"=>photo.date_taken_formatted,
@@ -23,7 +23,7 @@
           %li
             %a.delete_photo{:href => "#", :photo_id=>photo.id} Delete
           %li
-            %a{:href => "/photos/#{photo.id.to_s}/image/original", :download=>true} Download
+            %a{:href => "/photofiles/#{photo.original_id.to_s}/photoserve", :download=>true} Download
 
       %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"/photos/#{photo.id}"}
 

@@ -1,6 +1,0 @@
-%table
-  - Resque::Failure.each do |id, job|
-    - Resque.enqueue(MasterImportPhotoJob, job.fetch('payload').fetch('args').first)
-    %tr
-      %td=job.fetch('payload').fetch('class')
-      %td=job.fetch('payload').fetch('args').first

@@ -1,5 +1,5 @@
 class DropboxCloneInstancesFrom < ResqueJob
-  @queue = :dropbox
+  @queue = :import
 
   def self.perform(action, options)
 

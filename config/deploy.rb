@@ -6,7 +6,7 @@ set :application,     'phototank'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
-set :workers, { "import" => 1, "dropbox" => 1, "utility" => 1 }
+set :workers, { "import" => 1, "utility" => 1 }
 set :resque_environment_task, true
 
 # Don't change these unless you know what you're doing
@@ -27,7 +27,7 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 
 ## Defaults:
 set :scm,           :git
-set :branch,        :master
+set :branch,        :photofile
 # set :format,        :pretty
 # set :log_level,     :debug
 # set :keep_releases, 5

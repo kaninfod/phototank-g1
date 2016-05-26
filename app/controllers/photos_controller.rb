@@ -3,24 +3,8 @@ class PhotosController < ApplicationController
   before_action :authenticate_user!
   def image
     @photo = set_photo
-
-    if params[:size] == "original"
-      filepath = File.join(@photo.original_filename)
-    elsif params[:size] == "large"
-      filepath = File.join(@photo.large_filename)
-    elsif params[:size] == "small"
-      filepath = File.join(@photo.small_filename)
-    else
-      filepath = File.join(@photo.medium_filename)
-    end
-
-    if File.exist?(filepath)
-      send_file filepath, :disposition => 'inline'
-    else
-      send_file Rails.root.join('app', 'assets', 'images', 'missing_tm.jpg'), :disposition => 'inline'
-    end
+    send_file @photo.get_photo(params[:size]), :disposition => 'inline'
   end
-
 
   def index
     album_hash = {}
@@ -82,6 +66,7 @@ class PhotosController < ApplicationController
 
     url = URI(request.referer).path
     url.slice!(0)
+
     qry = Hash[url.split("/").each_slice(2).to_a].symbolize_keys
     qry[:year] = @photo.date_taken.year
     qry[:month] = @photo.date_taken.month
@@ -106,7 +91,6 @@ class PhotosController < ApplicationController
   end
 
   def update
-    #byebug
     photo = Photo.find(params[:id])
     if request.patch?
       if photo.update(params.permit(:date_taken, :location_id))

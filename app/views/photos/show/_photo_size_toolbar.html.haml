@@ -1,4 +1,4 @@
 %ul.text-right.list-inline
-  %li= link_to icon('picture-o', class: 'fa-lg'), controller: 'photos', action: 'show', size: 'medium'
-  %li= link_to icon('picture-o', class: 'fa-2x	'), controller: 'photos', action: 'show', size: 'large'
-  %li= link_to icon('picture-o', class: 'fa-3x'), controller: 'photos', action: 'show', size: 'original'
+  %li= link_to icon('picture-o', class: 'fa-lg'), controller: 'photos', action: 'show', size: "#{@photo.medium_id}"
+  %li= link_to icon('picture-o', class: 'fa-2x	'), controller: 'photos', action: 'show', size: "#{@photo.large_id}"
+  %li= link_to icon('picture-o', class: 'fa-3x'), controller: 'photos', action: 'show', size: "#{@photo.original_id}"
