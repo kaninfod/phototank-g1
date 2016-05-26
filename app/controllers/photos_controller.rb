@@ -49,7 +49,7 @@ class PhotosController < ApplicationController
 
     #get distinct data for dropdowns
     prep_form
-
+    @r =Rails.configuration.x.phototank["filestorepath"]
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
       render :partial=>"photos/view/grid"

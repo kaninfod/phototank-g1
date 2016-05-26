@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/photos/:id/rotate/(:degrees)' => 'photos#rotate'
 
 
+  get '/catalogs/migrate' => 'catalogs#migrate'
   get '/catalogs/authorize' => 'catalogs#authorize'
   put '/catalogs/authorize' => 'catalogs#authorize'
   get '/catalogs/authorize_callback' => 'catalogs#authorize_callback'

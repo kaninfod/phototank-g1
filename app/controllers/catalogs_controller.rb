@@ -4,6 +4,12 @@ class CatalogsController < ApplicationController
     @catalogs = Catalog.order(:id).page params[:page]
   end
 
+  def migrate
+    m = MasterCatalog.first
+    m.migrate
+    render json: {"msg": "hope it's all good"}
+  end
+
   def update
     @catalog = set_catalog
     respond_to do |format|

@@ -8,6 +8,7 @@ class Photofile < ActiveRecord::Base
 
   def import_file
     begin
+      
       path = File.join(PATH, self.datehash[:year].to_s, self.datehash[:month].to_s,self.datehash[:day].to_s)
       FileUtils.mkdir_p File.join(path)
       filename = "#{datehash[:datestring]}_#{datehash[:type]}_#{datehash[:unique]}"

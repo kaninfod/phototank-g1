@@ -50,6 +50,55 @@ class MasterCatalog < Catalog
     File.exist?(self.path)
   end
 
+  def migrate
+    path = self.path
+
+    self.photos.each do |photo|
+
+      Rails.logger.warn "migrating photo with ID #{photo.id}"
+      #original
+      filename = "#{photo.filename}#{photo.file_extension}"
+      filepath = File.join(path, photo.path, filename)
+      datehash = generate_datehash(photo.date_taken)
+      datehash[:type] = "org"
+      ps_org = Photofile.create(path: filepath, datehash: datehash)
+      photo.update(original_id:ps_org.id)
+
+      #large
+      filename = "#{photo.filename}_lg#{photo.file_extension}"
+      filepath = File.join(path, photo.file_thumb_path, filename)
+      datehash = generate_datehash(photo.date_taken)
+      datehash[:type] = "lg"
+      ps_lg = Photofile.create(path: filepath, datehash: datehash)
+      photo.update(large_id:ps_lg.id)
+
+      #medium
+      filename = "#{photo.filename}_md#{photo.file_extension}"
+      filepath = File.join(path, photo.file_thumb_path, filename)
+      datehash = generate_datehash(photo.date_taken)
+      datehash[:type] = "md"
+      ps_md = Photofile.create(path: filepath, datehash: datehash)
+      photo.update(medium_id:ps_md.id)
+
+
+      #thumbnail
+      filename = "#{photo.filename}_tm#{photo.file_extension}"
+      filepath = File.join(path, photo.file_thumb_path, filename)
+      datehash = generate_datehash(photo.date_taken)
+      datehash[:type] = "tm"
+      ps_tm = Photofile.create(path: filepath, datehash: datehash)
+      photo.update(thumb_id:ps_tm.id)
+
+      photo.update(phash:photo.filename)
+      photo.update(status:-1003)
+
+
+    end
+
+
+
+  end
+
   def delete_photo(photo_id)
     begin
       photo = self.photos.find(photo_id)

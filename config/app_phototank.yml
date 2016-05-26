@@ -1,9 +1,14 @@
 production:
   environment: production
   instance_name: "Hinge"
-  filestorepath: "/Users/martinhinge/Downloads/fileserve"
+  filestorepath: "/media/exthd/photos/phototank/photofiles"
 
 development:
   environment: development
   instance_name: "dev_Hinge"
   filestorepath: "/Users/martinhinge/Pictures/ROR_PT/phototank"
+
+test:
+  environment: test
+  instance_name: "dev_Hinge"
+  filestorepath: "/Users/martinhinge/Pictures/test_migrate"
