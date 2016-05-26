@@ -2,7 +2,7 @@ class MasterImportPhotoJob < ResqueJob
   include Resque::Plugins::UniqueJob
   @queue = :import
 
-  def self.perform(import_path, photo_id= nil, import_mode = true)
+  def self.perform(import_path, photo_id=false, import_mode=true)
 
     begin
       photo_id = Catalog.master.import_photo(import_path, photo_id, import_mode)

@@ -40,6 +40,6 @@ module Phototank
     config.x.flickr = config_for(:app_flickr)
     config.x.dropbox = config_for(:app_dropbox)
     config.x.phototank = config_for(:app_phototank)
-
+    
   end
 end

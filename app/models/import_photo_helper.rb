@@ -5,94 +5,136 @@ module ImportPhotoHelper
   IMAGE_LARGE = '1024x1200'
 
 
-  def process(import_mode)
-    set_paths
-    set_attributes
-    create_photos
-    handle_file(import_mode)
+  def import_flow2(path, import_mode=true)
+    data = {}
 
-  end
+    #get phash and check if the photo already exists in the database
+    phash = Phashion::Image.new(path)
+    data[:phash] = phash.fingerprint
 
-  def set_exif()
-    exif = MiniExiftool.new(@photo.import_path, opts={:numerical=>true})
-
-    @photo.longitude = exif.gpslongitude
-    @photo.latitude = exif.gpslatitude
-    @photo.make = exif.make
-    @photo.model = exif.model
-
-    if exif.datetimeoriginal.blank?
-      @photo.date_taken = File.ctime(@photo.import_path)
-      return 2
-    else
-      @photo.date_taken = exif.datetimeoriginal
-      return 0
+    if Photo.exists(data[:phash])
+      raise "Photo already exists: #{path}"
     end
+
+    #Create tempfiles for all photos to be created
+    @org_file = Tempfile.new("org")
+    @tm_file = Tempfile.new("thumb")
+    @lg_file = Tempfile.new("large")
+    @md_file = Tempfile.new("medium")
+
+    begin
+      #set the original file to the tempfile
+      @org_file.write File.open(path).read ; :ok
+
+      #Get metadata from photo
+      @image = MiniMagick::Image.open(@org_file.path)
+      data[:original_width] = @image.width
+      data[:original_height] = @image.height
+      data[:file_size] = @image.size
+      data[:file_extension] = ".jpg"
+
+      #Get EXIF data from photo
+      exif = MiniExiftool.new(@org_file.path, opts={:numerical=>true})
+      data[:longitude] = exif.gpslongitude
+      data[:latitude] = exif.gpslatitude
+      data[:make] = exif.make
+      data[:model] = exif.model
+
+
+
+      #Set data_taken; either from EXIF or from file timestamp
+      if exif.datetimeoriginal.blank?
+        exif.datetimeoriginal = data[:date_taken] = File.ctime(@org_file.path)
+
+      else
+        data[:date_taken]= exif.datetimeoriginal
+      end
+      exif["usercomment"] = "This photo is handled by PhotoTank as of #{DateTime.now.strftime("%Y.%m.%d %H:%M:%S")}"
+      exif.imageuniqueid = data[:phash]
+      exif.save
+
+      #Generate a date hash to be usen by the photofile model
+      datehash = generate_datehash(data[:date_taken])
+
+      #Create thumbnail and store it to the photofile
+      if create_thumbnail()
+        datehash[:type] = "tm"
+        ps = Photofile.create(path: @tm_file.path, datehash: datehash)
+        data[:thumb_id] = ps.id
+      end
+
+      #Create medium photo and store it to the photofile
+      if resize_photo(@md_file.path, IMAGE_MEDIUM)
+        datehash[:type] = "md"
+        ps = Photofile.create(path: @md_file.path, datehash: datehash)
+        data[:medium_id] = ps.id
+      end
+
+      #Create large photo and store it to the photofile
+      if resize_photo(@lg_file.path, IMAGE_LARGE)
+        datehash[:type] = "lg"
+        ps = Photofile.create(path: @lg_file.path, datehash: datehash)
+        data[:large_id] = ps.id
+      end
+
+      #Put the original photo in photofile
+      datehash[:type] = "org"
+      ps = Photofile.create(path: @org_file.path, datehash: datehash)
+      data[:original_id] = ps.id
+
+      #Delete the source if import_mode is set
+      if import_mode
+        FileUtils.rm path
+      end
+
+    ensure
+      #Close and unlink all tempfiles
+      @org_file.close
+      @org_file.unlink
+
+      @tm_file.close
+      @tm_file.unlink
+
+      @lg_file.close
+      @lg_file.unlink
+
+      @md_file.close
+      @md_file.unlink
+    end
+
+    return data
   end
 
-  def set_attributes
-    @image = MiniMagick::Image.open(@photo.import_path)
-    @photo.original_width = @image.width
-    @photo.original_height = @image.height
-    @photo.file_size = @image.size
-    @photo.file_extension = ".jpg"
-    @photo.file_thumb_path = @relative_path_clones
-    @photo.path = @relative_path_original
-  end
+  def generate_datehash(date)
+      datestring = date.strftime("%Y%m%d%H%M%S")
+      unique = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(5).next.join
 
-  def set_paths
-    @date_path = get_date_path
-    @relative_path_clones = File.join('phototank', 'thumbs', @date_path)
-    @relative_path_original = File.join('phototank', 'originals', @date_path)
-    #Create absolute path for thumbs in master archive
-    @absolute_path_clones = File.join(Catalog.master.path, 'phototank', 'thumbs', @date_path)
-    #Create absolute path for originals in master archive
-    @absolute_path_original = File.join(Catalog.master.path, 'phototank', 'originals', @date_path)
-  end
-
-  def get_date_path()
-    date_path = File.join(
-      @photo.date_taken.strftime("%Y"),
-      @photo.date_taken.strftime("%m"),
-      @photo.date_taken.strftime("%d")
-    )
-    return date_path
-  end
-
-  def create_photos
-    FileUtils.mkdir_p @absolute_path_clones unless File.exist?(@absolute_path_clones)
-    resize_photo("_lg", IMAGE_LARGE)
-    resize_photo("_md", IMAGE_MEDIUM)
-    create_thumbnail
+      datehash = {
+        :datestring=>datestring,
+        :unique=>unique,
+        :year=>date.year,
+        :month=>date.month,
+        :day=>date.day
+      }
+      return datehash
   end
 
   def create_thumbnail()
-    dst = File.join(@absolute_path_clones, @photo.filename + "_tm" + @photo.file_extension)
-    src = @photo.import_path#File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
+
     MiniMagick::Tool::Convert.new do |convert|
-      convert.merge! ["-size", "200x200", src]
+      convert.merge! ["-size", "200x200", @org_file.path]
       convert.merge! ["-thumbnail", "125x125^"]
       convert.merge! ["-gravity", "center"]
       convert.merge! ["-extent", "125x125", "+profile", "'*'"]
-      convert << dst
+      convert << @tm_file.path
     end
+    return true
   end
 
-  def resize_photo(suffix, size)
-    file_path = File.join(@absolute_path_clones, @photo.filename + suffix + @photo.file_extension)
-    if not File.exist?(file_path)
-      @image.resize size
-      @image.write file_path
-    end
-  end
-
-  def handle_file(import_mode)
-    FileUtils.mkdir_p @absolute_path_original unless File.exist?(@absolute_path_original)
-    if import_mode
-      File.rename @photo.import_path, File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
-    else
-      FileUtils.cp @photo.import_path, File.join(@absolute_path_original, @photo.filename + @photo.file_extension)
-    end
+  def resize_photo(path, size)
+    @image.resize size
+    @image.write path
+    return true
   end
 
 end

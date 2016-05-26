@@ -56,6 +56,10 @@ Rails.application.routes.draw do
   get 'doubles/index'
   get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
 
+  resources :photofiles
+  get 'photofiles/:id/photoserve' => 'photofiles#photoserve'
+
+
   get 'administration/generate_albums'
   get 'administration/jobs_pending'
   get 'administration/list_jobs'

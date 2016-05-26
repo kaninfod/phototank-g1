@@ -46,6 +46,7 @@ gem 'geocoder'
 gem 'mini_exiftool'
 gem 'phashion'
 gem "mini_magick"
+gem 'ruby-filemagic'
 
 gem 'devise'
 
@@ -53,7 +54,7 @@ gem 'jquery-turbolinks'
 gem 'squeel'
 gem 'puma'
 
-gem 'dropbox-sdk'
+
 
 gem 'resque'
 gem 'resque-loner'
@@ -64,6 +65,7 @@ gem 'paperclip'
 gem 'lightbox-bootstrap-rails'
 
 gem 'flickraw', '~> 0.9.8'
+gem 'dropbox-sdk'
 
 gem 'rack-mini-profiler'
 

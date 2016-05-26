@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
  before_filter :set_bucket_in_session
 
  before_filter :configure_permitted_parameters, if: :devise_controller?
+ skip_before_action :verify_authenticity_token, if: :json_request?
  layout :layout_by_resource
 
  protected
@@ -29,7 +30,9 @@ class ApplicationController < ActionController::Base
      end
    end
 
-
+   def json_request?
+     request.format.json?
+   end
 
 
 end
