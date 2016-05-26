@@ -36,10 +36,9 @@ module Phototank
         :request_specs => true
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
-
+    
     config.x.flickr = config_for(:app_flickr)
     config.x.dropbox = config_for(:app_dropbox)
     config.x.phototank = config_for(:app_phototank)
-    
   end
 end

@@ -10,5 +10,5 @@ development:
 
 test:
   environment: test
-  instance_name: "dev_Hinge"
+  instance_name: "test_Hinge"
   filestorepath: "/Users/martinhinge/Pictures/test_migrate"
