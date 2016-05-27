@@ -49,7 +49,7 @@ class PhotosController < ApplicationController
 
     #get distinct data for dropdowns
     prep_form
-    
+
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
       render :partial=>"photos/view/grid"
@@ -64,22 +64,22 @@ class PhotosController < ApplicationController
     end
     @photo = Photo.find(params[:id])
 
-    url = URI(request.referer).path
-    url.slice!(0)
-
-    qry = Hash[url.split("/").each_slice(2).to_a].symbolize_keys
-    qry[:year] = @photo.date_taken.year
-    qry[:month] = @photo.date_taken.month
-    qry[:day] = @photo.date_taken.day
-    @backurl = "q/year/#{qry[:year]}/month/#{qry[:month]}/day/#{qry[:day]}"
-
-    if qry[:direction]
-      @backurl = "#{@backurl }/direction/#{qry[:direction]}"
-    end
-
-    if qry[:country]
-      @backurl = "#{@backurl }/country/#{qry[:country]}"
-    end
+    # url = URI(request.referer).path
+    # url.slice!(0)
+    #
+    # qry = Hash[url.split("/").each_slice(2).to_a].symbolize_keys
+    # qry[:year] = @photo.date_taken.year
+    # qry[:month] = @photo.date_taken.month
+    # qry[:day] = @photo.date_taken.day
+    # @backurl = "q/year/#{qry[:year]}/month/#{qry[:month]}/day/#{qry[:day]}"
+    #
+    # if qry[:direction]
+    #   @backurl = "#{@backurl }/direction/#{qry[:direction]}"
+    # end
+    #
+    # if qry[:country]
+    #   @backurl = "#{@backurl }/country/#{qry[:country]}"
+    # end
 
   end
 

@@ -1,8 +1,7 @@
 =content_for :title, "Info"
 =content_for :subtitle, "Photo taken #{@photo.date_taken_formatted}"
 .row
-  .col-lg-12
-    %a.btn.btn-default{:href=>@backurl}Back
+
 .row
   - if @size == 'medium'
     .col-md-6
