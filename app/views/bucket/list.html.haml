@@ -1,6 +1,6 @@
 .col{:style=>"margin-left:7px;"}
   - if @photos_in_bucket.count > 0
     - @photos_in_bucket.each do |photo|
-      %img.img-responsive{:alt => "...", :src => "/photos/#{photo.id.to_s}/image/small", "height"=>"64", "width"=>"64", :style=>"display:inline"}
+      %img.img-responsive{:alt => "...", :src => "/photofiles/#{photo.thumb_id.to_s}/photoserve", "height"=>"64", "width"=>"64", :style=>"display:inline"}
   - else
     No Photos in Bucket
