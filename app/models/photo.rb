@@ -64,7 +64,15 @@ class Photo < ActiveRecord::Base
     self.catalogs.where{id.eq(catalog_id)}.first
   end
 
-
+  def get_photofiles_hash
+    hash = {
+      :original=>self.original_id,
+      :large=>self.large_id,
+      :medium=>self.medium_id,
+      :thumb=>self.thumb_id,
+    }
+    return hash
+  end
 
   def similar(similarity=1, count=3)
     Photo.where("HAMMINGDISTANCE(#{self.phash}, phash) < ?", similarity)
