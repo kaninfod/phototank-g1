@@ -1,6 +1,18 @@
+#raspian download:
+#https://www.raspberrypi.org/downloads/raspbian/
+
+#raspbian setup:
+#https://www.raspberrypi.org/documentation/installation/installing-images/mac.md
+
+#RPI setup:
+#https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-16-04
+#https://www.digitalocean.com/community/tutorials/deploying-a-rails-app-on-ubuntu-14-04-with-capistrano-nginx-and-puma
+
+
+#dependencies for linux:
+# sudo apt-get install exiftool libjpeg-dev libpng-dev graphicsMagick mysql-server mysql-client libmysqlclient-dev nodejs execjs sudo apt-get install redis-tools
+
 source 'https://rubygems.org'
-
-
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
