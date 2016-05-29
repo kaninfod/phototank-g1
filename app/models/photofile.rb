@@ -1,5 +1,5 @@
 class Photofile < ActiveRecord::Base
-  attr_accessor :data, :url, :datehash
+  attr_accessor :data, :url, :datehash, :phash
   validates :path, presence: true
   before_create :import_file
   before_destroy :delete_file
@@ -25,6 +25,14 @@ class Photofile < ActiveRecord::Base
   def delete_file
     FileUtils.rm self.path if File.exists? self.path
   end
+
+  # def url(id=false)
+  #   if id == false
+  #     url_for(action: 'photoserve', controller: 'photofiles', only_path: false, protocol: 'http')
+  #   else
+  #     url_for(action: 'photoserve', controller: 'photofiles', only_path: false, protocol: 'http', id: id)
+  #   end
+  # end
 
   def get_phash
       phash = Phashion::Image.new(self.path)

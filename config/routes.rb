@@ -53,12 +53,14 @@ Rails.application.routes.draw do
   get  'bucket/edit' => 'bucket#edit'
   patch  'bucket/update' => 'bucket#update'
 
-  get 'doubles/find'
-  get 'doubles/index'
-  get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
+  #get 'doubles/find'
+  #get 'doubles/index'
+  #get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
 
   resources :photofiles
   get 'photofiles/:id/photoserve' => 'photofiles#photoserve'
+  patch 'photofiles/:id/rotate' => 'photofiles#rotate'
+  get 'photofiles/:id/phash' => 'photofiles#phash'
 
 
   get 'administration/generate_albums'

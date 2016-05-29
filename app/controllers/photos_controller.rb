@@ -104,7 +104,11 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     if params.has_key? :degrees
       @photo.rotate(params[:degrees])
-      redirect_to session[:finalurl]
+      if params[:finalurl].nil?
+        redirect_to "/photos"
+      else
+        redirect_to session[:finalurl]
+      end
     else
       session[:finalurl] = request.referer
     end

@@ -16,7 +16,7 @@ class PhotofilesController < ApplicationController
   def show
     begin
       @photo = Photofile.find(params[:id])
-      @photo.url = url_for(action: 'photoserve', controller: 'photofiles', only_path: false, protocol: 'http')
+      @photo.url = get_url
     rescue ActiveRecord::RecordNotFound
       render status:404, json: {:msg=>"photo with #{params[:id]} does not exist"}
     end
@@ -43,16 +43,52 @@ class PhotofilesController < ApplicationController
     end
   end
 
+  def rotate
+    if params[:degrees].blank?
+      render status:404, json: {:error=>"invalid rotation (degrees)"}
+      return
+    end
+
+    begin
+      @photo = Photofile.find(params[:id])
+      @photo.rotate(params[:degrees])
+      @photo.url = get_url
+      @degrees = params[:degrees]
+    rescue ActiveRecord::RecordNotFound
+      render status:404, json: {:error=>"photo with #{params[:id]} does not exist"}
+    end
+  end
+
+  def phash
+
+    begin
+      @photo = Photofile.find(params[:id])
+      p = @photo.get_phash
+      @photo.phash = p
+      @photo.url = get_url
+
+    rescue ActiveRecord::RecordNotFound
+      render status:404, json: {:error=>"photo with #{params[:id]} does not exist"}
+    end
+  end
+
   def photoserve
     begin
       @photo = Photofile.find(params[:id])
       send_file @photo.path, type: 'image/jpeg', :disposition => 'inline'
     rescue ActiveRecord::RecordNotFound
-      render status:404, json: {:msg=>"photo with #{params[:id]} does not exist"}
+      render status:404, json: {:error=>"photo with #{params[:id]} does not exist"}
     end
   end
 
   private
+  def get_url(id=false)
+    if id == false
+      url_for(action: 'photoserve', controller: 'photofiles', only_path: false, protocol: 'http')
+    else
+      url_for(action: 'photoserve', controller: 'photofiles', only_path: false, protocol: 'http', id: id)
+    end
+  end
 
   def file_handler(string, photo=nil)
 
@@ -69,13 +105,12 @@ class PhotofilesController < ApplicationController
           filepath = File.join(PATH, filename)
           photo = Photofile.create(path: filepath)
         else
-          #photo = Photo.find(photo_id)
           filepath = photo.path
           FileUtils.rm filepath
           photo.touch
         end
         FileUtils.cp file.path, filepath
-        photo.url = url_for(action: 'photoserve', controller: 'photofiles', only_path: false, protocol: 'http', id: photo.id)
+        photo.url = get_url(photo.id)
         return photo
       end
 

@@ -1,9 +1,3 @@
-#
-# status meaning:
-#   status = 1 means date_taken was changes
-#   status = 2 means photo was rotated
-#
-
 class Photo < ActiveRecord::Base
   validate :date_taken_is_valid_datetime
   before_destroy :_delete
@@ -108,9 +102,6 @@ class Photo < ActiveRecord::Base
   def rotate(degrees)
     Resque.enqueue(PhotoRotate, self.id, degrees.to_i)
   end
-
-
-
 
   private
     def move_by_date
