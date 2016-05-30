@@ -8,11 +8,6 @@ class PhotofilesController < ApplicationController
     @photos = Photofile.all
   end
 
-  def create
-    byebug
-    @photo=file_handler(params[:data])
-  end
-
   def show
     begin
       @photo = Photofile.find(params[:id])
@@ -22,14 +17,52 @@ class PhotofilesController < ApplicationController
     end
   end
 
+  def create
+
+    decoded_file = Base64.decode64(params[:file_string])
+    file = Tempfile.new("temp.tmp")
+    begin
+      file.binmode
+      file.write decoded_file
+      byebug if file.size == 0
+      mime = FileMagic.new(FileMagic::MAGIC_MIME).file(file.path)
+
+      if ALLOWED_MIMES.include? mime
+
+        @photo = Photofile.create(path: file.path, datehash: params)
+        @photo.url = get_url(@photo.id)
+      end
+
+    ensure
+      file.close
+      file.unlink
+    end
+
+  end
+
   def update
     begin
-      photo = Photofile.find(params[:id])
-      @photo=file_handler(params[:data], photo)
+      decoded_file = Base64.decode64(params[:file_string])
+      file = Tempfile.new("temp.tmp")
+      begin
+        file.binmode
+        file.write decoded_file
+        mime = FileMagic.new(FileMagic::MAGIC_MIME).file(file.path)
+
+        if ALLOWED_MIMES.include? mime
+          @photo = Photofile.find(params[:id])
+          @photo.update(data: file.path)
+          @photo.url = get_url(@photo.id)
+        end
+
+      ensure
+        file.close
+        file.unlink
+      end
+
     rescue ActiveRecord::RecordNotFound
       render status:404, json: {:msg=>"photo with #{params[:id]} does not exist"}
     end
-
   end
 
   def destroy
@@ -101,8 +134,8 @@ class PhotofilesController < ApplicationController
 
       if ALLOWED_MIMES.include? mime
         if photo.nil?
-          filename = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(13).next.join
-          filepath = File.join(PATH, filename)
+          #filename = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(13).next.join
+          #filepath = File.join(PATH, filename)
           photo = Photofile.create(path: filepath)
         else
           filepath = photo.path

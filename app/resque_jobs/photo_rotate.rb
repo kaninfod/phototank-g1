@@ -1,18 +1,17 @@
-include PhotoFilesApi
+
 class PhotoRotate < ResqueJob
   include Resque::Plugins::UniqueJob
   @queue = :utility
 
   def self.perform(photo_id, degrees)
-
+    pf = PhotoFilesApi::Api::new
     begin
       photo = Photo.find(photo_id)
       new_phash = 0
-      photofile_hash = photo.get_photofiles_hash
-      photofile_hash.each do |key, id|
-        self.rotate(id, degrees)
+      photo.get_photofiles_hash.each do |key, id|
+        pf.rotate(id, degrees)
         if key == :original
-          new_phash = self.phash(id)
+          new_phash = pf.phash(id)
         end
       end
 

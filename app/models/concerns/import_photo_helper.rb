@@ -1,13 +1,13 @@
 module ImportPhotoHelper
-
+  include PhotoFilesApi
   IMAGE_THUMB = '125x125'
   IMAGE_MEDIUM = '480x680'
   IMAGE_LARGE = '1024x1200'
 
-
   def import_flow2(path, import_mode=true)
     data = {}
 
+    pf = PhotoFilesApi::Api::new
     #get phash and check if the photo already exists in the database
     phash = Phashion::Image.new(path)
     data[:phash] = phash.fingerprint
@@ -40,8 +40,6 @@ module ImportPhotoHelper
       data[:make] = exif.make
       data[:model] = exif.model
 
-
-
       #Set data_taken; either from EXIF or from file timestamp
       if exif.datetimeoriginal.blank?
         exif.datetimeoriginal = data[:date_taken] = File.ctime(@org_file.path)
@@ -55,32 +53,33 @@ module ImportPhotoHelper
 
       #Generate a date hash to be usen by the photofile model
       datehash = generate_datehash(data[:date_taken])
-
       #Create thumbnail and store it to the photofile
       if create_thumbnail()
-        datehash[:type] = "tm"
-        ps = Photofile.create(path: @tm_file.path, datehash: datehash)
-        data[:thumb_id] = ps.id
+        datehash[:size] = "tm"
+        ps = pf.create(@tm_file.path, datehash)
+        data[:thumb_id] = ps[:id]
       end
 
       #Create medium photo and store it to the photofile
       if resize_photo(@md_file.path, IMAGE_MEDIUM)
-        datehash[:type] = "md"
-        ps = Photofile.create(path: @md_file.path, datehash: datehash)
-        data[:medium_id] = ps.id
+        datehash[:size] = "md"
+        ps = pf.create(@md_file.path, datehash)
+        data[:medium_id] = ps[:id]
       end
 
       #Create large photo and store it to the photofile
       if resize_photo(@lg_file.path, IMAGE_LARGE)
-        datehash[:type] = "lg"
-        ps = Photofile.create(path: @lg_file.path, datehash: datehash)
-        data[:large_id] = ps.id
+        datehash[:size] = "lg"
+        ps = pf.create(@lg_file.path, datehash)
+        data[:large_id] = ps[:id]
       end
 
       #Put the original photo in photofile
-      datehash[:type] = "org"
-      ps = Photofile.create(path: @org_file.path, datehash: datehash)
-      data[:original_id] = ps.id
+      datehash[:size] = "org"
+      #ps = Photofile.create(path: @org_file.path, datehash: datehash)
+      #data[:original_id] = ps.id
+      ps = pf.create(@org_file.path, datehash)
+      data[:original_id] = ps[:id]
 
       #Delete the source if import_mode is set
       if import_mode

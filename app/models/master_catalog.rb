@@ -42,7 +42,7 @@ class MasterCatalog < Catalog
       return @photo.id
 
     rescue Exception => e
-      byebug
+      raise e
     end
   end
 

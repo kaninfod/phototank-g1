@@ -2,20 +2,29 @@ class Photofile < ActiveRecord::Base
   attr_accessor :data, :url, :datehash, :phash
   validates :path, presence: true
   before_create :import_file
+  before_update :update_file
   before_destroy :delete_file
 
   PATH = Rails.configuration.x.phototank["filestorepath"]
 
+  def update_file
+    begin
+      FileUtils.cp self.data, self.path
+      self.touch
+    rescue Exception => e
+      byebug
+    end
+  end
+
   def import_file
     begin
-
       path = File.join(PATH, self.datehash[:year].to_s, self.datehash[:month].to_s,self.datehash[:day].to_s)
       FileUtils.mkdir_p File.join(path)
-      filename = "#{datehash[:datestring]}_#{datehash[:type]}_#{datehash[:unique]}"
+      filename = "#{datehash[:datestring]}_#{datehash[:size]}_#{datehash[:unique]}"
       filepath = File.join(path, filename)
       FileUtils.cp self.path, filepath
       self.path = filepath
-      self.type = datehash[:type]
+      self.size = datehash[:size]
 
     rescue Exception => e
       byebug
