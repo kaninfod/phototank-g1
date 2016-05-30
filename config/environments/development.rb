@@ -40,4 +40,9 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.serve_static_files = true
+
+
+  require 'silencer/logger'
+  config.middleware.swap Rails::Rack::Logger, Silencer::Logger, :silence => ["/photofiles.json"]
+
 end

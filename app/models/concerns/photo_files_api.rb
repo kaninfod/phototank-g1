@@ -10,7 +10,6 @@ module PhotoFilesApi
     end
 
     def create(path, datehash)
-
       endpoint = "/photofiles.json"
 
       file_string = Base64.encode64(File.open(path).read)
@@ -25,7 +24,7 @@ module PhotoFilesApi
       if response.code == "200"
         JSON.parse(response.body, {:symbolize_names => true})
       else
-        rails.logger.debug response.body
+        return false
       end
     end
 
@@ -65,7 +64,22 @@ module PhotoFilesApi
       JSON.parse(response.body, {:symbolize_names => true}) if response.code == "200"
     end
 
+    def generate_datehash(date)
+      datestring = date.strftime("%Y%m%d%H%M%S")
+      unique = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(5).next.join
+
+      datehash = {
+        :datestring=>datestring,
+        :unique=>unique,
+        :year=>date.year,
+        :month=>date.month,
+        :day=>date.day
+      }
+      return datehash
+    end
+
     private
+
 
     def get_http
       uri = URI.parse(URL)
