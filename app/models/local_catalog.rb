@@ -13,13 +13,34 @@ class LocalCatalog < Catalog
   end
 
   def import_photo(photo_id)
+    pf = PhotoFilesApi::Api::new
+
     photo = Photo.find(photo_id)
-    src = photo.absolutepath
-    dst = File.join(self.path, photo.path)
-    if not File.exist?(photo.absolutepath(self.id))
-      FileUtils.mkdir_p dst
-      FileUtils.cp src, dst
+    instance = photo.instances.where(catalog_id: self.id).first
+    photofile = pf.show(photo.org_id)
+
+    dst_path = File.join(self.path, photofile[:path][0], photofile[:path][1], photofile[:path][2])
+    dst_file = File.join(self.path, photofile[:path][0], photofile[:path][1], photofile[:path][2], photofile[:path][3])
+
+    if not File.exist?(dst_file)
+      file = Tempfile.new("local.jpg")
+      begin
+        file.binmode
+        file.write open(photofile[:url]).read
+
+        src = file.path
+
+        FileUtils.mkdir_p dst_path
+        FileUtils.cp src, dst_file
+
+        instance.touch
+        instance.update(path: dst_file)
+      ensure
+        file.close
+        file.unlink
+      end
     end
+
   end
 
   def online
@@ -37,10 +58,10 @@ class LocalCatalog < Catalog
 
     begin
       #instance = self.instances.where{photo_id.eq(photo_id)}.first
-      file_path = self.photos.find(photo_id).original_filename
+      instance = self.instances.where(photo_id: photo_id).first
       if not instance.nil?
-        if File.exist?(file_path)
-          FileUtils.rm(file_path)
+        if File.exist?(instance.path)
+          FileUtils.rm(instance.path)
         end
       end
       #instance.destroy
@@ -50,18 +71,6 @@ class LocalCatalog < Catalog
     end
   end
 
-  # def delete_photo(photo_id)
-  #   begin
-  #     FileUtils.rm((self.photos.find(photo_id).original_filename))
-  #     FileUtils.rm((self.photos.find(photo_id).large_filename))
-  #     FileUtils.rm((self.photos.find(photo_id).medium_filename))
-  #     FileUtils.rm((self.photos.find(photo_id).small_filename))
-  #     self.instances.where(photo_id: photo_id).each{ |instance| instance.destroy}
-  #     Photo.find(photo_id).destroy
-  #   rescue Exception => e
-  #     logger.debug "#{e}"
-  #   end
-  # end
   private
 
 

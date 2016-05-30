@@ -36,7 +36,6 @@ class Catalog < ActiveRecord::Base
     Rails.cache.fetch("master_catalog", expires_in: 12.hours) do
       where{default.eq(true)}.first
     end
-
   end
 
   protected

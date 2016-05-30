@@ -9,6 +9,15 @@ module PhotoFilesApi
 
     end
 
+    def show(id)
+      endpoint = "/photofiles/#{id}.json"
+
+      http = get_http
+      request = Net::HTTP::Get.new(endpoint)
+      response = http.request(request)
+      JSON.parse(response.body, {:symbolize_names => true}) if response.code == "200"
+    end
+
     def create(path, datehash)
       endpoint = "/photofiles.json"
 
@@ -38,6 +47,16 @@ module PhotoFilesApi
       http = get_http
       request = Net::HTTP::Put.new(endpoint)
       request.set_form_data(payload)
+      response = http.request(request)
+
+      JSON.parse(response.body, {:symbolize_names => true}) if response.code == "200"
+    end
+
+    def destroy(id)
+      endpoint = "/photofiles/#{id}.json"
+
+      http = get_http
+      request = Net::HTTP::Delete.new(endpoint)
       response = http.request(request)
 
       JSON.parse(response.body, {:symbolize_names => true}) if response.code == "200"

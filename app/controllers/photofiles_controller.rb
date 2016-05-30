@@ -28,7 +28,6 @@ class PhotofilesController < ApplicationController
       mime = FileMagic.new(FileMagic::MAGIC_MIME).file(file.path)
 
       if ALLOWED_MIMES.include? mime
-
         @photo = Photofile.create(path: file.path, datehash: params)
         @photo.url = get_url(@photo.id)
       end
@@ -70,9 +69,8 @@ class PhotofilesController < ApplicationController
       @photo = Photofile.find(params[:id])
       FileUtils.rm @photo.path if File.exists? @photo.path
       @photo.destroy
-      render status: 202
     rescue ActiveRecord::RecordNotFound
-      render status:404, json: {:msg=>"photo with #{params[:id]} does not exist"}
+      render status:404, json: {:error=>"photo with #{params[:id]} does not exist"}
     end
   end
 
