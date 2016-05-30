@@ -18,7 +18,7 @@ class DropboxCatalog < Catalog
   end
 
   def callback
-    byebug
+
     begin
       flow = DropboxOAuth2FlowNoRedirect.new(self.appkey, self.appsecret)
       access_token, user_id = flow.finish(self.verifier)
@@ -39,23 +39,34 @@ class DropboxCatalog < Catalog
   end
 
   def import_photo(photo_id)
+    
+    pf = PhotoFilesApi::Api::new
+
     photo = Photo.find(photo_id)
     instance = photo.instances.where(catalog_id: self.id).first
-    dropbox_path = File.join(self.path, photo.path, photo.filename + photo.file_extension)
+    photofile = pf.show(photo.org_id)
+    dropbox_path = File.join(self.path, photofile[:path][0], photofile[:path][1], photofile[:path][2])
+    dropbox_file = File.join(dropbox_path, "#{photofile[:path][3]}.jpg")
 
     if not instance.status #self.exists(dropbox_path)
-      response = self.create_folder(photo.path)
-      response = self.add_file(photo.absolutepath, dropbox_path)
+      file = Tempfile.new("flickr.jpg")
+      begin
+        file.binmode
+        file.write open(photofile[:url]).read
+        src = file.path
 
-      instance.update(
-        catalog_id: self.id,
-        path: response["path"],
-        size: response["bytes"],
-        rev: response["rev"],
-        modified: response["modified"],
-        status: 1
-      )
+        response = self.create_folder(dropbox_path)
+        response = self.add_file(file.path, dropbox_file)
 
+        instance.touch
+        instance.update(
+          catalog_id: self.id,
+          path: response["path"],
+          size: response["bytes"],
+          rev: response["rev"],
+          status: 1
+        )
+      end
     else
       raise "File exists in Dropbox with same revision id and path"
     end

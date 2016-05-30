@@ -86,10 +86,10 @@ class Photo < ActiveRecord::Base
   end
 
   def self.exists(phash)
-    #"BIT_COUNT(1059672077341436255 ^ phash)<30"
-    res = Photo.where("BIT_COUNT(#{phash} ^ phash) < ?", 1).limit(1)
-    #res = Photo.where("HAMMINGDISTANCE(#{phash}, phash) < ?", 1).limit(1)
-    if res.length > 0
+    
+    #res = Photo.where("BIT_COUNT(#{phash} ^ phash) < ?", 1).limit(1)
+    res = Photo.where("HAMMINGDISTANCE(#{phash}, phash) < ?", 1).limit(1)
+    if res.length == 1
       return true
     else
       return false

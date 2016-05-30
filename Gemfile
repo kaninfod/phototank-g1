@@ -65,7 +65,7 @@ gem 'devise'
 gem 'jquery-turbolinks'
 gem 'squeel'
 gem 'puma'
-
+gem 'silencer', '~> 0.6.0'
 
 
 gem 'resque'

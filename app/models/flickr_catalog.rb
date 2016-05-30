@@ -57,16 +57,31 @@ class FlickrCatalog < Catalog
   end
 
   def import_photo(photo_id)
+    
+    pf = PhotoFilesApi::Api::new
+
     photo = Photo.find(photo_id)
     instance = photo.instances.where(catalog_id: self.id).first
+    photofile = pf.show(photo.org_id)
+
 
     if instance.status != 1
+      file = Tempfile.new("flickr.jpg")
       begin
-        response = self.client.upload_photo photo.absolutepath, :tags=>get_flickr_tags(photo_id )
+        file.binmode
+        file.write open(photofile[:url]).read
+        src = file.path
+
+        response = self.client.upload_photo src, :tags=>get_flickr_tags(photo_id )
+
         #self.set_tags response, photo.id
-        instance.update(modified: Time.now, rev: response, status: 1)
+        instance.touch
+        instance.update(rev: response, status: 1)
       rescue Exception => e
         raise e
+      ensure
+        file.close
+        file.unlink
       end
     end
   end
@@ -98,7 +113,6 @@ class FlickrCatalog < Catalog
   end
 
   def delete_photo(photo_id)
-
     begin
       instance = self.instances.where(photo_id: photo_id).first
       if not instance.nil?

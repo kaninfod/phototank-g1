@@ -20,7 +20,8 @@ class Photofile < ActiveRecord::Base
     begin
       path = File.join(PATH, self.datehash[:year].to_s, self.datehash[:month].to_s,self.datehash[:day].to_s)
       FileUtils.mkdir_p File.join(path)
-      filename = "#{datehash[:datestring]}_#{datehash[:size]}_#{datehash[:unique]}"
+      #TODO change extension. Should come from mime
+      filename = "#{datehash[:datestring]}_#{datehash[:size]}_#{datehash[:unique]}.jpg"
       filepath = File.join(path, filename)
       FileUtils.cp self.path, filepath
       self.path = filepath
