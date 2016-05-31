@@ -14,6 +14,8 @@
 //= require jquery-ujs
 //= require bootstrap-sprockets
 //= require bootstrap.min
+//= require waypoints/lib/jquery.waypoints.min.js
+//= require waypoints/lib/shortcuts/infinite.min.js
 //= require slimscroll/jquery.slimscroll
 //= require jquery_lazyload
 //= require lightbox-bootstrap

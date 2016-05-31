@@ -37,24 +37,7 @@ $ ->
     rotateValue = $("input[name=rotate]:checked").val()
     window.location = rotateValue
 
-#infinite scrolling
-$ ->
-  if $('#infinite-scrolling').size() > 0
-    $(window).on 'scroll', ->
-      more_posts_url = $('.pagination a[rel=next]').attr('href')
 
-      if more_posts_url && $(window).scrollTop() > $(document).height() - $(window).height() - 500
-          $('.pagination').html("")
-          $.ajax
-            url: more_posts_url
-            success: (data) ->
-              $("#photos").append(data)
-              $('[data-toggle="popover"]').popover();
-              $('.dropdown-toggle').dropdown()
-              $('img.lazy').lazyload()
-      if !more_posts_url
-        $('.pagination').html("")
-    return
 
 #scroll to top marker
 jQuery(document).ready ->

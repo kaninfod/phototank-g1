@@ -10,7 +10,7 @@
           %h3.box-title Photo
           = render :partial => "photos/show/photo_size_toolbar"
           .box-body
-            = image_tag "/photofiles/#{@photo.medium_id.to_s}/photoserve", {style:"margin: 0 auto;image-orientation:90deg;", class: "img-responsive"}
+            = image_tag "/photofiles/#{@photo.md_id.to_s}/photoserve", {style:"margin: 0 auto;image-orientation:90deg;", class: "img-responsive"}
 
   - else
     .col-md-12

@@ -1,7 +1,7 @@
-#photos
-  - if @photos.blank?
-    No Photos to display
-  - else
-    = render @photos
-  .hide
-    = will_paginate @photos
+
+- if @photos.blank?
+  No Photos to display
+- else
+  = render @photos
+.infinite-more-link.hide
+  = will_paginate @photos

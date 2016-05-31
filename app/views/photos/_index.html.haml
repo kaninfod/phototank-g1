@@ -4,15 +4,34 @@
       %ul.text-right.list-inline
         - if defined? extra_tools.nil?
           %li= render :partial => extra_tools
-        %li= link_to icon('fa fa-th', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'grid'
-        %li= link_to icon('fa fa-th-list', class: 'fa-lg'), controller: controller_name, action: action_name, viewmode: 'list'
 
-    .box-body
-      - if @view == 'list'
-        = render :partial => "photos/view/list"
-      - else
-        = render :partial => "photos/view/grid"
+    #basic-waypoint
+
+    .box-body.infinite-container
+      =render :partial => "photos/view/grid"
 
 
-    .box-footer#infinite-scrolling
-      .pull-right
+:javascript
+  $(document).ready(function() {
+
+    var infinite = new Waypoint.Infinite({
+
+      element: $('.infinite-container')[0],
+      onAfterPageLoad:function(i) {
+        console.log(i)
+        $('img.lazy').lazyload()
+        $('[data-toggle="popover"]').popover();
+        $('.dropdown-toggle').dropdown()
+        history.replaceState("", "", "");
+      },
+      onBeforePageLoad:function() {
+
+      }
+    })
+
+    var waypoints = $('#basic-waypoint').waypoint({
+      handler: function(direction) {
+        console.log(this.element.id + ' hit')
+      }
+    })
+  });
