@@ -40,11 +40,11 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Pagination
-gem 'kaminari'
-gem 'will_paginate', '~> 3.0.6'
+#gem 'kaminari'
+gem 'will_paginate'
 
 gem 'bootstrap-sass'
-gem 'bootstrap-kaminari-views'
+#gem 'bootstrap-kaminari-views'
 gem 'bootstrap_form'
 
 gem 'bootstrap-typeahead-rails'

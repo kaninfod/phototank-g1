@@ -41,9 +41,9 @@ class PhotosController < ApplicationController
     #get album from url params through set_query_data
     @album = Album.new(album_hash)
     #Get photos
-    Rack::MiniProfiler.step("fetch projects") do
-      @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page => 50)
-    end
+    
+    @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page=>100)
+
     #grid or table
     viewmode
 

@@ -2,15 +2,9 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  concern :paginatable do
-    get '(page/:page)', :action => :index, :on => :collection, :as => ''
-  end
-
-
 
   match 'albums/select' => 'albums/select', via: [:get, :post]
-  #get 'albums/show_stat' => 'albums#show_stat'
-  resources :albums, :concerns => :paginatable
+  resources :albums
 
 
 
@@ -37,7 +31,7 @@ Rails.application.routes.draw do
   get '/locations/lookup'
   get 'locations/new_from_coordinate_string' => 'locations#new_from_coordinate_string'
   get 'locations/typeahead/:query' => 'locations#typeahead'
-  resources :locations, :concerns => :paginatable
+  resources :locations
   get '/locations/:id/view' => 'locations#view'
 
 
@@ -52,10 +46,6 @@ Rails.application.routes.draw do
   get '/bucket/rotate/(:degrees)' => 'bucket#rotate'
   get  'bucket/edit' => 'bucket#edit'
   patch  'bucket/update' => 'bucket#update'
-
-  #get 'doubles/find'
-  #get 'doubles/index'
-  #get 'doubles/:doubles_id/delete/:photo_id' => 'doubles#delete'
 
   resources :photofiles
   get 'photofiles/:id/photoserve' => 'photofiles#photoserve'

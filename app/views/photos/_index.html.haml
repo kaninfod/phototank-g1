@@ -5,33 +5,26 @@
         - if defined? extra_tools.nil?
           %li= render :partial => extra_tools
 
-    #basic-waypoint
-
     .box-body.infinite-container
       =render :partial => "photos/view/grid"
 
 
 :javascript
   $(document).ready(function() {
+    initis()
+    function initis() {
+      var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        more: $('.next_page').not('.disabled').last()[0],
+        onAfterPageLoad:function() {
+          $('img.lazy').lazyload()
+          $('[data-toggle="popover"]').popover();
+          $('.dropdown-toggle').dropdown()
+          initis()
 
-    var infinite = new Waypoint.Infinite({
+        }
+      })
+    }
 
-      element: $('.infinite-container')[0],
-      onAfterPageLoad:function(i) {
-        console.log(i)
-        $('img.lazy').lazyload()
-        $('[data-toggle="popover"]').popover();
-        $('.dropdown-toggle').dropdown()
-        history.replaceState("", "", "");
-      },
-      onBeforePageLoad:function() {
 
-      }
-    })
-
-    var waypoints = $('#basic-waypoint').waypoint({
-      handler: function(direction) {
-        console.log(this.element.id + ' hit')
-      }
-    })
   });
