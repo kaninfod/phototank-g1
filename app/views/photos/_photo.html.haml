@@ -1,14 +1,11 @@
-.photo-widget.infinite-item
+.photo-widget
   .photo-widget-header
     .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket", photo.status && "changed"]}
       .text-center In Bucket
     %img.lazy{:photo_id=>(photo.id),
       "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve",
       :href=>"/photofiles/#{photo.lg_id.to_s}/photoserve",
-      "data-toggle"=>"lightbox",
-      "data-type"=>"image",
-      "data-title"=>photo.date_taken_formatted,
-      "data-gallery"=>"PT"}
+      }
   .photo-widget-date
     =photo.date_taken_formatted
   .photo-widget-footer
@@ -25,7 +22,8 @@
           %li
             %a{:href => "/photofiles/#{photo.org_id.to_s}/photoserve", :download=>true} Download
 
-      %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"/photos/#{photo.id}"}
+      %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"#/", :photo_id=>photo.id}
+      -# %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"/photos/#{photo.id}"}
 
       %a.btn.btn-default.fa.fa-globe.show_map{"data-html" => "true",
         "data-content" => "<img src='#{photo.location.get_map(zoom=4, size="250x200")}'/>",

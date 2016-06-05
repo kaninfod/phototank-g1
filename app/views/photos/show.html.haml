@@ -1,27 +1,43 @@
-=content_for :title, "Info"
-=content_for :subtitle, "Photo taken #{@photo.date_taken_formatted}"
-.row
 
 .row
-  - if @size == 'medium'
-    .col-md-6
-      .box.box-primary
-        .box-header.with-border
-          %h3.box-title Photo
-          = render :partial => "photos/show/photo_size_toolbar"
-          .box-body
-            = image_tag "/photofiles/#{@photo.md_id.to_s}/photoserve", {style:"margin: 0 auto;image-orientation:90deg;", class: "img-responsive"}
+  .box.box-primary
+    .box-header.with-border
+      .box-body
+        .col-md-8#modal_image
+          = image_tag "/photofiles/#{@photo.md_id.to_s}/photoserve", {style:"margin: 0 auto;", class: "img-responsive"}
+        .col-md-4
+          %dl
+            %dt Date taken:
+            %dd= @photo.date_taken.strftime("%b %d %Y %H:%m")
+            - if not @photo.location == Location.no_location
+              %dt Country
+              %dd= @photo.location.country
+              %dt City
+              %dd= @photo.location.city
+              %dt Address
+              %dd= @photo.location.address
+              %dt Map
+              %dd= image_tag @photo.location.get_map(zoom=10, size="350x300")
+            %dt Make:
+            %dd= @photo.make
+            %dt Model
+            %dd= @photo.model
 
-  - else
-    .col-md-12
-      .box.box-primary
-        .box-header.with-border
-          %h3.box-title Photo
-          = render :partial => "photos/show/photo_size_toolbar"
-          .box-body
-            = image_tag "/photofiles/#{@size}/photoserve", {style:"margin: 0 auto;image-orientation:90deg;", class: "img-responsive"}
+            -# %dt Filename:
+            -# %dd.truncate= @photo.filename
+            -# %dt Original Path:
+            -# %dd= @photo.path
+            -# %dt Thumb Path:
+            -# %dd= @photo.file_thumb_path
+            -# %dt Extension:
+            -# %dt Present in catalog(s):
+            -# - @photo.catalogs.each do |catalog|
+            -#   %dd.truncate
+            -#     = catalog.name
+            -#
 
-
-  - if @size == 'medium'
-    .col-md-6
-      = render "info"
+:javascript
+  $(document).ready(function() {
+    var wH = $(window).height();
+    $('#modal_image').children("img").height(wH - 50)
+  })

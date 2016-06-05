@@ -16,27 +16,25 @@
           %dt City
           %dd= @photo.location.city
           %dt Address
-          %dd
-            %address= @photo.location.address
+          %dd= @photo.location.address
           %dt Map
-          %dd
-            = image_tag @photo.location.get_map(zoom=10, size="350x300")
+          %dd= image_tag @photo.location.get_map(zoom=10, size="350x300")
         %dt Make:
         %dd= @photo.make
         %dt Model
         %dd= @photo.model
 
-        %dt Filename:
-        %dd.truncate= @photo.filename
-        %dt Original Path:
-        %dd= @photo.path
-        %dt Thumb Path:
-        %dd= @photo.file_thumb_path
-        %dt Extension:
-        %dt Present in catalog(s):
-        - @photo.catalogs.each do |catalog|
-          %dd.truncate
-            = catalog.name
+        -# %dt Filename:
+        -# %dd.truncate= @photo.filename
+        -# %dt Original Path:
+        -# %dd= @photo.path
+        -# %dt Thumb Path:
+        -# %dd= @photo.file_thumb_path
+        -# %dt Extension:
+        -# %dt Present in catalog(s):
+        -# - @photo.catalogs.each do |catalog|
+        -#   %dd.truncate
+        -#     = catalog.name
 
 
 

@@ -43,7 +43,10 @@ class Location < ActiveRecord::Base
   end
 
   def self.no_location
-    return get_no_location
+    Rails.cache.fetch("no_location", expires_in: 12.hours) do
+      
+      return get_no_location
+    end
   end
 
   def self.typeahead_search(query)
@@ -92,8 +95,6 @@ class Location < ActiveRecord::Base
     end
   end
 
-
-
   def self.geosearch
     if geo_location = Geocoder.search(@photo.coordinate_string).first
       if geo_location.data["error"].blank?
@@ -122,9 +123,11 @@ class Location < ActiveRecord::Base
       new_no_loc = Location.new
       new_no_loc.latitude = 0
       new_no_loc.longitude = 0
+      new_no_loc.country = "N/A"
       new_no_loc.save
       return new_no_loc
     end
+
   end
 
 
