@@ -9,6 +9,7 @@
       =render :partial => "photos/view/grid"
     .loadMore
 #myModal.modal.fade{:role => "dialog", :tabindex => "-1"}
+  %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
   .modal-body
 
 :javascript
@@ -27,7 +28,6 @@
       }
     }
   })
-
 
   });
   function getNextPage() {
@@ -49,32 +49,16 @@
   }
 
   function modalInit() {
-    $('.fa-eye').on("click", function(){
+    $('.lazy').on("click", function(){
       url = "/photos/" + $(this).attr("photo_id")
       $('.modal-body').load(url,function(result){
         $('#myModal').modal({
           show: true,
           keyboard: true
         });
+
       });
+
     });
+
   }
-
-
-
-
-  //    function InfinitescrollInit() {
-  //      var infinite = new Waypoint.Infinite({
-  //        element: $('.infinite-container')[0],
-  //        more: $('.next_page').not('.disabled').last()[0],
-  //        offset: 3000,
-  //        onAfterPageLoad:function() {
-  //          $('img.lazy').lazyload()
-  //          $('[data-toggle="popover"]').popover();
-  //          $('.dropdown-toggle').dropdown()
-  //          modalInit()
-  //          InfinitescrollInit()
-  //          console.log("kaj")
-  //        }
-  //      })
-  //    }

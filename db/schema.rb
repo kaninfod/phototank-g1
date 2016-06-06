@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530195848) do
+ActiveRecord::Schema.define(version: 20160606185454) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -40,6 +40,21 @@ ActiveRecord::Schema.define(version: 20160530195848) do
     t.string   "ext_store_data",    limit: 1024
     t.boolean  "import_mode"
   end
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "title",            limit: 50,    default: ""
+    t.text     "comment",          limit: 65535
+    t.integer  "commentable_id",   limit: 4
+    t.string   "commentable_type", limit: 255
+    t.integer  "user_id",          limit: 4
+    t.string   "role",             limit: 255,   default: "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "instances", force: :cascade do |t|
     t.integer  "photo_id",   limit: 4

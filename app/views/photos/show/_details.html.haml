@@ -1,0 +1,11 @@
+%dl
+  %dt Make:
+  %dd=photo.make
+  %dt Model
+  %dd=photo.model
+  - if not photo.location == Location.no_location
+    %dt Address
+    %dd=photo.location.address
+    %dt Map
+    %dd=image_tag photo.location.get_map(zoom=12, size="350x300")
+    -#

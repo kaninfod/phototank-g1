@@ -20,28 +20,7 @@
         .input-group.input-group-sm
           %input#search-locations.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}
   .box-body
-    %table.table
-      %thead
-        %tr
-          %th Country
-          %th City
-          %th Address
-          %th # photos
-          %th
-          %th
-          %th
-      %tbody
-        - @locations.each do |location|
-          %tr
-            %td= location.country
-            %td= location.city
-            %td= location.address
-            %td= location.photos.count
-            %td= link_to icon('picture-o'), controller: 'locations', action: 'view', id: location
-            %td= link_to icon('eye'), location_path(location)
-            %td= link_to icon('pencil'), edit_location_path(location)
-
+    =render :partial => @locations
 
   .box-footer
-
     = will_paginate @locations

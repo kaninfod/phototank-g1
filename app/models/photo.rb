@@ -5,6 +5,7 @@ class Photo < ActiveRecord::Base
   belongs_to :location
   has_many :instances
   has_many :catalogs, through: :instances
+  acts_as_commentable
 
   reverse_geocoded_by :latitude, :longitude
 
@@ -86,7 +87,7 @@ class Photo < ActiveRecord::Base
   end
 
   def self.exists(phash)
-    
+
     #res = Photo.where("BIT_COUNT(#{phash} ^ phash) < ?", 1).limit(1)
     res = Photo.where("HAMMINGDISTANCE(#{phash}, phash) < ?", 1).limit(1)
     if res.length == 1

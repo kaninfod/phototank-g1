@@ -114,6 +114,17 @@ class PhotosController < ApplicationController
     end
   end
 
+  def add_comment
+
+    if params.has_key? "comment"
+      photo = Photo.find(params[:id])
+      comment = photo.comments.create
+      comment.comment = params[:comment]
+      comment.user_id = current_user.id
+      comment.save
+      render :partial => "photos/show/comment", :locals => {:comment => comment }
+    end
+  end
 
   private
 

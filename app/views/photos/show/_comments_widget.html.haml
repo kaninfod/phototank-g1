@@ -1,0 +1,45 @@
+.box.box-widget
+  .box-header.with-border
+    %button.btn.btn-default.btn-xs{:type => "button"}
+      %i.fa.fa-share
+      Share
+    %button.btn.btn-default.btn-xs{:type => "button"}
+      %i.fa.fa-thumbs-o-up
+      Like
+    %span.pull-right.text-muted="#{photo.comments.count} comments"
+  / /.box-body
+  .box-footer
+    %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar.url}
+      / .img-push is used to add margin to elements next to floating images
+      .img-push
+        %input.form-control.input-sm#comment_input{:photo_id => photo.id, :placeholder => "Press enter to post comment", :type => "text"}
+  / /.box-footer
+  .box-body.box-comments
+    - if photo.comments.count == 0
+      Be the first to add a comment!
+    - else
+      - photo.comments.reverse_each do |comment|
+        =render :partial => "photos/show/comment", :locals => {:comment => comment }
+
+
+:javascript
+  $(document).ready(function() {
+    $('#comment_input').keypress(function (e) {
+      if (e.which == 13) {
+        var photo_id = $(this).attr("photo_id")
+        var url = "/photos/" + photo_id + "/add_comment"
+
+        $.ajax({
+          method: "GET",
+          url: url,
+          data: { comment: this.value }
+        })
+          .done(function( msg ) {
+            $(msg).hide().prependTo('.box-comments').fadeIn(1000)
+
+          });
+        $(this).val("")
+        return false;
+      }
+    });
+  });

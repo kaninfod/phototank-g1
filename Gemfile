@@ -61,6 +61,8 @@ gem "mini_magick"
 gem 'ruby-filemagic'
 
 gem 'devise'
+gem 'acts_as_commentable'
+
 
 gem 'jquery-turbolinks'
 gem 'squeel'

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :photos, :except => [:create, :index]
   get '/photos/:id/image/:size' => 'photos#image'
   get '/photos/:id/rotate/(:degrees)' => 'photos#rotate'
+  get '/photos/:id/add_comment' => 'photos#add_comment'
 
 
   get '/catalogs/migrate' => 'catalogs#migrate'

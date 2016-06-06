@@ -1,0 +1,11 @@
+.col-md-3.col-sm-6.col-xs-12
+  .album-widget
+    %a.album-widget-photo{:href=>"/locations/#{location.id}"}
+      .album-widget-label.badge="#{location.photos.count}"
+      %img{:src=> "/photofiles/#{location.photos.first.tm_id}/photoserve"}
+    .album-widget-content
+      .album-widget-title
+        =location.country
+      .album-widget-text
+        =location.address
+    %a.album-widget-footer{:href=>"/locations/#{location.id}/edit"}Edit
