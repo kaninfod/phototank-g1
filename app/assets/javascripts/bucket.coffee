@@ -12,10 +12,10 @@ $(document).ready ->
     return
 
 toggleBucket = (photoOverlay) ->
-  photoOverlay.toggleClass("bucket")
+  photoOverlay.toggleClass("bucket_overlay")
   imgDiv = photoOverlay.next()
 
-  if $(photoOverlay).hasClass('bucket')
+  if $(photoOverlay).hasClass('bucket_overlay')
     url = '/bucket/' + $(imgDiv).attr('photo_id') + '/add'
   else
     url = '/bucket/' + $(imgDiv).attr('photo_id') + '/remove'
@@ -26,6 +26,7 @@ toggleBucket = (photoOverlay) ->
     data: {}
     success: (response) ->
       $('#bucket_counter').html response['count']
+      $(".bucket").trigger('bucket:update')
       return
   return
 

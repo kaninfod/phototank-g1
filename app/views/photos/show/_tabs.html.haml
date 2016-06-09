@@ -1,8 +1,8 @@
 .nav-tabs-custom
   %ul.nav.nav-tabs
-    %li
-      %a{"data-toggle" => "tab", :href => "#tab_1"} Details
     %li.active
+      %a{"data-toggle" => "tab", :href => "#tab_1"} Details
+    %li
       %a{"data-toggle" => "tab", :href => "#tab_2"} Comments
     %li
       %a{"data-toggle" => "tab", :href => "#tab_3"} Timeline
@@ -19,12 +19,9 @@
           %a{:href => "/photofiles/#{photo.org_id.to_s}/photoserve", :download=>true} Download
 
   .tab-content
-    #tab_1.tab-pane
+    #tab_1.tab-pane.active
       =render :partial => "photos/show/details", :locals => {:photo => photo }
-    #tab_2.tab-pane.active
+    #tab_2.tab-pane
       =render :partial => "photos/show/comments_widget", :locals => {:photo => photo }
     #tab_3.tab-pane
       =render :partial => "photos/show/timeline"
-:javascript
-  $(document).ready(function() {
-  });

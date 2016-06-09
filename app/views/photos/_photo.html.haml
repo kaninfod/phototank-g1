@@ -1,6 +1,6 @@
 .photo-widget
   .photo-widget-header
-    .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket", photo.status && "changed"]}
+    .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket_overlay", photo.status && "changed"]}
       .text-center In Bucket
     %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve"}
   .photo-widget-date

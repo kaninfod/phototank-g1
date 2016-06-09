@@ -62,6 +62,8 @@ gem 'ruby-filemagic'
 
 gem 'devise'
 gem 'acts_as_commentable'
+gem 'acts_as_votable', '~> 0.10.0'
+gem 'acts-as-taggable-on', '~> 3.4'
 
 
 gem 'jquery-turbolinks'
@@ -76,7 +78,6 @@ gem 'resque-loner'
 gem "haml-rails", "~> 0.9"
 
 gem 'paperclip'
-gem 'lightbox-bootstrap-rails'
 
 gem 'flickraw', '~> 0.9.8'
 gem 'dropbox-sdk'

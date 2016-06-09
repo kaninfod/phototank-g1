@@ -18,7 +18,7 @@
 //= require jquery_lazyload
 //= require bootstrap-datepicker
 //= require slimscroll/jquery.slimscroll.min
-//= require bootstrap-toggle
 //= require bootstrap-typeahead-rails
+//= require bootstrap-tagsinput
 //= require_tree .
 //= require AdminLTE

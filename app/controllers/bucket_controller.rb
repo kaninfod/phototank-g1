@@ -1,4 +1,5 @@
 class BucketController < ApplicationController
+  include BucketActions
   before_action :authenticate_user!
   def add
     session[:bucket].push params[:id].to_i
@@ -31,7 +32,7 @@ class BucketController < ApplicationController
   def list
     @bucket = get_bucket
     @photos_in_bucket = Photo.where(id:@bucket).limit(28)
-    render layout: false
+    render :partial => "list"
   end
 
   def save_to_album
@@ -65,9 +66,7 @@ class BucketController < ApplicationController
     end
   end
 
-
   def edit
-
     session[:finalurl] = request.referer
     @submit_path = "/bucket/update"
     @photo = Photo.new
@@ -84,6 +83,33 @@ class BucketController < ApplicationController
     end
     redirect_to session[:finalurl]
   end
+
+  def like
+    session[:bucket].each do |photo_id|
+      photo = Photo.find(photo_id)
+      photo.liked_by current_user
+    end
+    render :json => {:status => "OK"}
+  end
+
+  def unlike
+    session[:bucket].each do |photo_id|
+      photo = Photo.find(photo_id)
+      photo.unliked_by current_user
+    end
+    render :json => {:status => "OK"}
+  end
+
+  def add_comment
+    if params.has_key? "comment"
+      session[:bucket].each do |photo_id|
+        comment = add_comment_photo(photo_id, params[:comment])
+      end
+    end
+    render :json => {:status => "OK"}
+  end
+
+
   private
 
 

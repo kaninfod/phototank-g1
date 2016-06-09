@@ -1,5 +1,6 @@
 
 class PhotosController < ApplicationController
+  include BucketActions
   before_action :authenticate_user!
   def image
     @photo = set_photo
@@ -115,15 +116,52 @@ class PhotosController < ApplicationController
   end
 
   def add_comment
-
     if params.has_key? "comment"
-      photo = Photo.find(params[:id])
-      comment = photo.comments.create
-      comment.comment = params[:comment]
-      comment.user_id = current_user.id
-      comment.save
+      comment = add_comment_photo(params[:id], params[:comment])
       render :partial => "photos/show/comment", :locals => {:comment => comment }
     end
+  end
+
+  def like
+    photo = Photo.find(params[:id])
+    if current_user.voted_for? photo
+      photo.unliked_by current_user
+    else
+      photo.liked_by current_user
+    end
+    render :json => {:likes => photo.votes_for.size}
+  end
+
+  def addtag
+    photo = Photo.find params[:id]
+
+    if params[:tag][0,1] == "@"
+      photo.objective_list.add params[:tag]
+    else
+      photo.tag_list.add params[:tag]
+    end
+
+    if photo.save
+      render :json => {:tags => photo.tags}
+    else
+      render :status => "500"
+    end
+  end
+
+  def removetag
+    photo = Photo.find params[:id]
+    photo.tag_list.remove params[:tag]
+    if photo.save
+      render :json => {:tags => photo.tags}
+    else
+      render :status => "500"
+    end
+  end
+
+  def get_tag_list
+    query_string = params[:query]
+    taglist = ActsAsTaggableOn::Tag.most_used.where("name like ?", "#{query_string}%")
+    render :json => taglist
   end
 
   private

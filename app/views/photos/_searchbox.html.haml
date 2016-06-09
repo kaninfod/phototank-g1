@@ -45,11 +45,4 @@
     - else
       %input{:id=>"searchbox_direction", :type=>"checkbox", "data-toggle"=>"toggle", "data-size"=>"small"}
 
-    = select_tag :searchbox_country, options_for_select(@countries, @album.country), {class:"form-control"}
-    //= select_tag :direction, options_for_select(["Up", "Down"], @searchbox[:direction]), {class:"form-control"}
-
-:javascript
-  $('#searchbox_direction').bootstrapToggle({
-    on: 'Forward',
-    off: 'Reverse'
-  });
+    = select_tag :searchbox_country, options_for_select(@countries, @album.country), {class:"form-control input-sm form-group"}

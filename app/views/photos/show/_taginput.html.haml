@@ -1,0 +1,62 @@
+- tags = "#{photo.tags.map{|c| c.name}.join(",")},#{photo.objectives.map{|c| c.name}.join(",")}"
+%input.tags{:type=>"text", :value=>tags, "data-role"=>"tagsinput" }
+
+:javascript
+  $(document).ready(function() {
+
+    var bloodhound = new Bloodhound({
+      datumTokenizer: function (d) {
+        return Bloodhound.tokenizers.whitespace(d.value);
+      },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      // sends ajax request to remote url where %QUERY is user input
+      remote: '/photos/get_tag_list?query=%QUERY',
+      limit: 50
+    });
+    bloodhound.initialize();
+
+    var elt = $('.tags')
+
+    elt.tagsinput({
+      tagClass: function(item) {
+        return (item.charAt(0) == '@' ? 'label-success' : 'label-danger');
+      },
+      trimValue: true,
+      typeaheadjs: {
+        displayKey: 'name',
+        valueKey: 'name',
+        source: bloodhound.ttAdapter()
+      }
+    });
+
+    $('.tags').on('beforeItemAdd', function(event) {
+      var photo_id = $('.image_info').attr("photo_id")
+      var url = "/photos/" + photo_id + "/addtag"
+      var tag = event.item
+      $.ajax({
+        method: "GET",
+        url: url,
+        data: { tag: tag }
+      })
+        .done(function( data ) {
+
+        });
+
+      });
+
+    elt.on('itemRemoved', function(event) {
+      // event.item: contains the item
+      console.log(event.item)
+      var photo_id = $('.image_info').attr("photo_id")
+      var url = "/photos/" + photo_id + "/removetag"
+      var tag = event.item
+      $.ajax({
+        method: "GET",
+        url: url,
+        data: { tag: tag }
+      })
+        .done(function( data ) {
+
+        });
+    });
+  })

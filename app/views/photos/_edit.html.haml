@@ -54,7 +54,7 @@
       queryTokenizer: Bloodhound.tokenizers.whitespace,
 
       // sends ajax request to remote url where %QUERY is user input
-      remote: '/locations/typeahead/%QUERY',
+      remote: '/photos/get_tag_list?query=%QUERY',
       limit: 50
     });
     bloodhound.initialize();

@@ -1,5 +1,5 @@
 
-.row
+.row.image_info{:photo_id=>@photo.id}
   .box.box-primary
     .box-header.with-border
       .box-body
@@ -15,8 +15,6 @@
 
     $('#modal_image').children("img").height(wH)
 
-    $('.tab-content').slimScroll({
-        height:  wH - 50
-    });
+
 
   })

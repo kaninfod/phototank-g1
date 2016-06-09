@@ -12,8 +12,8 @@
  *
  *= require_self
  *= require bootstrap-datepicker
- *= require bootstrap-toggle
  *= require bootstrap-typeahead-rails
+ *= require bootstrap-tagsinput
  *= require skin-blue
  *= require AdminLTE
  *= require_tree .
@@ -23,7 +23,6 @@
 // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "lightbox-bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 

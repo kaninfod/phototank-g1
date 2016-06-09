@@ -1,18 +1,17 @@
 .box.box-widget
   .box-header.with-border
-    %button.btn.btn-default.btn-xs{:type => "button"}
-      %i.fa.fa-share
-      Share
-    %button.btn.btn-default.btn-xs{:type => "button"}
+    %button.btn.btn-default.btn-xs#like{:type => "button", :class=>current_user.voted_for?(photo) && "btn-success"}
       %i.fa.fa-thumbs-o-up
       Like
-    %span.pull-right.text-muted="#{photo.comments.count} comments"
-  / /.box-body
+    %ul.list-inline.pull-right.text-muted
+      %li#likes_num="#{photo.votes_for.size} likes"
+      %li#comments_num="#{photo.comments.count} comments"
+
   .box-footer
     %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar.url}
       / .img-push is used to add margin to elements next to floating images
       .img-push
-        %input.form-control.input-sm#comment_input{:photo_id => photo.id, :placeholder => "Press enter to post comment", :type => "text"}
+        %input.form-control.input-sm#comment_input{:placeholder => "Press enter to post comment", :type => "text"}
   / /.box-footer
   .box-body.box-comments
     - if photo.comments.count == 0
@@ -21,25 +20,44 @@
       - photo.comments.reverse_each do |comment|
         =render :partial => "photos/show/comment", :locals => {:comment => comment }
 
-
 :javascript
   $(document).ready(function() {
+    //init scroll on comments_widget
+
+    $('.box-comments').slimScroll({
+      height:  $(window).height() - 100
+    });
+
+    //Like picture
+    $('#like').on('click', function() {
+      var photo_id = $('.image_info').attr("photo_id")
+      var url = "/photos/" + photo_id + "/like"
+
+      $.get(url,
+        function( data ) {
+          $('#likes_num').html(data['likes'] + ' likes')
+          $('#like').toggleClass('btn-success')
+        }
+      );
+
+    })
+
+    // Add comment
     $('#comment_input').keypress(function (e) {
       if (e.which == 13) {
-        var photo_id = $(this).attr("photo_id")
+        var photo_id = $('.image_info').attr("photo_id")
         var url = "/photos/" + photo_id + "/add_comment"
 
-        $.ajax({
-          method: "GET",
-          url: url,
-          data: { comment: this.value }
-        })
-          .done(function( msg ) {
+        $.get(url,
+          {comment: $(this).val()},
+          function( msg ) {
             $(msg).hide().prependTo('.box-comments').fadeIn(1000)
-
-          });
+          }
+        );
         $(this).val("")
         return false;
       }
     });
+
+
   });

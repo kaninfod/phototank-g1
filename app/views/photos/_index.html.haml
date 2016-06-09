@@ -17,17 +17,17 @@
   $(document).ready(function() {
     modalInit()
 
-  var waypoint = new Waypoint({
-    element: $('.loadMore'),
-    offset: function() {
-      return this.context.innerHeight() - this.adapter.outerHeight() + 500
-      },
-    handler: function(direction) {
-      if (direction == "down") {
-        getNextPage();
+    var waypoint = new Waypoint({
+      element: $('.loadMore'),
+      offset: function() {
+        return this.context.innerHeight() - this.adapter.outerHeight() + 500
+        },
+      handler: function(direction) {
+        if (direction == "down") {
+          getNextPage();
+        }
       }
-    }
-  })
+    })
 
   });
   function getNextPage() {

@@ -9,10 +9,15 @@ Rails.application.routes.draw do
 
 
   match "photos/(q/*query)" => "photos#index", :via => [:post, :get]
+  get '/photos/get_tag_list' => 'photos#get_tag_list'
   resources :photos, :except => [:create, :index]
   get '/photos/:id/image/:size' => 'photos#image'
   get '/photos/:id/rotate/(:degrees)' => 'photos#rotate'
   get '/photos/:id/add_comment' => 'photos#add_comment'
+  get '/photos/:id/like' => 'photos#like'
+  get '/photos/:id/addtag' => 'photos#addtag'
+  get '/photos/:id/removetag' => 'photos#removetag'
+
 
 
   get '/catalogs/migrate' => 'catalogs#migrate'
@@ -45,6 +50,9 @@ Rails.application.routes.draw do
   get  'bucket/save' => 'bucket#save_to_album'
   get  'bucket/delete_photos' => 'bucket#delete_photos'
   get '/bucket/rotate/(:degrees)' => 'bucket#rotate'
+  get  'bucket/like' => 'bucket#like'
+  get  'bucket/unlike' => 'bucket#unlike'
+  get  'bucket/add_comment' => 'bucket#add_comment'
   get  'bucket/edit' => 'bucket#edit'
   patch  'bucket/update' => 'bucket#update'
 
