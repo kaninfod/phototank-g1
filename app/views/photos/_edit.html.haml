@@ -29,54 +29,6 @@
       %button.btn.btn-danger{:type => "submit"} Submit
 
 
-:javascript
-  $(document).ready(function(){
-
-
-    $('.inp_toggle').change(function () {
-        tb = $(this).parent().siblings().find(":input")
-        tb.prop('disabled', !this.checked);
-    });
-
-    $('#date_taken').datepicker({
-      format: 'yyyy/mm/dd',
-      autoclose: true
-    });
-    $("#date_taken").datepicker('update');
-
-    // initialize bloodhound engine
-    var searchSelector = 'input.typeahead';
-
-    var bloodhound = new Bloodhound({
-      datumTokenizer: function (d) {
-        return Bloodhound.tokenizers.whitespace(d.value);
-      },
-      queryTokenizer: Bloodhound.tokenizers.whitespace,
-
-      // sends ajax request to remote url where %QUERY is user input
-      remote: '/photos/get_tag_list?query=%QUERY',
-      limit: 50
-    });
-    bloodhound.initialize();
-
-    // initialize typeahead widget and hook it up to bloodhound engine
-    // #typeahead is just a text input
-    $(searchSelector).typeahead(
-      {
-        highlight: true,
-        hint: true,
-        minLength: 3
-      },
-      {
-        displayKey: 'address',
-        source: bloodhound.ttAdapter()
-    });
-    // this is the event that is fired when a user clicks on a suggestion
-    $(searchSelector).bind('typeahead:selected', function(event, datum, name) {
-      $('#location_id').val(datum.id)
-    });
-  });
-
 :css
   .twitter-typeahead{
        width: 100%;

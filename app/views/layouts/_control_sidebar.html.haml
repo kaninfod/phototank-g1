@@ -19,81 +19,8 @@
         %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar.url}
           / .img-push is used to add margin to elements next to floating images
           .img-push
-            %input.form-control.input-sm#comment_input{:placeholder => "Press enter to post comment", :type => "text"}
+            %input.form-control.input-sm#comment-input-bucket{:placeholder => "Press enter to post comment", :type => "text"}
 
 
 
     .bucket
-
-:javascript
-  $(document).ready(function() {
-    loadBucket()
-
-    $('.bucket').slimScroll({
-      height:  $(window).height() - 400
-    });
-
-    $(".context-menu").hover(
-      function() {
-        $.AdminLTE.controlSidebar.open()
-      }, null
-    );
-
-    $( ".control-sidebar" ).hover(
-      null,
-      function() {
-        if (!($('#pin').hasClass('active'))) {
-          $.AdminLTE.controlSidebar.close()
-        }
-      }
-    )
-
-    $('#pin').on('click', function(){
-      $(this).toggleClass('active')
-    })
-
-    $( ".bucket" ).on( "bucket:update", function() {
-      loadBucket()
-    });
-
-    //Like picture
-    $('#like').on('click', function() {
-      var photo_id = $('.image_info').attr("photo_id")
-      var url = "/bucket/like"
-      $.get(url);
-    })
-
-    //Unlike picture
-    $('#unlike').on('click', function() {
-      var photo_id = $('.image_info').attr("photo_id")
-      var url = "/bucket/unlike"
-      $.get(url);
-    })
-
-    // Add comment
-    $('#comment_input').keypress(function (e) {
-      if (e.which == 13) {
-        var photo_id = $('.image_info').attr("photo_id")
-        var url = "/bucket/add_comment"
-
-        $.get(url,
-          {comment: $(this).val()}
-        );
-        $(this).val("")
-        return false;
-      }
-    });
-
-
-
-
-
-  });
-
-
-
-  function loadBucket() {
-    $.get( "/bucket/list", function( data ) {
-      $( ".bucket" ).html( data );
-    });
-  }
