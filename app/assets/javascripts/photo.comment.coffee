@@ -1,29 +1,46 @@
 # app/assets/javascripts/app.chart.coffee
-class App.Comment
-  constructor: (@el) ->
+s = undefined
+class App.PhotoComment
+
+  #Singleton implementation
+  instance = null
+  class PrivateClass
+    constructor: () ->
+
+  @get: (message) ->
+    if not instance?
+      instance = new @
+      instance.init()
+    instance
+
+
+  init: (@el) ->
+    s =
+      modalElement: $('#myModal')
+      commentInput: '#comment_input'
+      commentsBox: '.box-comments'
     #init scroll on comments_widget
-    $('.box-comments').slimScroll height: $(window).height() - 100
+    $(s.commentsBox).slimScroll height: $(window).height() - 100
+    @bindUIActions()
+
+  bindUIActions: ->
+    _this = this
+    s.modalElement.on 'keypress', s.commentInput, (event) -> _this.addComment(event, this)
+
+  addComment: (event, input) ->
+    if event.which == 13
+      url = @getUrl()
+      console.log url
+      $.get url, { comment: $(input).val() }, (msg) ->
+        $(msg).hide().prependTo(s.commentsBox).fadeIn 1000
+      $(input).val ''
+      return false
 
 
-  render: ->
-
-
+  getUrl: ->
+    photo_id = $('.image_info').attr('photo_id')
+    url = '/photos/' + photo_id + '/add_comment'
 
 $(document).on "page:change", ->
-  comment = new App.Comment
-  comment.render()
-
-
-  # Add comment
-  $('#myModal').on 'click','#like', ->
-  $('#myModal').on 'keypress', '#comment_input', (e) ->
-    if e.which == 13
-      photo_id = $('.image_info').attr('photo_id')
-      url = '/photos/' + photo_id + '/add_comment'
-      $.get url, { comment: $(this).val() }, (msg) ->
-        $(msg).hide().prependTo('.box-comments').fadeIn 1000
-        return
-      $(this).val ''
-      return false
-    return
-  return
+  return unless $(".photos.index").length > 0
+  App.PhotoComment.get()

@@ -1,6 +1,5 @@
 
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery-ujs
 //= require turbolinks
 
@@ -22,10 +21,10 @@
 //= require photo.comment
 //= require photo.taginput
 //= require photos.grid
-//= require photo.bucket
+//= require bucket
 //= require photo.edit
 //= require catalogs
 //= require albums
-//= require layout
 //= require locations
 //= require location.edit
+//= require controlsidepanel

@@ -10,7 +10,7 @@
         = datetime_field_tag :date_taken, "",
           value: (@photo.date_taken.strftime("%Y/%m/%d") unless @photo.nil? || @photo.date_taken.nil?),
           placeholder: "Date taken",
-          class: "form-control",
+          class: "form-control inp",
           disabled: true
     .form-group
       .col-sm-1
@@ -21,7 +21,7 @@
         =text_field_tag :location_address,
           "", placeholder: "Enter address...",
           value:(@photo.location.address unless @photo.nil? || @photo.location.nil?),
-          class:"form-control typeahead",
+          class:"form-control typeahead inp",
           disabled: true
         =hidden_field_tag :location_id
 
