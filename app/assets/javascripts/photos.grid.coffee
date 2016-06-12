@@ -10,13 +10,16 @@ class App.PhotoGrid
     if not instance?
       instance = new @
       instance.init()
+    else
+      instance.bindUIActions()
+      instance.initWaypoint()
     instance
 
   init: (@el) ->
+    @wp = null
     s =
-      offset: 550
       duration: 300
-    @initWaypoint()
+    @wp = @initWaypoint()
     @bindUIActions()
 
   bindUIActions: ->
@@ -31,6 +34,7 @@ class App.PhotoGrid
     $('.lazy').on 'click', -> _this.modalInit(this)
     $('.dropdown-toggle').dropdown()
     $('[data-toggle="popover"]').popover()
+    Waypoint.refreshAll()
 
 
 
@@ -86,28 +90,18 @@ class App.PhotoGrid
       offset: ->
         @context.innerHeight() - @adapter.outerHeight() + 500
       handler: (direction) ->
-        if direction == 'down'
-          _this.getNextPage()
-        return
+        _this.getNextPage(direction)
       )
+    return waypoint
 
-  getNextPage: ->
+  getNextPage: (direction) ->
     _this = this
-    url = $('.next_page').last()[0].href
-    nextPage = $.get(url)
-    nextPage.success (data) ->
-      $('.infinite-container').append data
-      _this.bindUIActions()
-      Waypoint.refreshAll()
-
-
-  # afterAjaxrefresh: ->
-  #   $('img.lazy').lazyload()
-  #   $('[data-toggle="popover"]').popover()
-  #   $('.dropdown-toggle').dropdown()
-  #   _this = this
-  #   @bindUIActions()
-
+    if direction == 'down'
+      url = $('.next_page').last()[0].href
+      nextPage = $.get(url)
+      nextPage.success (data) ->
+        $('.infinite-container').append data
+        _this.bindUIActions()
 
   modalInit: (photoContainer) ->
     url = '/photos/' + $(photoContainer).attr('photo_id')
@@ -116,10 +110,12 @@ class App.PhotoGrid
         show: true
         keyboard: true
       App.PhotoLike.get()
-      App.PhotoTaginput.get().refresh()
+      App.PhotoTaginput.get()
       App.PhotoComment.get()
 
 
 $(document).on "page:change", ->
+
   return unless $(".photos.index").length > 0
-  App.PhotoGrid.get().bindUIActions()
+
+  App.PhotoGrid.get()

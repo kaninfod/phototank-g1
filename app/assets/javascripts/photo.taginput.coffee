@@ -9,6 +9,8 @@ class App.PhotoTaginput
     if not instance?
       instance = new @
       instance.init()
+    else
+      instance.bindUIActions()
     instance
 
   init: (@el) ->
@@ -25,9 +27,11 @@ class App.PhotoTaginput
     _this = this
     s.modalElement.on 'itemAdded', '.tags', (event) -> _this.addTag(event)
     s.modalElement.on 'itemRemoved', '.tags', (event) -> _this.removeTag(event)
-
-  refresh: ->
     @initTaginput()
+
+  # refresh: ->
+  #   @initTaginput()
+  #   console.log 'model'
 
   addTag: (event) ->
     photo_id = $('.image_info').attr('photo_id')
@@ -68,4 +72,5 @@ class App.PhotoTaginput
 
 $(document).on "page:change", ->
   return unless $(".photos.index").length > 0
+  console.log 'im alive'
   App.PhotoTaginput.get()
