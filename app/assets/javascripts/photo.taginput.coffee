@@ -1,37 +1,24 @@
-# app/assets/javascripts/app.chart.coffee
 s = undefined
-class App.PhotoTaginput
-  instance = null
-  class PrivateClass
-    constructor: () ->
-
-  @get: (message) ->
-    if not instance?
-      instance = new @
-      instance.init()
-    else
-      instance.bindUIActions()
-    instance
+App.PhotoTaginput = do ->
 
   init: (@el) ->
     s =
-      modalElement: $('#myModal')
+      photoGrid: '#photogrid'
+      modalElement: $('#photoDetails')
       tagInput: '.tags'
       genericClass: 'label-success'
       mentionClass: 'label-danger'
       remoteUrl: '/photos/get_tag_list?query=%QUERY'
-    @initTaginput()
     @bindUIActions()
+
+  refresh: ->
+    @initTaginput()
 
   bindUIActions: ->
     _this = this
-    s.modalElement.on 'itemAdded', '.tags', (event) -> _this.addTag(event)
-    s.modalElement.on 'itemRemoved', '.tags', (event) -> _this.removeTag(event)
-    @initTaginput()
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '.tags', (event) -> _this.addTag(event)
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '.tags', (event) -> _this.removeTag(event)
 
-  # refresh: ->
-  #   @initTaginput()
-  #   console.log 'model'
 
   addTag: (event) ->
     photo_id = $('.image_info').attr('photo_id')
@@ -72,5 +59,4 @@ class App.PhotoTaginput
 
 $(document).on "page:change", ->
   return unless $(".photos.index").length > 0
-  console.log 'im alive'
-  App.PhotoTaginput.get()
+  App.PhotoTaginput.init()

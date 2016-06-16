@@ -441,6 +441,7 @@ function _init() {
   $.AdminLTE.controlSidebar = {
     //instantiate the object
     activate: function () {
+
       //Get the object
       var _this = this;
       //Update options
@@ -479,6 +480,7 @@ function _init() {
     },
     //Open the control sidebar
     open: function (sidebar, slide) {
+      
       //Slide over content
       if (slide) {
         sidebar.addClass('control-sidebar-open');

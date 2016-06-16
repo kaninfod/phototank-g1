@@ -1,26 +1,55 @@
-.context-menu
-%aside.control-sidebar.control-sidebar-light
-  .row
-    %button.fa.fa-thumb-tack.btn.btn-xs#pin{:type => "button"}
+-# .context-menu
+%aside.control-sidebar.control-sidebar-dark
 
-  - if params[:controller] == 'photos' && params[:action] == 'index'
-    = render :partial => 'photos/breadcrumb'
-    = render :partial => 'photos/searchbox'
-    .box.box-widget
-      .box-header.with-border
-        %button.btn.btn-default.btn-xs#like{:type => "button"}
-          %i.fa.fa-thumbs-o-up
-          Like
-        %button.btn.btn-default.btn-xs#unlike{:type => "button"}
-          %i.fa.fa-thumbs-o-down
-          Unlike
+  / Create the tabs
+  %ul.nav.nav-tabs.nav-justified.control-sidebar-tabs
+    %li.active
+      %a{"data-toggle" => "tab", :href => "#control-sidebar-theme-demo-options-tab"}
+        %i.fa.fa-home
+    %li
+      %a{"data-toggle" => "tab", :href => "#control-sidebar-home-tab"}
+        %i.fa.fa-clipboard
+    %li
+      %a{"data-toggle" => "tab", :href => "#control-sidebar-settings-tab"}
+        %i.fa.fa-gears
+  / Tab panes
+  .tab-content
+    / Home tab content
+    #control-sidebar-home-tab.tab-pane
+      .box.box-default
+        .box-header
+          %button.btn.btn-default.btn-xs#like{:type => "button"}
+            %i.fa.fa-thumbs-o-up
+            Like
+          %button.btn.btn-default.btn-xs#unlike{:type => "button"}
+            %i.fa.fa-thumbs-o-down
+            Unlike
 
-      .box-footer
-        %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar.url}
-          / .img-push is used to add margin to elements next to floating images
-          .img-push
-            %input.form-control.input-sm#comment-input-bucket{:placeholder => "Press enter to post comment", :type => "text"}
+        .box-body
+          %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar.url}
+            / .img-push is used to add margin to elements next to floating images
+            .img-push
+              %input.form-control.input-sm#comment-input-bucket{:placeholder => "Press enter to post comment", :type => "text"}
+
+        .box-footer
+          .bucket
+          %a#clear-bucket.pull-right{:href=>"#{}"} clear bucket
+
+    #control-sidebar-theme-demo-options-tab.tab-pane.active
+      - if params[:controller] == 'photos' && params[:action] == 'index'
+        .box.box-default
+          .box-header
+            = render :partial => 'photos/breadcrumb'
+          .box-body
+            = render :partial => 'photos/searchbox'
+          .box-footer
 
 
 
-    .bucket
+    #control-sidebar-settings-tab.tab-pane
+
+:css
+  .box-footer {
+    padding-right: 8px;
+    padding-left: 8px;
+  }

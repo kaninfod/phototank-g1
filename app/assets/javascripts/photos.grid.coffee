@@ -1,42 +1,29 @@
 s = undefined
-class App.PhotoGrid
-
-  #Singleton implementation
-  instance = null
-  class PrivateClass
-    constructor: () ->
-
-  @get: (message) ->
-    if not instance?
-      instance = new @
-      instance.init()
-    else
-      instance.bindUIActions()
-      instance.initWaypoint()
-    instance
+App.PhotoGrid = do ->
 
   init: (@el) ->
     @wp = null
     s =
+      photoGrid: '#photogrid'
       duration: 300
     @wp = @initWaypoint()
     @bindUIActions()
 
   bindUIActions: ->
     _this = this
+    @modalInit()
     $('img.lazy').lazyload()
-    $('.delete_photo').on 'click', -> _this.deletePhoto(this)
-    $('#rotate').on 'click', -> _this.rotatePhoto()
+    $(s.photoGrid).on 'click.' + s.eventNamespace,'.lazy', (ev) -> _this.showModal(ev, this)
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '.delete_photo', -> _this.deletePhoto(this)
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '#rotate', -> _this.rotatePhoto()
     jQuery(window).scroll -> _this.showScrollTop(this)
-    jQuery('.back-to-top').click (event) -> _this.scrollTop()
-    $('.searchbox, .breadcrumb li a').on 'click', -> _this.setBreadcrumbUrl(this)
-    $('#searchbox_country, #searchbox_direction').on 'change', -> _this.searboxDropdownChange()
-    $('.lazy').on 'click', -> _this.modalInit(this)
+    jQuery('.back-to-top').click (event) -> _this.scrollTop(event)
+    $('body').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
+    $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searboxDropdownChange()
     $('.dropdown-toggle').dropdown()
     $('[data-toggle="popover"]').popover()
     Waypoint.refreshAll()
-
-
+    @initControlSidebar()
 
   deletePhoto: (photoContainer) ->
     photoId = $(photoContainer).attr('photo_id')
@@ -53,7 +40,7 @@ class App.PhotoGrid
     rotateValue = $("input[name=rotate]:checked").val()
     window.location = rotateValue
 
-  scrollTop: ->
+  scrollTop: (event) ->
     event.preventDefault()
     jQuery('html, body').animate { scrollTop: 0 }, s.duration
     false
@@ -103,19 +90,36 @@ class App.PhotoGrid
         $('.infinite-container').append data
         _this.bindUIActions()
 
-  modalInit: (photoContainer) ->
+  modalInit: () ->
+    @modal = new AnimatedModal(
+      animatedIn: 'zoomIn'
+      animatedOut: 'zoomOut'
+      closeBtn: '.close-modal'
+      modalBaseClass: 'animated-modal'
+      modalTarget: 'photoDetails'
+      escClose: true
+      afterClose: null
+      afterOpen: ->
+        App.PhotoTaginput.refresh()
+        App.PhotoEdit.refresh()
+      beforeClose: null
+      beforeOpen: null
+    )
+
+  showModal: (ev, photoContainer) ->
+    _this = this
     url = '/photos/' + $(photoContainer).attr('photo_id')
-    $('.modal-body').load url, (result) ->
-      $('#myModal').modal
-        show: true
-        keyboard: true
-      App.PhotoLike.get()
-      App.PhotoTaginput.get()
-      App.PhotoComment.get()
+    $('#photoDetails > .modal-content').load url, (result) ->
+      ev.preventDefault()
+      _this.modal.open()
+
+
+
+  initControlSidebar: ->
+    if $._data($('[data-toggle=\'control-sidebar\']')[0]).events == undefined
+      $.AdminLTE.controlSidebar.activate()
 
 
 $(document).on "page:change", ->
-
   return unless $(".photos.index").length > 0
-
-  App.PhotoGrid.get()
+  App.PhotoGrid.init()

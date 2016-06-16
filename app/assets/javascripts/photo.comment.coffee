@@ -1,22 +1,10 @@
-# app/assets/javascripts/app.chart.coffee
 s = undefined
-class App.PhotoComment
-
-  #Singleton implementation
-  instance = null
-  class PrivateClass
-    constructor: () ->
-
-  @get: (message) ->
-    if not instance?
-      instance = new @
-      instance.init()
-    instance
-
+App.PhotoComment = do ->
 
   init: (@el) ->
     s =
-      modalElement: $('#myModal')
+      photoGrid: '#photogrid'
+      modalElement: $('#photoDetails')
       commentInput: '#comment_input'
       commentsBox: '.box-comments'
     #init scroll on comments_widget
@@ -25,12 +13,11 @@ class App.PhotoComment
 
   bindUIActions: ->
     _this = this
-    s.modalElement.on 'keypress', s.commentInput, (event) -> _this.addComment(event, this)
+    $(s.photoGrid).on 'keypress', s.commentInput, (event) -> _this.addComment(event, this)
 
   addComment: (event, input) ->
     if event.which == 13
       url = @getUrl()
-      console.log url
       $.get url, { comment: $(input).val() }, (msg) ->
         $(msg).hide().prependTo(s.commentsBox).fadeIn 1000
       $(input).val ''
@@ -43,4 +30,4 @@ class App.PhotoComment
 
 $(document).on "page:change", ->
   return unless $(".photos.index").length > 0
-  App.PhotoComment.get()
+  App.PhotoComment.init()

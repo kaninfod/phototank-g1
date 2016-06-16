@@ -1,4 +1,4 @@
-.col{:style=>"margin-left:7px;"}
+.col
   - if @photos_in_bucket.count > 0
     - @photos_in_bucket.each do |photo|
       %img.img-responsive{:alt => "...", :src => "/photofiles/#{photo.tm_id.to_s}/photoserve", "height"=>"64", "width"=>"64", :style=>"display:inline"}

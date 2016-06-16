@@ -1,19 +1,21 @@
 .box.box-widget
   .box-header.with-border
+
     %button.btn.btn-default.btn-xs#like{:type => "button", :class=>current_user.voted_for?(photo) && "btn-success"}
       %i.fa.fa-thumbs-o-up
       Like
     %ul.list-inline.pull-right.text-muted
       %li#likes_num="#{photo.votes_for.size} likes"
       %li#comments_num="#{photo.comments.count} comments"
-
-  .box-footer
+  .box-body
+    =render :partial => "photos/show/taginput", :locals => {:photo => photo }
+  .box-body
     %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar.url}
       / .img-push is used to add margin to elements next to floating images
       .img-push
         %input.form-control.input-sm#comment_input{:placeholder => "Press enter to post comment", :type => "text"}
   / /.box-footer
-  .box-body.box-comments
+  .box-footer.box-comments
     - if photo.comments.count == 0
       Be the first to add a comment!
     - else

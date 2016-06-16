@@ -13,7 +13,7 @@
 //= require waypoints/lib/jquery.waypoints.min.js
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min
-//= require AdminLTE
+//= require jsanimatedmodal
 
 
 //= require init
@@ -27,4 +27,4 @@
 //= require albums
 //= require locations
 //= require location.edit
-//= require controlsidepanel
+//= require AdminLTE

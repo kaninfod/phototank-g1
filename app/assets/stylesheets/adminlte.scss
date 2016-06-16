@@ -1,22 +1,14 @@
 .control-sidebar {
-  background-color: white;
   height: 100%;
   padding-bottom: 50px;
   padding-left: 10px;
   padding-top: 55px;
   padding-right: 5px;
-}
-
-.context-menu {
-  width: 10px;
+  z-index: 5;
   overflow: hidden;
-  padding-left: 10px;
-  background-color: transparant;
-  height: 100%;
-  position: absolute; top: 0px; right: 0px;
-  z-index: 999;
 }
 
-#pin {
-  margin-left: 15px;
+.control-sidebar > .tab-content {
+  padding-left: 0px;
+  padding-right: 0px;
 }

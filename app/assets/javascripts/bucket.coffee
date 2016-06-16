@@ -1,38 +1,26 @@
 s = undefined
-class App.Bucket
-
-  #Singleton implementation
-  instance = null
-  class PrivateClass
-    constructor: () ->
-
-  @get: (message) ->
-    if not instance?
-      instance = new @
-      instance.init()
-    else
-      instance.bindUIActions()
-    instance
+App.Bucket = do ->
 
   init: (@el) ->
-    # s =
-    #   modalElement: $('#myModal')
-    #   likeButtonId: '#like'
-    #   numberOfLikes: $('#likes_num')
+    s =
+      overlayClass: 'photo-widget-overlay'
+      bucketClass: 'bucket_overlay'
+      eventNamespace: 'photo'
+      photoGrid: '#photogrid'
     @update_bucket_count()
-
-    #$('.bucket').slimScroll height: $(window).height() - 400
     @bindUIActions()
+
 
   bindUIActions: ->
     _this = this
-    $('.bucket').slimScroll height: $(window).height() - 500
-    $('#photo_bucket_panel').on 'click', -> _this.showBucketDropdown(this)
-    $(document).on 'click', '.photo-widget-overlay', -> _this.toggleBucket(this)
+    $('.bucket').slimScroll height: $(window).height() - 350
+    #$(s.photoGrid).on 'click.' + s.eventNamespace,'#photo_bucket_panel', -> _this.showBucketDropdown(this)
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '.photo-widget-overlay', -> _this.toggleBucket(this)
     $('.bucket').on 'bucket:update', -> _this.loadBucket()
-    $('#like').on 'click', -> _this.likePhotos()
-    $('#unlike').on 'click', -> _this.unlikePhotos()
+    $('body').on 'click.' + s.eventNamespace, '#like', -> _this.likePhotos()
+    $('body').on 'click.' + s.eventNamespace,'#unlike', -> _this.unlikePhotos()
     $('#comment-input-bucket').keypress (e) -> _this.addComment(this, e)
+    $('a#clear-bucket').on 'click', -> _this.clearBucket()
     @loadBucket()
 
   showBucketDropdown: (button) ->
@@ -41,7 +29,6 @@ class App.Bucket
         $('#photos_in_bucket').html data
 
   loadBucket: ->
-    console.log 'dafuq!'
     $.get '/bucket/list', (data) ->
       $('.bucket').html data
 
@@ -83,6 +70,12 @@ class App.Bucket
       $.get url, comment: $(commentInput).val()
       $(commentInput).val ''
 
+  clearBucket: ->
+    _this=this
+    $.get '/bucket/clear', (data) ->
+      _this.loadBucket()
+    $('.' + s.overlayClass).removeClass(s.bucketClass)
+    false
 
 $(document).on "page:change", ->
-  App.Bucket.get()
+  App.Bucket.init()

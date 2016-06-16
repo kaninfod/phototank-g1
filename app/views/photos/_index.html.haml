@@ -1,13 +1,16 @@
-.col-lg-12.col-sm-12
-  .box.box-solid
-    .box-header.with-border
-      %ul.text-right.list-inline
-        - if defined? extra_tools.nil?
-          %li= render :partial => extra_tools
+#photogrid
+  .col-lg-12.col-sm-12
+    .box.box-solid
+      .box-header.with-border
+        %ul.text-right.list-inline
+          - if defined? extra_tools.nil?
+            %li= render :partial => extra_tools
 
-    .box-body.infinite-container
-      =render :partial => "photos/view/grid"
-    .loadMore
-#myModal.modal.fade{:role => "dialog", :tabindex => "-1"}
-  %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-  .modal-body
+      .box-body.infinite-container
+        =render :partial => "photos/view/grid"
+      .loadMore
+
+  #photoDetails.animated.animated-modal
+    .modal-content
+    .close-modal Close
+    / your content

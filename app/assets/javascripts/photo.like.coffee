@@ -1,38 +1,32 @@
 s = undefined
-class App.PhotoLike
-
-  #Singleton implementation
-  instance = null
-  class PrivateClass
-    constructor: () ->
-
-  @get: (message) ->
-    if not instance?
-      instance = new @
-      instance.init()
-    instance
+App.PhotoLike = do ->
 
   init: (@el) ->
     s =
-      modalElement: $('#myModal')
+      photoGrid: '#photogrid'
+      modalElement: $('#photoDetails')
       likeButtonId: '#like'
-      numberOfLikes: $('#likes_num')
+      numberOfLikes: '#likes_num'
+      eventNamespace: 'photo'
     @bindUIActions()
+
 
   bindUIActions: ->
     _this = this
-    s.modalElement.on 'click', s.likeButtonId, -> _this.likePhoto()
+    $(s.photoGrid).on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto()
 
   likePhoto: ->
     url = @getUrl()
     $.get url, (data) ->
-      s.numberOfLikes.html data['likes'] + ' likes'
+
+      $(s.numberOfLikes).html data['likes'] + ' likes'
       $(s.likeButtonId).toggleClass 'btn-success'
 
   getUrl: ->
     photo_id = $('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/like'
 
+
 $(document).on "page:change", ->
   return unless $(".photos.index").length > 0
-  App.PhotoLike.get()
+  App.PhotoLike.init()

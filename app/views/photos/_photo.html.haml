@@ -2,7 +2,7 @@
   .photo-widget-header
     .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket_overlay", photo.status && "changed"]}
       .text-center In Bucket
-    %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve"}
+    %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve", :href => "#animatedModal"}
   .photo-widget-date
     =photo.date_taken_formatted
   .photo-widget-footer

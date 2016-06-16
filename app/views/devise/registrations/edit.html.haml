@@ -34,8 +34,10 @@
         = f.label :avatar, class: 'col-sm-2 control-label'
         .col-sm-10
           = f.file_field :avatar
-
-
+      .form-group
+        %label.col-sm-2.control-label{:for => "inputImage_id"} id
+        .col-sm-10
+          = f.file_field :image_id, autofocus: true, placeholder: "Name", class: "form-control"
 
       .form-group
         .col-sm-offset-2.col-sm-10

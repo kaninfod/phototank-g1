@@ -3,20 +3,13 @@
     %li.active
       %a{"data-toggle" => "tab", :href => "#tab_1"} Details
     %li
-      %a{"data-toggle" => "tab", :href => "#tab_2"} Comments
+      %a{"data-toggle" => "tab", :href => "#tab_2"} Social
     %li
       %a{"data-toggle" => "tab", :href => "#tab_3"} Timeline
-    %li.pull-right
-      %a.fa.fa-caret-square-o-down.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-      %ul.dropdown-menu
-        %li
-          %a{:href => "/photos/#{photo.id}/rotate/"} Rotate
-        %li
-          %a{:href => "/photos/#{photo.id}/edit"} Edit data
-        %li
-          %a.delete_photo{:href => "#", :photo_id=>photo.id} Delete
-        %li
-          %a{:href => "/photofiles/#{photo.org_id.to_s}/photoserve", :download=>true} Download
+    %li
+      %a{"data-toggle" => "tab", :href => "#tab_4"} Edit
+    %li
+      %a{"data-toggle" => "tab", :href => "#tab_5"} Rotate
 
   .tab-content
     #tab_1.tab-pane.active
@@ -25,3 +18,13 @@
       =render :partial => "photos/show/comments_widget", :locals => {:photo => photo }
     #tab_3.tab-pane
       =render :partial => "photos/show/timeline"
+    #tab_4.tab-pane
+      =render :partial => "photos/show/edit"
+    #tab_5.tab-pane
+      =render :partial => "photos/show/rotate"
+
+      -#
+      -# %a{:href => "/photos/#{photo.id}/rotate/"} Rotate
+      -# %a{:href => "/photos/#{photo.id}/edit"} Edit data
+      -# %a.delete_photo{:href => "#", :photo_id=>photo.id} Delete
+      -# %a{:href => "/photofiles/#{photo.org_id.to_s}/photoserve", :download=>true} Download

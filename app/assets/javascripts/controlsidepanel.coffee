@@ -1,19 +1,6 @@
 s = undefined
-class App.ControlSidebar
+App.ControlSidebar = do ->
 
-  #Singleton implementation
-  instance = null
-  class PrivateClass
-    constructor: () ->
-
-  @get: (message) ->
-    if not instance?
-      instance = new @
-      instance.init()
-    else
-      instance.bindUIActions()
-
-    instance
 
   init: (@el) ->
     # s =
@@ -24,9 +11,7 @@ class App.ControlSidebar
 
   bindUIActions: ->
     _this = this
-    $('.context-menu').hover (event) -> _this.openControlSidebar(event)
-    $('.control-sidebar').hover (event) -> _this.closeControlSidebar(event)
-    $('#pin').on 'click', -> _this.pinControlSidebar(this)
+
 
 
   refresh: ->

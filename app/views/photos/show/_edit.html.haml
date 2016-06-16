@@ -1,0 +1,66 @@
+.col-lg-10
+  = form_tag(@submit_path, :method => :patch, :class => "form-horizontal" ) do |f|
+    .form-group
+      %label{:for => :date_taken} Date taken
+      .input-group
+        %span.input-group-addon
+          %input.inp_toggle{:type => "checkbox"}
+        = datetime_field_tag :date_taken, "",
+          value: (@photo.date_taken.strftime("%Y/%m/%d") unless @photo.nil? || @photo.date_taken.nil?),
+          placeholder: "Date taken",
+          class: "form-control inp",
+          disabled: true
+
+
+    .form-group
+      %label{:for => :location_id} Location
+      .input-group
+        %span.input-group-addon
+          %input.inp_toggle{:type => "checkbox"}
+        =text_field_tag :location_address,
+          "", placeholder: "Enter address...",
+          value:(@photo.location.address unless @photo.nil? || @photo.location.nil?),
+          class:"form-control typeahead inp",
+          disabled: true
+        =hidden_field_tag :location_id
+
+
+
+    .form-group
+      .col-sm-1
+        %input.inp_toggle{:type=>"checkbox"}
+      .col-sm-2
+        %label{:for => :date_taken} Date taken
+      .col-sm-9
+        = datetime_field_tag :date_taken, "",
+          value: (@photo.date_taken.strftime("%Y/%m/%d") unless @photo.nil? || @photo.date_taken.nil?),
+          placeholder: "Date taken",
+          class: "form-control inp",
+          disabled: true
+    .form-group
+      .col-sm-1
+        %input.inp_toggle{:type=>"checkbox"}
+      .col-sm-2
+        %label{:for => :location_id} Location
+      .col-sm-9
+        =text_field_tag :location_address,
+          "", placeholder: "Enter address...",
+          value:(@photo.location.address unless @photo.nil? || @photo.location.nil?),
+          class:"form-control typeahead inp",
+          disabled: true
+        =hidden_field_tag :location_id
+
+    .form-group
+      %button.btn.btn-danger{:type => "submit"} Submit
+
+
+:css
+  .twitter-typeahead{
+       width: 100%;
+  }
+  .tt-dropdown-menu{
+      width: 98%;
+  }
+  input.typeahead.tt-query{ /* This is optional */
+      width: 300px !important;
+  }

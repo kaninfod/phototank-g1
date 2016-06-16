@@ -6,4 +6,4 @@ AdminLTEOptions =
   controlSidebarOptions:
     toggleBtnSelector: '[data-toggle=\'control-sidebar\']'
     selector: '.control-sidebar'
-    slide: false
+    slide: true
