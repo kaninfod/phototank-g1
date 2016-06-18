@@ -15,7 +15,7 @@ App.PhotoGrid = do ->
     $('img.lazy').lazyload()
     $(s.photoGrid).on 'click.' + s.eventNamespace,'.lazy', (ev) -> _this.showModal(ev, this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.delete_photo', -> _this.deletePhoto(this)
-    $(s.photoGrid).on 'click.' + s.eventNamespace, '#rotate', -> _this.rotatePhoto()
+
     jQuery(window).scroll -> _this.showScrollTop(this)
     jQuery('.back-to-top').click (event) -> _this.scrollTop(event)
     $('body').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
@@ -36,9 +36,9 @@ App.PhotoGrid = do ->
       success: (data) ->
         pw.fadeOut(700)
 
-  rotatePhoto: ->
-    rotateValue = $("input[name=rotate]:checked").val()
-    window.location = rotateValue
+
+
+
 
   scrollTop: (event) ->
     event.preventDefault()
