@@ -23,21 +23,22 @@ class Location < ActiveRecord::Base
   def self.locate_photo(photo)
     @photo = photo
     if no_coordinates
-      return true
+
     elsif reuse_location
-      return true
+
     elsif geosearch
-      return true
+
     else
-
       @photo.location = get_no_location
-
       return true
     end
-
+    pf = PhotoFilesApi::Api::new
+    response = pf.create self.get_google_map, nil, nil, 'maps'
+    self.update(map_image_id: response[:id])
+    return true
   end
 
-  def get_map(zoom=10, size="350x300")
+  def get_google_map(zoom=10, size="350x300")
     marker = "#{self.latitude}%2C#{self.longitude}"
     return "http://maps.google.com/maps/api/staticmap?size=#{size}&sensor=false&zoom=#{zoom}&markers=#{marker}"
   end

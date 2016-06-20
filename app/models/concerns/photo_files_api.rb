@@ -18,11 +18,26 @@ module PhotoFilesApi
       JSON.parse(response.body, {:symbolize_names => true}) if response.code == "200"
     end
 
-    def create(path, datehash)
+    def create(path, date_taken=nil, photosize=nil, filetype=nil)
+      # date and filetype is used for final path in photofile.
+      # Either provide date or filetype.
+      # If both are provided date takes precedence
+      # If niether are provided file is archived under 'system'
+
       endpoint = "/photofiles.json"
 
-      file_string = Base64.encode64(File.open(path).read)
-      payload = datehash
+      if uri? path
+        file_string = Base64.encode64(open(path).read)
+      elsif File.exists path
+        file_string = Base64.encode64(File.open(path).read)
+      else
+        return false
+      end
+
+      payload = {}
+      payload[:date_taken] = date_taken unless date_taken.nil?
+      payload[:photosize] = photosize unless photosize.nil?
+      payload[:filetype] = filetype unless filetype.nil?
       payload[:file_string]= file_string
 
       http = get_http
@@ -107,6 +122,14 @@ module PhotoFilesApi
 
     private
 
+    def uri?(string)
+      uri = URI.parse(string)
+      %w( http https ).include?(uri.scheme)
+    rescue URI::BadURIError
+      false
+    rescue URI::InvalidURIError
+      false
+    end
 
     def get_http
       uri = URI.parse(URL)

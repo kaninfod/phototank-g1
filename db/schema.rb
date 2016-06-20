@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160613182426) do
+ActiveRecord::Schema.define(version: 20160620220951) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -82,19 +82,20 @@ ActiveRecord::Schema.define(version: 20160613182426) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string   "status",     limit: 255
-    t.decimal  "latitude",               precision: 16, scale: 10
-    t.decimal  "longitude",              precision: 16, scale: 10
-    t.string   "location",   limit: 255
-    t.string   "country",    limit: 255
-    t.string   "state",      limit: 255
-    t.string   "address",    limit: 255
-    t.string   "road",       limit: 255
-    t.string   "city",       limit: 255
-    t.string   "suburb",     limit: 255
-    t.string   "postcode",   limit: 255
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.string   "status",       limit: 255
+    t.decimal  "latitude",                 precision: 16, scale: 10
+    t.decimal  "longitude",                precision: 16, scale: 10
+    t.string   "location",     limit: 255
+    t.string   "country",      limit: 255
+    t.string   "state",        limit: 255
+    t.string   "address",      limit: 255
+    t.string   "road",         limit: 255
+    t.string   "city",         limit: 255
+    t.string   "suburb",       limit: 255
+    t.string   "postcode",     limit: 255
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.integer  "map_image_id", limit: 4
   end
 
   create_table "photofiles", force: :cascade do |t|
@@ -103,6 +104,7 @@ ActiveRecord::Schema.define(version: 20160613182426) do
     t.datetime "updated_at",             null: false
     t.integer  "status",     limit: 4
     t.string   "size",       limit: 255
+    t.string   "filetype",   limit: 255
   end
 
   create_table "photos", force: :cascade do |t|

@@ -2,7 +2,7 @@
   .album-widget
     %a.album-widget-photo{:href=>"/locations/#{location.id}"}
       .album-widget-label.badge="#{location.photos.count}"
-      %img{:src=> "/photofiles/#{location.photos.first.tm_id}/photoserve"}
+      %img{:src=> "/photofiles/#{location.map_image_id}/photoserve"}
     .album-widget-content
       .album-widget-title
         =location.country

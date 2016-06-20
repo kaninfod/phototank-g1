@@ -1,5 +1,5 @@
 class Photofile < ActiveRecord::Base
-  attr_accessor :data, :url, :datehash, :phash
+  attr_accessor :data, :url, :datahash, :phash
   validates :path, presence: true
   before_create :import_file
   before_update :update_file
@@ -18,14 +18,34 @@ class Photofile < ActiveRecord::Base
 
   def import_file
     begin
-      path = File.join(PATH, self.datehash[:year].to_s, self.datehash[:month].to_s,self.datehash[:day].to_s)
+      if self.datahash.has_key? :date_taken
+        if self.datahash.has_key? :photosize
+          size = self.datahash[:photosize]
+        else
+          size = 'org'
+        end
+        dh = generate_datehash(self.datahash[:date_taken])
+        path = File.join(PATH, dh[:year].to_s, dh[:month].to_s, dh[:day].to_s)
+        #TODO change extension. Should come from mime
+        filename = "#{dh[:datestring]}_#{self.datahash[:photosize]}_#{dh[:unique]}.jpg"
+        self.size = size
+        self.filetype = 'date'
+      else
+        if self.datahash.has_key? :filetype
+          path = File.join(PATH, self.datahash[:filetype])
+          self.filetype = self.datahash[:filetype]
+        else
+          path = File.join(PATH, 'system')
+          self.filetype = 'system'
+        end
+        filename = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(15).next.join
+      end
+
       FileUtils.mkdir_p File.join(path)
-      #TODO change extension. Should come from mime
-      filename = "#{datehash[:datestring]}_#{datehash[:size]}_#{datehash[:unique]}.jpg"
       filepath = File.join(path, filename)
       FileUtils.cp self.path, filepath
       self.path = filepath
-      self.size = datehash[:size]
+
 
     rescue Exception => e
       byebug
@@ -56,5 +76,19 @@ class Photofile < ActiveRecord::Base
   end
   private
 
+  def generate_datehash(date)
+    date = date.to_date
+    datestring = date.strftime("%Y%m%d%H%M%S")
+    unique = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(5).next.join
+
+    datehash = {
+      :datestring=>datestring,
+      :unique=>unique,
+      :year=>date.year,
+      :month=>date.month,
+      :day=>date.day
+    }
+    return datehash
+  end
 
 end

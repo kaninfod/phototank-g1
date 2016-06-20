@@ -18,7 +18,7 @@
           %dt Address
           %dd= @photo.location.address
           %dt Map
-          %dd= image_tag @photo.location.get_map(zoom=10, size="350x300")
+          %dd= image_tag @photo.location.get_google_map(zoom=10, size="350x300")
         %dt Make:
         %dd= @photo.make
         %dt Model
