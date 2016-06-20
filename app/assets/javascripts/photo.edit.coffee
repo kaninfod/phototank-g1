@@ -17,42 +17,22 @@ App.PhotoEdit = do ->
 
     $('.inp_toggle').change -> _this.toggleInput(this)
 
-    @initBloodhound()
-    @bloodhound.initialize()
-    @initTypeahead()
+
 
   bindUIActions: ->
     _this = this
     $('body').on 'click.' + s.eventNamespace, '#rotate', -> _this.rotatePhoto()
     $('body').on 'click.' + s.eventNamespace, '#save-meta-data', -> _this.saveMetaData()
-
+    $('#location_address').autocomplete
+      source: '/locations/typeahead/kaj'
+      minLength: 2
+      select: (event, ui) ->
+        $('#location_id').val ui.item.id
 
   toggleInput: (chkbox) ->
     tb = $(chkbox).parents('.form-group').children().find('.inp')
     tb.prop 'disabled', !$(chkbox).is(":checked")
-
-  initTypeahead: ->
-    _this = this
-    $(s.searchSelector).typeahead {
-      highlight: true
-      hint: true
-      minLength: 3
-    },
-      displayKey: 'address'
-      source: _this.bloodhound.ttAdapter()
-
-    $(s.searchSelector).bind 'typeahead:selected', (event, datum, name) ->
-      $('#location_id').val datum.id
-
-
-  initBloodhound: ->
-    @bloodhound = new Bloodhound(
-      datumTokenizer: (d) ->
-        Bloodhound.tokenizers.whitespace d.value
-      queryTokenizer: Bloodhound.tokenizers.whitespace
-      remote: '/locations/typeahead/%QUERY'
-      limit: 50)
-
+    tb.select()
 
   saveMetaData: ->
     photo_id = $('.image_info').attr('photo_id')

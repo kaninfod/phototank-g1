@@ -12,3 +12,14 @@
   padding-left: 0px;
   padding-right: 0px;
 }
+
+.ui-autocomplete {
+    max-height: 110px;
+    overflow-y: auto;   /* prevent horizontal scrollbar */
+    overflow-x: hidden; /* add padding to account for vertical scrollbar */
+    z-index:1000
+}
+
+.bootstrap-tagsinput {
+  width: 100%
+}

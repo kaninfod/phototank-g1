@@ -44,15 +44,19 @@ class Location < ActiveRecord::Base
 
   def self.no_location
     Rails.cache.fetch("no_location", expires_in: 12.hours) do
-      
+
       return get_no_location
     end
   end
 
   def self.typeahead_search(query)
-    match  = Location.where("address LIKE ?", "%#{query}%")
-    match = match.as_json
-    return match
+    match  = Location.where("address LIKE ?", "%#{query}%").select('id, address')
+
+    n = match.map do |e|
+      {:id=> e.id, :value=>e.address}
+    end
+
+    return n
   end
 
   def get_location

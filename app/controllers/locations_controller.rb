@@ -32,7 +32,7 @@ class LocationsController < ApplicationController
   end
 
   def typeahead
-    search  = Location.typeahead_search(params[:query])
+    search  = Location.typeahead_search(params[:term])
     render json: search
   end
 

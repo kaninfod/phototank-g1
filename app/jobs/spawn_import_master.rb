@@ -6,6 +6,7 @@ class SpawnImportMaster < ResqueJob
 
     begin
       Dir.glob("#{path}/**/*.jpg").each do |import_file_path|
+
         if File.file?(import_file_path)
           Resque.enqueue(PhotoImportMaster, import_file_path, photo_id, import_mode)
         end

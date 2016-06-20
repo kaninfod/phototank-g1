@@ -49,13 +49,12 @@ class LocalCatalog < Catalog
 
   def delete_contents
     #triggered when entire catalog is deleted
-    photos.each do |photo|
-      delete_photo photo.id
+    instances.each do |instance|
+      instance.destroy
     end
   end
 
   def delete_photo(photo_id)
-
     begin
       #instance = self.instances.where{photo_id.eq(photo_id)}.first
       instance = self.instances.where(photo_id: photo_id).first

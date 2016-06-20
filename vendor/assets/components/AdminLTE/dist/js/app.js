@@ -450,7 +450,7 @@ function _init() {
       var sidebar = $(o.selector);
       //The toggle button
       var btn = $(o.toggleBtnSelector);
-
+      
       //Listen to the click event
       btn.on('click', function (e) {
         e.preventDefault();
@@ -480,7 +480,7 @@ function _init() {
     },
     //Open the control sidebar
     open: function (sidebar, slide) {
-      
+
       //Slide over content
       if (slide) {
         sidebar.addClass('control-sidebar-open');

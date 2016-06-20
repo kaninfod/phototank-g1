@@ -59,7 +59,11 @@ module PhotoFilesApi
       request = Net::HTTP::Delete.new(endpoint)
       response = http.request(request)
 
-      JSON.parse(response.body, {:symbolize_names => true}) if response.code == "200"
+      if response.code == "200"
+        JSON.parse(response.body, {:symbolize_names => true})
+      else
+        return false
+      end
     end
 
     def phash(id)
@@ -68,7 +72,11 @@ module PhotoFilesApi
       http = get_http
       request = Net::HTTP::Get.new(endpoint)
       response = http.request(request)
-      JSON.parse(response.body) if response.code == "200"
+      if response.code == "200"
+        JSON.parse(response.body, {:symbolize_names => true})
+      else
+        return false
+      end
     end
 
     def rotate(id, degrees)

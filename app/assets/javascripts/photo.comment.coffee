@@ -7,6 +7,7 @@ App.PhotoComment = do ->
       modalElement: $('#photoDetails')
       commentInput: '#comment_input'
       commentsBox: '.box-comments'
+      eventNamespace: 'photo'
     #init scroll on comments_widget
     $(s.commentsBox).slimScroll height: $(window).height() - 100
     @bindUIActions()

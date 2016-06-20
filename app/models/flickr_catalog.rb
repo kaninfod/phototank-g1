@@ -26,7 +26,6 @@ class FlickrCatalog < Catalog
 
   # Your users browser will be redirected here from Flickr (see @callback_url above)
   def callback
-
     begin
 
       flickr = FlickRaw::Flickr.new
@@ -57,13 +56,12 @@ class FlickrCatalog < Catalog
   end
 
   def import_photo(photo_id)
-    
+
     pf = PhotoFilesApi::Api::new
 
     photo = Photo.find(photo_id)
     instance = photo.instances.where(catalog_id: self.id).first
     photofile = pf.show(photo.org_id)
-
 
     if instance.status != 1
       file = Tempfile.new("flickr.jpg")
@@ -107,8 +105,8 @@ class FlickrCatalog < Catalog
 
   def delete_contents
     #triggered when entire catalog is deleted
-    photos.each do |photo|
-      delete_photo photo.id
+    instances.each do |instance|
+      instance.destroy
     end
   end
 

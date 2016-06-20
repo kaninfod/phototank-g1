@@ -20,7 +20,6 @@ class PhotoImportMaster < ResqueJob
         photo = Photo.find(photo_id)
       end
       photo.update(data)
-
       instance = Instance.create(
         photo_id: photo.id,
         catalog_id: Catalog.master.id

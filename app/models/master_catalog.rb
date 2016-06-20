@@ -1,6 +1,7 @@
 class MasterCatalog < Catalog
   validates :type, uniqueness: true
   def import
+
     begin
       self.watch_path.each do |import_path|
         if File.exist?(import_path)
@@ -15,9 +16,10 @@ class MasterCatalog < Catalog
     end
   end
 
-  def import_photo
-    Resque.enqueue(PhotoImportMaster, import_file_path, photo_id, import_mode)
-  end
+  #don't get this - no args
+  # def import_photo
+  #   Resque.enqueue(PhotoImportMaster, import_file_path, photo_id, import_mode)
+  # end
 
   def online
     File.exist?(self.path)

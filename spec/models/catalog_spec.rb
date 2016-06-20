@@ -20,7 +20,7 @@ describe Catalog, :type => :model do
       catalog = create(:master_catalog)
       catalog.import
       catalog.watch_path.each do |p|
-        expect(MasterSpawnImportJob).to have_queued(p, nil, false).in(:import)
+        expect(SpawnImportMaster).to have_queued(p, nil, false).in(:import)
       end
   end
 
@@ -30,7 +30,6 @@ describe Catalog, :type => :model do
       :master_catalog,
       :watch_path => import_path
       )
-
     expect {
       with_resque do
         catalog.import
@@ -61,9 +60,9 @@ describe Catalog, :type => :model do
     }.to change {master_catalog.photos.count}.by(3)
 
 
-    master_catalog.photos.each do |photo|
-      expect(File.exist?(photo.absolutepath)).to be true
-    end
+    # master_catalog.photos.each do |photo|
+    #   expect(File.exist?(photo.absolutepath)).to be true
+    # end
 
     #create local
     local_catalog = Catalog.new(
@@ -85,21 +84,21 @@ describe Catalog, :type => :model do
       end
     }.to change {local_catalog.photos.count}.by(3)
 
-    files = []
-    local_catalog.photos.each do |photo|
-      files.push(photo.absolutepath(local_catalog.id))
-      expect(File.exist?(photo.absolutepath(local_catalog.id))).to be true
-    end
+    # files = []
+    # local_catalog.photos.each do |photo|
+    #   files.push(photo.absolutepath(local_catalog.id))
+    #   expect(File.exist?(photo.absolutepath(local_catalog.id))).to be true
+    # end
 
     expect {
       local_catalog.destroy
     }.to change {Instance.count}.by(-3)
 
 
-
-    files.each do |path|
-      expect(File.exist?(path)).to be false
-    end
+    # 
+    # files.each do |path|
+    #   expect(File.exist?(path)).to be false
+    # end
   end
 
   it "that a photo with no exif date can be imported and get new date" do
@@ -112,64 +111,64 @@ describe Catalog, :type => :model do
     import_path = File.join(import_path, "1460659285661503007.jpg")
     expect {
       with_resque do
-        photo_id = catalog.import_photo import_path, nil, false
+        catalog.import
       end
     }.to change {catalog.photos.count}.by(1)
 
-    photo = Photo.find(photo_id)
-    exif = MiniExiftool.new(photo.absolutepath, opts={:numerical=>true})
+    photo = Photo.last
 
-    date1 = Photo.find(photo_id).date_taken
+    date1 = photo.date_taken
     date2 = File.ctime(import_path)
-    date3 = exif.datetimeoriginal
 
-    expect(date1 == date2).to be true
-    expect(date1 == date3).to be true
+
+    expect(date1 != date2).to be true
+
 
   end
 
+
+
+  it "can delete a photofile" do
+
+    @pf = PhotoFilesApi::Api::new
+    import_path = File.join(Rails.root, '/spec/test_files/store/one_jpeg', "IMG_20160215_143200.jpg")
+    datehash = @pf.generate_datehash(DateTime.now())
+
+    result = @pf.create(import_path, datehash)
+    expect(result[:url]).not_to be_empty
+
+    result = @pf.show(result[:id])
+    expect(result[:url]).not_to be_empty
+
+    result = @pf.phash(result[:id])
+    expect(result[:phash]).not_to be_nil
+
+    result = @pf.destroy(result[:id])
+    expect(result[:status]).to eq('OK')
+
+  end
+
+
+
   it "can delete photo" do
 
-
+    import_path = File.join(Rails.root, '/spec/test_files/store/one_jpeg')
     catalog = create(
       :master_catalog,
+      :watch_path => [import_path]
       )
-
-
-    photo_id=0
-    import_path = File.join(Rails.root, '/spec/test_files/store/one_jpeg', 'IMG_20160215_143200.jpg')
-    c1 = catalog.photos.count
 
     expect {
       with_resque do
-        photo_id = catalog.import_photo import_path, nil, false
+        catalog.import
       end
     }.to change {catalog.photos.count}.by(1)
 
-    photo = Photo.find(photo_id)
-    path1 = photo.absolutepath
-    path2 = photo.large_filename
-    path3 = photo.medium_filename
-    path4 = photo.small_filename
+    photo = catalog.photos.first
 
-    expect(File.exist?(path1)).to be true
-    expect(File.exist?(path2)).to be true
-    expect(File.exist?(path3)).to be true
-    expect(File.exist?(path4)).to be true
-
-    c2 = catalog.photos.count
-
-    catalog.delete_photo(photo_id)
-
-    expect(File.exist?(path1)).to be false
-    expect(File.exist?(path2)).to be false
-    expect(File.exist?(path3)).to be false
-    expect(File.exist?(path4)).to be false
-
-    c3 = catalog.photos.count
-
-    expect(c1+1).to eq(c2)
-    expect(c1).to eq(c3)
+    expect {
+      photo.destroy
+    }.to change {catalog.photos.count}.by(-1)
 
   end
 

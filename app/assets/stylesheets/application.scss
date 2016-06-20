@@ -17,6 +17,7 @@
  *= require skin-blue
  *= require AdminLTE
  *= require animate
+ *= require jquery-ui
  *= require_tree .
 
  */
@@ -26,7 +27,7 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-
+@import "jquery-ui";
 body {
   background-color: #C9C7C7;
 }

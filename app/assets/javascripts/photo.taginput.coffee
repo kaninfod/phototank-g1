@@ -16,46 +16,35 @@ App.PhotoTaginput = do ->
 
   bindUIActions: ->
     _this = this
-    $(s.photoGrid).on 'click.' + s.eventNamespace, '.tags', (event) -> _this.addTag(event)
-    $(s.photoGrid).on 'click.' + s.eventNamespace, '.tags', (event) -> _this.removeTag(event)
-
+    $(s.photoGrid).on 'itemAdded.' + s.eventNamespace, '.tags', (event) -> _this.addTag(event)
+    $(s.photoGrid).on 'beforeItemRemove.' + s.eventNamespace, '.tags', (event) -> _this.removeTag(event)
+    $('.bootstrap-tagsinput > input').autocomplete
+      source: '/photos/get_tag_list'
+      minLength: 1
 
   addTag: (event) ->
     photo_id = $('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/addtag'
-    tag = event.item
-    $.ajax
-      method: 'GET'
-      url: url
-      data: tag: tag
-
+    tag = {tag: event.item}
+    $.get url, tag
 
   removeTag: (event) ->
     photo_id = $('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/removetag'
-    tag = event.item
-    $.ajax
-      method: 'GET'
-      url: url
-      data: tag: tag
+    tag = {tag: event.item}
+    $.get url, tag
 
   initTaginput: ->
-    bloodhound = new Bloodhound(
-      datumTokenizer: (d) ->
-        Bloodhound.tokenizers.whitespace d.value
-      queryTokenizer: Bloodhound.tokenizers.whitespace
-      remote: s.remoteUrl
-      limit: 50)
-    bloodhound.initialize()
-
     $(s.tagInput).tagsinput
       tagClass: (item) ->
         if item.charAt(0) == '@' then s.genericClass else s.mentionClass
       trimValue: true
-      typeaheadjs:
-        displayKey: 'name'
-        valueKey: 'name'
-        source: bloodhound.ttAdapter()
+    $('.bootstrap-tagsinput > input').autocomplete
+      source: '/photos/get_tag_list'
+      minLength: 1
+      select: (event, ui) ->
+        $(s.tagInput).tagsinput('add', ui.item.value);
+
 
 $(document).on "page:change", ->
   return unless $(".photos.index").length > 0

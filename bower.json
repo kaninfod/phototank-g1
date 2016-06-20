@@ -21,5 +21,8 @@
     "jquery-ujs": "^1.2.1",
     "animate.css": "^3.5.2",
     "jsanimatedmodal": "^0.3.1"
+  },
+  "resolutions": {
+    "jquery": ">=2.x"
   }
 }

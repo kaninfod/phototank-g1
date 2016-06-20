@@ -7,7 +7,7 @@ module BucketActions
     comment.comment = comment_string
     comment.user_id = current_user.id
     comment.save
-
+    
     photo.objective_list.add comment_string.scan(/(^\#|(?<=\s)\#\w+)/).join(',')
     photo.tag_list.add comment_string.scan(/(^\@|(?<=\s)\@\w+)/).join(',')
     photo.save

@@ -4,19 +4,19 @@ class CatalogsController < ApplicationController
     @catalogs = Catalog.order(:id).page params[:page]
   end
 
-  def update
-    @catalog = set_catalog
-    respond_to do |format|
-
-      if @catalog.update(catalog_params)
-        format.html { redirect_to action: 'index', notice: 'Catalog was successfully updated.' }
-        format.json { render :show, status: :ok, location: @catalog }
-      else
-        format.html { render :edit }
-        format.json { render json: @catalog.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   @catalog = set_catalog
+  #   respond_to do |format|
+  #
+  #     if @catalog.update(catalog_params)
+  #       format.html { redirect_to action: 'index', notice: 'Catalog was successfully updated.' }
+  #       format.json { render :show, status: :ok, location: @catalog }
+  #     else
+  #       format.html { render :edit }
+  #       format.json { render json: @catalog.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   def new
     @catalog = Catalog.new
@@ -80,7 +80,7 @@ class CatalogsController < ApplicationController
   end
 
   def show
-    viewmode
+    # viewmode
     @bucket = session[:bucket]
     @catalog = Catalog.find(params[:id])
     @photos = Catalog.find(params[:id]).photos.page params[:page]
@@ -131,7 +131,6 @@ class CatalogsController < ApplicationController
   end
 
   def authorize_callback
-
     if params.has_key? :type
       if params[:type] == "FlickrCatalog"
         flickr_catalog = FlickrCatalog.find(params[:id])
@@ -188,13 +187,13 @@ class CatalogsController < ApplicationController
     return watch_path
   end
 
-  def viewmode
-    if params.has_key?(:viewmode)
-      @view = params[:viewmode]
-    else
-      @view = 'grid'
-    end
-  end
+  # def viewmode
+  #   if params.has_key?(:viewmode)
+  #     @view = params[:viewmode]
+  #   else
+  #     @view = 'grid'
+  #   end
+  # end
 
   def set_catalog
     Catalog.find(params[:id])

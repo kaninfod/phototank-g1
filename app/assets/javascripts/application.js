@@ -2,7 +2,7 @@
 //= require jquery
 //= require jquery-ujs
 //= require turbolinks
-
+//= require jquery-ui
 
 //= require bootstrap-sprockets
 //= require bootstrap.min
@@ -13,10 +13,12 @@
 //= require waypoints/lib/jquery.waypoints.min.js
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min
+
 //= require jsanimatedmodal
 
 
 //= require init
+//= require controlsidepanel.coffee
 //= require photo.like
 //= require photo.comment
 //= require photo.taginput

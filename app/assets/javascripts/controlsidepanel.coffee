@@ -1,21 +1,35 @@
 s = undefined
+_this = undefined
 App.ControlSidebar = do ->
 
 
   init: (@el) ->
-    # s =
-    #   modalElement: $('#myModal')
-    #   likeButtonId: '#like'
-    #   numberOfLikes: $('#likes_num')
+    s =
+      controlSidebarBtn: "[data-toggle=control-sidebar]"
+      eventNamespace: 'photo'
+      controlSidebar: '.control-sidebar'
+
+    _this = this
+    @toggleMenu()
     @bindUIActions()
 
   bindUIActions: ->
-    _this = this
-
-
+    $('body').on 'click.' + s.eventNamespace, s.controlSidebarBtn, -> _this.setMenuStatus(this)
 
   refresh: ->
     _this = this
+
+  setMenuStatus: (elm) ->
+
+    if $(s.controlSidebar).hasClass('control-sidebar-open')
+      localStorage.controlSidebarStatus = 'open'
+    else
+      localStorage.controlSidebarStatus = 'close'
+
+  toggleMenu: ->
+    if localStorage.controlSidebarStatus == 'open'
+      $(s.controlSidebar).addClass('control-sidebar-open')
+
 
 
   openControlSidebar: (event) ->
@@ -30,4 +44,4 @@ App.ControlSidebar = do ->
     $(pin).toggleClass 'active'
 
 $(document).on "page:change", ->
-  App.ControlSidebar.get()
+  App.ControlSidebar.init()

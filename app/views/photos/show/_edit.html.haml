@@ -1,42 +1,42 @@
-.col-lg-10
-  %form#edit-meta-data
-    =hidden_field_tag :id,  @photo.id
-    .form-group
-      %label{:for => :date_taken} Date taken
-      .input-group
-        %span.input-group-addon
-          %input.inp_toggle{:type => "checkbox"}
-        = datetime_field_tag :date_taken, "",
-          value: (@photo.date_taken.strftime("%Y/%m/%d") unless @photo.nil? || @photo.date_taken.nil?),
-          placeholder: "Date taken",
-          class: "form-control inp",
-          disabled: true
+
+%form#edit-meta-data
+  =hidden_field_tag :id,  @photo.id
+  .form-group
+    %label{:for => :date_taken} Date taken
+    .input-group
+      %span.input-group-addon
+        %input.inp_toggle{:type => "checkbox"}
+      = datetime_field_tag :date_taken, "",
+        value: (@photo.date_taken.strftime("%Y/%m/%d") unless @photo.nil? || @photo.date_taken.nil?),
+        placeholder: "Date taken",
+        class: "form-control inp",
+        disabled: true
+
+  .form-group
+    %label{:for => :location_id} Location
+    .input-group.ui-widget.ui-front
+      %span.input-group-addon
+        %input.inp_toggle{:type => "checkbox"}
+      =text_field_tag :location_address,
+        "", placeholder: "Enter address...",
+        value:(@photo.location.address unless @photo.nil? || @photo.location.nil?),
+        class:"form-control inp birds",
+        disabled: true
+      =hidden_field_tag :location_id
 
 
-    .form-group
-      %label{:for => :location_id} Location
-      .input-group
-        %span.input-group-addon
-          %input.inp_toggle{:type => "checkbox"}
-        =text_field_tag :location_address,
-          "", placeholder: "Enter address...",
-          value:(@photo.location.address unless @photo.nil? || @photo.location.nil?),
-          class:"form-control typeahead inp",
-          disabled: true
-        =hidden_field_tag :location_id
+  .form-group
+    %a.btn.btn-danger#save-meta-data{:type => "submit"} Save
 
 
+:javascript
 
-    .form-group
-      %a.btn.btn-danger#save-meta-data{:type => "submit"} Save
+  $( "#location_address" ).autocomplete({
+        source: '/locations/typeahead/kaj',
+        minLength: 2,
+        select: function( event, ui ) {
+          $('#location_id').val(ui.item.id)
+        }
+      });
 
 :css
-  .twitter-typeahead{
-       width: 100%;
-  }
-  .tt-dropdown-menu{
-      width: 98%;
-  }
-  input.typeahead.tt-query{ /* This is optional */
-      width: 300px !important;
-  }

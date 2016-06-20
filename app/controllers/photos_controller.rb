@@ -153,7 +153,13 @@ class PhotosController < ApplicationController
 
   def removetag
     photo = Photo.find params[:id]
-    photo.tag_list.remove params[:tag]
+
+    if params[:tag][0,1] == "@"
+      photo.objective_list.remove params[:tag]
+    else
+      photo.tag_list.remove params[:tag]
+    end
+
     if photo.save
       render :json => {:tags => photo.tags}
     else
@@ -162,9 +168,12 @@ class PhotosController < ApplicationController
   end
 
   def get_tag_list
-    query_string = params[:query]
+    query_string = params[:term]
     taglist = ActsAsTaggableOn::Tag.most_used.where("name like ?", "#{query_string}%")
-    render :json => taglist
+    autocomplete_list = taglist.map do |e|
+      {:id=> e.id, :value=>e.name}
+    end
+    render :json => autocomplete_list
   end
 
   private
