@@ -23,12 +23,12 @@ module PhotoFilesApi
       # Either provide date or filetype.
       # If both are provided date takes precedence
       # If niether are provided file is archived under 'system'
-
+      
       endpoint = "/photofiles.json"
 
       if uri? path
         file_string = Base64.encode64(open(path).read)
-      elsif File.exists path
+      elsif File.exists? path
         file_string = Base64.encode64(File.open(path).read)
       else
         return false

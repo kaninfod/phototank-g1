@@ -18,8 +18,11 @@ class PhotofilesController < ApplicationController
   end
 
   def create
+    puts 'here 0'
     decoded_file = Base64.decode64(params[:file_string])
+    puts 'here 0'
     file = Tempfile.new("temp.tmp")
+    puts 'here 0'
     begin
       file.binmode
       file.write decoded_file

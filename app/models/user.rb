@@ -16,6 +16,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def save_avatar(path)
+    byebug
+    pf = PhotoFilesApi::Api::new
+    r=pf.create path, nil, nil, "user"
+  end
+
   private
     def invalidate_cache
       Rails.cache.delete("user:#{id}")
