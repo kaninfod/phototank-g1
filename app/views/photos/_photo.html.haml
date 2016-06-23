@@ -5,27 +5,3 @@
     %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve", :href => "#animatedModal"}
   .photo-widget-date
     =photo.date_taken_formatted
-  .photo-widget-footer
-    .photo-tool.btn-group.btn-group-justified.btn-group-xs{:role=>"group"}
-      .btn-group{:role=>"group"}
-        %a.fa.fa-caret-square-o-down.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-        %ul.dropdown-menu
-          %li
-            %a{:href => "/photos/#{photo.id}/rotate/"} Rotate
-          %li
-            %a{:href => "/photos/#{photo.id}/edit"} Edit data
-          %li
-            %a.delete_photo{:href => "#", :photo_id=>photo.id} Delete
-          %li
-            %a{:href => "/photofiles/#{photo.org_id.to_s}/photoserve", :download=>true} Download
-
-      -# %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"#/", :photo_id=>photo.id}
-      -# %a.btn.btn-default.fa.fa-eye{:type=>"button",:href=>"/photos/#{photo.id}"}
-
-      %a.btn.btn-default.fa.fa-globe.show_map{"data-html" => "true",
-        "data-content" => "<img src='#{photo.location.get_google_map(zoom=4, size="250x200")}'/>",
-        "data-toggle" => "popover",
-        "data-trigger" => "focus",
-        :role => "button",
-        :tabindex => "0",
-        :class => (photo.location == Location.no_location) && "disabled"}

@@ -10,7 +10,7 @@
   .box-body
     =render :partial => "photos/show/taginput", :locals => {:photo => photo }
   .box-body
-    %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar.url}
+    %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar}
       / .img-push is used to add margin to elements next to floating images
       .img-push
         %input.form-control.input-sm#comment_input{:placeholder => "Press enter to post comment", :type => "text"}

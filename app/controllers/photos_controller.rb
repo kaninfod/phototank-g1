@@ -1,7 +1,9 @@
 
 class PhotosController < ApplicationController
-  include BucketActions
   before_action :authenticate_user!
+  include BucketActions
+
+
   def image
     @photo = set_photo
     send_file @photo.get_photo(params[:size]), :disposition => 'inline'
@@ -58,7 +60,7 @@ class PhotosController < ApplicationController
   end
 
   def show
-
+    
     if params.has_key?(:size)
       @size = params[:size]
     else

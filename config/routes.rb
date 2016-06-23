@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
 
-  devise_for :users, controllers: {:registrations => "users/registrations"}
+
 
   match 'albums/select' => 'albums/select', via: [:get, :post]
   resources :albums
 
+  resources :users
 
+  get '/auth/:provider/callback' => 'sessions#create'
+  get '/signin' => 'sessions#new', :as => :signin
+  get '/signout' => 'sessions#destroy', :as => :signout
+  get '/auth/failure' => 'sessions#failure'
+  get 'visitors' => 'visitors#index'
 
   match "photos/(q/*query)" => "photos#index", :via => [:post, :get]
   get '/photos/get_tag_list' => 'photos#get_tag_list'
