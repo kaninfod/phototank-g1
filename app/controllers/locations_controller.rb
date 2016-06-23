@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  before_action :authenticate_user!
+before_action :authenticate_user!  
   def index
     order = :country
     order = params[:order] unless not params.has_key?(:order)

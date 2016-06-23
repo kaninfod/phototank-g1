@@ -54,6 +54,11 @@ gem 'font-awesome-sass', '~> 4.5.0'
 
 gem 'seed_dump'
 
+gem 'omniauth'
+gem 'omniauth-flickr'
+
+
+
 gem 'geocoder'
 
 gem 'mini_exiftool'
@@ -61,7 +66,6 @@ gem 'phashion'
 gem "mini_magick"
 gem 'ruby-filemagic'
 
-gem 'devise'
 gem 'acts_as_commentable'
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'acts-as-taggable-on', '~> 3.4'

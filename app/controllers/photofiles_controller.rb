@@ -1,6 +1,6 @@
 require 'filemagic'
 class PhotofilesController < ApplicationController
-
+  
   PATH = Rails.configuration.x.phototank["filestorepath"]
   ALLOWED_MIMES = ["image/jpeg; charset=binary", "image/png; charset=binary"]
 
