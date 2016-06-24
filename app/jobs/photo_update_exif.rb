@@ -3,7 +3,7 @@ class PhotoUpdateExif < ResqueJob
   @queue = :utility
 
   def self.perform(photo_id)
-
+    #TODO change to use Photofile
     begin
       photo = Photo.find(photo_id)
       photo.update_exif

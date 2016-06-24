@@ -187,7 +187,7 @@ class FlickrCatalog < Catalog
 
 
   def client
-
+    
     if not defined? @client
       FlickRaw.api_key= self.appkey
       FlickRaw.shared_secret= self.appsecret

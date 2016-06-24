@@ -1,4 +1,5 @@
 s = undefined
+_this = this
 App.PhotoGrid = do ->
 
   init: (@el) ->
@@ -6,18 +7,19 @@ App.PhotoGrid = do ->
     s =
       photoGrid: '#photogrid'
       duration: 300
+      offset:500
     @wp = @initWaypoint()
     @bindUIActions()
 
   bindUIActions: ->
-    _this = this
+
     @modalInit()
     $('img.lazy').lazyload()
     $(s.photoGrid).on 'click.' + s.eventNamespace,'.lazy', (ev) -> _this.showModal(ev, this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.delete_photo', -> _this.deletePhoto(this)
 
-    jQuery(window).scroll -> _this.showScrollTop(this)
-    jQuery('.back-to-top').click (event) -> _this.scrollTop(event)
+    $(window).scroll -> _this.showScrollTop(this)
+    $('.back-to-top').click (event) -> _this.scrollTop(event)
     $('body').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
     $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searboxDropdownChange()
     $('.dropdown-toggle').dropdown()
@@ -36,20 +38,18 @@ App.PhotoGrid = do ->
       success: (data) ->
         pw.fadeOut(700)
 
-
-
-
-
   scrollTop: (event) ->
     event.preventDefault()
-    jQuery('html, body').animate { scrollTop: 0 }, s.duration
+    console.log 'jah'
+    $('html, body').animate { scrollTop: 0 }, s.duration
     false
 
   showScrollTop: (scroll)->
-    if jQuery(scroll).scrollTop() > s.offset
-      jQuery('.back-to-top').fadeIn s.duration
+
+    if $(scroll).scrollTop() > s.offset
+      $('.back-to-top').fadeIn s.duration
     else
-      jQuery('.back-to-top').fadeOut s.duration
+      $('.back-to-top').fadeOut s.duration
     return
 
   setBreadcrumbUrl: (element) ->
@@ -84,10 +84,12 @@ App.PhotoGrid = do ->
   getNextPage: (direction) ->
     _this = this
     if direction == 'down'
+      $('.loading-notification').fadeIn 100
       url = $('.next_page').last()[0].href
       nextPage = $.get(url)
       nextPage.success (data) ->
         $('.infinite-container').append data
+        $('.loading-notification').fadeOut 100
         _this.bindUIActions()
 
   modalInit: () ->

@@ -66,10 +66,10 @@ class Photo < ActiveRecord::Base
 
   def get_photofiles_hash
     hash = {
-      :original=>self.original_id,
-      :large=>self.large_id,
-      :medium=>self.medium_id,
-      :thumb=>self.thumb_id,
+      :original=>self.org_id,
+      :large=>self.lg_id,
+      :medium=>self.md_id,
+      :thumb=>self.tm_id,
     }
     return hash
   end

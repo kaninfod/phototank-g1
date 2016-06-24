@@ -3,7 +3,7 @@ class PhotoMoveByDate < ResqueJob
   @queue = :utility
 
   def self.perform(photo_id)
-
+    #TODO Change this to use Photofiles
     begin
 
       photo = Photo.find(photo_id)
