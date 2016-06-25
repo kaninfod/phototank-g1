@@ -2,8 +2,6 @@ class LocalImportPhotoJob < ResqueJob
   include Resque::Plugins::UniqueJob
   @queue = :import
 
-
-
   def self.perform(catalog_id, photo_id)
     begin
       Catalog.find(catalog_id).import_photo(photo_id)

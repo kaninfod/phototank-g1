@@ -1,22 +1,8 @@
 class CatalogsController < ApplicationController
-  before_action :authenticate_user!  
+  before_action :authenticate_user!
   def index
     @catalogs = Catalog.order(:id).page params[:page]
   end
-
-  # def update
-  #   @catalog = set_catalog
-  #   respond_to do |format|
-  #
-  #     if @catalog.update(catalog_params)
-  #       format.html { redirect_to action: 'index', notice: 'Catalog was successfully updated.' }
-  #       format.json { render :show, status: :ok, location: @catalog }
-  #     else
-  #       format.html { render :edit }
-  #       format.json { render json: @catalog.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
 
   def new
     @catalog = Catalog.new
@@ -186,14 +172,6 @@ class CatalogsController < ApplicationController
     end
     return watch_path
   end
-
-  # def viewmode
-  #   if params.has_key?(:viewmode)
-  #     @view = params[:viewmode]
-  #   else
-  #     @view = 'grid'
-  #   end
-  # end
 
   def set_catalog
     Catalog.find(params[:id])

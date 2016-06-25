@@ -64,13 +64,13 @@ class FlickrCatalog < Catalog
     photofile = pf.show(photo.org_id)
 
     if instance.status != 1
-      file = Tempfile.new("flickr.jpg")
+      file = Tempfile.new("Flickr_")
       begin
         file.binmode
         file.write open(photofile[:url]).read
         src = file.path
-
-        response = self.client.upload_photo src, :tags=>get_flickr_tags(photo_id )
+        
+        response = self.client.upload_photo src, :title=> photofile[:url], :tags=>get_flickr_tags(photo_id)
 
         #self.set_tags response, photo.id
         instance.touch
@@ -187,7 +187,7 @@ class FlickrCatalog < Catalog
 
 
   def client
-    
+
     if not defined? @client
       FlickRaw.api_key= self.appkey
       FlickRaw.shared_secret= self.appsecret

@@ -60,7 +60,7 @@ class PhotosController < ApplicationController
   end
 
   def show
-    
+
     if params.has_key?(:size)
       @size = params[:size]
     else
@@ -95,17 +95,10 @@ class PhotosController < ApplicationController
   end
 
   def rotate
-    @photo = Photo.find(params[:id])
-    if params.has_key? :degrees
-      @photo.rotate(params[:degrees])
-      if params[:finalurl].nil?
-        redirect_to "/photos"
-      else
-        redirect_to session[:finalurl]
-      end
-    else
-      session[:finalurl] = request.referer
-    end
+    
+    @photo = Photo.find(params[:id]).id
+    rotate_helper([@photo], params[:degrees])
+    render :json => {:status => "OK"}
   end
 
   def destroy
@@ -122,7 +115,7 @@ class PhotosController < ApplicationController
 
   def add_comment
     if params.has_key? "comment"
-      comment = add_comment_photo(params[:id], params[:comment])
+      comment = add_comment_helper(params[:id], params[:comment])
       render :partial => "photos/show/comment", :locals => {:comment => comment }
     end
   end

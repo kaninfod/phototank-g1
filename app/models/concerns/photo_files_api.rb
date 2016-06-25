@@ -23,7 +23,7 @@ module PhotoFilesApi
       # Either provide date or filetype.
       # If both are provided date takes precedence
       # If niether are provided file is archived under 'system'
-      
+
       endpoint = "/photofiles.json"
 
       if uri? path
@@ -95,7 +95,6 @@ module PhotoFilesApi
     end
 
     def rotate(id, degrees)
-      byebug
       endpoint = "/photofiles/#{id}/rotate.json"
 
       http = get_http

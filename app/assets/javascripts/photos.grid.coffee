@@ -123,5 +123,5 @@ App.PhotoGrid = do ->
 
 
 $(document).on "page:change", ->
-  return unless $(".photos.index").length > 0
+  return unless $(".photos, .catalogs, .albums").length > 0
   App.PhotoGrid.init()

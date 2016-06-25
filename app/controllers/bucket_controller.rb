@@ -41,8 +41,8 @@ class BucketController < ApplicationController
     @album.name = "Saved from bucket"
     @album.photo_ids = session[:bucket]
     @bucket = session[:bucket]
-    session[:bucket] = []
     if @album.save
+      session[:bucket] = []
       redirect_to edit_album_path @album
     end
   end
@@ -56,15 +56,10 @@ class BucketController < ApplicationController
   end
 
   def rotate
-    if params.has_key? :degrees
-      @bucket = get_bucket
-      Photo.find(@bucket).each do |photo|
-        photo.rotate(params[:degrees])
-      end
-      redirect_to session[:finalurl]
-    else
-      session[:finalurl] = request.referer
-    end
+
+    @bucket = get_bucket
+    rotate_helper(@bucket, params[:degrees])
+    render :json => {:status => "OK"}
   end
 
   def edit
@@ -104,7 +99,7 @@ class BucketController < ApplicationController
   def add_comment
     if params.has_key? "comment"
       session[:bucket].each do |photo_id|
-        comment = add_comment_photo(photo_id, params[:comment])
+        comment = add_comment_helper(photo_id, params[:comment])
       end
     end
     render :json => {:status => "OK"}

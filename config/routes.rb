@@ -66,17 +66,11 @@ Rails.application.routes.draw do
   patch 'photofiles/:id/rotate' => 'photofiles#rotate'
   get 'photofiles/:id/phash' => 'photofiles#phash'
 
-
-  get 'administration/generate_albums'
-  get 'administration/jobs_pending'
-  get 'administration/list_jobs'
-
   post 'jobs/list' => 'jobs#list'
   resources :jobs
 
   require 'resque/server'
   mount Resque::Server.new, at: "/resque"
-
 
   root to: 'photos#index'
 

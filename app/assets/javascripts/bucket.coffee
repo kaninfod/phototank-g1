@@ -1,4 +1,5 @@
 s = undefined
+
 App.Bucket = do ->
 
   init: (@el) ->
@@ -17,10 +18,14 @@ App.Bucket = do ->
     #$(s.photoGrid).on 'click.' + s.eventNamespace,'#photo_bucket_panel', -> _this.showBucketDropdown(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.photo-widget-overlay', -> _this.toggleBucket(this)
     $('.bucket').on 'bucket:update', -> _this.loadBucket()
-    $('body').on 'click.' + s.eventNamespace, '#like', -> _this.likePhotos()
-    $('body').on 'click.' + s.eventNamespace,'#unlike', -> _this.unlikePhotos()
+    $('body').on 'click.' + s.eventNamespace, '#like-bucket', -> _this.likePhotos()
+    $('body').on 'click.' + s.eventNamespace,'#unlike-bucket', -> _this.unlikePhotos()
+    $('body').on 'click.' + s.eventNamespace, '#delete-bucket', -> _this.deletePhotos()
+    $('body').on 'click.' + s.eventNamespace, '#rotate-bucket',  -> _this.rotatePhotos(this)
+    $('body').on 'click.' + s.eventNamespace, '#clear-bucket', -> _this.clearBucket()
+    $('body').on 'click.' + s.eventNamespace, '#add-to-album-bucket', -> _this.addToAlbum()
+
     $('#comment-input-bucket').keypress (e) -> _this.addComment(this, e)
-    $('a#clear-bucket').on 'click', -> _this.clearBucket()
     @loadBucket()
 
   showBucketDropdown: (button) ->
@@ -76,6 +81,16 @@ App.Bucket = do ->
       _this.loadBucket()
     $('.' + s.overlayClass).removeClass(s.bucketClass)
     false
+
+  deletePhotos: ->
+    $.get '/bucket/delete_photos', (data) ->
+
+  rotatePhotos: (element) ->
+    degrees = $(element).data('degrees')
+    $.get '/bucket/rotate/' + degrees, (data) ->
+
+  addToAlbum: ->
+    $.get '/bucket/save', (data) ->
 
 $(document).on "page:change", ->
   App.Bucket.init()
