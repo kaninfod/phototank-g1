@@ -6,13 +6,8 @@ class LocalCloneInstancesFromCatalogJob < ResqueJob
 
     begin
       Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
-        new_instance = Instance.new
-        new_instance.catalog_id = to_catalog_id
-        new_instance.photo_id = instance.photo_id
-        begin
-          new_instance.save
-        rescue ActiveRecord::RecordNotUnique
-          Rails.logger.debug "instance exists"
+        if Instance.exists? photo_id:instance.photo_id, catalog_id:to_catalog_id
+          new_instance = Instance.create(photo_id:instance.photo_id, catalog_id:to_catalog_id)
         end
       end
       Resque.enqueue(LocalSpawnImportJob, to_catalog_id)

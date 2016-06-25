@@ -6,5 +6,4 @@ class Job < ActiveRecord::Base
     ary.delete([nil])
     ary.sort_by{|el| el[0] }
   }
-
 end
