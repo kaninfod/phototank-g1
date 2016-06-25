@@ -5,7 +5,7 @@ class LocalCloneInstancesFromCatalogJob < ResqueJob
   def self.perform(to_catalog_id, from_catalog_id)
 
     begin
-      byebug
+      
       Instance.where{catalog_id.eq(from_catalog_id)}.each do |instance|
         if not Instance.exists? photo_id:instance.photo_id, catalog_id:to_catalog_id
           new_instance = Instance.create(photo_id:instance.photo_id, catalog_id:to_catalog_id)
