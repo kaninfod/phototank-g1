@@ -14,7 +14,7 @@ App.PhotoComment = do ->
 
   bindUIActions: ->
     _this = this
-    $(s.photoGrid).on 'keypress', s.commentInput, (event) -> _this.addComment(event, this)
+    $('body').on 'keypress', s.commentInput, (event) -> _this.addComment(event, this)
 
   addComment: (event, input) ->
     if event.which == 13

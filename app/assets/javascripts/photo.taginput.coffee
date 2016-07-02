@@ -6,8 +6,8 @@ App.PhotoTaginput = do ->
       photoGrid: '#photogrid'
       modalElement: $('#photoDetails')
       tagInput: '.tags'
-      genericClass: 'label-success'
-      mentionClass: 'label-danger'
+      genericClass: 'label label-primary'
+      mentionClass: 'label label-warning'
       remoteUrl: '/photos/get_tag_list?query=%QUERY'
     @bindUIActions()
 
@@ -23,13 +23,15 @@ App.PhotoTaginput = do ->
       minLength: 1
 
   addTag: (event) ->
-    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")
     url = '/photos/' + photo_id + '/addtag'
     tag = {tag: event.item}
-    $.get url, tag
+    $.get url, tag, (data) ->
+      $('.bootstrap-tagsinput input').val('')
+      
 
   removeTag: (event) ->
-    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")
     url = '/photos/' + photo_id + '/removetag'
     tag = {tag: event.item}
     $.get url, tag
@@ -37,7 +39,11 @@ App.PhotoTaginput = do ->
   initTaginput: ->
     $(s.tagInput).tagsinput
       tagClass: (item) ->
-        if item.charAt(0) == '@' then s.genericClass else s.mentionClass
+        switch item.charAt(0)
+          when '@'
+            s.genericClass
+          else
+            s.mentionClass
       trimValue: true
     $('.bootstrap-tagsinput > input').autocomplete
       source: '/photos/get_tag_list'

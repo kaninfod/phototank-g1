@@ -28,7 +28,8 @@ App.PhotoWidget = do ->
     degrees = $(element).data('degrees')
     photoId = $('#photo_id').data("photo_id")
     $.get '/photos/' + photoId + '/rotate/' + degrees, (data) ->
-
+      $('.dropdown.open .dropdown-toggle').dropdown('toggle');
+    false
   show: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
     url = '/photos/' + photoId + '/show_small'
@@ -56,7 +57,7 @@ App.PhotoWidget = do ->
 
 
   delete: (element) ->
-    if $('#delete-photo').attr('id') == 'delete-photo'
+    if $(element).attr('id') == 'delete-photo'
       photoId = $('#photo_id').data("photo_id")
       photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
       $('#control-sidebar-tab-photo').children().fadeOut()
@@ -72,6 +73,7 @@ App.PhotoWidget = do ->
       contentType: 'application/json',
       success: (data) ->
         photoWidget.fadeOut(700)
+    false
 
   showAddToAlbum: ->
     $('#album-list-photo').modal()
