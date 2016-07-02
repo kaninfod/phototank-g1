@@ -69,7 +69,7 @@ class CatalogsController < ApplicationController
     # viewmode
     @bucket = session[:bucket]
     @catalog = Catalog.find(params[:id])
-    @photos = Catalog.find(params[:id]).photos.page params[:page]
+    @photos = @catalog.photos.where('photos.status != ? or photos.status is ?', 1, nil).page params[:page]
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
       render :partial=>"photos/view/grid"

@@ -54,6 +54,7 @@ class Photo < ActiveRecord::Base
 
   def delete
     Resque.enqueue(DeletePhoto, self.id)
+    self.update(status: 1)
   end
 
   def coordinate_string
@@ -107,6 +108,7 @@ class Photo < ActiveRecord::Base
 
   def rotate(degrees)
     Resque.enqueue(PhotoRotate, self.id, degrees.to_i)
+    self.update(status: 6)
   end
 
   private

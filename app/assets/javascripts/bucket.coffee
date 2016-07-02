@@ -61,7 +61,12 @@ App.Bucket = do ->
     false
 
   deletePhotos: ->
-    $.get '/bucket/delete_photos', (data) ->
+    _this = this
+    $.get '/bucket/delete_photos.json', (data) ->
+      for photoId in data.bucket
+        photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
+        photoWidget.fadeOut(700)
+      _this.clearBucket()
 
   rotatePhotos: (element) ->
     degrees = $(element).data('degrees')

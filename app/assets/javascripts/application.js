@@ -15,6 +15,8 @@
 //= require slimscroll/jquery.slimscroll.min
 
 //= require jsanimatedmodal
+
+//= require adminlte_options
 //= require AdminLTE
 
 //= require init

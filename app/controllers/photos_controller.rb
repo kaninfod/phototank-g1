@@ -46,8 +46,8 @@ class PhotosController < ApplicationController
     #get album from url params through set_query_data
     @album = Album.new(album_hash)
     #Get photos
-
-    @photos = @album.photos.order(date_taken: order).paginate(:page => params[:page], :per_page=>40)
+    
+    @photos = @album.photos.where('photos.status != ? or photos.status is ?', 1, nil).order(date_taken: order).paginate(:page => params[:page], :per_page=>40)
 
     #grid or table
     viewmode

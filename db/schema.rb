@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621215125) do
+ActiveRecord::Schema.define(version: 20160702203813) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -111,8 +111,8 @@ ActiveRecord::Schema.define(version: 20160621215125) do
     t.string   "filename",        limit: 255
     t.datetime "date_taken"
     t.string   "path",            limit: 255
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
     t.string   "file_thumb_path", limit: 255
     t.string   "file_extension",  limit: 255
     t.integer  "file_size",       limit: 4
@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 20160621215125) do
     t.integer  "original_width",  limit: 4
     t.decimal  "longitude",                   precision: 16, scale: 10
     t.decimal  "latitude",                    precision: 16, scale: 10
-    t.integer  "status",          limit: 4
+    t.integer  "status",          limit: 4,                             default: 0
     t.string   "phash",           limit: 255
     t.integer  "org_id",          limit: 4
     t.integer  "lg_id",           limit: 4

@@ -17,7 +17,7 @@ class PhotoRotate < ResqueJob
 
       #set and save phash
       photo.update(phash:new_phash)
-
+      self.update(status: 0)
     rescue Exception => e
       @job.update(job_error: e, status: 2, completed_at: Time.now)
       Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"

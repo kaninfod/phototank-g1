@@ -6,6 +6,9 @@
       %i.fa.fa-eye
     .overlay-button.overlay-delete.animated
       %i.fa.fa-trash-o
+    -if photo.status > 5
+      .overlay-button.overlay-processing.overlay-show
+        %i.fa.fa-tasks
     %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve", :href => "#animatedModal"}
   .photo-widget-date
     =photo.date_taken_formatted

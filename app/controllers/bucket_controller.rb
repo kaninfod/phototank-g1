@@ -32,8 +32,16 @@ class BucketController < ApplicationController
 
   def list
     @bucket = get_bucket
-    @photos_in_bucket = Photo.where(id:@bucket).limit(28)
-    render :partial => "list"
+    @photos_in_bucket = Photo.where(id:@bucket)
+    respond_to do |format|
+      format.html {
+        render :partial => "list"
+      }
+      format.json {
+        render json: {:bucket=>@bucket}
+      }
+    end
+
   end
 
   def save_to_album
@@ -56,10 +64,18 @@ class BucketController < ApplicationController
 
   def delete_photos
     session[:bucket].each do |photo_id|
-      Resque.enqueue(DeletePhoto, photo_id)
+      Photo.find(photo_id).delete
     end
+    @bucket = get_bucket
     session[:bucket] = []
-    redirect_to bucket_path
+    respond_to do |format|
+      format.html {
+        redirect_to bucket_path
+      }
+      format.json {
+        render json: {:bucket=>@bucket}
+      }
+    end
   end
 
   def rotate
