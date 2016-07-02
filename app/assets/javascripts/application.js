@@ -15,18 +15,19 @@
 //= require slimscroll/jquery.slimscroll.min
 
 //= require jsanimatedmodal
-
+//= require AdminLTE
 
 //= require init
-//= require controlsidepanel.coffee
+//= require photo.widget
 //= require photo.like
 //= require photo.comment
 //= require photo.taginput
-//= require photos.grid
-//= require bucket
+//= require photo.grid
+
 //= require photo.edit
+//= require bucket
 //= require catalogs
 //= require albums
 //= require locations
 //= require location.edit
-//= require AdminLTE
+//= require controlsidepanel.coffee

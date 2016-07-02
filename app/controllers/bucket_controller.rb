@@ -37,14 +37,21 @@ class BucketController < ApplicationController
   end
 
   def save_to_album
-    @album = Album.new
-    @album.name = "Saved from bucket"
-    @album.photo_ids = session[:bucket]
-    @bucket = session[:bucket]
-    if @album.save
-      session[:bucket] = []
-      redirect_to edit_album_path @album
+
+    if params.has_key? :album_id
+      if params[:album_id].to_i == -1
+        album = Album.new
+        album.name = "Saved from bucket"
+        album.photo_ids = session[:bucket]
+        album.save
+      else
+        album = Album.find params[:album_id]
+        album.photo_ids = [*album.photo_ids, *session[:bucket]]
+        album.save
+      end
     end
+    render :json => {:status => "OK"}
+
   end
 
   def delete_photos

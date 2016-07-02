@@ -1,6 +1,8 @@
 
 class PhotosController < ApplicationController
   before_action :authenticate_user!
+
+
   include BucketActions
 
 
@@ -60,7 +62,6 @@ class PhotosController < ApplicationController
   end
 
   def show
-
     if params.has_key?(:size)
       @size = params[:size]
     else
@@ -68,12 +69,23 @@ class PhotosController < ApplicationController
     end
     @photo = Photo.find(params[:id])
 
+    respond_to do |format|
+      format.html { }
+      format.json { }
+    end
+
     if request.xhr?
       render :layout => false
     end
 
   end
 
+  def show_small
+    @photo = Photo.find(params[:id])
+    if request.xhr?
+      render :layout => false
+    end
+  end
 
   def edit
     @photo = Photo.find(params[:id])
@@ -95,7 +107,6 @@ class PhotosController < ApplicationController
   end
 
   def rotate
-    
     @photo = Photo.find(params[:id]).id
     rotate_helper([@photo], params[:degrees])
     render :json => {:status => "OK"}
@@ -104,13 +115,16 @@ class PhotosController < ApplicationController
   def destroy
     photo = Photo.find(params[:id])
     photo.delete
-
-    if request.xhr?
-      render json: {:notice=>'Photo has been queued for deletion'}
-    else
-      flash[:notice] = 'Photo has been queued for deletion'
-      redirect_to request.referer
+    respond_to do |format|
+      format.html {
+        flash[:notice] = 'Photo has been queued for deletion'
+        redirect_to request.referer
+      }
+      format.json {
+        render json: {:notice=>'Photo has been queued for deletion'}
+      }
     end
+
   end
 
   def add_comment
@@ -147,6 +161,7 @@ class PhotosController < ApplicationController
   end
 
   def removetag
+
     photo = Photo.find params[:id]
 
     if params[:tag][0,1] == "@"

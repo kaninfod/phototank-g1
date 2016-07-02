@@ -71,7 +71,7 @@ App.LocationEdit = do ->
         $('#address_block').show()
         return
       error: (e) ->
-        console.log e
+
         return
     return
 
@@ -142,11 +142,11 @@ App.LocationEdit = do ->
         url: '/locations/create'
         data: data
         success: (response, request) ->
-          console.log response
+
           localStorage.setItem 'location', null
           return
         error: (e) ->
-          console.log e
+          
           return
     return
 

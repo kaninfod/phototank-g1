@@ -56,7 +56,7 @@ class FlickrCatalog < Catalog
   end
 
   def import_photo(photo_id)
-
+    
     pf = PhotoFilesApi::Api::new
 
     photo = Photo.find(photo_id)
@@ -69,7 +69,7 @@ class FlickrCatalog < Catalog
         file.binmode
         file.write open(photofile[:url]).read
         src = file.path
-        
+
         response = self.client.upload_photo src, :title=> photofile[:url], :tags=>get_flickr_tags(photo_id)
 
         #self.set_tags response, photo.id
@@ -104,7 +104,8 @@ class FlickrCatalog < Catalog
   end
 
   def delete_contents
-    #triggered when entire catalog is deleted
+    # triggered when entire catalog is deleted. This will delete all instances,
+    # and in turn the photos through delete_photo
     instances.each do |instance|
       instance.destroy
     end

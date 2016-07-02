@@ -1,0 +1,51 @@
+.box.box-default
+  .box-header
+    Bucket
+    .dropdown.pull-right
+      %button#dropdownMenu1.btn.btn-default.btn-xs.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+        .fa.fa-cog
+        %span.caret
+      %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1"}
+        %li
+          %a#like-bucket{:href => "#"}
+            .fa.fa-thumbs-o-up
+            Like
+        %li
+          %a#unlike-bucket{:href => "#"}
+            .fa.fa-thumbs-o-down
+            Unlike
+        %li.divider{:role => "separator"}
+        %li
+          %a#rotate-bucket{:href => "#", "data-degrees"=>90}
+            .fa.fa-rotate-right
+            Rotate 90
+        %li
+          %a#rotate-bucket{:href => "#", "data-degrees"=>180}
+            .fa.fa-rotate-right
+            Rotate 180
+        %li
+          %a#rotate-bucket{:href => "#", "data-degrees"=>270}
+            .fa.fa-rotate-right
+            Rotate 270
+        %li.divider{:role => "separator"}
+        %li
+          %a#clear-bucket{:href => "#"}
+            .fa.fa-square-o
+            Clear bucket
+        %li
+          %a#delete-bucket{:href => "#"}
+            .fa.fa-trash-o
+            Delete
+        %li
+          %a#add-to-album-bucket{:href => "#"}
+            .fa.fa-plus-square-o
+            Add to album
+
+  .box-body
+    .bucket
+
+  .box-footer
+    %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar}
+      / .img-push is used to add margin to elements next to floating images
+      .img-push
+        %input.form-control.input-sm#comment-input-bucket{:placeholder => "Press enter to post comment", :type => "text"}

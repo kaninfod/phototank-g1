@@ -26,9 +26,9 @@ App.PhotoComment = do ->
 
 
   getUrl: ->
-    photo_id = $('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/add_comment'
 
 $(document).on "page:change", ->
-  return unless $(".photos.index").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
   App.PhotoComment.init()

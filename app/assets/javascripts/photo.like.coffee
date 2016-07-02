@@ -12,21 +12,25 @@ App.PhotoLike = do ->
 
 
   bindUIActions: ->
+
     _this = this
-    $(s.photoGrid).on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto()
+    $('body').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto()
+
+
 
   likePhoto: ->
     url = @getUrl()
     $.get url, (data) ->
-
       $(s.numberOfLikes).html data['likes'] + ' likes'
       $(s.likeButtonId).toggleClass 'btn-success'
 
   getUrl: ->
-    photo_id = $('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")
+    console.log photo_id
+    #photo_id = $('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/like'
 
 
 $(document).on "page:change", ->
-  return unless $(".photos.index").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
   App.PhotoLike.init()

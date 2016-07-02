@@ -1,8 +1,25 @@
-$ ->
-  $('#search-locations').change ->
-    if @value == ''
-      window.location = '/locations'
+s = undefined
+App.Locations = do ->
+
+  init: (@el) ->
+    @wp = null
+    s =
+      controlSidebar: '.control-sidebar'
+    $(s.controlSidebar).removeClass('control-sidebar-open')
+    @bindUIActions()
+
+  bindUIActions: ->
+    _this = this
+    $('#search-locations').change -> _this.locationSearch(this)
+
+  locationSearch: (element) ->
+
+    q=$('#search-locations').val()
+    if q == ''
+      window.location = 'locations'
     else
-      window.location = '/locations?q=' + @value
+      window.location = 'locations?q=' + q
     return
-  return
+
+$(document).on "page:change", ->
+  App.Locations.init()

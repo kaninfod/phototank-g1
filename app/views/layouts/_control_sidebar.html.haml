@@ -1,87 +1,58 @@
--# .context-menu
 %aside.control-sidebar.control-sidebar-dark
-
   / Create the tabs
   %ul.nav.nav-tabs.nav-justified.control-sidebar-tabs
     %li.active
-      %a{"data-toggle" => "tab", :href => "#control-sidebar-theme-demo-options-tab"}
+      %a{"data-toggle" => "tab", :href => "#control-sidebar-tab-nav"}
         %i.fa.fa-home
     %li
-      %a{"data-toggle" => "tab", :href => "#control-sidebar-home-tab"}
+      %a{"data-toggle" => "tab", :href => "#control-sidebar-tab-bucket"}
         %i.fa.fa-clipboard
     %li
-      %a{"data-toggle" => "tab", :href => "#control-sidebar-settings-tab"}
+      %a{"data-toggle" => "tab", :href => "#control-sidebar-tab-photo"}
         %i.fa.fa-gears
   / Tab panes
   .tab-content
     / Home tab content
-    #control-sidebar-home-tab.tab-pane
-      .box.box-default
-        .box-header
-          Bucket
-          .dropdown.pull-right
-            %button#dropdownMenu1.btn.btn-default.btn-xs.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-              .fa.fa-cog
-              %span.caret
-            %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1"}
-              %li
-                %a#like-bucket{:href => "#"}
-                  .fa.fa-thumbs-o-up
-                  Like
-              %li
-                %a#unlike-bucket{:href => "#"}
-                  .fa.fa-thumbs-o-down
-                  Unlike
-              %li.divider{:role => "separator"}
-              %li
-                %a#rotate-bucket{:href => "#", "data-degrees"=>90}
-                  .fa.fa-rotate-right
-                  Rotate 90
-              %li
-                %a#rotate-bucket{:href => "#", "data-degrees"=>180}
-                  .fa.fa-rotate-right
-                  Rotate 180
-              %li
-                %a#rotate-bucket{:href => "#", "data-degrees"=>270}
-                  .fa.fa-rotate-right
-                  Rotate 270
-              %li.divider{:role => "separator"}
-              %li
-                %a#clear-bucket{:href => "#"}
-                  .fa.fa-square-o
-                  Clear bucket
-              %li
-                %a#delete-bucket{:href => "#"}
-                  .fa.fa-trash-o
-                  Delete
-              %li
-                %a#add-to-album-bucket{:href => "#"}
-                  .fa.fa-plus-square-o
-                  Add to album
-        .box-body
-          .bucket
+    #control-sidebar-tab-bucket.tab-pane
+      = render :partial => 'layouts/control_sidebar/bucket_tab'
+    #control-sidebar-tab-nav.tab-pane.active
+      = render :partial => 'layouts/control_sidebar/nav_tab'
+    #control-sidebar-tab-photo.tab-pane
+      = render :partial => 'layouts/control_sidebar/photo_tab'
+
+-# modal for save bucket
+#album-list-bucket.modal{:role => "dialog"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h4.modal-title Save to album
+      .modal-body
+        = render partial: "albums/list", locals: {input_radio: true}
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Save to album
 
 
-        .box-footer
-          %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar}
-            / .img-push is used to add margin to elements next to floating images
-            .img-push
-              %input.form-control.input-sm#comment-input-bucket{:placeholder => "Press enter to post comment", :type => "text"}
-
-    #control-sidebar-theme-demo-options-tab.tab-pane.active
-      - if params[:controller] == 'photos' && params[:action] == 'index'
-        .box.box-default
-          .box-header
-            = render :partial => 'photos/breadcrumb'
-          .box-body
-            = render :partial => 'photos/searchbox'
-          .box-footer
-
-
-    #control-sidebar-settings-tab.tab-pane
+-# modal for save Photo
+#album-list-photo.modal{:role => "dialog"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h4.modal-title Save to album
+      .modal-body
+        = render partial: "albums/list", locals: {input_radio: true}
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{"data-dismiss" => "modal", :type => "button"} Save to album
 
 :css
   .box-body {
     padding-right: 8px;
     padding-left: 8px;
+  }
+
+  .scrollable-menu {
+      height: auto;
+      max-height: 200px;
+      overflow-x: hidden;
   }

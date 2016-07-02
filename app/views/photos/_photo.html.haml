@@ -1,7 +1,11 @@
-.photo-widget
+.photo-widget{"data-photoid"=>photo.id}
   .photo-widget-header
-    .photo-widget-overlay{:class => [@bucket.include?(photo.id) && "bucket_overlay", photo.status && "changed"]}
-      .text-center In Bucket
+    .overlay-button.overlay-select.animated{:class => [@bucket.include?(photo.id) && "selected"]}
+      %i.fa.fa-check-circle-o
+    .overlay-button.overlay-zoom.animated
+      %i.fa.fa-eye
+    .overlay-button.overlay-delete.animated
+      %i.fa.fa-trash-o
     %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve", :href => "#animatedModal"}
   .photo-widget-date
     =photo.date_taken_formatted

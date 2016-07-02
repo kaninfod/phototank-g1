@@ -42,7 +42,6 @@ class AlbumsController < ApplicationController
     end
   end
 
-  # GET /photos/new
   def new
     @album = Album.new
     prep_form
@@ -88,11 +87,17 @@ class AlbumsController < ApplicationController
 
   end
 
-# def show_stat
-#
-# end
+  def add_photo
+    album = Album.find params[:album_id]
+    album.photo_ids.push(params[:photo_id]) unless album.photo_ids.include? params[:photo_id]
+    album.save
+
+    render :json => {:status => "ok"}
+
+  end
 
   private
+
 
     def album_params
       params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)

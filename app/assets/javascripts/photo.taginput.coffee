@@ -16,20 +16,20 @@ App.PhotoTaginput = do ->
 
   bindUIActions: ->
     _this = this
-    $(s.photoGrid).on 'itemAdded.' + s.eventNamespace, '.tags', (event) -> _this.addTag(event)
-    $(s.photoGrid).on 'beforeItemRemove.' + s.eventNamespace, '.tags', (event) -> _this.removeTag(event)
+    $('body').on 'itemAdded.' + s.eventNamespace, '.tags', (event) -> _this.addTag(event)
+    $('body').on 'beforeItemRemove.' + s.eventNamespace, '.tags', (event) -> _this.removeTag(event)
     $('.bootstrap-tagsinput > input').autocomplete
       source: '/photos/get_tag_list'
       minLength: 1
 
   addTag: (event) ->
-    photo_id = $('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/addtag'
     tag = {tag: event.item}
     $.get url, tag
 
   removeTag: (event) ->
-    photo_id = $('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/removetag'
     tag = {tag: event.item}
     $.get url, tag
@@ -47,5 +47,5 @@ App.PhotoTaginput = do ->
 
 
 $(document).on "page:change", ->
-  return unless $(".photos.index").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
   App.PhotoTaginput.init()

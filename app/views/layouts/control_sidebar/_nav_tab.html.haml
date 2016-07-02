@@ -1,0 +1,7 @@
+- if params[:controller] == 'photos' && params[:action] == 'index'
+  .box.box-default
+    .box-header
+      = render :partial => 'photos/breadcrumb'
+    .box-body
+      = render :partial => 'photos/searchbox'
+    .box-footer

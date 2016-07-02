@@ -35,7 +35,7 @@ App.PhotoEdit = do ->
     tb.select()
 
   saveMetaData: ->
-    photo_id = $('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     data = JSON.parse(JSON.stringify(jQuery('#edit-meta-data').serializeArray()))
     $.ajax
       url: '/photos/' + photo_id
@@ -46,7 +46,7 @@ App.PhotoEdit = do ->
 
 
   rotatePhoto: ->
-    photo_id = $('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     rotateValue = $("input[name=rotate]:checked").val()
     url = '/photos/'+ photo_id + '/rotate/' + rotateValue
     $.get url

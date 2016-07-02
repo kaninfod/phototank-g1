@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
 
   match 'albums/select' => 'albums/select', via: [:get, :post]
+  get '/albums/add_photo' => "albums#add_photo"
   resources :albums
 
   resources :users
@@ -22,7 +23,7 @@ Rails.application.routes.draw do
   get '/photos/:id/like' => 'photos#like'
   get '/photos/:id/addtag' => 'photos#addtag'
   get '/photos/:id/removetag' => 'photos#removetag'
-
+  get '/photos/:id/show_small' => 'photos#show_small'
 
 
   get '/catalogs/migrate' => 'catalogs#migrate'

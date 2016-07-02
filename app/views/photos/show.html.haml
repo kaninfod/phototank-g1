@@ -1,10 +1,9 @@
-
-.row.image_info{:photo_id=>@photo.id}
+.row.image_info#photo_id{:photo_id=>@photo.id, "data-photo_id"=>@photo.id}
   .box.box-primary
     .box-header.with-border
       .box-body
         .col-md-7#modal_image
-          = image_tag "/photofiles/#{@photo.md_id.to_s}/photoserve", {style:"margin: 0 auto;", class: "img-responsive"}
+          =image_tag "/photofiles/#{@photo.md_id.to_s}/photoserve", {style:"margin: 0 auto;", class: "img-responsive"}
         .col-md-5
           =render :partial => "photos/show/tabs", :locals => {:photo => @photo }
 
@@ -12,6 +11,5 @@
 :javascript
   $(document).ready(function() {
     var wH = $(window).height() - 50;
-
     $('#modal_image').children("img").height(wH)
   })

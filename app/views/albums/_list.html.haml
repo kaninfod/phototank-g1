@@ -1,7 +1,23 @@
 .panel.panel-default.pre-scrollable
-  .panel-body
-    - Album.all.each do |album|
-      .checkbox
+  .panel-body#albums
+    - selected = [] if local_assigns[:selected].nil?
+    - input_radio = false if local_assigns[:input_radio].nil?
+
+
+    - if input_radio
+      .radio
         %label
-          %input{:checked => selected.include?(album.id.to_s), :id => "album.id", :name => "sync_from_album_id_#{album.id}", :type => "checkbox", :value => "#{album.id}"}/
-          = album.name
+          %input{:id => "-1", :name => "Raios", :type => "radio", :value => "-1"}/
+          New album
+
+      - Album.all.each do |album|
+        .radio
+          %label
+            %input{:checked => selected.include?(album.id.to_s), :id => "album.id", :name => "Raios", :type => "radio", :value => "#{album.id}"}/
+            = album.name
+    - else
+      - Album.all.each do |album|
+        .checkbox
+          %label
+            %input{:checked => selected.include?(album.id.to_s), :id => "album.id", :name => "sync_from_album_id_#{album.id}", :type => "checkbox", :value => "#{album.id}"}/
+            = album.name

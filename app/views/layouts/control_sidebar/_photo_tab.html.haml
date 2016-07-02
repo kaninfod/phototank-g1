@@ -1,0 +1,35 @@
+- if !@photo.nil?
+  .box.box-default
+    .box-header
+      =@photo.date_taken_formatted
+      .dropdown.pull-right
+        %button#dropdownMenu1.btn.btn-default.btn-xs.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          .fa.fa-cog
+          %span.caret
+        %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1"}
+          %li
+            %a#rotate-photo{:href => "#", "data-degrees"=>90}
+              .fa.fa-rotate-right
+              Rotate 90
+          %li
+            %a#rotate-photo{:href => "#", "data-degrees"=>180}
+              .fa.fa-rotate-right
+              Rotate 180
+          %li
+            %a#rotate-photo{:href => "#", "data-degrees"=>270}
+              .fa.fa-rotate-right
+              Rotate 270
+          %li.divider{:role => "separator"}
+          %li
+            %a#delete-photo{:href => "#"}
+              .fa.fa-trash-o
+              Delete
+          %li
+            %a#add-to-album-photo{:href => "#"}
+              .fa.fa-plus-square-o
+              Add to album
+
+    .box-body
+      =image_tag "/photofiles/#{@photo.md_id.to_s}/photoserve", {style:"margin: 0 auto;", class: "img-responsive"}
+    .box-footer
+      =render :partial => "photos/show/comments_widget", :locals => {:photo => @photo }

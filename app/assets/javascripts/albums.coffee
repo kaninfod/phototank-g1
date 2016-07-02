@@ -1,14 +1,27 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-jQuery ->
-  $('.dropdown-toggle').dropdown()
+s = undefined
+App.Albums = do ->
 
-$ ->
-  $('#search-albums').change ->
-    if @value == ''
+
+  init: (@el) ->
+    @wp = null
+    s =
+      controlSidebar: '.control-sidebar'
+
+    $(s.controlSidebar).removeClass('control-sidebar-open')
+    @bindUIActions()
+
+  bindUIActions: ->
+    _this = this
+    $('#search-albums').change -> _this.albumSearch(this)
+
+  albumSearch: (element) ->
+    q=$('#search-albums').val()
+    if q == ''
       window.location = 'albums'
     else
-      window.location = 'albums?q=' + @value
+      window.location = 'albums?q=' + q
     return
-  return
+
+
+$(document).on "page:change", ->
+  App.Albums.init()
