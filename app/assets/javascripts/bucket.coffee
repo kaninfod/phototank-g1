@@ -70,10 +70,10 @@ App.Bucket = do ->
 
   rotatePhotos: (element) ->
     degrees = $(element).data('degrees')
-    $.get '/bucket/rotate/' + degrees, (data) ->
+    $.get '/bucket/rotate/' + degrees + '.json', (data) ->
       for photoId in data.bucket
-        photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
-        
+        processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
+        processingButton.addClass('overlay-show')
 
 
   showAddToAlbum: ->

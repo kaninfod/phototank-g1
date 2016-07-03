@@ -29,9 +29,14 @@ App.PhotoWidget = do ->
   rotatePhotos: (element) ->
     degrees = $(element).data('degrees')
     photoId = $('#photo_id').data("photo_id")
+    processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
+
     $.get '/photos/' + photoId + '/rotate/' + degrees, (data) ->
+      processingButton.addClass('overlay-show')
       $('.dropdown.open .dropdown-toggle').dropdown('toggle');
     false
+
+
   show: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
     url = '/photos/' + photoId + '/show_small'
