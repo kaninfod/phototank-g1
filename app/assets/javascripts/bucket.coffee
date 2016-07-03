@@ -74,7 +74,7 @@ App.Bucket = do ->
       for photoId in data.bucket
         processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
         processingButton.addClass('overlay-show')
-
+    false
 
   showAddToAlbum: ->
     $('#album-list-bucket').modal()
