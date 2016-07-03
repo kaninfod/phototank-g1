@@ -16,6 +16,7 @@ App.PhotoWidget = do ->
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-select', -> _this.select(this)
     $('body').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete,#delete-photo', -> _this.delete(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-zoom', (ev) -> _this.showModal(ev, this)
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-processing', (ev) -> _this.reloadWidget(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.lazy', -> _this.show(this)
 
     $(s.photoGrid).on 'mouseenter.' + s.eventNamespace, '.photo-widget',  -> _this.showControls(this)
@@ -25,6 +26,17 @@ App.PhotoWidget = do ->
     $('#album-list-photo .btn-primary').on 'click' , (event) -> _this.addToAlbum(event)
 
     $('body').on 'click.' + s.eventNamespace, '#rotate-photo',  -> _this.rotatePhotos(this)
+
+
+  reloadWidget: (element) ->
+    photoWidget = $(element).parents('.photo-widget')
+    photoId = photoWidget.data("photoid")
+
+    url = '/photos/' + photoId + '?view=widget'
+    $.get url, (data) ->
+      photoWidget.replaceWith(data)
+      $('.lazy[photo_id=' + photoId + ']').lazyload();
+      return false
 
   rotatePhotos: (element) ->
     degrees = $(element).data('degrees')
@@ -39,7 +51,7 @@ App.PhotoWidget = do ->
 
   show: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
-    url = '/photos/' + photoId + '/show_small'
+    url = '/photos/' + photoId + '?view=small'
     $('#control-sidebar-tab-photo').load url, (result) ->
       $('.nav-tabs a[href="#control-sidebar-tab-photo"]').tab('show')
       App.PhotoTaginput.refresh()
@@ -120,7 +132,7 @@ App.PhotoWidget = do ->
   showModal: (ev, element) ->
     _this = this
     photoId = $(element).parents('.photo-widget').data("photoid")
-    url = '/photos/' + photoId + '.html'
+    url = '/photos/' + photoId + '?view=modal'
     $('#photoDetails > .modal-content').load url, (result) ->
       ev.preventDefault()
       _this.modal.open()

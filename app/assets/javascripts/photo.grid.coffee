@@ -24,7 +24,7 @@ App.PhotoGrid = do ->
 
   scrollTop: (event) ->
     event.preventDefault()
-    
+
     $('html, body').animate { scrollTop: 0 }, s.duration
     false
 

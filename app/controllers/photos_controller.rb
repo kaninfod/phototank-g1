@@ -46,7 +46,7 @@ class PhotosController < ApplicationController
     #get album from url params through set_query_data
     @album = Album.new(album_hash)
     #Get photos
-    
+
     @photos = @album.photos.where('photos.status != ? or photos.status is ?', 1, nil).order(date_taken: order).paginate(:page => params[:page], :per_page=>40)
 
     #grid or table
@@ -68,22 +68,15 @@ class PhotosController < ApplicationController
       @size = 'medium'
     end
     @photo = Photo.find(params[:id])
+    @bucket = session[:bucket]
 
-    respond_to do |format|
-      format.html { }
-      format.json { }
-    end
-
-    if request.xhr?
-      render :layout => false
-    end
-
-  end
-
-  def show_small
-    @photo = Photo.find(params[:id])
-    if request.xhr?
-      render :layout => false
+    case params[:view]
+    when 'modal'
+      render :template => 'photos/show_modal', :layout => false
+    when 'widget'
+      render :template => 'photos/show_widget', :layout => false
+    when 'small'
+      render :template => 'photos/show_small', :layout => false
     end
   end
 
