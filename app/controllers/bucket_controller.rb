@@ -82,7 +82,14 @@ class BucketController < ApplicationController
 
     @bucket = get_bucket
     rotate_helper(@bucket, params[:degrees])
-    render :json => {:status => "OK"}
+    respond_to do |format|
+      format.html {
+        redirect_to bucket_path
+      }
+      format.json {
+        render json: {:bucket=>@bucket}
+      }
+    end
   end
 
   def edit

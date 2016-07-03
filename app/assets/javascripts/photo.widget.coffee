@@ -6,6 +6,7 @@ App.PhotoWidget = do ->
       duration: 175
       photoGrid: '#photogrid'
       modalElement: $('#photoDetails')
+      animationEnd: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
     @bindUIActions()
 
 
@@ -16,6 +17,7 @@ App.PhotoWidget = do ->
     $('body').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete,#delete-photo', -> _this.delete(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-zoom', (ev) -> _this.showModal(ev, this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.lazy', -> _this.show(this)
+
     $(s.photoGrid).on 'mouseenter.' + s.eventNamespace, '.photo-widget',  -> _this.showControls(this)
     $(s.photoGrid).on 'mouseleave.' + s.eventNamespace, '.photo-widget',  -> _this.hideControls(this)
 
@@ -86,19 +88,13 @@ App.PhotoWidget = do ->
 
 
   showControls: (element) ->
-    $('.overlay-button', element).addClass('overlay-show bounceIn')
-    $('.overlay-button', element).removeClass('zoomOut')
+    overlayButton = $('.overlay-button:not(.overlay-processing)', element)
+    overlayButton.addClass('overlay-show')
+
 
   hideControls: (element) ->
-    $('.overlay-button.overlay-zoom', element).removeClass(' bounceIn')
-    $('.overlay-button.overlay-zoom', element).addClass('zoomOut')
-    $('.overlay-button.overlay-delete', element).removeClass(' bounceIn')
-    $('.overlay-button.overlay-delete', element).addClass('zoomOut')
-
-    buttonSelect = $('.overlay-button.overlay-select', element)
-    if not buttonSelect.hasClass('selected')
-      buttonSelect.removeClass(' bounceIn')
-      buttonSelect.addClass('zoomOut')
+    overlayButton = $('.overlay-button:not(.selected, .overlay-processing)', element)
+    overlayButton.removeClass('overlay-show')
 
   modalInit: () ->
     @modal = new AnimatedModal(

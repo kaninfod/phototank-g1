@@ -1,14 +1,13 @@
 .photo-widget{"data-photoid"=>photo.id}
   .photo-widget-header
-    .overlay-button.overlay-select.animated{:class => [@bucket.include?(photo.id) && "selected"]}
+    .overlay-button.overlay-select{:class => [@bucket.include?(photo.id) && "selected"]}
       %i.fa.fa-check-circle-o
-    .overlay-button.overlay-zoom.animated
+    .overlay-button.overlay-zoom
       %i.fa.fa-eye
-    .overlay-button.overlay-delete.animated
+    .overlay-button.overlay-delete
       %i.fa.fa-trash-o
-    -if photo.status > 5
-      .overlay-button.overlay-processing.overlay-show
-        %i.fa.fa-tasks
+    .overlay-button.overlay-processing{:class => [photo.status > 5 && "overlay-show"]}
+      %i.fa.fa-tasks
     %img.lazy{:photo_id=>(photo.id), "data-original"=>"/photofiles/#{photo.tm_id.to_s}/photoserve", :href => "#animatedModal"}
   .photo-widget-date
     =photo.date_taken_formatted

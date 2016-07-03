@@ -9,7 +9,7 @@
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-  %body.skin-black.sidebar-mini.sidebar-collapse{:class=>"#{controller_name} #{action_name}"}
+  %body.skin-black.sidebar-mini.sidebar-collapse.fixed{:class=>"#{controller_name} #{action_name}"}
     %a.back-to-top{:href=>"#"}>
       %i.fa.fa-arrow-circle-up.fa-2x
 

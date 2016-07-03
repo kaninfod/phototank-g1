@@ -71,6 +71,10 @@ App.Bucket = do ->
   rotatePhotos: (element) ->
     degrees = $(element).data('degrees')
     $.get '/bucket/rotate/' + degrees, (data) ->
+      for photoId in data.bucket
+        photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
+        
+
 
   showAddToAlbum: ->
     $('#album-list-bucket').modal()
