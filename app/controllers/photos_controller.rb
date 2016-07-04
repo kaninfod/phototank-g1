@@ -69,7 +69,7 @@ class PhotosController < ApplicationController
     end
     @photo = Photo.find(params[:id])
     @bucket = session[:bucket]
-
+    
     case params[:view]
     when 'modal'
       render :template => 'photos/show_modal', :layout => false

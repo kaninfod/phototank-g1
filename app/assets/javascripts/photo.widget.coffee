@@ -35,7 +35,11 @@ App.PhotoWidget = do ->
     url = '/photos/' + photoId + '?view=widget'
     $.get url, (data) ->
       photoWidget.replaceWith(data)
-      $('.lazy[photo_id=' + photoId + ']').lazyload();
+      photoWidget =  $('.photo-widget[data-photoid=' + photoId + '] img')
+
+      photoWidget.attr('src', photoWidget.data('original') + '?' + escape(new Date()))
+
+      # $('.lazy[photo_id=' + photoId + ']').lazyload();
       return false
 
   rotatePhotos: (element) ->
