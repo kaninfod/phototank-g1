@@ -13,6 +13,8 @@
 //= require waypoints/lib/jquery.waypoints.min.js
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min
+//= require alertifyjs/dist/js/alertify
+//= require mousetrap/mousetrap.min
 
 //= require jsanimatedmodal
 
@@ -25,6 +27,7 @@
 //= require photo.comment
 //= require photo.taginput
 //= require photo.grid
+//= require photo.grid.keyboard
 
 //= require photo.edit
 //= require bucket

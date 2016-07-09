@@ -72,6 +72,7 @@ App.PhotoGrid = do ->
       nextPage.success (data) ->
         $('.infinite-container').append data
         $('.loading-notification').fadeOut 100
+        $('.pagination:first').parent().remove()
         _this.bindUIActions()
 
 

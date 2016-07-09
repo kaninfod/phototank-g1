@@ -1,3 +1,5 @@
+AdminLTEOptions = undefined
+
 AdminLTEOptions =
   sidebarExpandOnHover: true
   enableBoxRefresh: true

@@ -20,7 +20,9 @@
   "dependencies": {
     "jquery-ujs": "^1.2.1",
     "animate.css": "^3.5.2",
-    "jsanimatedmodal": "^0.3.1"
+    "jsanimatedmodal": "^0.3.1",
+    "alertifyjs": "^1.0.11",
+    "mousetrap": "^1.6.0"
   },
   "resolutions": {
     "jquery": ">=2.x"

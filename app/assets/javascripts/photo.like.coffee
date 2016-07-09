@@ -12,23 +12,16 @@ App.PhotoLike = do ->
 
 
   bindUIActions: ->
-
     _this = this
-    $('body').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto()
+    $('body').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
 
-
-
-  likePhoto: ->
-    url = @getUrl()
+  likePhoto: (photoId) ->
+    console.log photoId
+    url = '/photos/' + photoId + '/like'
     $.get url, (data) ->
       $(s.numberOfLikes).html data['likes'] + ' likes'
       $(s.likeButtonId).toggleClass 'btn-success'
 
-  getUrl: ->
-    photo_id = $('#photo_id').data("photo_id")
-    console.log photo_id
-    #photo_id = $('.image_info').attr('photo_id')
-    url = '/photos/' + photo_id + '/like'
 
 
 $(document).on "page:change", ->

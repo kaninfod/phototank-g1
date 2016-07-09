@@ -25,8 +25,19 @@ App.Bucket = do ->
     $('body').on 'click.' + s.eventNamespace, '#add-to-album-bucket', -> _this.showAddToAlbum()
     $('#album-list-bucket .btn-primary').on 'click' , (event) -> _this.addToAlbum(event)
     $('#comment-input-bucket').keypress (e) -> _this.addComment(this, e)
+
+    $('body').on 'click.' + s.eventNamespace, '#bucket-list img', -> _this.removeFromBucket(this)
+
     @loadBucket()
 
+
+  removeFromBucket: (element) ->
+    _this=this
+    photoId = $(element).data("photoid")
+    url = '/bucket/' + photoId + '/remove'
+    $.post url, ->
+      $('.photo-widget[data-photoid=' + photoId + '] .overlay-select').removeClass('overlay-show selected')
+      _this.loadBucket()
 
   loadBucket: ->
     $.get '/bucket/list', (data) ->
@@ -58,15 +69,17 @@ App.Bucket = do ->
     $.get '/bucket/clear', (data) ->
       _this.loadBucket()
       $('.overlay-button.overlay-select').removeClass('selected zoomOut overlay-show bounceIn')
-    false
+      false
 
   deletePhotos: ->
     _this = this
-    $.get '/bucket/delete_photos.json', (data) ->
-      for photoId in data.bucket
-        photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
-        photoWidget.fadeOut(700)
-      _this.clearBucket()
+    if (confirm('Delete photos?'))
+      $.get '/bucket/delete_photos.json', (data) ->
+        for photoId in data.bucket
+          photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
+          photoWidget.fadeOut(700)
+        _this.clearBucket()
+      false
 
   rotatePhotos: (element) ->
     degrees = $(element).data('degrees')
@@ -74,7 +87,7 @@ App.Bucket = do ->
       for photoId in data.bucket
         processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
         processingButton.addClass('overlay-show')
-    false
+      false
 
   showAddToAlbum: ->
     $('#album-list-bucket').modal()
