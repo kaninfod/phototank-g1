@@ -10,6 +10,7 @@ App.LocationEdit = do ->
       eventNamespace: 'photo'
     localStorage.setItem 'location', null
     @markers = []
+
     @initializeMap()
     @bindUIActions()
 
@@ -146,7 +147,7 @@ App.LocationEdit = do ->
           localStorage.setItem 'location', null
           return
         error: (e) ->
-          
+
           return
     return
 

@@ -43,8 +43,6 @@ App.PhotoEdit = do ->
       contentType: 'application/json',
       data: JSON.stringify(data)
 
-
-
   rotatePhoto: ->
     photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     rotateValue = $("input[name=rotate]:checked").val()

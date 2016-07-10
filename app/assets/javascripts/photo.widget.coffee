@@ -39,7 +39,6 @@ App.PhotoWidget = do ->
     $.get url, (data) ->
       photoWidget.replaceWith(data)
       photoWidget =  $('.photo-widget[data-photoid=' + photoId + '] img')
-
       photoWidget.attr('src', photoWidget.data('original') + '?' + escape(new Date()))
 
       # $('.lazy[photo_id=' + photoId + ']').lazyload();
@@ -57,14 +56,14 @@ App.PhotoWidget = do ->
     false
 
   show: (element) ->
-
     photoId = $(element).parents('.photo-widget').data("photoid")
     url = '/photos/' + photoId + '?view=small'
     $('#control-sidebar-tab-photo').load url, (result) ->
-      $('.nav-tabs a[href="#control-sidebar-tab-photo"]').tab('show')
+      App.ControlSidebar.setControlSidebarTab(3)
       App.PhotoTaginput.refresh()
-      $.AdminLTE.controlSidebar.open()
       $('.dropdown-toggle').dropdown()
+    $('.photo-widget.highlight').removeClass('highlight')
+    $(element).parents('.photo-widget').addClass('highlight')
 
   select: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
@@ -83,7 +82,7 @@ App.PhotoWidget = do ->
       data: {}
       success: (response) ->
         $(".bucket").trigger('bucket:update')
-        $('.nav-tabs a[href="#control-sidebar-tab-bucket"]').tab('show')
+        App.ControlSidebar.setControlSidebarTab(2)
 
   delete: (element) ->
     if $(element).attr('id') == 'delete-photo'

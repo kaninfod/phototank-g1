@@ -7,19 +7,19 @@
 //= require bootstrap-sprockets
 //= require bootstrap.min
 //= require bootstrap-typeahead-rails
-//= require bootstrap-tagsinput
+//= require bootstrap-tagsinput/dist/bootstrap-tagsinput.min
 //= require bootstrap-datepicker
 
-//= require waypoints/lib/jquery.waypoints.min.js
+//= require waypoints/lib/jquery.waypoints.min
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min
 //= require alertifyjs/dist/js/alertify
 //= require mousetrap/mousetrap.min
 
-//= require jsanimatedmodal
+//= require jsanimatedmodal/animatedModal.min
 
 //= require adminlte_options
-//= require AdminLTE
+//= require AdminLTE/dist/js/app.min
 
 //= require init
 //= require photo.widget
