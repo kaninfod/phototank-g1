@@ -69,7 +69,7 @@ App.Bucket = do ->
     $.get '/bucket/clear', (data) ->
       _this.loadBucket()
       $('.overlay-button.overlay-select').removeClass('selected zoomOut overlay-show bounceIn')
-      false
+    false
 
   deletePhotos: ->
     _this = this
@@ -79,7 +79,8 @@ App.Bucket = do ->
           photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
           photoWidget.fadeOut(700)
         _this.clearBucket()
-      false
+        alertify.log("Photos in bucket are queued for deletion");
+    false
 
   rotatePhotos: (element) ->
     degrees = $(element).data('degrees')
@@ -87,7 +88,9 @@ App.Bucket = do ->
       for photoId in data.bucket
         processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
         processingButton.addClass('overlay-show')
-      false
+      alertify.log("Photos in bucket are queued for rotation");
+    $('.dropdown').dropdown('toggle');
+    false
 
   showAddToAlbum: ->
     $('#album-list-bucket').modal()
@@ -95,7 +98,8 @@ App.Bucket = do ->
 
   addToAlbum: ->
     album_id = $('#album-list-bucket * #albums input:radio:checked').val()
-    $.get '/bucket/save', {album_id: album_id}
+    $.get '/bucket/save', {album_id: album_id}, ->
+      alertify.log("Photos have been saved to album");
 
 
 $(document).on "page:change", ->
