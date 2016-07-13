@@ -58,10 +58,12 @@ App.PhotoWidget = do ->
   show: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
     url = '/photos/' + photoId + '?view=small'
-    $('#control-sidebar-tab-photo').load url, (result) ->
+    $('#control-sidebar-tab-photo').load( url, (result) ->
       App.ControlSidebar.setControlSidebarTab(3)
       App.PhotoTaginput.refresh()
       $('.dropdown-toggle').dropdown()
+      )
+    .fadeIn(200)
     $('.photo-widget.highlight').removeClass('highlight')
     $(element).parents('.photo-widget').addClass('highlight')
 

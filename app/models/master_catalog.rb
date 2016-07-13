@@ -16,11 +16,6 @@ class MasterCatalog < Catalog
     end
   end
 
-  #don't get this - no args
-  # def import_photo
-  #   Resque.enqueue(PhotoImportMaster, import_file_path, photo_id, import_mode)
-  # end
-
   def online
     File.exist?(self.path)
   end

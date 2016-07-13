@@ -22,6 +22,7 @@ class Location < ActiveRecord::Base
 
   def self.locate_photo(photo)
     @photo = photo
+    byebug
     if no_coordinates
 
     elsif reuse_location
@@ -33,8 +34,9 @@ class Location < ActiveRecord::Base
       return true
     end
     pf = PhotoFilesApi::Api::new
-    response = pf.create self.get_google_map, nil, nil, 'maps'
-    self.update(map_image_id: response[:id])
+
+    response = pf.create @photo.location.get_google_map, nil, nil, 'maps'
+    @photo.location.update(map_image_id: response[:id])
     return true
   end
 

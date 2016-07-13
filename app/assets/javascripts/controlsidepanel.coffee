@@ -16,22 +16,35 @@ App.ControlSidebar = do ->
   bindUIActions: ->
     $('body').on 'click.' + s.eventNamespace, s.controlSidebarBtn, -> _this.setMenuStatus(this)
     $('body').on 'click.' + s.eventNamespace, '.control-sidebar-toggle', -> _this.toggleControlSidebar()
+    $('body').on 'click.' + s.eventNamespace, '.control-sidebar > .nav', -> _this.tabChange()
+
+  tabChange: ->
+    console.log @state()
+    localStorage.controlSidebarStatus = @state()
+
 
   toggleControlSidebar: ->
     if this.state() == 0
       $.AdminLTE.controlSidebar.open()
+      if localStorage.controlSidebarStatus > 0
+        @setControlSidebarTab(localStorage.controlSidebarStatus)
     else
       $.AdminLTE.controlSidebar.close()
+      localStorage.controlSidebarStatus = 0
 
   setControlSidebarTab: (tab) ->
     switch tab
       when 1
         $('.nav-tabs a[href="#control-sidebar-tab-nav"]').tab('show')
+        localStorage.controlSidebarStatus = 1
       when 2
         $('.nav-tabs a[href="#control-sidebar-tab-bucket"]').tab('show')
+        localStorage.controlSidebarStatus = 2
       when 3
         $('.nav-tabs a[href="#control-sidebar-tab-photo"]').tab('show')
+        localStorage.controlSidebarStatus = 3
     $.AdminLTE.controlSidebar.open()
+
 
   state: ->
     if $('body').hasClass('control-sidebar-open')
@@ -46,13 +59,6 @@ App.ControlSidebar = do ->
     else
       return 0
 
-  # openMenu: ->
-  #   $('body').addClass('control-sidebar-open')
-  #   @setMenuStatus()
-  #
-  # closeMenu: ->
-  #   $('body').removeClass('control-sidebar-open')
-  #   @setMenuStatus()
 
 
   setMenuStatus: ->
@@ -63,7 +69,8 @@ App.ControlSidebar = do ->
 
 
   toggleMenu: ->
-    if localStorage.controlSidebarStatus == 'open'
+    if localStorage.controlSidebarStatus > 0
+      @setControlSidebarTab(localStorage.controlSidebarStatus)
       $.AdminLTE.controlSidebar.open()
 
   initControlSidebar: ->

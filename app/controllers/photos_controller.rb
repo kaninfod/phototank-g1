@@ -247,9 +247,6 @@ class PhotosController < ApplicationController
   def prep_form
     @countries = Location.distinct_countries
     @countries[0] = "All"
-    #@cities = Location.distinct_cities
-    #@makes = Photo.distinct_makes
-    #@models = Photo.distinct_models
     @bucket = session[:bucket]
   end
 

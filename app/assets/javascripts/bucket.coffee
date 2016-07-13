@@ -67,6 +67,7 @@ App.Bucket = do ->
   clearBucket: ->
     _this=this
     $.get '/bucket/clear', (data) ->
+      $('.dropdown.open .dropdown-toggle').dropdown('toggle');
       _this.loadBucket()
       $('.overlay-button.overlay-select').removeClass('selected zoomOut overlay-show bounceIn')
     false

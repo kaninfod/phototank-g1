@@ -103,7 +103,9 @@ class Photo < ActiveRecord::Base
   end
 
   def locate
-    Location.locate_photo(self)
+    if Location.locate_photo(self)
+      self.save
+    end
   end
 
   def rotate(degrees)
