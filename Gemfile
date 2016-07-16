@@ -40,12 +40,10 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-# Pagination
-#gem 'kaminari'
+
 gem 'will_paginate'
 
 gem 'bootstrap-sass'
-#gem 'bootstrap-kaminari-views'
 gem 'bootstrap_form'
 
 gem 'bootstrap-typeahead-rails'
@@ -54,10 +52,7 @@ gem 'font-awesome-sass', '~> 4.5.0'
 
 gem 'seed_dump'
 
-gem 'omniauth'
-gem 'omniauth-flickr'
-
-
+gem 'clearance'
 
 gem 'geocoder'
 
@@ -82,7 +77,6 @@ gem 'resque-loner'
 
 gem "haml-rails", "~> 0.9"
 
-gem 'paperclip'
 
 gem 'flickraw', '~> 0.9.8'
 gem 'dropbox-sdk'

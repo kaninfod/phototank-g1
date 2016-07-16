@@ -30,21 +30,12 @@
               %img.img-circle{:alt => "User Image", :src => current_user.avatar}
                 %p
                   = current_user.name
-                  %small=current_user.created_at
-            / Menu Body
-            %li.user-body
-              .col-xs-4.text-center
-                %a{:href => "#"} Followers
-              .col-xs-4.text-center
-                %a{:href => "#"} Sales
-              .col-xs-4.text-center
-                %a{:href => "#"} Friends
-            / Menu Footer
+                  %small=l current_user.created_at
             %li.user-footer
               .pull-left
-                %a.btn.btn-default.btn-flat{:href => "/users/edit"} Profile
+                %a.btn.btn-default.btn-flat{:href => "/users/#{current_user.id}/edit"} Profile
               .pull-right
-                = link_to('Logout', '/signout',  :class=>"btn btn-default btn-flat")
+                = link_to('Log off', '/sign_out', :method => :delete, :class=>"btn btn-default btn-flat")
 
         / Control Sidebar Toggle Button
         %li#sidebar-hover.control-sidebar-toggle

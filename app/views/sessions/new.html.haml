@@ -1,0 +1,32 @@
+.login-box
+  .login-logo
+    %a{:href => "../../index2.html"}
+      %b> Photo
+      tank
+  / /.login-logo
+  .login-box-body
+    %p.login-box-msg Sign in to start your session
+    = form_for :session, url: session_path do |form|
+
+      .form-group.has-feedback
+        %input.form-control{:name=>"session[email]", :id=>'session_email', :placeholder => "Email", :type => "email"}
+          %span.glyphicon.glyphicon-envelope.form-control-feedback
+      .form-group.has-feedback
+        %input.form-control{:name=>"session[password]", :id=>'session_password', :placeholder => "Password", :type => "password"}
+          %span.glyphicon.glyphicon-lock.form-control-feedback
+      .row
+        .col-xs-8
+          .checkbox.icheck
+            %label
+              .icheckbox_square-blue{"aria-checked" => "false", "aria-disabled" => "false", :style => "position: relative;"}
+                %input{:style => "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;", :type => "checkbox"}
+                  %ins.iCheck-helper{:style => "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"}
+              Remember Me
+        / /.col
+        .col-xs-4
+          %button.btn.btn-primary.btn-block.btn-flat{:type => "submit"} Sign In
+        / /.col
+    =link_to t(".forgot_password"), new_password_path
+    %br
+      - if Clearance.configuration.allow_sign_up?
+        = link_to t(".sign_up"), sign_up_path

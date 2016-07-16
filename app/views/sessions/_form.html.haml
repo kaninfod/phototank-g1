@@ -1,0 +1,42 @@
+.login-box
+  .login-logo
+    %a{:href => "../../index2.html"}
+      %b> Photo
+      tank
+  / /.login-logo
+  .login-box-body
+    %p.login-box-msg Sign in to start your session
+    %form{:action => "../../index2.html", :method => "post"}
+      .form-group.has-feedback
+        %input.form-control{:placeholder => "Email", :type => "email"}
+          %span.glyphicon.glyphicon-envelope.form-control-feedback
+      .form-group.has-feedback
+        %input.form-control{:placeholder => "Password", :type => "password"}
+          %span.glyphicon.glyphicon-lock.form-control-feedback
+      .row
+        .col-xs-8
+          .checkbox.icheck
+            %label
+              .icheckbox_square-blue{"aria-checked" => "false", "aria-disabled" => "false", :style => "position: relative;"}
+                %input{:style => "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;", :type => "checkbox"}
+                  %ins.iCheck-helper{:style => "position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"}
+              Remember Me
+        / /.col
+        .col-xs-4
+          %button.btn.btn-primary.btn-block.btn-flat{:type => "submit"} Sign In
+        / /.col
+    .social-auth-links.text-center
+      %p - OR -
+      %a.btn.btn-block.btn-social.btn-facebook.btn-flat{:href => "#"}
+        %i.fa.fa-facebook
+        Sign in using
+        Facebook
+      %a.btn.btn-block.btn-social.btn-google.btn-flat{:href => "#"}
+        %i.fa.fa-google-plus
+        Sign in using
+        Google+
+    / /.social-auth-links
+    %a{:href => "#"} I forgot my password
+    %br
+      %a.text-center{:href => "register.html"} Register a new membership
+  / /.login-box-body
