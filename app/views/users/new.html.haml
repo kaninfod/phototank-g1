@@ -1,0 +1,23 @@
+.register-box
+  .register-logo
+    %a{:href => "../../index2.html"}
+      %b> Photo
+      tank
+  .register-box-body
+    %p.login-box-msg Register a new membership
+    = form_for @user do |form|
+      .form-group.has-feedback
+        %input.form-control{:id=>"user_name", :name=>"user[name]", :placeholder => "Full name", :type => "text"}
+          %span.glyphicon.glyphicon-user.form-control-feedback
+      .form-group.has-feedback
+        %input.form-control{:id=>"user_email", :name=>"user[email]",:placeholder => "Email", :type => "email"}
+          %span.glyphicon.glyphicon-envelope.form-control-feedback
+      .form-group.has-feedback
+        %input.form-control{:id=>"user_password", :name=>"user[password]",:placeholder => "Password", :type => "password"}
+          %span.glyphicon.glyphicon-lock.form-control-feedback
+      .row
+        .col-xs-4
+          %button.btn.btn-primary.btn-block.btn-flat{:type => "submit"} Register
+        / /.col
+    %a.text-center{:href => "/sign_in"} I already have a membership
+  

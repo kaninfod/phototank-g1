@@ -1,5 +1,5 @@
 class CatalogsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :require_login
   def index
     @catalogs = Catalog.order(:id).page params[:page]
   end

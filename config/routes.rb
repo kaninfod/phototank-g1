@@ -1,18 +1,10 @@
 Rails.application.routes.draw do
 
-
-
   match 'albums/select' => 'albums/select', via: [:get, :post]
   get '/albums/add_photo' => "albums#add_photo"
   resources :albums
 
-  resources :users
-
-  get '/auth/:provider/callback' => 'sessions#create'
-  get '/signin' => 'sessions#new', :as => :signin
-  get '/signout' => 'sessions#destroy', :as => :signout
-  get '/auth/failure' => 'sessions#failure'
-  get 'visitors' => 'visitors#index'
+  get 'pages' => 'pages#index'
 
   match "photos/(q/*query)" => "photos#index", :via => [:post, :get]
   get '/photos/get_tag_list' => 'photos#get_tag_list'
@@ -69,6 +61,11 @@ Rails.application.routes.draw do
 
   post 'jobs/list' => 'jobs#list'
   resources :jobs
+
+  Rails.application.routes.draw do
+    resources :users, controller: 'users', only: [:create, :edit, :update]
+  end
+
 
   require 'resque/server'
   mount Resque::Server.new, at: "/resque"
