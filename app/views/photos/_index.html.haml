@@ -5,12 +5,12 @@
         %ul.text-right.list-inline
           - if defined? extra_tools.nil?
             %li= render :partial => extra_tools
-
       .box-body.infinite-container
-        =render :partial => "photos/view/grid"
+        =render :partial => "photos/grid"
       .loading-notification
         Loading more...
       .loadMore
+
 
   #photoDetails.animated.animated-modal
     .modal-content

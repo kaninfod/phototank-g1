@@ -69,12 +69,14 @@ class PhotoImportMaster < ResqueJob
       @data[:latitude] = exif.gpslatitude
       @data[:make] = exif.make
       @data[:model] = exif.model
-
+      
       #Set data_taken; either from EXIF or from file timestamp
-      if exif.datetimeoriginal.blank?
-        exif.datetimeoriginal = @data[:date_taken] = File.ctime(@org_file.path)
+      if !exif.datetimeoriginal.blank?
+        @data[:date_taken] = exif.datetimeoriginal
+      elsif !exif.gpsdatestamp.blank? && !exif.gpstimestamp.blank?
+        @data[:date_taken] = "#{exif.gpsdatestamp.gsub(':', '.')} #{exif.gpstimestamp}".to_datetime
       else
-        @data[:date_taken]= exif.datetimeoriginal
+        exif.datetimeoriginal = @data[:date_taken] = File.ctime(@org_file.path)
       end
       exif["usercomment"] = "This photo is handled by PhotoTank as of #{DateTime.now.strftime("%Y.%m.%d %H:%M:%S")}"
       exif.imageuniqueid = @data[:phash]

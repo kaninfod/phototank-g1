@@ -45,10 +45,10 @@ class PhotosController < ApplicationController
 
     #get album from url params through set_query_data
     @album = Album.new(album_hash)
+
     #Get photos
-
     @photos = @album.photos.where('photos.status != ? or photos.status is ?', 1, nil).order(date_taken: order).paginate(:page => params[:page], :per_page=>40)
-
+    
     #grid or table
     viewmode
 
@@ -57,7 +57,7 @@ class PhotosController < ApplicationController
 
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
-      render :partial=>"photos/view/grid"
+      render :partial=>"photos/grid"
     end
   end
 
@@ -70,14 +70,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     @bucket = session[:bucket]
 
-    case params[:view]
-    when 'modal'
-      render :template => 'photos/show_modal', :layout => false
-    when 'widget'
-      render :template => 'photos/show_widget', :layout => false
-    when 'small'
-      render :template => 'photos/show_small', :layout => false
-    end
+    render :template => "photos/show_#{params[:view]}", :layout => false
   end
 
   def edit
@@ -189,7 +182,6 @@ class PhotosController < ApplicationController
       start[:month]=query[:month].to_i unless not query.has_key?(:month)
       start[:day]=query[:day].to_i unless not query.has_key?(:day)
     end
-
 
     if query == nil
       @searchbox = {

@@ -18,7 +18,8 @@
     #control-sidebar-tab-nav.tab-pane.active
       = render :partial => 'layouts/control_sidebar/nav_tab'
     #control-sidebar-tab-photo.tab-pane
-      = render :partial => 'layouts/control_sidebar/photo_tab'
+      #tab-content
+        = render :partial => 'layouts/control_sidebar/photo_tab'
 
 -# modal for save bucket
 #album-list-bucket.modal{:role => "dialog"}

@@ -2,29 +2,29 @@ s = undefined
 _this = this
 App.PhotoGrid = do ->
 
-  init: (@el) ->
-    @wp = null
+  init: ->
     s =
       photoGrid: '#photogrid'
       duration: 300
       offset:500
-    @wp = @initWaypoint()
+    @initWaypoint()
     @bindUIActions()
 
   bindUIActions: ->
     $('img.lazy').lazyload()
-    $(s.photoGrid).on 'click.' + s.eventNamespace, '.delete_photo', -> _this.deletePhoto(this)
+    #$(s.photoGrid).on 'click.' + s.eventNamespace, '.delete_photo', -> _this.deletePhoto(this)
     $(window).scroll -> _this.showScrollTop(this)
     $('.back-to-top').click (event) -> _this.scrollTop(event)
-    $('body').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
+
+    $('body').off('click').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
     $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searboxDropdownChange()
+
     $('.dropdown-toggle').dropdown()
-    $('[data-toggle="popover"]').popover()
+    # $('[data-toggle="popover"]').popover()
     Waypoint.refreshAll()
 
   scrollTop: (event) ->
     event.preventDefault()
-
     $('html, body').animate { scrollTop: 0 }, s.duration
     false
 
@@ -36,9 +36,9 @@ App.PhotoGrid = do ->
     return
 
   setBreadcrumbUrl: (element) ->
+    console.log $(element)
     el = $(element)
-    url = el.attr("href")
-    url = url + @extendUrl()
+    url = el.attr("href") + @extendUrl()
     el.attr("href", url)
 
   searboxDropdownChange: ->
@@ -59,6 +59,7 @@ App.PhotoGrid = do ->
       offset: ->
         @context.innerHeight() - @adapter.outerHeight() + 500
       handler: (direction) ->
+        console.log 'called...'
         _this.getNextPage(direction)
       )
     return waypoint

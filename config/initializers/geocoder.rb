@@ -1,6 +1,6 @@
 Geocoder.configure(
   # Geocoding options
-   timeout: 5,                 # geocoding service timeout (secs)
+   timeout: 10,                 # geocoding service timeout (secs)
    lookup: :nominatim,#:google,            # name of geocoding service (symbol)
    http_headers: { "User-Agent" => "martinhinge@gmail.com" },
   # language: :en,              # ISO-639 language code

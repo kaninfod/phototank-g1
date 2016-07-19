@@ -1,9 +1,6 @@
 - if @photos.blank?
   No Photos to display
 - else
-  
   = render @photos
-
-
   .hide
     =will_paginate @photos,  :page_links=>false

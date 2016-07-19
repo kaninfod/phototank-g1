@@ -2,7 +2,8 @@
   .album-widget
     %a.album-widget-photo{:href=>"/albums/#{album.id}"}
       .album-widget-label.badge="#{album.count}"
-      %img{:src=> "/photofiles/#{album.photos.first.tm_id}/photoserve"}
+      - if album.count > 0
+        %img{:src=> "/photofiles/#{album.photos.first.tm_id}/photoserve"}
     .album-widget-content
       .album-widget-title
         =album.name

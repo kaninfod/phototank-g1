@@ -3,13 +3,6 @@
     .box-header.with-border
       .box-body
         .col-md-7#modal_image
-          =image_tag "/photofiles/#{@photo.lg_id.to_s}/photoserve", {style:"margin: 0 auto;", class: "img-responsive"}
+          =image_tag "/photofiles/#{@photo.lg_id.to_s}/photoserve", {class: "img-responsive"}
         .col-md-5
           =render :partial => "photos/show/tabs", :locals => {:photo => @photo }
-
-
-:javascript
-  $(document).ready(function() {
-    var wH = $(window).height() - 50;
-    $('#modal_image').children("img").height(wH)
-  })

@@ -22,7 +22,7 @@ class LocationsController < ApplicationController
     @bucket = session[:bucket]
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
-      render :partial=>"photos/view/grid"
+      render :partial=>"photos/grid"
     end
   end
 

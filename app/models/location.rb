@@ -22,7 +22,6 @@ class Location < ActiveRecord::Base
 
   def self.locate_photo(photo)
     @photo = photo
-    byebug
     if no_coordinates
 
     elsif reuse_location
@@ -71,7 +70,6 @@ class Location < ActiveRecord::Base
   end
 
   def geocoder_lookup
-
     if geo_location = Geocoder.search(self.coordinate_string).first
       if geo_location.data["error"].blank?
         self.country = geo_location.country
@@ -95,6 +93,7 @@ class Location < ActiveRecord::Base
   end
 
   def self.reuse_location()
+
     similar_locations = @photo.nearbys(1).where.not(location_id: nil)
     if similar_locations.count(:all) > 0
       @photo.location = similar_locations.first.location
@@ -103,38 +102,52 @@ class Location < ActiveRecord::Base
   end
 
   def self.geosearch
-    if geo_location = Geocoder.search(@photo.coordinate_string).first
-      if geo_location.data["error"].blank?
-        new_location = Location.new
-        new_location.country = geo_location.country
-        new_location.city = geo_location.city
-        new_location.suburb = geo_location.suburb
-        new_location.postcode = geo_location.postal_code
-        new_location.address = geo_location.address
-        new_location.state = geo_location.state
-        new_location.longitude = geo_location.longitude
-        new_location.latitude = geo_location.latitude
-        @photo.location = new_location
-        new_location.save
-        return true
+
+    begin
+      if geo_location = Geocoder.search(@photo.coordinate_string).first
+        if geo_location.data["error"].blank?
+          new_location = Location.new
+          new_location.country = geo_location.country
+          new_location.city = geo_location.city
+          new_location.suburb = geo_location.suburb
+          new_location.postcode = geo_location.postal_code
+          new_location.address = geo_location.address
+          new_location.state = geo_location.state
+          new_location.longitude = geo_location.longitude
+          new_location.latitude = geo_location.latitude
+          new_location.save
+          @photo.location = new_location
+          return true
+        else
+          @photo.location = temp_location
+        end
+      else
+        @photo.location = temp_location
       end
+    rescue Exception => e
+      @photo.location = temp_location
     end
   end
 
 
   def self.get_no_location
-    no_loc = Location.where{(latitude.eq(0) & longitude.eq(0))}
-    if no_loc.length > 0
-      return no_loc.first
+    loc = Location.where(status:100)
+    if loc.length > 0
+      return loc.first
     else
-      new_no_loc = Location.new
-      new_no_loc.latitude = 0
-      new_no_loc.longitude = 0
-      new_no_loc.country = "N/A"
-      new_no_loc.save
-      return new_no_loc
+      loc = Location.create(latitude:0, longitude:0, country:"N/A", status:100)
+      return loc
     end
+  end
 
+  def self.temp_location
+    loc = Location.where(status:200)
+    if loc.length > 0
+      return loc.first
+    else
+      loc = Location.create(latitude:0, longitude:0, country:"N/A", status:200)
+      return loc
+    end
   end
 
 
