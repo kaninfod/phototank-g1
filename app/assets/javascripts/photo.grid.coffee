@@ -1,5 +1,4 @@
 s = undefined
-_this = this
 App.PhotoGrid = do ->
 
   init: ->
@@ -7,28 +6,42 @@ App.PhotoGrid = do ->
       photoGrid: '#photogrid'
       duration: 300
       offset:500
-    @initWaypoint()
+      loading: true
+    # @initWaypoint()
     @bindUIActions()
 
+
   bindUIActions: ->
+
+    _this = this
     $('img.lazy').lazyload()
-    #$(s.photoGrid).on 'click.' + s.eventNamespace, '.delete_photo', -> _this.deletePhoto(this)
+
+    $(window).unbind('scroll');
     $(window).scroll -> _this.showScrollTop(this)
+
     $('.back-to-top').click (event) -> _this.scrollTop(event)
 
     $('body').off('click').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
     $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searboxDropdownChange()
 
     $('.dropdown-toggle').dropdown()
-    # $('[data-toggle="popover"]').popover()
-    Waypoint.refreshAll()
+
+    $('body,html').scroll();
+    $.AdminLTE.controlSidebar.activate()
 
   scrollTop: (event) ->
+
     event.preventDefault()
     $('html, body').animate { scrollTop: 0 }, s.duration
     false
 
   showScrollTop: (scroll)->
+    #Infinite scroll event
+    scrollPosition = $('.loadMore').offset().top  - ($(window).height() + $(window).scrollTop() + s.offset)
+    if scrollPosition < 0 and s.loading
+      @getNextPage()
+
+    #Scroll to top show event
     if $(scroll).scrollTop() > s.offset
       $('.back-to-top').fadeIn s.duration
     else
@@ -52,29 +65,18 @@ App.PhotoGrid = do ->
       return "/country/" + country + "/direction/" + direction
     return "/direction/" + direction
 
-  initWaypoint: ->
+  getNextPage:  ->
     _this = this
-    waypoint = new Waypoint(
-      element: $('.loadMore')
-      offset: ->
-        @context.innerHeight() - @adapter.outerHeight() + 500
-      handler: (direction) ->
-        console.log 'called...'
-        _this.getNextPage(direction)
-      )
-    return waypoint
-
-  getNextPage: (direction) ->
-    _this = this
-    if direction == 'down'
-      $('.loading-notification').fadeIn 100
-      url = $('.next_page').last()[0].href
-      nextPage = $.get(url)
-      nextPage.success (data) ->
-        $('.infinite-container').append data
-        $('.loading-notification').fadeOut 100
-        $('.pagination:first').parent().remove()
-        _this.bindUIActions()
+    s.loading = false
+    $('.loading-notification').fadeIn 100
+    url = $('.next_page').last()[0].href
+    nextPage = $.get(url)
+    nextPage.success (data) ->
+      $('.infinite-container').append data
+      $('.loading-notification').fadeOut 100
+      $('.pagination:first').parent().remove()
+      $('img.lazy').lazyload()
+      s.loading = true
 
 
 $(document).on "page:change", ->

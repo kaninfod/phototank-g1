@@ -10,7 +10,6 @@
 //= require bootstrap-tagsinput/dist/bootstrap-tagsinput.min
 //= require bootstrap-datepicker
 
-//= require waypoints/lib/jquery.waypoints.min
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min
 //= require alertifyjs/dist/js/alertify
