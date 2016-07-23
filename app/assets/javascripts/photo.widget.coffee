@@ -15,7 +15,7 @@ App.PhotoWidget = do ->
   bindUIActions: ->
     _this = this
     @modalInit()
-    $(s.photoGrid).on 'click.' + s.eventNamespace, '.lazy', -> _this.show(this)
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '.lazy', -> _this.showInControlSidebar(this)
 
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-select', -> _this.select(this)
     $('body').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete,#delete-photo', -> _this.delete(this)
@@ -40,8 +40,6 @@ App.PhotoWidget = do ->
       photoWidget.replaceWith(data)
       photoWidget =  $('.photo-widget[data-photoid=' + photoId + '] img')
       photoWidget.attr('src', photoWidget.data('original') + '?' + escape(new Date()))
-
-      # $('.lazy[photo_id=' + photoId + ']').lazyload();
       return false
 
   rotatePhotos: (element) ->
@@ -55,47 +53,26 @@ App.PhotoWidget = do ->
       alertify.log("Photo is queued for a rotation of " + degrees + " degrees");
     false
 
-  show: (element) ->
+  showInControlSidebar: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
-    url = '/photos/' + photoId + '?view=small'
-    $('#control-sidebar-tab-photo > #tab-content').load( url, (result) ->
-      App.ControlSidebar.setControlSidebarTab("3")
-      App.PhotoTaginput.refresh()
-      $('.dropdown-toggle').dropdown()
-      )
-    .fadeIn(200)
+    App.ControlSidebar.showPhoto(photoId)
     $('.photo-widget.highlight').removeClass('highlight')
     $(element).parents('.photo-widget').addClass('highlight')
 
   select: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
-    @addToBucket(photoId)
+    App.Bucket.addPhotoToBucket(photoId)
 
-  addToBucket: (photoId) ->
-    element = $('.photo-widget[data-photoid=' + photoId + '] .overlay-select')
-    $(element).toggleClass("selected")
-    if $(element).hasClass('selected')
-      url = '/bucket/' + photoId + '/add'
-    else
-      url = '/bucket/' + photoId + '/remove'
-    $.ajax
-      method: 'POST'
-      url: url
-      data: {}
-      success: (response) ->
-        $(".bucket").trigger('bucket:update')
-        App.ControlSidebar.setControlSidebarTab(2)
 
   delete: (element) ->
     if $(element).attr('id') == 'delete-photo'
       photoId = $('#photo_id').data("photo_id")
-      # photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
       $('#control-sidebar-tab-photo').children().fadeOut()
       App.ControlSidebar.closeMenu()
     else
       photoWidget = $(element).parents('.photo-widget')
       photoId = photoWidget.data("photoid")
-
+      console.log 'lak'
     @deletePhoto(photoId)
 
   deletePhoto: (photoId) ->
@@ -160,5 +137,5 @@ App.PhotoWidget = do ->
     return $('.infinite-container > .photo-widget[data-photoid=' + photoId + ']')
 
 $(document).on "page:change", ->
-  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show, .locations.show").length > 0
   App.PhotoWidget.init()

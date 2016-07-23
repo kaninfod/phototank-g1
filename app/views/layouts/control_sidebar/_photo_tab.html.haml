@@ -2,6 +2,9 @@
   .box.box-default
     .box-header
       =@photo.date_taken_formatted
+      =@photo.id
+      %br
+      =@photo.location.country
       .dropdown.pull-right
         %button#dropdownMenu1.btn.btn-default.btn-xs.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
           .fa.fa-cog

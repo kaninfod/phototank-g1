@@ -66,7 +66,6 @@ class CatalogsController < ApplicationController
   end
 
   def show
-    # viewmode
     @bucket = session[:bucket]
     @catalog = Catalog.find(params[:id])
     @photos = @catalog.photos.where('photos.status != ? or photos.status is ?', 1, nil).page params[:page]

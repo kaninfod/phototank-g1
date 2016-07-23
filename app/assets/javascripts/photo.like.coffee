@@ -2,6 +2,7 @@ s = undefined
 App.PhotoLike = do ->
 
   init: (@el) ->
+
     s =
       photoGrid: '#photogrid'
       modalElement: $('#photoDetails')
@@ -13,6 +14,7 @@ App.PhotoLike = do ->
 
   bindUIActions: ->
     _this = this
+    $('body').off 'click.' + s.eventNamespace, s.likeButtonId
     $('body').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
 
   likePhoto: (photoId) ->
@@ -25,5 +27,5 @@ App.PhotoLike = do ->
 
 
 $(document).on "page:change", ->
-  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show , .locations.show").length > 0
   App.PhotoLike.init()

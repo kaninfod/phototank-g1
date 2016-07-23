@@ -12,14 +12,18 @@
           .form-group
             = label_tag(:q, "City:")
             = f.select :city, options_for_select(@cities, @album.city), {}, {class:"form-control"}
-
         .col-lg-3
+          .input-daterange
+            .form-group
+              = label_tag(:q, "Start date:")
+              = f.datetime_field(:start, class:"form-control  actual_range")
+            .form-group
+              = label_tag(:q, "End date:")
+              = f.datetime_field :end, class:"form-control  actual_range"
           .form-group
-            = label_tag(:q, "Start date:")
-            = f.datetime_field(:start, class:"form-control")
-          .form-group
-            = label_tag(:q, "End date:")
-            = f.datetime_field :end, class:"form-control"
+            = label_tag(:q, "Tags:")
+            = f.text_field(:tags, class:"form-control", "data-tags"=>@tags.to_json)
+
 
         .col-lg-3
           .form-group

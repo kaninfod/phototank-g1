@@ -31,6 +31,21 @@ App.Bucket = do ->
     @loadBucket()
 
 
+  addPhotoToBucket: (photoId) ->
+    element = $('.photo-widget[data-photoid=' + photoId + '] .overlay-select')
+    $(element).toggleClass("selected")
+    if $(element).hasClass('selected')
+      url = '/bucket/' + photoId + '/add'
+    else
+      url = '/bucket/' + photoId + '/remove'
+    $.ajax
+      method: 'POST'
+      url: url
+      data: {}
+      success: (response) ->
+        $(".bucket").trigger('bucket:update')
+        App.ControlSidebar.setControlSidebarTab("2")
+
   removeFromBucket: (element) ->
     _this=this
     photoId = $(element).data("photoid")

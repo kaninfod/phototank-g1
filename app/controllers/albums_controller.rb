@@ -3,13 +3,11 @@ class AlbumsController < ApplicationController
 
 
   def show
-    viewmode
-
     @bucket = session[:bucket]
     @album = Album.find(params[:id])
 
     #Get photos
-    @photos = @album.photos.paginate(:page => params[:page], :per_page => 24)
+    @photos = @album.photos.paginate(:page => params[:page], :per_page => 40)
 
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
@@ -26,6 +24,11 @@ class AlbumsController < ApplicationController
 
   def edit
     @album = Album.find(params[:id])
+    taglist=ActsAsTaggableOn::Tag.where(id:@album.tags)
+    @tags = taglist.map do |e|
+      {:id=> e.id.to_s, :value=>e.name}
+    end
+
     prep_form
   end
 
@@ -33,6 +36,8 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
     respond_to do |format|
       if @album.update(album_params)
+        tags = params[:album][:tags].split(',').map(&:to_i)
+        @album.update(tags: tags)
         format.html { redirect_to @album, notice: 'Album was successfully updated.' }
         format.json { render :show, status: :ok, location: @album }
       else
@@ -41,6 +46,7 @@ class AlbumsController < ApplicationController
       end
     end
   end
+
 
   def new
     @album = Album.new
@@ -100,7 +106,7 @@ class AlbumsController < ApplicationController
 
 
     def album_params
-      params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
+      params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type, {:tags=>[123]})
     end
 
     def prep_form
@@ -111,12 +117,5 @@ class AlbumsController < ApplicationController
       @bucket = session[:bucket]
     end
 
-    def viewmode
-      if params.has_key?(:viewmode)
-        @view = params[:viewmode]
-      else
-        @view = 'grid'
-      end
-    end
 
 end

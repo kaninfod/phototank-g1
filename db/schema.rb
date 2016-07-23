@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713074207) do
+ActiveRecord::Schema.define(version: 20160720204202) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -19,12 +19,14 @@ ActiveRecord::Schema.define(version: 20160713074207) do
     t.date     "end"
     t.string   "make",       limit: 255
     t.string   "model",      limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.string   "country",    limit: 255
     t.string   "city",       limit: 255
-    t.text     "photo_ids",  limit: 65535
+    t.string   "photo_ids",  limit: 255, default: "--- []\n"
     t.string   "album_type", limit: 255
+    t.string   "tags",       limit: 255, default: "--- []\n"
+    t.boolean  "like"
   end
 
   create_table "catalogs", force: :cascade do |t|

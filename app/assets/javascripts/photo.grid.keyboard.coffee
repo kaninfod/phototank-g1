@@ -104,5 +104,5 @@ App.PhotoGridKeyboard = do ->
       App.PhotoWidget.show(element.find('img'))
 
 $(document).on "page:change", ->
-  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show , .locations.show").length > 0
   App.PhotoGridKeyboard.init()

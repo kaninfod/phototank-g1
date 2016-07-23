@@ -27,9 +27,11 @@
 //= require photo.taginput
 //= require photo.grid
 //= require photo.grid.keyboard
-
 //= require photo.edit
 //= require bucket
+
+//= require album.taginput
+
 //= require catalogs
 //= require albums
 //= require locations

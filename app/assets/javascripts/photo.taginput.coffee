@@ -5,14 +5,16 @@ App.PhotoTaginput = do ->
     s =
       photoGrid: '#photogrid'
       modalElement: $('#photoDetails')
-      tagInput: '.tags'
+      taginput: '.tags'
       genericClass: 'label label-primary'
       mentionClass: 'label label-warning'
       remoteUrl: '/photos/get_tag_list?query=%QUERY'
+
     @bindUIActions()
 
   refresh: ->
     @initTaginput()
+
 
   bindUIActions: ->
     _this = this
@@ -28,7 +30,7 @@ App.PhotoTaginput = do ->
     tag = {tag: event.item}
     $.get url, tag, (data) ->
       $('.bootstrap-tagsinput input').val('')
-      
+
 
   removeTag: (event) ->
     photo_id = $('#photo_id').data("photo_id")
@@ -37,7 +39,7 @@ App.PhotoTaginput = do ->
     $.get url, tag
 
   initTaginput: ->
-    $(s.tagInput).tagsinput
+    $(s.taginput).tagsinput
       tagClass: (item) ->
         switch item.charAt(0)
           when '@'
@@ -53,5 +55,5 @@ App.PhotoTaginput = do ->
 
 
 $(document).on "page:change", ->
-  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show , .locations.show").length > 0
   App.PhotoTaginput.init()

@@ -48,9 +48,6 @@ class PhotosController < ApplicationController
 
     #Get photos
     @photos = @album.photos.where('photos.status != ? or photos.status is ?', 1, nil).order(date_taken: order).paginate(:page => params[:page], :per_page=>40)
-    
-    #grid or table
-    viewmode
 
     #get distinct data for dropdowns
     prep_form
@@ -165,7 +162,7 @@ class PhotosController < ApplicationController
 
   def get_tag_list
     query_string = params[:term]
-    taglist = ActsAsTaggableOn::Tag.most_used.where("name like ?", "#{query_string}%")
+    taglist = ActsAsTaggableOn::Tag.where("name like ?", "#{query_string}%")
     autocomplete_list = taglist.map do |e|
       {:id=> e.id, :value=>e.name}
     end
@@ -175,65 +172,43 @@ class PhotosController < ApplicationController
   private
 
   def set_date(query)
-
-    start = {:year=>Date.today.year, :month=>01, :day=>01}
+    start = {:year=>Date.today.year, :month=>Date.today.month, :day=>Date.today.day}
     if query != nil
-      start[:year]=query[:year].to_i unless not query.has_key?(:year)
-      start[:month]=query[:month].to_i unless not query.has_key?(:month)
-      start[:day]=query[:day].to_i unless not query.has_key?(:day)
+      [:year, :month, :day].each do |t|
+        start[t]=query[t].to_i unless not query.has_key?(t)
+      end
     end
 
     if query == nil
       @searchbox = {
           :type=>"all",
-          :day => start[:day],
-          :month => start[:month],
-          :year => start[:year],
           :values => Photo.years}
     elsif query.has_key?(:day)
       @searchbox = {
           :type => "day",
-          :day => start[:day],
-          :month => start[:month],
-          :year => start[:year],
           :values => Photo.days(start[:year], start[:month])}
     elsif query.has_key?(:month)
       @searchbox = {
           :type=>"month",
-          :day => start[:day],
-          :month => start[:month],
-          :year => start[:year],
           :values => Photo.days(start[:year], start[:month])}
     elsif query.has_key?(:year)
       @searchbox = {
           :type=>"year",
-          :day => start[:day],
-          :month => start[:month],
-          :year => start[:year],
           :values => Photo.months(start[:year])}
     else
       @searchbox = {
           :type=>"all",
-          :day => start[:day],
-          :month => start[:month],
-          :year => start[:year],
           :values => Photo.years}
     end
-
+    @searchbox[:day] = start[:day]
+    @searchbox[:month] = start[:month]
+    @searchbox[:year] = start[:year]
     start = Date.new(start[:year], start[:month], start[:day])
 
   end
 
   def album_params
     params.require(:album).permit(:start, :end, :name, :make, :model, :country, :city, :photo_ids, :album_type)
-  end
-
-  def viewmode
-    if params.has_key?(:viewmode)
-      @view = params[:viewmode]
-    else
-      @view = 'grid'
-    end
   end
 
   def prep_form

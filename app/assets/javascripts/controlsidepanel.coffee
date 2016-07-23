@@ -16,6 +16,16 @@ App.ControlSidebar = do ->
     $('body').on 'click.' + s.eventNamespace, s.controlSidebarBtn, -> _this.toggleControlSidebar()
     $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) -> _this.tabChange(e)
 
+  showPhoto: (id) ->
+    _this=this
+    url = '/photos/' + id + '?view=small'
+    $('#control-sidebar-tab-photo > #tab-content').load( url, (result) ->
+      _this.setControlSidebarTab("3")
+      App.PhotoTaginput.refresh()
+      App.PhotoLike.init()
+      $('.dropdown-toggle').dropdown()
+      )
+    .fadeIn(200)
 
   tabChange: (event) ->
     if $('body').hasClass('control-sidebar-open')
@@ -54,7 +64,6 @@ App.ControlSidebar = do ->
         $('.nav-tabs a[href="#control-sidebar-tab-bucket"]').tab('show')
         localStorage.controlSidebarStatus = 2
       when "3"
-        console.log 'did we get here'
         $('.nav-tabs a[href="#control-sidebar-tab-photo"]').tab('show')
         localStorage.controlSidebarStatus = 3
     $.AdminLTE.controlSidebar.open()
@@ -62,7 +71,6 @@ App.ControlSidebar = do ->
   state: ->
     if $('body').hasClass('control-sidebar-open')
       selectedTab = $('.control-sidebar-tabs > .active > a').attr('href')
-      console.log selectedTab
       switch selectedTab
         when '#control-sidebar-tab-nav'
           return 1
@@ -76,5 +84,5 @@ App.ControlSidebar = do ->
 
 
 $(document).on "page:change", ->
-  return unless $(".photos.index, .catalogs.show, .albums.show").length > 0
+  return unless $(".photos.index, .catalogs.show, .albums.show, .locations.show").length > 0
   App.ControlSidebar.init()

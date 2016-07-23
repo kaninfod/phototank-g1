@@ -1,16 +1,4 @@
-%p#notice= notice
-.container
-  .row
-    .col-lg-10
-      = link_to icon('chevron-circle-left'), :back
-      %dl.dl-horizontal
-        %dt Country
-        %dd
-          = @location.country
-        %dt City
-        %dd= @location.city
-        %dt Address
-        %dd= @location.address
-        %dt Map
-        %dd
-          = image_tag @location.get_google_map #{}"http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@location.latitude}%2C#{@location.longitude}"
+=content_for :title, @location.country
+=content_for :subtitle, @location.address
+.row
+  = render :template => 'photos/_index'
