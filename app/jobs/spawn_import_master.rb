@@ -5,7 +5,8 @@ class SpawnImportMaster < ResqueJob
   @logger.debug "foo bar"
 
   def self.perform(path, photo_id= nil, import_mode=true)
-    @logger.info path
+    @logger.info "Does file exist: #{File.exist?(path)}"
+    @logger.info "files in dir: #{Dir.glob("#{path}/**/*.jpg").length}"
     begin
       Dir.glob("#{path}/**/*.jpg").each do |import_file_path|
         @logger.info import_file_path
