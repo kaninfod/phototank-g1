@@ -16,6 +16,8 @@ Resque.redis = Redis.new(host: config['host'], port: config['port'], db: config[
 Rails.logger.warn Resque.redis
 
 
-
-Resque.logger = MonoLogger.new(File.open("#{Rails.root}/log/resque.log", "w+"))
-Resque.logger.formatter = Resque::QuietFormatter.new
+logfile = File.open(File.join(Rails.root, 'log', 'resque.log'), 'a')
+logfile.sync = true
+Resque.logger = ActiveSupport::Logger.new(logfile)
+Resque.logger.level = Logger::DEBUG
+Resque.logger.info "logger initialized"
