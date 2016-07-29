@@ -17,6 +17,7 @@ class Photofile < ActiveRecord::Base
   end
 
   def import_file
+    
     begin
       if self.datahash.has_key? :date_taken
         if self.datahash.has_key? :photosize
@@ -45,10 +46,8 @@ class Photofile < ActiveRecord::Base
       filepath = File.join(path, filename)
       FileUtils.cp self.path, filepath
       self.path = filepath
-
-
     rescue Exception => e
-      byebug
+      raise e
     end
   end
 

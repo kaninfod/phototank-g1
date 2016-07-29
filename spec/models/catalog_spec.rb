@@ -25,11 +25,12 @@ describe Catalog, :type => :model do
   end
 
   it "imports a photo to master catalog" do
+    byebug
     import_path = [File.join(Rails.root, '/spec/test_files/store/one_jpeg/')]
-    catalog = create(
-      :master_catalog,
-      :watch_path => import_path
-      )
+    catalog = build :master_catalog
+    catalog.watch_path = import_path
+    catalog.save
+
     expect {
       with_resque do
         catalog.import
@@ -95,7 +96,7 @@ describe Catalog, :type => :model do
     }.to change {Instance.count}.by(-3)
 
 
-    # 
+    #
     # files.each do |path|
     #   expect(File.exist?(path)).to be false
     # end

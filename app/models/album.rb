@@ -12,10 +12,7 @@ class Album < ActiveRecord::Base
   end
 
   def photos
-
     result = Photo.joins(join_location).joins(join_tagging).where(conditions)
-    #result.tagged_with(self.tags, :any => true) unless self.tags.length == 0
-
   end
 
   def conditions
@@ -229,8 +226,8 @@ class Album < ActiveRecord::Base
   end
 
   private
-
-  def get_predicate(col, value, predicate)
-    Squeel::Nodes::Predicate.new(Squeel::Nodes::Stub.new(col), predicate, value)
-  end
+  # 
+  # def get_predicate(col, value, predicate)
+  #   Squeel::Nodes::Predicate.new(Squeel::Nodes::Stub.new(col), predicate, value)
+  # end
 end

@@ -3,7 +3,6 @@ class SpawnImportMaster < ResqueJob
   @queue = :import
 
   def self.perform(path, photo_id= nil, import_mode=true)
-
     begin
       Dir.glob("#{path}/**/*.jpg").each do |import_file_path|
 

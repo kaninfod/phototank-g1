@@ -8,7 +8,6 @@ class PhotoImportMaster < ResqueJob
   IMAGE_LARGE = '1024x1200'
 
   def self.perform(import_path, photo_id=false, import_mode=true)
-
     begin
       raise "File does not exist" unless File.exist?(import_path)
       data = import_flow(import_path, import_mode)
@@ -69,7 +68,7 @@ class PhotoImportMaster < ResqueJob
       @data[:latitude] = exif.gpslatitude
       @data[:make] = exif.make
       @data[:model] = exif.model
-      
+
       #Set data_taken; either from EXIF or from file timestamp
       if !exif.datetimeoriginal.blank?
         @data[:date_taken] = exif.datetimeoriginal

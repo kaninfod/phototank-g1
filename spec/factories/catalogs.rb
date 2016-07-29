@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :master_catalog do
-    name "my_master_catalog"
+    name "my_master_catalogx"
     type "MasterCatalog"
     path File.join(Rails.root, '/spec/test_files/target/master')
     watch_path [File.join(Rails.root, '/test/test_files/import/path_a'), File.join(Rails.root, '/test/test_files/import/path_b')]

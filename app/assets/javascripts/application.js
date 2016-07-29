@@ -6,7 +6,7 @@
 
 //= require bootstrap-sprockets
 //= require bootstrap.min
-//= require bootstrap-typeahead-rails
+
 //= require bootstrap-tagsinput/dist/bootstrap-tagsinput.min
 //= require bootstrap-datepicker
 

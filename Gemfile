@@ -44,9 +44,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'will_paginate'
 
 gem 'bootstrap-sass'
-gem 'bootstrap_form'
 
-gem 'bootstrap-typeahead-rails'
+#gem 'bootstrap_form' not uninstalled
+
+#gem 'bootstrap-typeahead-rails'
 
 gem 'font-awesome-sass', '~> 4.5.0'
 
@@ -85,7 +86,6 @@ gem 'dropbox-sdk'
 
 group :test do
   gem 'faker'
-  gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
   gem 'resque_spec'
