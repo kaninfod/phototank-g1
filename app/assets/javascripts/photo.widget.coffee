@@ -18,7 +18,7 @@ App.PhotoWidget = do ->
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.lazy', -> _this.showInControlSidebar(this)
 
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-select', -> _this.select(this)
-    $('.wrapper').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete, #delete-photo', -> _this.delete(this)
+    $('body').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete,#delete-photo', -> _this.delete(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-zoom',-> _this.showModal(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-processing', (ev) -> _this.reloadWidget(this)
 
@@ -65,15 +65,14 @@ App.PhotoWidget = do ->
 
 
   delete: (element) ->
-    console.log 'kaj'
     if $(element).attr('id') == 'delete-photo'
       photoId = $('#photo_id').data("photo_id")
       $('#control-sidebar-tab-photo').children().fadeOut()
-      $.AdminLTE.controlSidebar.close()
-      localStorage.controlSidebarStatus = 0
+      App.ControlSidebar.closeMenu()
     else
       photoWidget = $(element).parents('.photo-widget')
       photoId = photoWidget.data("photoid")
+      console.log 'lak'
     @deletePhoto(photoId)
 
   deletePhoto: (photoId) ->

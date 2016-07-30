@@ -1,4 +1,4 @@
-class MasterImportPhoto < ResqueJob
+class PhotoImportMaster < ResqueJob
   include Resque::Plugins::UniqueJob
   include PhotoFilesApi
   @queue = :import
@@ -24,7 +24,7 @@ class MasterImportPhoto < ResqueJob
         catalog_id: Catalog.master.id
       )
 
-      Resque.enqueue(UtilLocator, photo.id)
+      Resque.enqueue(Locator, photo.id)
 
     rescue Exception => e
       @job.update(job_error: e, status: 2, completed_at: Time.now)

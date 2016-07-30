@@ -17,7 +17,7 @@ class LocalCloneInstancesFromAlbumJob < ResqueJob
         end
       end
 
-      Resque.enqueue(LocalImportSpawn, catalog_id)
+      Resque.enqueue(LocalSpawnImportJob, catalog_id)
     rescue Exception => e
       @job.update(job_error: e, status: 2, completed_at: Time.now)
       Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"

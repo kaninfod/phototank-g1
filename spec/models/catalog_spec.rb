@@ -20,7 +20,7 @@ describe Catalog, :type => :model do
       catalog = create(:master_catalog)
       catalog.import
       catalog.watch_path.each do |p|
-        expect(MasterImportSpawn).to have_queued(p, nil, false).in(:import)
+        expect(SpawnImportMaster).to have_queued(p, nil, false).in(:import)
       end
   end
 

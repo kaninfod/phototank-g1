@@ -101,7 +101,7 @@ App.PhotoGridKeyboard = do ->
     element.focus()
     $('html, body').animate(scrollTop: element.offset().top - s.scrollMargin , s.scrollDuration)
     if App.ControlSidebar.state() == 3
-      App.PhotoWidget.showInControlSidebar(element.find('img'))
+      App.PhotoWidget.show(element.find('img'))
 
 $(document).on "page:change", ->
   return unless $(".photos.index, .catalogs.show, .albums.show , .locations.show").length > 0

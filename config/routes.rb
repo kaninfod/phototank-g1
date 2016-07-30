@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   end
 
 
-
+  require 'resque/server'
   mount Resque::Server.new, at: "/resque"
 
   root to: 'photos#index'
