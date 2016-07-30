@@ -4,7 +4,11 @@ class MasterCatalog < Catalog
 
     begin
       self.watch_path.each do |import_path|
-        Resque.enqueue(SpawnImportMaster, import_path, photo_id = nil, import_mode=self.import_mode)
+        if File.exist?(import_path)
+          Resque.enqueue(SpawnImportMaster, import_path, photo_id = nil, import_mode=self.import_mode)
+        else
+          logger.debug "path #{import_path} did not exist"
+        end
       end
       return true
     rescue Exception => e
@@ -13,7 +17,7 @@ class MasterCatalog < Catalog
   end
 
   def online
-    true
+    File.exist?(self.path)
   end
 
   def delete_photo(photo_id)
