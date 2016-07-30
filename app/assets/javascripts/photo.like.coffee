@@ -14,8 +14,8 @@ App.PhotoLike = do ->
 
   bindUIActions: ->
     _this = this
-    $('body').off 'click.' + s.eventNamespace, s.likeButtonId
-    $('body').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
+    $('.wrapper').off 'click.' + s.eventNamespace, s.likeButtonId
+    $('.wrapper').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
 
   likePhoto: (photoId) ->
     console.log photoId
@@ -26,6 +26,6 @@ App.PhotoLike = do ->
 
 
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   return unless $(".photos.index, .catalogs.show, .albums.show , .locations.show").length > 0
   App.PhotoLike.init()

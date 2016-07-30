@@ -21,5 +21,5 @@ App.Locations = do ->
       window.location = 'locations?q=' + q
     return
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   App.Locations.init()

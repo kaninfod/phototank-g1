@@ -80,10 +80,6 @@ App.PhotoGrid = do ->
       s.loading = true
 
 
-$(document).on "page:change", ->
-
+$(document).on "turbolinks:load", ->
   return unless $(".photos.index, .catalogs.show, .albums.show, .locations.show").length > 0
   App.PhotoGrid.init()
-
-
-console.log "was I not invited?"

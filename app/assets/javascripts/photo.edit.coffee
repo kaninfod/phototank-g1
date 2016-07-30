@@ -49,6 +49,6 @@ App.PhotoEdit = do ->
     url = '/photos/'+ photo_id + '/rotate/' + rotateValue
     $.get url
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   # return unless $(".photos.edit").length > 0
   App.PhotoEdit.init()

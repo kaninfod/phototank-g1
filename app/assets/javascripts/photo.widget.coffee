@@ -136,6 +136,6 @@ App.PhotoWidget = do ->
   getWidget: (photoId) ->
     return $('.infinite-container > .photo-widget[data-photoid=' + photoId + ']')
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   return unless $(".photos.index, .catalogs.show, .albums.show, .locations.show").length > 0
   App.PhotoWidget.init()

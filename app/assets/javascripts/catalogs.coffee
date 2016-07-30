@@ -30,5 +30,5 @@ App.Catalogs = do ->
       $('#album-list').toggleClass 'hidden'
     return
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   App.Catalogs.init()

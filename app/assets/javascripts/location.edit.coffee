@@ -161,6 +161,6 @@ App.LocationEdit = do ->
     @get_location e.latLng.lat(), e.latLng.lng()
 
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   return unless $(".locations.new").length > 0
   App.LocationEdit.init()

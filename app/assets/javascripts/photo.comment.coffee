@@ -29,6 +29,6 @@ App.PhotoComment = do ->
     photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     url = '/photos/' + photo_id + '/add_comment'
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   return unless $(".photos.index, .catalogs.show, .albums.show , .locations.show").length > 0
   App.PhotoComment.init()

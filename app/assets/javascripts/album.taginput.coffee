@@ -57,6 +57,6 @@ App.AlbumTaginput = do ->
       $('.bootstrap-tagsinput input').val('')
 
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   return unless $(".albums.edit").length > 0
   App.AlbumTaginput.init()

@@ -118,5 +118,5 @@ App.Bucket = do ->
       alertify.log("Photos have been saved to album");
 
 
-$(document).on "page:change", ->
+$(document).on "turbolinks:load", ->
   App.Bucket.init()
