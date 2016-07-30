@@ -16,7 +16,7 @@ class Location < ActiveRecord::Base
 
   def self.geolocate
     Photo.where{location_id.eq(nil)}.each do |photo|
-      Resque.enqueue(Locator, photo.id)
+      Resque.enqueue(UtilLocator, photo.id)
     end
   end
 

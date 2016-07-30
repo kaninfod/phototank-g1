@@ -75,6 +75,9 @@ gem 'silencer', '~> 0.6.0'
 
 gem 'resque'
 gem 'resque-loner'
+gem 'resque-scheduler'
+
+gem "rails-settings-cached"
 
 gem "haml-rails", "~> 0.9"
 

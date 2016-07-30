@@ -1,14 +1,12 @@
-class Locator < ResqueJob
-  include Resque::Plugins::UniqueJob
-  @queue = :utility
+class UtilSetSetting < ResqueJob
+  @queue = :import
 
-  def self.perform(photo_id)
+  def self.perform(klass, id, setting, value)
 
     begin
-
-      @photo = Photo.find(photo_id)
-      @photo.locate
-      @photo.save
+      cls = Object.const_get(klass)
+      obj = cls.find(id)
+      obj.settings[setting.to_sym] = value
     rescue Exception => e
       @job.update(job_error: e, status: 2, completed_at: Time.now)
       Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"

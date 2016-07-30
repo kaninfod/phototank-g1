@@ -1,10 +1,12 @@
 class MasterCatalog < Catalog
+  include RailsSettings::Extend
   validates :type, uniqueness: true
   def import
-
+    return if self.settings.updating == true
+    
     begin
       self.watch_path.each do |import_path|
-        Resque.enqueue(SpawnImportMaster, import_path, photo_id = nil, import_mode=self.import_mode)
+        Resque.enqueue(MasterImportSpawn, import_path, photo_id = nil, import_mode=self.import_mode)
       end
       return true
     rescue Exception => e
