@@ -2,7 +2,7 @@
 //= require jquery
 //= require jquery-ujs
 //= require turbolinks
-//= require jquery-ui
+//= require jquery-ui/autocomplete
 
 //= require bootstrap-sprockets
 //= require bootstrap.min

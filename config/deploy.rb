@@ -84,10 +84,9 @@ namespace :deploy do
   after  :finishing,    :restart
 
 
-
-
 end
 after "deploy:restart", "resque:restart"
+after "resque:restart", "resque:scheduler:start"
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
 # kill -s SIGTERM pid   # Stop puma
