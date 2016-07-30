@@ -20,11 +20,12 @@
 //= require adminlte_options
 //= require AdminLTE/dist/js/app.min
 
-//= require init
+//= require init.coffee
 //= require photo.widget
 //= require photo.like
 //= require photo.comment
 //= require photo.taginput
+console.log('loadinh...');
 //= require photo.grid
 //= require photo.grid.keyboard
 //= require photo.edit

@@ -16,7 +16,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
-
+gem 'sprockets', '3.6.3'
 gem 'execjs'
 
 # Use sqlite3 as the database for Active Record
@@ -84,8 +84,7 @@ gem "haml-rails", "~> 0.9"
 
 gem 'flickraw', '~> 0.9.8'
 gem 'dropbox-sdk'
-
-# gem 'rack-mini-profiler'
+gem 'rack-mini-profiler'
 
 group :test do
   gem 'faker'

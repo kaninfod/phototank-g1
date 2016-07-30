@@ -4,3 +4,4 @@ App.init = ->
 
 $(document).on "page:change", ->
   App.init()
+  console.log "init"
