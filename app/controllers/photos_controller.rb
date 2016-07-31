@@ -83,7 +83,7 @@ class PhotosController < ApplicationController
       data = data.delete_if { |k,v| k == "location_address" }
       photo = Photo.find(params[:id])
       if photo.update(data)
-        Resque.enqueue(PhotoUpdateExif, photo.id)
+        PhotoUpdateExif.perform_later photo.id
       end
     end
     render json: {'ok'=>1}

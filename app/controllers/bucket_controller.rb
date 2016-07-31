@@ -104,7 +104,7 @@ class BucketController < ApplicationController
       #update the database entry
       if photo.update(params.permit(:date_taken, :location_id))
         #update the exif data on the original photo
-        Resque.enqueue(PhotoUpdateExif, photo.id)
+        PhotoUpdateExif.perform_later photo.id
       end
     end
     redirect_to session[:finalurl]

@@ -51,12 +51,12 @@ class FlickrCatalog < Catalog
   def import(use_resque=true)
     raise "Catalog is not online" unless online
     if not self.sync_from_catalog.blank?
-        Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
+        LocalCloneInstancesFromCatalogJob.perform_later self.id, self.sync_from_catalog
     end
   end
 
   def import_photo(photo_id)
-    
+
     pf = PhotoFilesApi::Api::new
 
     photo = Photo.find(photo_id)

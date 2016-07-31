@@ -1,5 +1,4 @@
 require File.expand_path('../boot', __FILE__)
-
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
@@ -37,9 +36,11 @@ module Phototank
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
 
+    config.active_job.queue_adapter = :resque
+
     config.x.flickr = config_for(:app_flickr)
     config.x.dropbox = config_for(:app_dropbox)
     config.x.phototank = config_for(:app_phototank)
-    
+
   end
 end

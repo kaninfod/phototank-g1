@@ -1,13 +1,13 @@
-class MasterImportPhoto < ResqueJob
+class MasterImportPhoto < AppJob
   include Resque::Plugins::UniqueJob
   include PhotoFilesApi
-  @queue = :import
+  queue_as :import
 
   IMAGE_THUMB = '125x125'
   IMAGE_MEDIUM = '480x680'
   IMAGE_LARGE = '1024x1200'
 
-  def self.perform(import_path, photo_id=false, import_mode=true)
+  def perform(import_path, photo_id=false, import_mode=true)
     begin
       raise "File does not exist" unless File.exist?(import_path)
       data = import_flow(import_path, import_mode)
@@ -24,17 +24,17 @@ class MasterImportPhoto < ResqueJob
         catalog_id: Catalog.master.id
       )
 
-      Resque.enqueue(UtilLocator, photo.id)
+      UtilLocator.perform_later photo.id
 
     rescue Exception => e
-      @job.update(job_error: e, status: 2, completed_at: Time.now)
-      Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"
+      @job_db.update(job_error: e, status: 2, completed_at: Time.now)
+      Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"
       return
     end
   end
 
 
-  def self.import_flow(path, import_mode=true)
+  def import_flow(path, import_mode=true)
     @data = {}
 
     @pf = PhotoFilesApi::Api::new

@@ -76,6 +76,7 @@ gem 'silencer', '~> 0.6.0'
 gem 'resque'
 gem 'resque-loner'
 gem 'resque-scheduler'
+gem 'active_scheduler'
 
 gem "rails-settings-cached"
 

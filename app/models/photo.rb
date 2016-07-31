@@ -53,7 +53,7 @@ class Photo < ActiveRecord::Base
   end
 
   def delete
-    Resque.enqueue(DeletePhoto, self.id)
+    DeletePhoto.perform_later self.id
     self.update(status: 1)
   end
 
@@ -109,13 +109,13 @@ class Photo < ActiveRecord::Base
   end
 
   def rotate(degrees)
-    Resque.enqueue(PhotoRotate, self.id, degrees.to_i)
+    PhotoRotate.perform_later self.id, degrees.to_i
     self.update(status: 6)
   end
 
   private
     def move_by_date
-      Resque.enqueue(PhotoMoveByDate, self.id)
+      PhotoMoveByDate.perform_later self.id
     end
 
     def _delete

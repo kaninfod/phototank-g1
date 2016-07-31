@@ -1,15 +1,15 @@
-class PhotoUpdateExif < ResqueJob
+class PhotoUpdateExif < AppJob
   include Resque::Plugins::UniqueJob
-  @queue = :utility
+  queue_as :utility
 
-  def self.perform(photo_id)
+  def perform(photo_id)
     #TODO change to use Photofile
     begin
       photo = Photo.find(photo_id)
       photo.update_exif
     rescue Exception => e
-      @job.update(job_error: e, status: 2, completed_at: Time.now)
-      Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"
+      @job_db.update(job_error: e, status: 2, completed_at: Time.now)
+      Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"
       return
     end
 

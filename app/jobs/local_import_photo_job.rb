@@ -1,13 +1,13 @@
-class LocalImportPhotoJob < ResqueJob
+class LocalImportPhotoJob < AppJob
   include Resque::Plugins::UniqueJob
-  @queue = :import
+  queue_as :import
 
-  def self.perform(catalog_id, photo_id)
+  def perform(catalog_id, photo_id)
     begin
       Catalog.find(catalog_id).import_photo(photo_id)
     rescue Exception => e
-      @job.update(job_error: e, status: 2, completed_at: Time.now)
-      Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"
+      @job_db.update(job_error: e, status: 2, completed_at: Time.now)
+      Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"
       return
     end
   end
