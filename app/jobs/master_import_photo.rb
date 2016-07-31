@@ -128,7 +128,7 @@ class MasterImportPhoto < AppJob
     return @data
   end
 
-  def self.generate_datehash(date)
+  def generate_datehash(date)
       datestring = date.strftime("%Y%m%d%H%M%S")
       unique = [*'a'..'z', *'A'..'Z', *0..9].shuffle.permutation(5).next.join
 
@@ -142,7 +142,7 @@ class MasterImportPhoto < AppJob
       return datehash
   end
 
-  def self.create_thumbnail()
+  def create_thumbnail()
     MiniMagick::Tool::Convert.new do |convert|
       convert.merge! ["-size", "200x200", @org_file.path]
       convert.merge! ["-thumbnail", "125x125^"]
@@ -153,13 +153,13 @@ class MasterImportPhoto < AppJob
     return true
   end
 
-  def self.resize_photo(path, size)
+  def resize_photo(path, size)
     @image.resize size
     @image.write path
     return true
   end
 
-  def self.create_pf(size)
+  def create_pf(size)
 
     file=instance_variable_get("@#{size}_file")
     @datehash[:size] = size
