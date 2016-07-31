@@ -4,17 +4,34 @@ class MasterImportSpawn < AppJob
 
   def perform(path, photo_id= nil, import_mode=true)
     begin
-
-      whitelist = "{jpg}"
+      require 'find'
+      dir_blacklist = ['existing']
+      ext_whitelist = ['.jpg', '.JPG']
       UtilSetSetting.perform_later 'MasterCatalog', Catalog.master.id, 'updating', true
 
-      Dir.glob("#{path}/**/*.#{whitelist}").each do |import_file_path|
-        if File.file? import_file_path
-          MasterImportPhoto.perform_later import_file_path, photo_id, import_mode
+      Find.find(path) do |path|
+        name = File.basename(path)
+        if FileTest.directory?(path)
+          if dir_blacklist.include? name
+            Find.prune
+          else
+            next
+          end
         else
-          raise "no file to import: #{import_file_path}"
+          ext = File.extname(name)
+          if ext_whitelist.include? ext
+            MasterImportPhoto.perform_later path, photo_id, import_mode
+          end
         end
       end
+
+      # Dir.glob("#{path}/**/*.#{whitelist}").each do |import_file_path|
+      #   if File.file? import_file_path
+      #     MasterImportPhoto.perform_later import_file_path, photo_id, import_mode
+      #   else
+      #     raise "no file to import: #{import_file_path}"
+      #   end
+      # end
 
       UtilSetSetting.perform_later 'MasterCatalog', Catalog.master.id, 'updating', false
 

@@ -1,5 +1,5 @@
 update_master_catalog:
-  every: "60s"
+  every: "30m"
   class: "SchedulerMasterImport"
   queue: "import"
-  description: "This job queues all content for indexing in solr"
+  description: ""

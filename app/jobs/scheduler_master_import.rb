@@ -1,11 +1,6 @@
 class SchedulerMasterImport < AppJob
   include Resque::Plugins::UniqueJob
   queue_as :import
-  # RUN_EVERY = 2.minute
-  #
-  # after_perform do |job|
-  #   self.class.set(wait: RUN_EVERY).perform_later
-  # end
 
   def perform()
     begin

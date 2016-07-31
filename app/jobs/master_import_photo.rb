@@ -43,6 +43,10 @@ class MasterImportPhoto < AppJob
     @data[:phash] = phash.fingerprint
 
     if Photo.exists(@data[:phash])
+      byebug
+      _p = File.join(File.dirname(path), 'existing')
+      FileUtils.mkdir_p _p
+      FileUtils.mv path, _p
       raise "Photo already exists: #{path}"
     end
 
