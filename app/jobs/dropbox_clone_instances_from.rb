@@ -1,7 +1,7 @@
-class DropboxCloneInstancesFrom < ResqueJob
-  @queue = :import
+class DropboxCloneInstancesFrom < AppJob
+  queue_as :import
 
-  def self.perform(action, options)
+  def perform(action, options)
 
     begin
       case action
@@ -14,8 +14,8 @@ class DropboxCloneInstancesFrom < ResqueJob
         catalog.import_files
       end
     rescue Exception => e
-      @job.update(job_error: e, status: 2, completed_at: Time.now)
-      Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"
+      @job_db.update(job_error: e, status: 2, completed_at: Time.now)
+      Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"
       return
     end
   end

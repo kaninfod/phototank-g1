@@ -1,26 +1,26 @@
-class MasterImportSpawn < ResqueJob
+class MasterImportSpawn < AppJob
   include Resque::Plugins::UniqueJob
-  @queue = :import
+  queue_as :import
 
-  def self.perform(path, photo_id= nil, import_mode=true)
+  def perform(path, photo_id= nil, import_mode=true)
     begin
 
-      whitelist = "{jpg,JPG}"
-      Resque.enqueue(UtilSetSetting, 'MasterCatalog', Catalog.master.id, 'updating', true)
+      whitelist = "{jpg}"
+      UtilSetSetting.perform_later 'MasterCatalog', Catalog.master.id, 'updating', true
 
       Dir.glob("#{path}/**/*.#{whitelist}").each do |import_file_path|
         if File.file? import_file_path
-          Resque.enqueue(MasterImportPhoto, import_file_path, photo_id, import_mode)
+          MasterImportPhoto.perform_later import_file_path, photo_id, import_mode
         else
           raise "no file to import: #{import_file_path}"
         end
       end
 
-      Resque.enqueue(UtilSetSetting, 'MasterCatalog', Catalog.master.id, 'updating', false)
+      UtilSetSetting.perform_later 'MasterCatalog', Catalog.master.id, 'updating', false
 
     rescue Exception => e
-      @job.update(job_error: e, status: 2, completed_at: Time.now)
-      "Error raised on job id: #{@job.id}. Error: #{e}"
+      @job_db.update(job_error: e, status: 2, completed_at: Time.now)
+      Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"
       return
     end
 

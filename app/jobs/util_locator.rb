@@ -1,8 +1,8 @@
-class UtilLocator < ResqueJob
+class UtilLocator < AppJob
   include Resque::Plugins::UniqueJob
-  @queue = :utility
+  queue_as :utility
 
-  def self.perform(photo_id)
+  def perform(photo_id)
 
     begin
 
@@ -10,8 +10,8 @@ class UtilLocator < ResqueJob
       @photo.locate
       @photo.save
     rescue Exception => e
-      @job.update(job_error: e, status: 2, completed_at: Time.now)
-      Rails.logger.warn "Error raised on job id: #{@job.id}. Error: #{e}"
+      @job_db.update(job_error: e, status: 2, completed_at: Time.now)
+      Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"
       return
     end
 

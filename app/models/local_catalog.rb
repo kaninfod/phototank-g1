@@ -4,10 +4,10 @@ class LocalCatalog < Catalog
   def import
     #raise "Catalog is not online" unless online
     if self.sync_from_albums.blank?
-      Resque.enqueue(LocalCloneInstancesFromCatalogJob, self.id, self.sync_from_catalog)
+      LocalCloneInstancesFromCatalogJob.perform_later self.id, self.sync_from_catalog
     else
       self.sync_from_albums.each do |album_id|
-        Resque.enqueue(LocalCloneInstancesFromAlbumJob, self.id, album_id)
+        LocalCloneInstancesFromAlbumJob.perform_later self.id, album_id
       end
     end
   end
