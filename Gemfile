@@ -86,6 +86,9 @@ gem "haml-rails", "~> 0.9"
 gem 'flickraw', '~> 0.9.8'
 gem 'dropbox-sdk'
 gem 'rack-mini-profiler'
+gem 'flamegraph'
+gem 'stackprof'
+gem 'meta_request'
 
 group :test do
   gem 'faker'

@@ -5,7 +5,7 @@ App.PhotoGrid = do ->
     s =
       photoGrid: '#photogrid'
       duration: 300
-      offset:500
+      offset:900
       loading: true
     # @initWaypoint()
     @bindUIActions()
