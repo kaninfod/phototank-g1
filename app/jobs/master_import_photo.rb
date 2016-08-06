@@ -147,6 +147,11 @@ class MasterImportPhoto < AppJob
       convert.merge! ["-size", "200x200", @org_file.path]
       convert.merge! ["-thumbnail", "125x125^"]
       convert.merge! ["-gravity", "center"]
+      convert.merge! ["strip"]
+      convert.merge! ["-interlace" "Plane"]
+      convert.merge! ["-sampling-factor" "4:2:0"]
+      convert.merge! ["-define" "jpeg:dct-method=float"]
+      convert.merge! ["-quality" "85%"]
       convert.merge! ["-extent", "125x125", "+profile", "'*'"]
       convert << @tm_file.path
     end
