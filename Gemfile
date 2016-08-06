@@ -10,7 +10,7 @@
 
 
 #dependencies for linux:
-# sudo apt-get install exiftool libjpeg-dev libpng-dev graphicsMagick mysql-server mysql-client libmysqlclient-dev nodejs execjs sudo apt-get install redis-tools imagemagick
+# sudo apt-get install exiftool libjpeg-dev libpng-dev graphicsMagick mysql-server mysql-client libmysqlclient-dev nodejs execjs redis-tools imagemagick libmagic-dev
 
 source 'https://rubygems.org'
 
