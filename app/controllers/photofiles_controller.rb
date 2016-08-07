@@ -108,7 +108,9 @@ class PhotofilesController < ApplicationController
       @photo = Photofile.find(params[:id])
       send_file @photo.path, type: 'image/jpeg', :disposition => 'inline'
     rescue ActiveRecord::RecordNotFound
-      render status:404, json: {:error=>"photo with #{params[:id]} does not exist"}
+      @photo = Photofile.find(Setting.generic_image_tm_id)
+      send_file @photo.path, type: 'image/jpeg', :disposition => 'inline'
+      #render status:404, json: {:error=>"photo with #{params[:id]} does not exist"}
     end
   end
 

@@ -3,7 +3,7 @@ class MasterCatalog < Catalog
   validates :type, uniqueness: true
   def import
     return if self.settings.updating == true
-
+    
     begin
       self.watch_path.each do |import_path|
         MasterImportSpawn.perform_later import_path, photo_id = nil, import_mode=self.import_mode

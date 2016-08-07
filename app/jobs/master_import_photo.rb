@@ -8,6 +8,7 @@ class MasterImportPhoto < AppJob
   IMAGE_LARGE = '1024x1200'
 
   def perform(import_path, photo_id=false, import_mode=true)
+    
     begin
       raise "File does not exist" unless File.exist?(import_path)
       data = import_flow(import_path, import_mode)
@@ -143,16 +144,19 @@ class MasterImportPhoto < AppJob
   end
 
   def create_thumbnail()
+
     MiniMagick::Tool::Convert.new do |convert|
-      convert.merge! ["-size", "200x200", @org_file.path]
+      convert.merge! [@org_file.path]
+      convert.merge! ["-size", "200x200"]
       convert.merge! ["-thumbnail", "125x125^"]
       convert.merge! ["-gravity", "center"]
-      convert.merge! ["strip"]
-      convert.merge! ["-interlace" "Plane"]
-      convert.merge! ["-sampling-factor" "4:2:0"]
-      convert.merge! ["-define" "jpeg:dct-method=float"]
-      convert.merge! ["-quality" "85%"]
-      convert.merge! ["-extent", "125x125", "+profile", "'*'"]
+      convert.merge! ["-strip"]
+      convert.merge! ["-interlace", "Plane"]
+      convert.merge! ["-sampling-factor", "4:2:0"]
+      convert.merge! ["-define", "jpeg:dct-method=float"]
+      convert.merge! ["-quality", "85%"]
+      convert.merge! ["+profile", "'*'"]
+      convert.merge! ["-extent", "125x125"]
       convert << @tm_file.path
     end
     return true

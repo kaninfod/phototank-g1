@@ -17,7 +17,7 @@ class Photofile < ActiveRecord::Base
   end
 
   def import_file
-    
+
     begin
       if self.datahash.has_key? :date_taken
         if self.datahash.has_key? :photosize
@@ -87,6 +87,7 @@ class Photofile < ActiveRecord::Base
       :month=>date.month,
       :day=>date.day
     }
+    
     return datehash
   end
 

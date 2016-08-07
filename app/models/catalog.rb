@@ -33,7 +33,7 @@ class Catalog < ActiveRecord::Base
 
   def self.master
     Rails.cache.fetch("master_catalog", expires_in: 12.hours) do
-      self.where{default.eq(true)}.first
+      self.where(default:true).first
     end
   end
 
