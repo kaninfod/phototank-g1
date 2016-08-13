@@ -8,8 +8,9 @@ class MasterImportPhoto < AppJob
   IMAGE_LARGE = '1024x1200'
 
   def perform(import_path, photo_id=false, import_mode=true)
-    
+
     begin
+
       raise "File does not exist" unless File.exist?(import_path)
       data = import_flow(import_path, import_mode)
 
@@ -26,7 +27,7 @@ class MasterImportPhoto < AppJob
       )
 
       UtilLocator.perform_later photo.id
-
+      
     rescue Exception => e
       @job_db.update(job_error: e, status: 2, completed_at: Time.now)
       Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"

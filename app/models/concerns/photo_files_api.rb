@@ -2,7 +2,7 @@ require "net/http"
 require "uri"
 
 URL = Rails.configuration.x.phototank["filestoreurl"]
-
+SERVER = 'http://localhost:3001'
 module PhotoFilesApi
   class Api
     def initialize
@@ -24,6 +24,7 @@ module PhotoFilesApi
       # If both are provided date takes precedence
       # If niether are provided file is archived under 'system'
 
+      
       endpoint = "/photofiles.json"
 
       if uri? path
@@ -54,6 +55,7 @@ module PhotoFilesApi
 
     def update(id, path)
       endpoint = "/photofiles/#{id}.json"
+
 
       file_string = Base64.encode64(File.open(path).read)
 

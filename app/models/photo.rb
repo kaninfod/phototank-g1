@@ -113,6 +113,11 @@ class Photo < ActiveRecord::Base
     self.update(status: 6)
   end
 
+  def url(size)
+    url = Rails.configuration.x.phototank["filestoreurl"]
+    "#{url}/photofiles/#{self.send("#{size}_id")}/photoserve"
+  end
+
   private
     def move_by_date
       PhotoMoveByDate.perform_later self.id
