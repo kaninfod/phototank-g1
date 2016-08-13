@@ -1,1 +1,1 @@
-Rack::MiniProfiler.config.max_traces_to_show =100
+#Rack::MiniProfiler.config.max_traces_to_show =100
