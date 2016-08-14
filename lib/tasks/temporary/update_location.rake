@@ -5,10 +5,12 @@ namespace :locations do
     puts "Going to update #{locations.count} locations"
 
     ActiveRecord::Base.transaction do
+      pf = PhotoFilesApi::Api::new
       locations.each do |location|
-        pf = PhotoFilesApi::Api::new
-        response = pf.create location.get_google_map, nil, nil, 'maps'
-        location.update(map_image_id: response[:id])
+        if location.map_image_id != nil
+          response = pf.create location.get_google_map, nil, nil, 'maps'
+          location.update(map_image_id: response[:id])
+        end
         print "."
       end
     end
