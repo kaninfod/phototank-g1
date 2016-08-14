@@ -33,6 +33,6 @@
               Add to album
 
     .box-body
-      =image_tag "/photofiles/#{@photo.md_id.to_s}/photoserve", {style:"margin: 0 auto;", class: "img-responsive"}
+      =image_tag @photo.url('md'), {style:"margin: 0 auto;", class: "img-responsive"}
     .box-footer
       =render :partial => "photos/show/comments_widget", :locals => {:photo => @photo }

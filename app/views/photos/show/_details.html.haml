@@ -7,4 +7,4 @@
     %dt Address
     %dd=photo.location.address
     %dt Map
-    %dd=image_tag "/photofiles/#{photo.location.map_image_id.to_s}/photoserve"
+    %dd=image_tag photo.location.map_url

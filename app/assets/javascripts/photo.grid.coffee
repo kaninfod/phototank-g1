@@ -23,7 +23,7 @@ App.PhotoGrid = do ->
     $('.back-to-top').click (event) -> _this.scrollTop(event)
 
     $('body').off('click').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
-    $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searboxDropdownChange()
+    $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searchboxDropdownChange()
 
     $('.dropdown-toggle').dropdown()
 
@@ -55,7 +55,7 @@ App.PhotoGrid = do ->
     url = el.attr("href") + @extendUrl()
     el.attr("href", url)
 
-  searboxDropdownChange: ->
+  searchboxDropdownChange: ->
     dateUrl =$('.breadcrumb').attr('date_url')
     window.location = dateUrl + @extendUrl()
 
@@ -69,15 +69,18 @@ App.PhotoGrid = do ->
   getNextPage:  ->
     _this = this
     s.loading = false
-    $('.loading-notification').fadeIn 100
+
     url = $('.next_page').last()[0].href
-    nextPage = $.get(url)
-    nextPage.success (data) ->
-      $('.infinite-container').append data
-      $('.loading-notification').fadeOut 100
-      $('.pagination:first').parent().remove()
-      $('img.lazy').lazyload()
-      s.loading = true
+    console.log url
+    if url != undefined
+      $('.loading-notification').fadeIn 100
+      nextPage = $.get(url)
+      nextPage.success (data) ->
+        $('.infinite-container').append data
+        $('.loading-notification').fadeOut 100
+        $('.pagination:first').parent().remove()
+        $('img.lazy').lazyload()
+        s.loading = true
 
 
 $(document).on "turbolinks:load", ->

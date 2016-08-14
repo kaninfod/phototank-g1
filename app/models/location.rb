@@ -20,6 +20,11 @@ class Location < ActiveRecord::Base
     end
   end
 
+  def map_url
+    url = Rails.configuration.x.phototank["filestoreurl"]
+    "#{url}/photofiles/#{self.map_image_id}/photoserve"
+  end
+
   def self.locate_photo(photo)
     @photo = photo
     if no_coordinates

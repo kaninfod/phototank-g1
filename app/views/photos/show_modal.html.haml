@@ -3,6 +3,6 @@
     .box-header.with-border
       .box-body
         .col-md-7#modal_image
-          =image_tag "/photofiles/#{@photo.lg_id.to_s}/photoserve", {class: "img-responsive"}
+          =image_tag "#{@photo.url('lg')}", {class: "img-responsive"}
         .col-md-5
           =render :partial => "photos/show/tabs", :locals => {:photo => @photo }

@@ -9,9 +9,9 @@
       .form-group
         = label_tag( "Catalog name:")
         = text_field_tag("name", @catalog.name,class:"form-control")
-      .form-group
-        = label_tag("Storage path:")
-        = text_field_tag("path", @catalog.path, class:"form-control")
+      -# .form-group
+      -#   = label_tag("Storage path:")
+      -#   = text_field_tag("path", @catalog.path, class:"form-control")
       .form-group
         = label_tag("Move photos to catalog and remove originals:")
         = hidden_field_tag :import_mode, false

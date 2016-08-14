@@ -5,7 +5,7 @@ class LocationsController < ApplicationController
     order = params[:order] unless not params.has_key?(:order)
     query = "%#{params[:q]}%"
     query ||="%"
-    @locations = Location.where{address.matches(query)}.where{(latitude.not_eq(0) & longitude.not_eq(0))}.order(order).page params[:page]
+    @locations = Location.where("address LIKE ?", query).where("latitude != 0 AND longitude != 0").order(order).page params[:page]
   end
 
   def show
@@ -13,8 +13,9 @@ class LocationsController < ApplicationController
     @location = Location.find(params[:id])
 
     #Get photos
-    @photos = @location.photos.paginate(:page => params[:page], :per_page => 40)
 
+    @photos = @location.photos.paginate(:page => params[:page], :per_page => 40)
+    
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
       render :partial=>"photos/grid"
