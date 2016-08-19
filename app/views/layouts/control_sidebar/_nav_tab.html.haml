@@ -3,5 +3,13 @@
     .box-header
       = render :partial => 'photos/breadcrumb'
     .box-body
+      #search-date
       = render :partial => 'photos/searchbox'
     .box-footer
+
+
+:coffeescript
+  $('#search-date').datepicker
+    startView: 2
+    maxViewMode: 3
+    todayBtn: true

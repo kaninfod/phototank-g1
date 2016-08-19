@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,190 +10,182 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160730110955) do
+ActiveRecord::Schema.define(version: 20160819171042) do
 
-  create_table "albums", force: :cascade do |t|
-    t.string   "name",       limit: 255
+  create_table "albums", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "name"
     t.date     "start"
     t.date     "end"
-    t.string   "make",       limit: 255
-    t.string   "model",      limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "country",    limit: 255
-    t.string   "city",       limit: 255
-    t.string   "photo_ids",  limit: 255, default: "--- []\n"
-    t.string   "album_type", limit: 255
-    t.string   "tags",       limit: 255, default: "--- []\n"
+    t.string   "make"
+    t.string   "model"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.string   "country"
+    t.string   "city"
+    t.string   "photo_ids",  limit: 1024, default: "--- []\n"
+    t.string   "album_type"
+    t.string   "tags",                    default: "--- []\n"
     t.boolean  "like"
   end
 
-  create_table "catalogs", force: :cascade do |t|
-    t.string   "name",              limit: 255
+  create_table "catalogs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "name"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
-    t.string   "path",              limit: 255
+    t.string   "path"
     t.boolean  "default"
     t.text     "watch_path",        limit: 65535
-    t.string   "type",              limit: 255
-    t.string   "sync_from_albums",  limit: 255
-    t.integer  "sync_from_catalog", limit: 4
+    t.string   "type"
+    t.string   "sync_from_albums"
+    t.integer  "sync_from_catalog"
     t.string   "ext_store_data",    limit: 1024
     t.boolean  "import_mode"
   end
 
-  create_table "comments", force: :cascade do |t|
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "title",            limit: 50,    default: ""
     t.text     "comment",          limit: 65535
-    t.integer  "commentable_id",   limit: 4
-    t.string   "commentable_type", limit: 255
-    t.integer  "user_id",          limit: 4
-    t.string   "role",             limit: 255,   default: "comments"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.integer  "user_id"
+    t.string   "role",                           default: "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+    t.index ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
-  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
-  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
-
-  create_table "instances", force: :cascade do |t|
-    t.integer  "photo_id",   limit: 4
-    t.integer  "catalog_id", limit: 4
-    t.string   "path",       limit: 255
-    t.integer  "size",       limit: 4
+  create_table "instances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.integer  "photo_id"
+    t.integer  "catalog_id"
+    t.string   "path"
+    t.integer  "size"
     t.datetime "modified"
-    t.integer  "status",     limit: 4
-    t.string   "rev",        limit: 255
+    t.integer  "status"
+    t.string   "rev"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["photo_id", "catalog_id"], name: "index_instances_on_photo_id_and_catalog_id", unique: true, using: :btree
   end
 
-  add_index "instances", ["photo_id", "catalog_id"], name: "index_instances_on_photo_id_and_catalog_id", unique: true, using: :btree
-
-  create_table "jobs", force: :cascade do |t|
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "job_type",     limit: 255
-    t.string   "job_error",    limit: 255
-    t.string   "arguments",    limit: 255
+  create_table "jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "job_type"
+    t.string   "job_error"
+    t.string   "arguments"
     t.datetime "completed_at"
-    t.string   "queue",        limit: 255
-    t.integer  "status",       limit: 4
+    t.string   "queue"
+    t.integer  "status"
   end
 
-  create_table "locations", force: :cascade do |t|
-    t.string   "status",       limit: 255
-    t.decimal  "latitude",                 precision: 16, scale: 10
-    t.decimal  "longitude",                precision: 16, scale: 10
-    t.string   "location",     limit: 255
-    t.string   "country",      limit: 255
-    t.string   "state",        limit: 255
-    t.string   "address",      limit: 255
-    t.string   "road",         limit: 255
-    t.string   "city",         limit: 255
-    t.string   "suburb",       limit: 255
-    t.string   "postcode",     limit: 255
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-    t.integer  "map_image_id", limit: 4
+  create_table "locations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "status"
+    t.decimal  "latitude",     precision: 16, scale: 10
+    t.decimal  "longitude",    precision: 16, scale: 10
+    t.string   "location"
+    t.string   "country"
+    t.string   "state"
+    t.string   "address"
+    t.string   "road"
+    t.string   "city"
+    t.string   "suburb"
+    t.string   "postcode"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "map_image_id"
   end
 
-  create_table "photofiles", force: :cascade do |t|
-    t.string   "path",       limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "status",     limit: 4
-    t.string   "size",       limit: 255
-    t.string   "filetype",   limit: 255
+  create_table "photofiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "path",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "status"
+    t.string   "size"
+    t.string   "filetype"
   end
 
-  create_table "photos", force: :cascade do |t|
-    t.string   "filename",        limit: 255
+  create_table "photos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "filename"
     t.datetime "date_taken"
-    t.string   "path",            limit: 255
-    t.datetime "created_at",                                                        null: false
-    t.datetime "updated_at",                                                        null: false
-    t.string   "file_thumb_path", limit: 255
-    t.string   "file_extension",  limit: 255
-    t.integer  "file_size",       limit: 4
-    t.integer  "location_id",     limit: 4
-    t.string   "make",            limit: 255
-    t.string   "model",           limit: 255
-    t.integer  "original_height", limit: 4
-    t.integer  "original_width",  limit: 4
-    t.decimal  "longitude",                   precision: 16, scale: 10
-    t.decimal  "latitude",                    precision: 16, scale: 10
-    t.integer  "status",          limit: 4,                             default: 0
-    t.string   "phash",           limit: 255
-    t.integer  "org_id",          limit: 4
-    t.integer  "lg_id",           limit: 4
-    t.integer  "md_id",           limit: 4
-    t.integer  "tm_id",           limit: 4
+    t.string   "path"
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+    t.string   "file_thumb_path"
+    t.string   "file_extension"
+    t.integer  "file_size"
+    t.integer  "location_id"
+    t.string   "make"
+    t.string   "model"
+    t.integer  "original_height"
+    t.integer  "original_width"
+    t.decimal  "longitude",       precision: 16, scale: 10
+    t.decimal  "latitude",        precision: 16, scale: 10
+    t.integer  "status",                                    default: 0
+    t.string   "phash"
+    t.integer  "org_id"
+    t.integer  "lg_id"
+    t.integer  "md_id"
+    t.integer  "tm_id"
+    t.index ["location_id"], name: "index_photos_on_location_id", using: :btree
   end
 
-  add_index "photos", ["location_id"], name: "index_photos_on_location_id", using: :btree
-
-  create_table "settings", force: :cascade do |t|
-    t.string   "var",        limit: 255,   null: false
+  create_table "settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "var",                      null: false
     t.text     "value",      limit: 65535
-    t.integer  "thing_id",   limit: 4
+    t.integer  "thing_id"
     t.string   "thing_type", limit: 30
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
   end
 
-  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
-
-  create_table "taggings", force: :cascade do |t|
-    t.integer  "tag_id",        limit: 4
-    t.integer  "taggable_id",   limit: 4
-    t.string   "taggable_type", limit: 255
-    t.integer  "tagger_id",     limit: 4
-    t.string   "tagger_type",   limit: 255
+  create_table "taggings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
     t.string   "context",       limit: 128
     t.datetime "created_at"
+    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
   end
 
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
-
-  create_table "tags", force: :cascade do |t|
-    t.string  "name",           limit: 255
-    t.integer "taggings_count", limit: 4,   default: 0
+  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string  "name",                       collation: "utf8_bin"
+    t.integer "taggings_count", default: 0
+    t.index ["name"], name: "index_tags_on_name", unique: true, using: :btree
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
-
-  create_table "users", force: :cascade do |t|
-    t.string   "name",               limit: 255
-    t.string   "provider",           limit: 255
-    t.string   "uid",                limit: 255
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "name"
+    t.string   "provider"
+    t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "avatar",             limit: 255
-    t.string   "email",              limit: 255
+    t.string   "avatar"
+    t.string   "email"
     t.string   "encrypted_password", limit: 128
     t.string   "confirmation_token", limit: 128
     t.string   "remember_token",     limit: 128
+    t.index ["email"], name: "index_users_on_email", using: :btree
+    t.index ["remember_token"], name: "index_users_on_remember_token", using: :btree
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", using: :btree
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
-
-  create_table "votes", force: :cascade do |t|
-    t.integer  "votable_id",   limit: 4
-    t.string   "votable_type", limit: 255
-    t.integer  "voter_id",     limit: 4
-    t.string   "voter_type",   limit: 255
+  create_table "votes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.integer  "votable_id"
+    t.string   "votable_type"
+    t.integer  "voter_id"
+    t.string   "voter_type"
     t.boolean  "vote_flag"
-    t.string   "vote_scope",   limit: 255
-    t.integer  "vote_weight",  limit: 4
+    t.string   "vote_scope"
+    t.integer  "vote_weight"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope", using: :btree
+    t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
   end
-
-  add_index "votes", ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope", using: :btree
-  add_index "votes", ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope", using: :btree
 
 end
