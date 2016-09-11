@@ -11,42 +11,61 @@ class PhotosController < ApplicationController
     send_file @photo.get_photo(params[:size]), :disposition => 'inline'
   end
 
+  def valid_date
+    d = params[:date].to_date
+    case params[:type]
+    when 'day'
+      ary = Photo.days(d.year, d.month).map{ |f| f.value }
+    when 'month'
+      ary = Photo.months(d.year).map{ |f| f.value }
+    when 'year'
+      ary = Photo.years.map{ |f| f.value }
+    end
+    render json: ary
+  end
+
   def index
     album_hash = {}
+    @searchparams = {}
+    # if params.has_key? :query
+    #   query = Hash[params[:query].split("/").each_slice(2).to_a].symbolize_keys
+    #
+    #   if query.has_key? :country
+    #     album_hash[:country] = query[:country] unless query[:country] == "All"
+    #   end
+    #
 
-    if params.has_key? :query
-      query = Hash[params[:query].split("/").each_slice(2).to_a].symbolize_keys
-
-      if query.has_key? :country
-        album_hash[:country] = query[:country] unless query[:country] == "All"
-      end
-
-      if query.has_key? :direction
-        case query[:direction]
-        when "true"
-          album_hash[:start] = set_date(query)
-          @searchbox[:direction] = "true"
-          order = "asc"
-        when "false"
-          album_hash[:end] = set_date(query)
-          @searchbox[:direction] = "false"
-          order = "desc"
-        end
-      else
+    if params.has_key? :direction
+      case params[:direction]
+      when "true"
+        album_hash[:start] = params[:startdate]
+        @searchparams[:direction] = "true"
+        order = "asc"
+      when "false"
+        album_hash[:end] = params[:startdate]
+        @searchparams[:direction] = "false"
         order = "desc"
-        album_hash[:end] = set_date(query)
-        @searchbox[:direction] = "false"
       end
     else
       order = "desc"
-      album_hash[:end] = set_date(nil)
-      @searchbox[:direction] = "false"
+      album_hash[:end] = params[:startdate]
+      @searchparams[:direction] = "false"
+    end
+    # else
+    #   order = "desc"
+    #   album_hash[:end] = set_date(nil)
+    #   @searchbox[:direction] = "false"
+    # end
+    #get album from url params through set_query_data
+    if params.has_key? "country"
+      album_hash[:country] = params[:country] unless params[:country] == "All"
     end
 
-    #get album from url params through set_query_data
+    
     @album = Album.new(album_hash)
 
     #Get photos
+
     @photos = @album.photos.where('photos.status != ? or photos.status is ?', 1, nil).order(date_taken: order).paginate(:page => params[:page], :per_page=>60)
 
     #get distinct data for dropdowns

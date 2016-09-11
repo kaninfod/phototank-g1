@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   match "photos/(q/*query)" => "photos#index", :via => [:post, :get]
   get '/photos/get_tag_list' => 'photos#get_tag_list'
+  get '/photos/valid_date/:type/:date' => 'photos#valid_date'
   resources :photos, :except => [:create, :index]
   get '/photos/:id/image/:size' => 'photos#image'
   get '/photos/:id/rotate/(:degrees)' => 'photos#rotate'
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   get '/photos/:id/addtag' => 'photos#addtag'
   get '/photos/:id/removetag' => 'photos#removetag'
   get '/photos/:id/show_small' => 'photos#show_small'
+
 
 
   get '/catalogs/migrate' => 'catalogs#migrate'

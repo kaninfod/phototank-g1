@@ -9,12 +9,32 @@ App.ControlSidebar = do ->
       controlSidebar: '.control-sidebar'
 
     _this = this
+    @initDatepicker()
     @initControlSidebar()
     @bindUIActions()
 
   bindUIActions: ->
     $('body').on 'click.' + s.eventNamespace, s.controlSidebarBtn, -> _this.toggleControlSidebar()
     $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) -> _this.tabChange(e)
+    $('#search-date').on 'changeDate', (e) -> _this.searchParamsChanged(e)
+    $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searchParamsChanged()
+
+  searchParamsChanged: (e)->
+    console.log e
+    if typeof e == "undefined"
+      date = $('#search-date').datepicker("getDate")
+    else
+      date = e.date
+    url = '/photos/'
+    direction = $("#searchbox_direction").prop('checked')
+    country = $("#searchbox_country").val()
+    data = {direction: direction, startdate: date, country: country}
+    console.log data
+    $('.infinite-container').load url, data, ->
+      console.log 'done'
+      $('img.lazy').lazyload()
+
+
 
   showPhoto: (id) ->
     _this=this
@@ -81,6 +101,13 @@ App.ControlSidebar = do ->
     else
       return 0
 
+  initDatepicker: ->
+    $('#search-date').datepicker
+      startView: 2
+      minViewMode: 1
+      maxViewMode: 3
+      todayBtn: true
+      beforeShowDay: (date) ->
 
 
 $(document).on "turbolinks:load", ->

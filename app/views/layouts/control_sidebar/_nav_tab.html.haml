@@ -1,15 +1,12 @@
 - if params[:controller] == 'photos' && params[:action] == 'index'
   .box.box-default
     .box-header
-      = render :partial => 'photos/breadcrumb'
+      -# = render :partial => 'photos/breadcrumb'
     .box-body
       #search-date
-      = render :partial => 'photos/searchbox'
+      -# = render :partial => 'photos/searchbox'
     .box-footer
+      = select_tag :searchbox_country, options_for_select(@countries, @album.country), {class:"form-control input-sm form-group"}
 
-
-:coffeescript
-  $('#search-date').datepicker
-    startView: 2
-    maxViewMode: 3
-    todayBtn: true
+      Direction:
+      %input{:id=>"searchbox_direction", :type=>"checkbox", :checked=> false, "data-toggle"=>"toggle", "data-size"=>"small"}

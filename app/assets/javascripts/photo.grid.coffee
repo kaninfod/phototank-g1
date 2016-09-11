@@ -22,16 +22,12 @@ App.PhotoGrid = do ->
 
     $('.back-to-top').click (event) -> _this.scrollTop(event)
 
-    $('body').off('click').on 'click.' + s.eventNamespace, '.searchbox, .breadcrumb li a', -> _this.setBreadcrumbUrl(this)
-    $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searchboxDropdownChange()
-
     $('.dropdown-toggle').dropdown()
 
     $('body,html').scroll();
     $.AdminLTE.controlSidebar.activate()
 
   scrollTop: (event) ->
-
     event.preventDefault()
     $('html, body').animate { scrollTop: 0 }, s.duration
     false
@@ -49,29 +45,10 @@ App.PhotoGrid = do ->
       $('.back-to-top').fadeOut s.duration
     return
 
-  setBreadcrumbUrl: (element) ->
-    console.log $(element)
-    el = $(element)
-    url = el.attr("href") + @extendUrl()
-    el.attr("href", url)
-
-  searchboxDropdownChange: ->
-    dateUrl =$('.breadcrumb').attr('date_url')
-    window.location = dateUrl + @extendUrl()
-
-  extendUrl: ->
-    direction = $("#searchbox_direction").prop('checked')
-    country = $("#searchbox_country").val()
-    if country != "All"
-      return "/country/" + country + "/direction/" + direction
-    return "/direction/" + direction
-
   getNextPage:  ->
     _this = this
     s.loading = false
-
     url = $('.next_page').last()[0].href
-    console.log url
     if url != undefined
       $('.loading-notification').fadeIn 100
       nextPage = $.get(url)
