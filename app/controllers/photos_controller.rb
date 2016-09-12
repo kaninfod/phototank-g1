@@ -27,13 +27,6 @@ class PhotosController < ApplicationController
   def index
     album_hash = {}
     @searchparams = {}
-    # if params.has_key? :query
-    #   query = Hash[params[:query].split("/").each_slice(2).to_a].symbolize_keys
-    #
-    #   if query.has_key? :country
-    #     album_hash[:country] = query[:country] unless query[:country] == "All"
-    #   end
-    #
 
     if params.has_key? :direction
       case params[:direction]
@@ -51,17 +44,13 @@ class PhotosController < ApplicationController
       album_hash[:end] = params[:startdate]
       @searchparams[:direction] = "false"
     end
-    # else
-    #   order = "desc"
-    #   album_hash[:end] = set_date(nil)
-    #   @searchbox[:direction] = "false"
-    # end
+
     #get album from url params through set_query_data
     if params.has_key? "country"
       album_hash[:country] = params[:country] unless params[:country] == "All"
     end
 
-    
+
     @album = Album.new(album_hash)
 
     #Get photos

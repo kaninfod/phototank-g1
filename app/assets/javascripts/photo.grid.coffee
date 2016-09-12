@@ -7,7 +7,6 @@ App.PhotoGrid = do ->
       duration: 300
       offset:900
       loading: true
-    # @initWaypoint()
     @bindUIActions()
 
 
@@ -35,6 +34,8 @@ App.PhotoGrid = do ->
   showScrollTop: (scroll)->
     #Infinite scroll event
     scrollPosition = $('.loadMore').offset().top  - ($(window).height() + $(window).scrollTop() + s.offset)
+    console.log scrollPosition
+    console.log s.loading
     if scrollPosition < 0 and s.loading
       @getNextPage()
 
@@ -48,10 +49,13 @@ App.PhotoGrid = do ->
   getNextPage:  ->
     _this = this
     s.loading = false
-    url = $('.next_page').last()[0].href
-    if url != undefined
+    if $('.next_page').last().length > 0
+      url = $('.next_page').last()[0].href
       $('.loading-notification').fadeIn 100
-      nextPage = $.get(url)
+
+      data = App.ControlSidebar.getSearchParams()
+
+      nextPage = $.get(url, data)
       nextPage.success (data) ->
         $('.infinite-container').append data
         $('.loading-notification').fadeOut 100

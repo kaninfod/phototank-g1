@@ -20,21 +20,21 @@ App.ControlSidebar = do ->
     $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction', -> _this.searchParamsChanged()
 
   searchParamsChanged: (e)->
-    console.log e
+    data = this.getSearchParams()
     if typeof e == "undefined"
       date = $('#search-date').datepicker("getDate")
     else
       date = e.date
     url = '/photos/'
+
+    $('.infinite-container').load url, data, ->
+      App.PhotoGrid.init()
+
+  getSearchParams: ->
     direction = $("#searchbox_direction").prop('checked')
     country = $("#searchbox_country").val()
-    data = {direction: direction, startdate: date, country: country}
-    console.log data
-    $('.infinite-container').load url, data, ->
-      console.log 'done'
-      $('img.lazy').lazyload()
-
-
+    date = $('#search-date').datepicker("getDate")
+    return {direction: direction, startdate: date, country: country}
 
   showPhoto: (id) ->
     _this=this
