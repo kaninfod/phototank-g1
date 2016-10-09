@@ -14,7 +14,7 @@ App.PhotoEdit = do ->
     $('#date_taken').datepicker
       format: 'yyyy/mm/dd'
     $('#date_taken').datepicker 'update'
-
+    
     $('.inp_toggle').change -> _this.toggleInput(this)
 
 

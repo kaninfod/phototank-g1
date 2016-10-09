@@ -31,11 +31,11 @@ App.PhotoGrid = do ->
     $('html, body').animate { scrollTop: 0 }, s.duration
     false
 
+
+
   showScrollTop: (scroll)->
     #Infinite scroll event
     scrollPosition = $('.loadMore').offset().top  - ($(window).height() + $(window).scrollTop() + s.offset)
-    console.log scrollPosition
-    console.log s.loading
     if scrollPosition < 0 and s.loading
       @getNextPage()
 
@@ -49,7 +49,7 @@ App.PhotoGrid = do ->
   getNextPage:  ->
     _this = this
     s.loading = false
-    if $('.next_page').last().length > 0
+    if $('.next_page.disabled').length == 0
       url = $('.next_page').last()[0].href
       $('.loading-notification').fadeIn 100
 
