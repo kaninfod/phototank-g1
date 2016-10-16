@@ -11,6 +11,11 @@
           %span.caret
         %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1"}
           %li
+            %a#download-photo{:href => "#", "data-download-url"=>"#{@photo.url('org')}"}
+              .fa.fa-download
+              Download
+          %li.divider{:role => "separator"}
+          %li
             %a#rotate-photo{:href => "#", "data-degrees"=>90}
               .fa.fa-rotate-right
               Rotate 90

@@ -18,6 +18,21 @@ App.ControlSidebar = do ->
     $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) -> _this.tabChange(e)
     $('#search-date').on 'changeDate', (e) -> _this.searchParamsChanged(e)
     $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction, #searchbox_like, #searchbox_tags', -> _this.searchParamsChanged()
+    $('body').on 'click.' + s.eventNamespace, '#reset-search', -> _this.resetSearch()
+
+  resetSearch: ->
+    $("#searchbox_like, #searchbox_direction").prop('checked', false)
+    $("#searchbox_country").val("All")
+    $("#searchbox_tags").tagsinput('removeAll')
+
+    $('#search-date').datepicker('setDate', new Date().getFullYear().toString())
+    data = {tags: [], like: false, direction: false}
+    url = '/photos/'
+    $('.infinite-container').load url, data, ->
+      App.PhotoGrid.init()
+
+
+
 
   searchParamsChanged: (e)->
     data = this.getSearchParams()

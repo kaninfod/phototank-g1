@@ -30,6 +30,32 @@ App.PhotoWidget = do ->
 
     $('body').on 'click.' + s.eventNamespace, '#rotate-photo',  -> _this.rotatePhotos(this)
 
+    $('body').on 'click.' + s.eventNamespace, '#download-photo', -> _this.downloadPhoto(this)
+
+
+  downloadPhoto: (element) ->
+    dataUrl = $(element).data('download-url')
+    console.log dataUrl
+    # Construct the a element
+    link = document.createElement('a')
+    link.download = "filename"
+    link.target = '_blank'
+    # Construct the uri
+    link.href = dataUrl
+    document.body.appendChild link
+    link.click()
+    # Cleanup the DOM
+    document.body.removeChild link
+
+
+
+
+
+    # console.log element
+    # e.preventDefault()
+    # url = $(element).data('download-url')
+    # window.location.href = url
+    return false
 
   reloadWidget: (element) ->
     photoWidget = $(element).parents('.photo-widget')
@@ -65,7 +91,6 @@ App.PhotoWidget = do ->
 
 
   delete: (element) ->
-    console.log 'kaj'
     if $(element).attr('id') == 'delete-photo'
       photoId = $('#photo_id').data("photo_id")
       $('#control-sidebar-tab-photo').children().fadeOut()

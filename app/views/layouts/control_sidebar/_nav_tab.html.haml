@@ -1,10 +1,11 @@
 - if params[:controller] == 'photos' && params[:action] == 'index'
   .box.box-default
     .box-header
-      -# = render :partial => 'photos/breadcrumb'
+      %button.btn.btn-default.btn-xs.pull-right#reset-search{:type=>"button"}
+        Reset filter
     .box-body
       #search-date
-      -# = render :partial => 'photos/searchbox'
+
     .box-footer
       = select_tag :searchbox_country, options_for_select(@countries, @album.country), {class:"form-control input-sm form-group"}
     .box-footer
