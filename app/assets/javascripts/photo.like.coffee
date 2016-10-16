@@ -6,8 +6,8 @@ App.PhotoLike = do ->
     s =
       photoGrid: '#photogrid'
       modalElement: $('#photoDetails')
-      likeButtonId: '#like'
-      numberOfLikes: '#likes_num'
+      likeButtonId: '.like'
+      numberOfLikes: '.likes_num'
       eventNamespace: 'photo'
     @bindUIActions()
 
@@ -18,7 +18,6 @@ App.PhotoLike = do ->
     $('.wrapper').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
 
   likePhoto: (photoId) ->
-    console.log photoId
     url = '/photos/' + photoId + '/like'
     $.get url, (data) ->
       $(s.numberOfLikes).html data['likes'] + ' likes'

@@ -45,16 +45,22 @@ class PhotosController < ApplicationController
       @searchparams[:direction] = "false"
     end
 
-    #get album from url params through set_query_data
     if params.has_key? "country"
       album_hash[:country] = params[:country] unless params[:country] == "All"
     end
 
+    if params.has_key? "like"
+      album_hash[:like] = params[:like]
+    end
+
+    if params.has_key? "tags"
+      tags = params[:tags].map{|t| ActsAsTaggableOn::Tag.all.where(name: t).first.id}
+      album_hash[:tags] = tags
+    end
 
     @album = Album.new(album_hash)
 
     #Get photos
-
     @photos = @album.photos.where('photos.status != ? or photos.status is ?', 1, nil).order(date_taken: order).paginate(:page => params[:page], :per_page=>60)
 
     #get distinct data for dropdowns

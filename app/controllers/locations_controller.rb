@@ -15,7 +15,7 @@ class LocationsController < ApplicationController
     #Get photos
 
     @photos = @location.photos.paginate(:page => params[:page], :per_page => 40)
-    
+
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
       render :partial=>"photos/grid"
@@ -69,5 +69,4 @@ class LocationsController < ApplicationController
       render json: new_location if request.xhr?
     end
   end
-
 end

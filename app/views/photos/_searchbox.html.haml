@@ -1,3 +1,4 @@
+-# This file should be deleted
 .row
   .col-lg-12.col-md-12.col-sm-12.col-xs-12
     - case @searchbox[:type]
@@ -40,6 +41,7 @@
 
 .row
   .col-lg-12.col-md-12.col-sm-12.col-xs-12
+
     - if @searchbox[:direction]=="true"
       %input{:id=>"searchbox_direction", :type=>"checkbox", :checked=> true,  "data-toggle"=>"toggle", "data-size"=>"small"}
     - else

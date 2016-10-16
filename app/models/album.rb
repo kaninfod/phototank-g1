@@ -12,7 +12,7 @@ class Album < ActiveRecord::Base
   end
 
   def photos
-    result = Photo.joins(join_location).joins(join_tagging).where(conditions)
+    result = Photo.joins(join_location).joins(join_tagging).joins(join_vote).where(conditions).distinct(:id)
   end
 
   def conditions
@@ -24,6 +24,7 @@ class Album < ActiveRecord::Base
       [:_city,      "and"],
       [:_make,      "and"],
       [:_tagging,   "and"],
+      [:_vote,      "and"],
       [:_photo_ids,  "or"]
     ]
 
@@ -73,6 +74,12 @@ class Album < ActiveRecord::Base
     t_tagging[:tag_id].in(self.tags) unless self.tags.length == 0
   end
 
+  def _vote
+    if self.like == true
+      t_vote[:votable_id].gt(0)
+    end
+  end
+
   def join_location
     constraint_location = t_photo.create_on(t_photo[:location_id].eq(t_location[:id]))
     t_photo.create_join(t_location, constraint_location, Arel::Nodes::InnerJoin)
@@ -83,12 +90,21 @@ class Album < ActiveRecord::Base
     t_photo.create_join(t_tagging, constraint_tagging, Arel::Nodes::OuterJoin)
   end
 
+  def join_vote
+    constraint_vote = t_vote.create_on(t_photo[:id].eq(t_vote[:votable_id]))
+    t_photo.create_join(t_vote, constraint_vote, Arel::Nodes::OuterJoin)
+  end
+
   def t_photo
     Photo.arel_table
   end
 
   def t_location
     Location.arel_table
+  end
+
+  def t_vote
+    Vote.arel_table
   end
 
   def t_tagging
@@ -226,7 +242,7 @@ class Album < ActiveRecord::Base
   end
 
   private
-  # 
+  #
   # def get_predicate(col, value, predicate)
   #   Squeel::Nodes::Predicate.new(Squeel::Nodes::Stub.new(col), predicate, value)
   # end

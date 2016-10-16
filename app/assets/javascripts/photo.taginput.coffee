@@ -18,8 +18,8 @@ App.PhotoTaginput = do ->
 
   bindUIActions: ->
     _this = this
-    $('body').on 'itemAdded.' + s.eventNamespace, '.tags', (event) -> _this.addTag(event)
-    $('body').on 'beforeItemRemove.' + s.eventNamespace, '.tags', (event) -> _this.removeTag(event)
+    $('body').on 'itemAdded.', '.tags', (event) -> _this.addTag(event)
+    $('body').on 'beforeItemRemove.', '.tags', (event) -> _this.removeTag(event)
     $('.bootstrap-tagsinput > input').autocomplete
       source: '/photos/get_tag_list'
       minLength: 1

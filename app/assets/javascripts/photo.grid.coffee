@@ -5,7 +5,7 @@ App.PhotoGrid = do ->
     s =
       photoGrid: '#photogrid'
       duration: 300
-      offset:900
+      offset:800
       loading: true
     @bindUIActions()
 
@@ -14,7 +14,8 @@ App.PhotoGrid = do ->
 
     _this = this
 
-    $('img.lazy').lazyload()
+    $('img.lazy').lazyload(
+    )
 
     $(window).unbind('scroll');
     $(window).scroll -> _this.showScrollTop(this)
@@ -30,8 +31,6 @@ App.PhotoGrid = do ->
     event.preventDefault()
     $('html, body').animate { scrollTop: 0 }, s.duration
     false
-
-
 
   showScrollTop: (scroll)->
     #Infinite scroll event
@@ -49,14 +48,14 @@ App.PhotoGrid = do ->
   getNextPage:  ->
     _this = this
     s.loading = false
-    if $('.next_page.disabled').length == 0
+
+    if $('.next_page').length > 0 and $('.next_page.disabled').length == 0
       url = $('.next_page').last()[0].href
       $('.loading-notification').fadeIn 100
 
       data = App.ControlSidebar.getSearchParams()
-
-      nextPage = $.get(url, data)
-      nextPage.success (data) ->
+      nextPage = $.get(url, data, dataType: "json")
+      nextPage.done (data) ->
         $('.infinite-container').append data
         $('.loading-notification').fadeOut 100
         $('.pagination:first').parent().remove()

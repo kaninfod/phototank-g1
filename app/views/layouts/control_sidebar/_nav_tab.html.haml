@@ -7,6 +7,13 @@
       -# = render :partial => 'photos/searchbox'
     .box-footer
       = select_tag :searchbox_country, options_for_select(@countries, @album.country), {class:"form-control input-sm form-group"}
-
+    .box-footer
       Direction:
       %input{:id=>"searchbox_direction", :type=>"checkbox", :checked=> false, "data-toggle"=>"toggle", "data-size"=>"small"}
+    .box-footer
+      Only "liked" photos :
+      %input{:id=>"searchbox_like", :type=>"checkbox", :checked=> false, "data-toggle"=>"toggle", "data-size"=>"small"}
+    .box-footer
+      Tags:
+      .ui-front
+        %input#searchbox_tags.col-lg-12{:type=>"text", "data-role"=>"tagsinput" }

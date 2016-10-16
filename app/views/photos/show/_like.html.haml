@@ -1,5 +1,5 @@
-%button.btn.btn-default.btn-xs#like{:type => "button", :class=>current_user.voted_for?(photo) && "btn-success"}
+%button.btn.btn-default.btn-xs.like{:type => "button", :class=>current_user.voted_for?(photo) && "btn-success"}
   %i.fa.fa-thumbs-o-up
   Like
 %ul.list-inline.pull-right.text-muted
-  %li#likes_num="#{photo.votes_for.size} likes"
+  %li.likes_num="#{photo.votes_for.size} likes"
