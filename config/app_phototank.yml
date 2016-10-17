@@ -1,7 +1,7 @@
 production:
   environment: production
   instance_name: "Hinge"
-  filestorepath: "/media/external/photos/phototank/photofiles"
+  #filestorepath: "/media/external/photos/phototank/photofiles"
   filestoreurl: "http://192.168.2.103"
 
 development:
