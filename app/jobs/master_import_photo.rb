@@ -27,7 +27,7 @@ class MasterImportPhoto < AppJob
       )
 
       UtilLocator.perform_later photo.id
-      
+
     rescue Exception => e
       @job_db.update(job_error: e, status: 2, completed_at: Time.now)
       Rails.logger.warn "Error raised on job id: #{@job_db.id}. Error: #{e}"
@@ -170,12 +170,11 @@ class MasterImportPhoto < AppJob
   end
 
   def create_pf(size)
-
     file=instance_variable_get("@#{size}_file")
     @datehash[:size] = size
-    ps = @pf.create(file.path, @datehash)
+    ps = @pf.create(file.path, @data[:date_taken])
     if not ps
-      raise "Photofile for #{size} of #{@datehash[:path]}"
+      raise "Photofile for #{size} of #{@data[:date_taken]}"
     else
       @data["#{size}_id".to_sym] = ps[:id]
     end
