@@ -49,6 +49,7 @@ module PhotoFilesApi
       if response.code == "200"
         JSON.parse(response.body, {:symbolize_names => true})
       else
+        Rails.logger.warn "error: #{response.body}"
         return false
       end
     end
