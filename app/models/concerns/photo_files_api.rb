@@ -24,7 +24,6 @@ module PhotoFilesApi
       # If both are provided date takes precedence
       # If niether are provided file is archived under 'system'
 
-
       endpoint = "/photofiles.json"
 
       if uri? path
@@ -32,7 +31,8 @@ module PhotoFilesApi
       elsif File.exists? path
         file_string = Base64.encode64(File.open(path).read)
       else
-        return false
+        puts "her går det galt"
+        return "tussie"
       end
 
       payload = {}
@@ -50,7 +50,8 @@ module PhotoFilesApi
         JSON.parse(response.body, {:symbolize_names => true})
       else
         Resque.logger.error "error: #{response.body}"
-        return false
+        puts "her går det galt - også"
+        return response.body
       end
     end
 
