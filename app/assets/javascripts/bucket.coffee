@@ -63,14 +63,18 @@ App.Bucket = do ->
       $('#bucket_counter').html data['count']
 
   likePhotos: ->
+    $('.dropdown.open .dropdown-toggle').dropdown('toggle');
     photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     url = '/bucket/like'
     $.get url
+    return false
 
   unlikePhotos: ->
+    $('.dropdown.open .dropdown-toggle').dropdown('toggle');
     photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
     url = '/bucket/unlike'
     $.get url
+    return false
 
   addComment: (commentInput,key) ->
     if key.which == 13
@@ -85,7 +89,7 @@ App.Bucket = do ->
       $('.dropdown.open .dropdown-toggle').dropdown('toggle');
       _this.loadBucket()
       $('.overlay-button.overlay-select').removeClass('selected zoomOut overlay-show bounceIn')
-    false
+    return false
 
   deletePhotos: ->
     _this = this
@@ -99,14 +103,14 @@ App.Bucket = do ->
     false
 
   rotatePhotos: (element) ->
+    $('.dropdown.open .dropdown-toggle').dropdown('toggle');
     degrees = $(element).data('degrees')
     $.get '/bucket/rotate/' + degrees + '.json', (data) ->
       for photoId in data.bucket
         processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
         processingButton.addClass('overlay-show')
       alertify.log("Photos in bucket are queued for rotation");
-    $('.dropdown').dropdown('toggle');
-    false
+    return false
 
   showAddToAlbum: ->
     $('#album-list-bucket').modal()

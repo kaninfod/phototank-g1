@@ -15,7 +15,7 @@ App.PhotoGridKeyboard = do ->
     Mousetrap.bind 'down', -> _this.highlightDown()
     Mousetrap.bind 'up', -> _this.highlightUp()
     Mousetrap.bind 'v', -> _this.viewHighlightSmall()
-    Mousetrap.bind 'm', -> _this.viewHighlightLarge()
+    Mousetrap.bind 'z', -> _this.viewHighlightLarge()
     Mousetrap.bind 'c', -> _this.toggleControlMenu()
     Mousetrap.bind 'l', -> _this.likePhoto()
     Mousetrap.bind 'd', -> _this.deletePhoto()

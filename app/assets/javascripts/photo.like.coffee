@@ -24,7 +24,6 @@ App.PhotoLike = do ->
       $(s.likeButtonId).toggleClass 'btn-success'
 
 
-
 $(document).on "turbolinks:load", ->
   return unless $(".photos.index, .catalogs.show, .albums.show , .locations.show").length > 0
   App.PhotoLike.init()

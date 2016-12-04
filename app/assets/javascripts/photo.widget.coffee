@@ -47,14 +47,6 @@ App.PhotoWidget = do ->
     # Cleanup the DOM
     document.body.removeChild link
 
-
-
-
-
-    # console.log element
-    # e.preventDefault()
-    # url = $(element).data('download-url')
-    # window.location.href = url
     return false
 
   reloadWidget: (element) ->
@@ -77,7 +69,7 @@ App.PhotoWidget = do ->
       processingButton.addClass('overlay-show')
       $('.dropdown.open .dropdown-toggle').dropdown('toggle');
       alertify.log("Photo is queued for a rotation of " + degrees + " degrees");
-    false
+      return false
 
   showInControlSidebar: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")

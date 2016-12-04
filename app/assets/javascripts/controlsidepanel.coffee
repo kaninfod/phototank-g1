@@ -36,6 +36,7 @@ App.ControlSidebar = do ->
 
   searchParamsChanged: (e)->
     data = this.getSearchParams()
+    console.log data
     if typeof e == "undefined"
       date = $('#search-date').datepicker("getDate")
     else
