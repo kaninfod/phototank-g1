@@ -1,14 +1,8 @@
-
 //= require jquery
 //= require jquery-ujs
 //= require turbolinks
 //= require jquery-ui/autocomplete
-
-//= require bootstrap-sprockets
-//= require bootstrap.min
-
-//= require bootstrap-tagsinput/dist/bootstrap-tagsinput.min
-//= require bootstrap-datepicker
+//= require materialize-sprockets
 
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min
@@ -16,9 +10,6 @@
 //= require mousetrap/mousetrap.min
 
 //= require jsanimatedmodal/animatedModal.min
-
-//= require adminlte_options
-//= require AdminLTE/dist/js/app.min
 
 //= require init.coffee
 //= require photo.widget

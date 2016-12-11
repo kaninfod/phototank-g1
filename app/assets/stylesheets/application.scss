@@ -1,10 +1,5 @@
 /*
  *= require_self
- *= require bootstrap-datepicker
-
- *= require bootstrap-tagsinput
- *= require skin-blue
- *= require AdminLTE/dist/css/AdminLTE.min
  *= require animate
  *= alertifyjs/dist/css/alertify
  *= require jquery-ui/autocomplete
@@ -12,9 +7,7 @@
 
  */
 
-// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
-@import "bootstrap-sprockets";
-@import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "jquery-ui";
+@import "materialize";

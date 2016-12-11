@@ -18,9 +18,68 @@
     z-index: 9909;
 }
 
-.modal-content modal-image > img {
+.modal-content .modal-image > img {
   margin: 0 auto;
   display: block;
   width: auto;
   height: auto;
+}
+
+.overlay-menu {
+  display: none;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  text-align: left;
+  opacity: 0.3;
+  background-color: white;
+  border-radius: 4px;
+  cursor:pointer;
+  text-decoration: none;
+  z-index: 5;
+  transition: all 0.2s ease-in-out;
+}
+.overlay-menu:hover {
+  opacity: 0.95;
+}
+.overlay-menu-header {
+  color: black;
+  opacity: 0.8;
+  min-height: 1.4rem;
+  line-height: 1.4rem;
+}
+
+.overlay-menu-body {
+  color: black;
+  padding: 0px 5px 0 5px;
+  max-height: 70vh;
+  overflow: scroll;
+}
+
+.overlay-menu-footer {
+  border-radius: 0 0 3px 3px;
+  background-color: blue;
+  width: 250px;
+  bottom: 0px;
+  position:absolute;
+}
+
+.overlay-menu-show {
+  display: inline-block;
+}
+
+.comment-text {
+  color:black;
+  font-size: 12px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.like {
+  position: absolute;
+  left: 20px;
+  top: 20px;
 }

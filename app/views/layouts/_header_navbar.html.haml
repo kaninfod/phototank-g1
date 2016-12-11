@@ -1,43 +1,10 @@
-/ Main Header
-%header.main-header
-  / Logo
-  %a.logo{:href => "/photos"}
-    / mini logo for sidebar mini 50x50 pixels
-    %span.logo-mini
-      %b PT
-    / logo for regular state and mobile devices
-    %span.logo-lg
-      %b Phototank
-  / Header Navbar
-  %nav.navbar.navbar-static-top{:role => "navigation"}
-    / Sidebar toggle button
-    %a.sidebar-toggle{"data-toggle" => "offcanvas", :href => "#", :role => "button"}
-      %span.sr-only Toggle navigation
-    / Navbar Right Menu
-    .navbar-custom-menu
-      %ul.nav.navbar-nav
-        / User Account Menu
-        %li.dropdown.user.user-menu
-          / Menu Toggle Button
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            / The user image in the navbar
-            %img.user-image{:alt => "User Image", :src => current_user.avatar}
-              /hidden-xs hides the username on small devices so only the image appears.
-              %span.hidden-xs=current_user.name
-          %ul.dropdown-menu
-            / The user image in the menu
-            %li.user-header
-              %img.img-circle{:alt => "User Image", :src => current_user.avatar}
-                %p
-                  = current_user.name
-                  %small=l current_user.created_at
-            %li.user-footer
-              .pull-left
-                %a.btn.btn-default.btn-flat{:href => "/users/#{current_user.id}/edit"} Profile
-              .pull-right
-                = link_to('Log off', '/sign_out', :method => :delete, :class=>"btn btn-default btn-flat")
-
-        / Control Sidebar Toggle Button
-        %li#sidebar-hover.control-sidebar-toggle
-          %a{"data-toggle" => "control-sidebar", :href => "#"}
-            %i.fa.fa-gears
+%nav
+  .nav-wrapper
+    %a.brand-logo{:href => "#"} Logo
+    %ul#nav-mobile.right.hide-on-med-and-down
+      %li
+        %a{:href => "sass.html"} Sass
+      %li
+        %a{:href => "badges.html"} Components
+      %li
+        %a{:href => "collapsible.html"} JavaScript

@@ -1,8 +1,45 @@
+
 .row.image_info#photo_id{:photo_id=>@photo.id, "data-photo_id"=>@photo.id}
-  .box.box-primary
-    .box-header.with-border
-      .box-body
-        .col-md-7#modal_image
-          =image_tag "#{@photo.url('lg')}", {class: "img-responsive"}
-        .col-md-5
-          =render :partial => "photos/show/tabs", :locals => {:photo => @photo }
+
+  .col.l12#modal_image
+    %img.bg.responsive-img{:src => "#{@photo.url('org')}"}
+    =render :partial => "photos/show/like", :locals => {:photo => @photo }
+
+  %ul.collapsible.overlay-menu.overlay-menu-show{"data-collapsible"=>"accordion"}
+    %li
+      .collapsible-header.overlay-menu-header
+        info
+      .overlay-menu-body.collapsible-body
+        =@photo.date_taken_formatted
+        =@photo.id
+        %br
+        =@photo.location.country
+    %li
+      .overlay-menu-header.collapsible-header
+        Comments
+      .overlay-menu-body.collapsible-body
+        =render :partial => "photos/show/comments_widget", :locals => {:photo => @photo }
+    %li
+      .overlay-menu-header.collapsible-header
+        Tags
+      .overlay-menu-body.collapsible-body
+        =render :partial => "photos/show/taginput", :locals => {:photo => @photo }
+
+    %li
+      .overlay-menu-header.collapsible-header
+        Map
+      .overlay-menu-body.collapsible-body
+        %img.responsive-img{:src=> @photo.location.map_url}
+    %li
+      .overlay-menu-header.collapsible-header.active
+        Rotate
+      .overlay-menu-body.collapsible-body
+        
+
+
+
+
+:javascript
+  $(document).ready(function(){
+    $('.collapsible').collapsible();
+  });

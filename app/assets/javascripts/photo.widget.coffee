@@ -9,13 +9,19 @@ App.PhotoWidget = do ->
       animationEnd: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
     alertify.parent(document.body)
     alertify.logPosition("top left");
+
+
+
     @bindUIActions()
 
 
   bindUIActions: ->
     _this = this
     @modalInit()
-    $(s.photoGrid).on 'click.' + s.eventNamespace, '.lazy', -> _this.showInControlSidebar(this)
+
+
+
+    $(s.photoGrid).on 'click.' + s.eventNamespace, '.photo-widget', -> _this.showInControlSidebar(this)
 
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-select', -> _this.select(this)
     $('.wrapper').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete, #delete-photo', -> _this.delete(this)
@@ -73,9 +79,11 @@ App.PhotoWidget = do ->
 
   showInControlSidebar: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
-    App.ControlSidebar.showPhoto(photoId)
-    $('.photo-widget.highlight').removeClass('highlight')
-    $(element).parents('.photo-widget').addClass('highlight')
+
+
+    #App.ControlSidebar.showPhoto(photoId)
+    #$('.photo-widget.highlight').removeClass('highlight')
+    #$(element).parents('.photo-widget').addClass('highlight')
 
   select: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
@@ -128,28 +136,43 @@ App.PhotoWidget = do ->
     overlayButton.removeClass('overlay-show')
 
   modalInit: () ->
-    @modal = new AnimatedModal(
-      animatedIn: 'zoomIn'
-      animatedOut: 'zoomOut'
-      closeBtn: '.close-modal'
-      modalBaseClass: 'animated-modal'
-      modalTarget: 'photoDetails'
-      escClose: true
-      afterClose: null
-      afterOpen: ->
+    $('.modal').modal
+      dismissible: true
+      opacity: .5
+      in_duration: 300
+      out_duration: 200
+      starting_top: '4%'
+      ending_top: '10%'
+      ready: (modal, trigger) ->
         App.PhotoTaginput.refresh()
-        App.PhotoEdit.refresh()
-      beforeClose: null
-      beforeOpen: null
-    )
+        return
+      complete: ->
+        return
+
+
+    # @modal = new AnimatedModal(
+    #   animatedIn: 'zoomIn'
+    #   animatedOut: 'zoomOut'
+    #   closeBtn: '.close-modal'
+    #   modalBaseClass: 'animated-modal'
+    #   modalTarget: 'photoDetails'
+    #   escClose: true
+    #   afterClose: null
+    #   afterOpen: ->
+    #     App.PhotoTaginput.refresh()
+    #     App.PhotoEdit.refresh()
+    #   beforeClose: null
+    #   beforeOpen: null
+    # )
 
   showModal: (element) ->
     _this = this
     photoId = $(element).parents('.photo-widget').data("photoid")
     url = '/photos/' + photoId + '?view=modal'
-    $('#photoDetails > .modal-content').load url, (result) ->
+    $('#photo-modal > .modal-content').load url, (result) ->
       #ev.preventDefault()
-      _this.modal.open()
+      #_this.modal.open()
+      $('#photo-modal').modal('open');
 
   getWidget: (photoId) ->
     return $('.infinite-container > .photo-widget[data-photoid=' + photoId + ']')

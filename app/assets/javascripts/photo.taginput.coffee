@@ -14,44 +14,62 @@ App.PhotoTaginput = do ->
 
   refresh: ->
     @initTaginput()
-
+    _this = this
+    $('.chips').on 'chip.add', (e, chip) -> _this.addTag(e, chip)
+    $('.chips').on 'chip.delete', (e, chip) -> _this.removeTag(e, chip)
+    $('.chips > input').autocomplete
+      data: {
+      "Apple": null,
+      "Microsoft": null,
+      "Google": 'http://placehold.it/250x250'
+      }
 
   bindUIActions: ->
     _this = this
-    $('body').on 'itemAdded.', '.tags', (event) -> _this.addTag(event)
-    $('body').on 'beforeItemRemove.', '.tags', (event) -> _this.removeTag(event)
-    $('.bootstrap-tagsinput > input').autocomplete
-      source: '/photos/get_tag_list'
-      minLength: 1
+    #$('.chips .chips-initial').on 'chip.add', (e, chip) -> _this.addTag(event)
+    #$('body').on 'itemAdded.', '.tags', (event) -> _this.addTag(event)
+    #$('body').on 'beforeItemRemove.', '.tags', (event) -> _this.removeTag(event)
+    # $('.chips > input').autocomplete
+    #   source: '/photos/get_tag_list'
+    #   minLength: 1
 
-  addTag: (event) ->
+  addTag: (e, chip) ->
+    console.log chip
     photo_id = $('#photo_id').data("photo_id")
     url = '/photos/' + photo_id + '/addtag'
-    tag = {tag: event.item}
-    $.get url, tag, (data) ->
+
+    $.get url, chip, (data) ->
       $('.bootstrap-tagsinput input').val('')
 
 
-  removeTag: (event) ->
+  removeTag: (e, chip) ->
     photo_id = $('#photo_id').data("photo_id")
     url = '/photos/' + photo_id + '/removetag'
-    tag = {tag: event.item}
-    $.get url, tag
+
+    $.get url, chip
 
   initTaginput: ->
-    $(s.taginput).tagsinput
-      tagClass: (item) ->
-        switch item.charAt(0)
-          when '@'
-            s.genericClass
-          else
-            s.mentionClass
-      trimValue: true
-    $('.bootstrap-tagsinput > input').autocomplete
-      source: '/photos/get_tag_list'
-      minLength: 1
-      select: (event, ui) ->
-        $(s.tagInput).tagsinput('add', ui.item.value);
+    $('.chips').material_chip()
+    tags = JSON.parse(JSON.stringify($('.chips').data('tags')).replace(/name/g, "tag"))
+
+
+
+
+
+    # $(s.taginput).tagsinput
+    #   tagClass: (item) ->
+    #     switch item.charAt(0)
+    #       when '@'
+    #         s.genericClass
+    #       else
+    #         s.mentionClass
+    #   trimValue: true
+    # $('.chips > input').autocomplete
+    #   source: '/photos/get_tag_list'
+    #   minLength: 1
+    #   select: (event, ui) ->
+    #     console.log "dayum"
+        #$(s.tagInput).tagsinput('add', ui.item.value);
 
 
 $(document).on "turbolinks:load", ->

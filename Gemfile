@@ -44,7 +44,7 @@ gem 'sdoc', '~> 0.4.1'
 
 gem 'will_paginate'
 
-gem 'bootstrap-sass'
+####gem 'bootstrap-sass'
 
 #gem 'bootstrap_form' not uninstalled
 

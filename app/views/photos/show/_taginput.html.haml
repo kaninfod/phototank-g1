@@ -1,3 +1,2 @@
-- tags = "#{photo.tags.map{|c| c.name}.join(",")},#{photo.objectives.map{|c| c.name}.join(",")}"
 .ui-front
-  %input.tags.col-lg-12{:type=>"text", :value=>tags, "data-role"=>"tagsinput" }
+  .chips.chips-initial{"data-tags"=>"#{photo.tags.as_json({except:[:taggings_count]}).to_json}"}

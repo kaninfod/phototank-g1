@@ -1,18 +1,10 @@
-.box.box-widget
-  .box-header.with-border
-    =render :partial => "photos/show/like", :locals => {:photo => photo }
-  .box-body
-    =render :partial => "photos/show/taginput", :locals => {:photo => photo }
-  .box-body
-    -# .pull-right#comments_num="#{photo.comments.count} comments"
-    %img.img-responsive.img-circle.img-sm{:alt => "Alt Text", :src => current_user.avatar}
-      / .img-push is used to add margin to elements next to floating images
-      .img-push
-        %input.form-control.input-sm#comment_input{:placeholder => "Press enter to post comment", :type => "text"}
-  / /.box-footer
-  .box-footer.box-comments
-    - if photo.comments.count == 0
-      Be the first to add a comment!
-    - else
-      - photo.comments.reverse_each do |comment|
-        =render :partial => "photos/show/comment", :locals => {:comment => comment }
+.card-panel.grey.lighten-5.z-depth-1{:style=>"padding: 5px;"}
+  .row.valign-wrapper
+    .col.s3
+      %img.circle.responsive-img{:alt => "", :src => current_user.avatar}
+    .col.s9
+      %input#comment_input{:placeholder => "New comment", :type => "text"}
+#box-comments
+  - if photo.comments.count > 0
+    - photo.comments.reverse_each do |comment|
+      =render :partial => "photos/show/comment", :locals => {:comment => comment }

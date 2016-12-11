@@ -1,35 +1,33 @@
-/ Left side column. contains the logo and sidebar
-%aside.main-sidebar
-  / sidebar: style can be found in sidebar.less
-  %section.sidebar
-    / Sidebar Menu
-    %ul.sidebar-menu
-      / Optionally, you can add icons to the links
-      %li.active
-        %a{:href => "/photos"}
-          %i.fa.fa-picture-o
-          %span  Photos
-      %li
-        %a{:href => "/albums"}
-          %i.fa.fa-book
-          %span Albums
-      %li
-        %a{:href => "/catalogs"}
-          %i.fa.fa-folder
-          %span Catalogs
-      %li
-        %a{:href => "/locations"}
-          %i.fa.fa-map-marker
-          %span Locations
-      %li.treeview
-        %a{:href => "#"}
-          %i.fa.fa-cogs
-          %span Jobs
-          %i.fa.fa-angle-left.pull-right
-        %ul.treeview-menu
-          %li
-            = link_to "Jobs", "/jobs"
-          %li
-            = link_to "Job queue", "/resque/overview", :target => "_blank"
-          %li
-            = link_to "Failed", "/resque/failed", :target => "_blank"
+%ul#slide-out.side-nav
+  %li
+    .userView
+      .background
+        ba
+      %a{:href => "#!user"}
+        kaj
+      %a{:href => "#!name"}
+        %span.white-text.name John Doe
+      %a{:href => "#!email"}
+        %span.white-text.email jdandturk@gmail.com
+  %li
+    %a{:href => "#!"}
+      %i.material-icons> cloud
+      First Link With Icon
+  %li
+    %a{:href => "#!"} Second Link
+  %li
+    .divider
+  %li
+    %a.subheader Subheader
+  %li
+    %a.waves-effect{:href => "#!"} Third Link With Waves
+
+
+
+:javascript
+  $('.button-collapse').sideNav({
+    menuWidth: 350, // Default is 240
+    edge: 'left', // Choose the horizontal origin
+    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    draggable: true // Choose whether you can drag to open on touch screens
+  });

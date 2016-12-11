@@ -23,7 +23,7 @@ App.ControlSidebar = do ->
   resetSearch: ->
     $("#searchbox_like, #searchbox_direction").prop('checked', false)
     $("#searchbox_country").val("All")
-    $("#searchbox_tags").tagsinput('removeAll')
+    #$("#searchbox_tags").tagsinput('removeAll')
 
     $('#search-date').datepicker('setDate', new Date().getFullYear().toString())
     data = {tags: [], like: false, direction: false}
@@ -49,11 +49,11 @@ App.ControlSidebar = do ->
     direction = $("#searchbox_direction").prop('checked')
     country = $("#searchbox_country").val()
     like = $("#searchbox_like").prop('checked')
-    tags = $("#searchbox_tags").tagsinput('items')
-    if $('#search-date').datepicker("getDate") instanceof Date
-      date = $('#search-date').datepicker("getDate")
-    else
-      date = ""
+    tags = []#$("#searchbox_tags").tagsinput('items')
+    #if $('#search-date').datepicker("getDate") instanceof Date
+    #  date = $('#search-date').datepicker("getDate")
+    #else
+    date = ""
 
     return {tags: tags, like: like, direction: direction, startdate: date, country: country}
 
@@ -62,7 +62,7 @@ App.ControlSidebar = do ->
     url = '/photos/' + id + '?view=small'
     $('#control-sidebar-tab-photo > #tab-content').load( url, (result) ->
       _this.setControlSidebarTab("3")
-      App.PhotoTaginput.refresh()
+      #App.PhotoTaginput.refresh()
       App.PhotoLike.init()
       $('.dropdown-toggle').dropdown()
       )
@@ -133,4 +133,4 @@ App.ControlSidebar = do ->
 
 $(document).on "turbolinks:load", ->
   return unless $(".photos.index, .catalogs.show, .albums.show, .locations.show").length > 0
-  App.ControlSidebar.init()
+  #App.ControlSidebar.init()

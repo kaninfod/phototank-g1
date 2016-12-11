@@ -1,7 +1,7 @@
 s = undefined
 App.PhotoLike = do ->
 
-  init: (@el) ->
+  init: ->
 
     s =
       photoGrid: '#photogrid'
@@ -14,14 +14,14 @@ App.PhotoLike = do ->
 
   bindUIActions: ->
     _this = this
-    $('.wrapper').off 'click.' + s.eventNamespace, s.likeButtonId
-    $('.wrapper').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
+    $('#photogrid').off 'click.' + s.eventNamespace, s.likeButtonId
+    $('#photogrid').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
 
   likePhoto: (photoId) ->
     url = '/photos/' + photoId + '/like'
     $.get url, (data) ->
       $(s.numberOfLikes).html data['likes'] + ' likes'
-      $(s.likeButtonId).toggleClass 'btn-success'
+      $(s.likeButtonId).toggleClass 'green'
 
 
 $(document).on "turbolinks:load", ->

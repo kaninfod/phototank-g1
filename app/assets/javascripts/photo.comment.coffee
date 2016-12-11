@@ -6,7 +6,7 @@ App.PhotoComment = do ->
       photoGrid: '#photogrid'
       modalElement: $('#photoDetails')
       commentInput: '#comment_input'
-      commentsBox: '.box-comments'
+      commentsBox: '#box-comments'
       eventNamespace: 'photo'
     #init scroll on comments_widget
     $(s.commentsBox).slimScroll height: $(window).height() - 100

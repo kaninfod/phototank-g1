@@ -6,16 +6,29 @@
 
     -# %script{:src => "//maps.google.com/maps/api/js?key=AIzaSyCo65ll7nP_He2adxqP2ayfFSXXB7WNWtI&libraries=places", :type => "text/javascript"}
 
-
+    %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
-  %body.skin-black.sidebar-mini.sidebar-collapse.fixed{:class=>"#{controller_name} #{action_name}"}
-    %a.back-to-top{:href=>"#"}>
-      %i.fa.fa-arrow-circle-up.fa-2x
+  %body{:class=>"#{controller_name} #{action_name}"}
+    .fixed-action-btn
+      %a.btn-floating.btn-large.red
+        %i.large.material-icons menu
+      %ul
+        %li
+          %a.btn-floating.red.button-collapse{"data-activates" => "slide-out", :href => "#"}
+            %i.material-icons settings
 
-    .wrapper
-      =render "layouts/header_navbar"
-      =render "layouts/side_navbar"
-      =render "layouts/content"
-      =render "layouts/control_sidebar"
+        %li
+          %a.btn-floating.yellow.darken-1
+            %i.material-icons format_quote
+        %li
+          %a.btn-floating.green
+            %i.material-icons publish
+        %li
+          %a.btn-floating.blue
+            %i.material-icons attach_file
+
+    =render "layouts/side_navbar"
+    .container
+      = yield

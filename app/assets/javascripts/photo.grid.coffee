@@ -14,8 +14,7 @@ App.PhotoGrid = do ->
 
     _this = this
 
-    $('img.lazy').lazyload(
-    )
+    $('img.lazy').lazyload()
 
     $(window).unbind('scroll');
     $(window).scroll -> _this.showScrollTop(this)
@@ -25,7 +24,7 @@ App.PhotoGrid = do ->
     $('.dropdown-toggle').dropdown()
 
     $('body,html').scroll();
-    $.AdminLTE.controlSidebar.activate()
+    #$.AdminLTE.controlSidebar.activate()
 
   scrollTop: (event) ->
     event.preventDefault()
@@ -56,7 +55,7 @@ App.PhotoGrid = do ->
       data = App.ControlSidebar.getSearchParams()
       nextPage = $.get(url, data, dataType: "json")
       nextPage.done (data) ->
-        $('.infinite-container').append data
+        $('#photogrid').append data
         $('.loading-notification').fadeOut 100
         $('.pagination:first').parent().remove()
         $('img.lazy').lazyload()
