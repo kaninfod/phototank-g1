@@ -14,8 +14,8 @@ App.PhotoLike = do ->
 
   bindUIActions: ->
     _this = this
-    $('#photogrid').off 'click.' + s.eventNamespace, s.likeButtonId
-    $('#photogrid').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
+    $('body').off 'click.' + s.eventNamespace, s.likeButtonId
+    $('body').on 'click.' + s.eventNamespace, s.likeButtonId, -> _this.likePhoto($('#photo_id').data("photo_id"))
 
   likePhoto: (photoId) ->
     url = '/photos/' + photoId + '/like'

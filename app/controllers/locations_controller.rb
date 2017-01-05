@@ -1,11 +1,15 @@
 class LocationsController < ApplicationController
   before_action :require_login
+
   def index
     order = :country
     order = params[:order] unless not params.has_key?(:order)
     query = "%#{params[:q]}%"
     query ||="%"
     @locations = Location.where("address LIKE ?", query).where("latitude != 0 AND longitude != 0").order(order).page params[:page]
+    if request.xhr?
+      render :partial=>"locations/list"
+    end
   end
 
   def show

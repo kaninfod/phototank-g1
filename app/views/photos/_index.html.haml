@@ -8,7 +8,13 @@
   .loadMore
 
 
-#photoDetails.animated.animated-modal
+#photo-modal.fullscreen-modal.modal
   .modal-content
-  .close-modal.close-modal
-    Close
+
+#album-list-photo.modal.modal-fixed-footer
+  .modal-content
+    %h4 Save to album
+    = render partial: "albums/list", locals: {input_radio: true}
+  .modal-footer
+    %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
+    %button.btn.btn-primary#add-to-album-accept{"data-dismiss" => "modal", :type => "button"} Save to album

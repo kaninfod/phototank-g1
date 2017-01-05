@@ -1,11 +1,15 @@
-.col-md-3.col-sm-6.col-xs-12
-  .album-widget
-    %a.album-widget-photo{:href=>"/locations/#{location.id}"}
-      .album-widget-label.badge="#{location.photos.count}"
-      %img{:src=> location.map_url}
-    .album-widget-content
-      .album-widget-title
+.col.l3.m4.s8
+  .card.small
+    .card-image.waves-effect.waves-block.waves-light
+      %img.activator{:src => location.map_url}/
+    .card-content
+      %span.card-title.activator.grey-text.text-darken-4
         =location.country
-      .album-widget-text.line-clamp
-        =location.address
-    %a.album-widget-footer{:href=>"/locations/#{location.id}/edit"}Edit
+        %i.material-icons.right more_vert
+      %p
+        %a{:href => "/locations/#{location.id}"}Show
+    .card-reveal
+      %span.card-title.grey-text.text-darken-4
+        =location.country
+        %i.material-icons.right close
+      %p=location.address

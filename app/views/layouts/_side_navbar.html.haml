@@ -1,33 +1,3 @@
-%ul#slide-out.side-nav
-  %li
-    .userView
-      .background
-        ba
-      %a{:href => "#!user"}
-        kaj
-      %a{:href => "#!name"}
-        %span.white-text.name John Doe
-      %a{:href => "#!email"}
-        %span.white-text.email jdandturk@gmail.com
-  %li
-    %a{:href => "#!"}
-      %i.material-icons> cloud
-      First Link With Icon
-  %li
-    %a{:href => "#!"} Second Link
-  %li
-    .divider
-  %li
-    %a.subheader Subheader
-  %li
-    %a.waves-effect{:href => "#!"} Third Link With Waves
-
-
-
-:javascript
-  $('.button-collapse').sideNav({
-    menuWidth: 350, // Default is 240
-    edge: 'left', // Choose the horizontal origin
-    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-    draggable: true // Choose whether you can drag to open on touch screens
-  });
+/ Modal Structure
+#list-modal.modal.fullscreen-modal
+  .modal-content

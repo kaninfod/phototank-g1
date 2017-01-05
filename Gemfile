@@ -52,7 +52,7 @@ gem 'will_paginate'
 
 gem 'font-awesome-sass', '~> 4.5.0'
 
-gem 'materialize-sass'
+#gem 'materialize-sass'
 
 gem 'seed_dump'
 

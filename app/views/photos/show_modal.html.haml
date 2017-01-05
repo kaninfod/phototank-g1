@@ -1,45 +1,77 @@
+.row
+  .image_info#photo_id{:photo_id=>@photo.id, "data-photo_id"=>@photo.id}
+    .col.l5
+      .modal-toolbar
+        %a.waves-effect.waves-light.btn.cyan.darken-2.like{:type => "button", :class=>current_user.voted_for?(@photo) && "red"}
+          %i.material-icons thumb_up
+        %a.waves-effect.waves-light.btn.cyan.darken-2#download-photo{:href => "#", "data-download-url"=>"#{@photo.url('org')}", :type => "button"}
+          %i.material-icons file_download
+        %a.waves-effect.waves-light.btn.cyan.darken-2#delete-photo{:type => "button"}
+          %i.material-icons delete
+        %a.waves-effect.waves-light.btn.cyan.darken-2#add-to-album-photo{:href => "#album-list-photo", "data-turbolinks"=> "false", :type => "button"}
+          %i.material-icons photo_album
 
-.row.image_info#photo_id{:photo_id=>@photo.id, "data-photo_id"=>@photo.id}
 
-  .col.l12#modal_image
-    %img.bg.responsive-img{:src => "#{@photo.url('org')}"}
-    =render :partial => "photos/show/like", :locals => {:photo => @photo }
-
-  %ul.collapsible.overlay-menu.overlay-menu-show{"data-collapsible"=>"accordion"}
-    %li
-      .collapsible-header.overlay-menu-header
-        info
-      .overlay-menu-body.collapsible-body
-        =@photo.date_taken_formatted
-        =@photo.id
-        %br
-        =@photo.location.country
-    %li
-      .overlay-menu-header.collapsible-header
-        Comments
-      .overlay-menu-body.collapsible-body
-        =render :partial => "photos/show/comments_widget", :locals => {:photo => @photo }
-    %li
-      .overlay-menu-header.collapsible-header
-        Tags
-      .overlay-menu-body.collapsible-body
-        =render :partial => "photos/show/taginput", :locals => {:photo => @photo }
-
-    %li
-      .overlay-menu-header.collapsible-header
-        Map
-      .overlay-menu-body.collapsible-body
-        %img.responsive-img{:src=> @photo.location.map_url}
-    %li
-      .overlay-menu-header.collapsible-header.active
-        Rotate
-      .overlay-menu-body.collapsible-body
-        
+    .col.l12#modal_image
+      %img.bg.responsive-img{:src => "#{@photo.url('org')}"}
 
 
 
+    %ul.collapsible.overlay-menu.overlay-menu-show{"data-collapsible"=>"accordion"}
+      %li
+        .collapsible-header.overlay-menu-header
+          %i.material-icons info
+          info
+        .overlay-menu-body.collapsible-body
+          %ul
+            %li
+              .label Date
+              .content=@photo.date_taken_formatted
+            %li
+              .label ID
+              .content=@photo.id
+            %li
+              .label Country
+              .content=@photo.location.country
+            %li
+              .label Model
+              .content=@photo.model
+            %li
+              .label Make
+              .content=@photo.make
 
-:javascript
-  $(document).ready(function(){
-    $('.collapsible').collapsible();
-  });
+      %li
+        .overlay-menu-header.collapsible-header
+          %i.material-icons question_answer
+          Comments
+        .overlay-menu-body.collapsible-body
+          =render :partial => "photos/show/comments_widget", :locals => {:photo => @photo }
+      %li
+        .overlay-menu-header.collapsible-header
+          %i.material-icons local_offer
+          Tags
+        .overlay-menu-body.collapsible-body
+          =render :partial => "photos/show/taginput", :locals => {:photo => @photo }
+      %li
+        .overlay-menu-header.collapsible-header
+          %i.material-icons room
+          Map
+        .overlay-menu-body.collapsible-body
+          %img.responsive-img{:src=> @photo.location.map_url}
+      %li
+        .overlay-menu-header.collapsible-header
+          %i.material-icons rotate_right
+          Rotate
+        .overlay-menu-body.collapsible-body
+          %ul
+            %li
+              %input{:name => "rotate", :type => "radio", :value => "90", :id => "rotate1"}
+              %label{:for => "rotate1"} Rotate 90&#176;
+            %li
+              %input{:name => "rotate", :type => "radio", :value => "180", :id => "rotate2"}
+              %label{:for => "rotate2"} Rotate 180&#176;
+            %li
+              %input{:name => "rotate", :type => "radio", :value => "-90", :id => "rotate3"}
+              %label{:for => "rotate3"} Rotate 270&#176;
+            .rotate-section.right
+              %a.waves-effect.waves-light.btn-flat#rotate Rotate

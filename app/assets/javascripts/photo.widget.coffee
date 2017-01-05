@@ -7,10 +7,12 @@ App.PhotoWidget = do ->
       photoGrid: '#photogrid'
       modalElement: $('#photoDetails')
       animationEnd: 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+
     alertify.parent(document.body)
     alertify.logPosition("top left");
 
-
+    #initialise the 'save to album' modal
+    $('#album-list-photo').modal()
 
     @bindUIActions()
 
@@ -19,20 +21,17 @@ App.PhotoWidget = do ->
     _this = this
     @modalInit()
 
-
-
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.photo-widget', -> _this.showInControlSidebar(this)
 
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-select', -> _this.select(this)
-    $('.wrapper').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete, #delete-photo', -> _this.delete(this)
+    $('body').on 'click.' + s.eventNamespace, '.overlay-button.overlay-delete, #delete-photo', -> _this.delete(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-zoom',-> _this.showModal(this)
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.overlay-button.overlay-processing', (ev) -> _this.reloadWidget(this)
 
     $(s.photoGrid).on 'mouseenter.' + s.eventNamespace, '.photo-widget',  -> _this.showControls(this)
     $(s.photoGrid).on 'mouseleave.' + s.eventNamespace, '.photo-widget',  -> _this.hideControls(this)
 
-    $('body').on 'click.' + s.eventNamespace, '#add-to-album-photo', -> _this.showAddToAlbum()
-    $('#album-list-photo .btn-primary').on 'click' , (event) -> _this.addToAlbum(event)
+    $('#add-to-album-accept').on 'click' , (event) -> _this.addToAlbum(event)
 
     $('body').on 'click.' + s.eventNamespace, '#rotate-photo',  -> _this.rotatePhotos(this)
 
@@ -74,16 +73,14 @@ App.PhotoWidget = do ->
     $.get '/photos/' + photoId + '/rotate/' + degrees, (data) ->
       processingButton.addClass('overlay-show')
       $('.dropdown.open .dropdown-toggle').dropdown('toggle');
-      alertify.log("Photo is queued for a rotation of " + degrees + " degrees");
+      Materialize.toast("Photo is queued for a rotation of " + degrees + " degrees", 3000)
+
       return false
+    $('.dropdown-button').dropdown('close');
+    return false
 
   showInControlSidebar: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
-
-
-    #App.ControlSidebar.showPhoto(photoId)
-    #$('.photo-widget.highlight').removeClass('highlight')
-    #$(element).parents('.photo-widget').addClass('highlight')
 
   select: (element) ->
     photoId = $(element).parents('.photo-widget').data("photoid")
@@ -94,7 +91,6 @@ App.PhotoWidget = do ->
     if $(element).attr('id') == 'delete-photo'
       photoId = $('#photo_id').data("photo_id")
       $('#control-sidebar-tab-photo').children().fadeOut()
-      $.AdminLTE.controlSidebar.close()
       localStorage.controlSidebarStatus = 0
     else
       photoWidget = $(element).parents('.photo-widget')
@@ -104,6 +100,7 @@ App.PhotoWidget = do ->
   deletePhoto: (photoId) ->
     photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
     alertify.confirm 'Really! Delete this Photo?', (->
+      console.log photoId
       url = '/photos/' + photoId + '.json'
       # Todo: What is photoid??
       $.ajax
@@ -112,19 +109,16 @@ App.PhotoWidget = do ->
         contentType: 'application/json',
         success: (data) ->
           photoWidget.fadeOut(700)
-          alertify.log("Photo is queued for deletion!");
+          Materialize.toast("Photo is queued for deletion!", 3000)
     )
     false
-
-  showAddToAlbum: ->
-    $('#album-list-photo').modal()
-    $('#album-list-photo').removeClass 'hidden'
 
   addToAlbum: (event) ->
     album_id = $('#album-list-photo * #albums input:radio:checked').val()
     photoId = $('#photo_id').data("photo_id")
     $.get '/albums/add_photo', {album_id: album_id, photo_id: photoId}, ->
-      alertify.log("Photo was added to album");
+      Materialize.toast("Photo was added to album", 3000)
+      $('#album-list-photo').modal('close')
 
 
   showControls: (element) ->
@@ -136,7 +130,7 @@ App.PhotoWidget = do ->
     overlayButton.removeClass('overlay-show')
 
   modalInit: () ->
-    $('.modal').modal
+    $('#photo-modal').modal
       dismissible: true
       opacity: .5
       in_duration: 300
@@ -145,33 +139,16 @@ App.PhotoWidget = do ->
       ending_top: '10%'
       ready: (modal, trigger) ->
         App.PhotoTaginput.refresh()
-        return
+        $('.collapsible').collapsible();
+        $('.dropdown-button').dropdown();
       complete: ->
         return
-
-
-    # @modal = new AnimatedModal(
-    #   animatedIn: 'zoomIn'
-    #   animatedOut: 'zoomOut'
-    #   closeBtn: '.close-modal'
-    #   modalBaseClass: 'animated-modal'
-    #   modalTarget: 'photoDetails'
-    #   escClose: true
-    #   afterClose: null
-    #   afterOpen: ->
-    #     App.PhotoTaginput.refresh()
-    #     App.PhotoEdit.refresh()
-    #   beforeClose: null
-    #   beforeOpen: null
-    # )
 
   showModal: (element) ->
     _this = this
     photoId = $(element).parents('.photo-widget').data("photoid")
     url = '/photos/' + photoId + '?view=modal'
     $('#photo-modal > .modal-content').load url, (result) ->
-      #ev.preventDefault()
-      #_this.modal.open()
       $('#photo-modal').modal('open');
 
   getWidget: (photoId) ->

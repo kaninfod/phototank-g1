@@ -13,7 +13,8 @@ App.PhotoGrid = do ->
   bindUIActions: ->
 
     _this = this
-
+    @modalInit()
+    $(".fixed-action-btn").on 'click.' + s.eventNamespace, '#locations',-> _this.showModal(this)
     $('img.lazy').lazyload()
 
     $(window).unbind('scroll');
@@ -24,7 +25,19 @@ App.PhotoGrid = do ->
     $('.dropdown-toggle').dropdown()
 
     $('body,html').scroll();
-    #$.AdminLTE.controlSidebar.activate()
+
+
+  modalInit: () ->
+    $('#list-modal').modal
+
+
+  showModal: (element) ->
+    _this = this
+    console.log 'kaj'
+    url = '/locations'
+    $('#list-modal > .modal-content').load url, (result) ->
+      $('#list-modal').modal('open');
+
 
   scrollTop: (event) ->
     event.preventDefault()

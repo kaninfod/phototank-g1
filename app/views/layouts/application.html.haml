@@ -7,28 +7,67 @@
     -# %script{:src => "//maps.google.com/maps/api/js?key=AIzaSyCo65ll7nP_He2adxqP2ayfFSXXB7WNWtI&libraries=places", :type => "text/javascript"}
 
     %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"}
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body{:class=>"#{controller_name} #{action_name}"}
+    -# = yield :title
     .fixed-action-btn
-      %a.btn-floating.btn-large.red
+      %a.btn-floating.btn-large.cyan.darken-4
         %i.large.material-icons menu
       %ul
         %li
-          %a.btn-floating.red.button-collapse{"data-activates" => "slide-out", :href => "#"}
+          %a.btn-floating.red{"data-target"=>"list-modal", :href => "#"}
             %i.material-icons settings
 
         %li
-          %a.btn-floating.yellow.darken-1
-            %i.material-icons format_quote
+          %a.btn-floating.yellow.darken-1{:href => "/catalogs"}
+            %i.material-icons archive
         %li
-          %a.btn-floating.green
-            %i.material-icons publish
+          %a.btn-floating.green{:href => "/albums"}
+            %i.material-icons collections
         %li
-          %a.btn-floating.blue
-            %i.material-icons attach_file
+          %a.btn-floating.green#locations
+            %i.material-icons room
+        %li
+          %a.btn-floating.blue{:href => "/photos"}
+            %i.material-icons photo
 
     =render "layouts/side_navbar"
     .container
       = yield
+
+
+    #bucket-panel
+      .bucket-tab.h6
+        #bucket_counter
+      .bucket-contents
+        .bucket-tools
+          %a.dropdown-button.btn.cyan.darken-2{"data-activates" => "dropdown1", :href => "#"}
+            Rotate
+          %ul#dropdown1.dropdown-content
+            %li
+              %a#rotate-bucket{:href => "#", "data-degrees"=>90}
+                .fa.fa-rotate-right
+                90&#176;
+            %li
+              %a#rotate-bucket{:href => "#", "data-degrees"=>180}
+                .fa.fa-rotate-right
+                180&#176;
+            %li
+              %a#rotate-bucket{:href => "#", "data-degrees"=>270}
+                .fa.fa-rotate-right
+                270&#176;
+          %a.waves-effect.waves-light.btn.cyan.darken-2#like-bucket{:type => "button"}
+            %i.material-icons thumb_up
+          %a.waves-effect.waves-light.btn.cyan.darken-2#unlike-bucket{:type => "button"}
+            %i.material-icons thumb_down
+          %a.waves-effect.waves-light.btn.cyan.darken-2#delete-bucket{:href => "#", :type => "button"}
+            %i.material-icons delete
+          %a.waves-effect.waves-light.btn.cyan.darken-2#clear-bucket{:type => "button"}
+            %i.material-icons clear
+          %a.waves-effect.waves-light.btn.cyan.darken-2#add-to-album-bucket{:href => "#album-list-photo", :type => "button"}
+            %i.material-icons photo_album
+        .bucket-photos
+          #bucket

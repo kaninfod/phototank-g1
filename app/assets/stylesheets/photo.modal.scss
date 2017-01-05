@@ -1,22 +1,22 @@
-.animated-modal {
-    animation-duration: 0.5s;
-    background-color: rgb(255, 255, 255);
-    height: 100%;
-    left: 0;
-    opacity: 0;
-    overflow-y: auto;
-    position: fixed;
-    top: 0;
-    visibility: hidden;
-    width: 100%;
-    z-index: 9909;
-}
-
-.animated-modal-on {
-    opacity: 1;
-    visibility: visible;
-    z-index: 9909;
-}
+// .animated-modal {
+//     animation-duration: 0.5s;
+//     background-color: rgb(255, 255, 255);
+//     height: 100%;
+//     left: 0;
+//     opacity: 0;
+//     overflow-y: auto;
+//     position: fixed;
+//     top: 0;
+//     visibility: hidden;
+//     width: 100%;
+//     z-index: 9909;
+// }
+//
+// .animated-modal-on {
+//     opacity: 1;
+//     visibility: visible;
+//     z-index: 9909;
+// }
 
 .modal-content .modal-image > img {
   margin: 0 auto;
@@ -32,7 +32,7 @@
   top: 20px;
   width: 250px;
   text-align: left;
-  opacity: 0.3;
+  opacity: 0.2;
   background-color: white;
   border-radius: 4px;
   cursor:pointer;
@@ -46,13 +46,13 @@
 .overlay-menu-header {
   color: black;
   opacity: 0.8;
-  min-height: 1.4rem;
-  line-height: 1.4rem;
+
 }
 
 .overlay-menu-body {
   color: black;
   padding: 0px 5px 0 5px;
+  margin-left: 15px;
   max-height: 70vh;
   overflow: scroll;
 }
@@ -78,8 +78,33 @@
   font-weight: bold;
 }
 
-.like {
+.rotate-section {
+  padding-bottom: 8px;
+}
+
+.modal-toolbar {
   position: absolute;
-  left: 20px;
+  right: 275px;
   top: 20px;
+  margin: 7.5px;
+  padding: 5px;
+  background-color: #4dd0e1;
+  transition: all 0.2s ease-in-out;
+  opacity: 0.2;
+  z-index: 5;
+}
+
+.modal-toolbar:hover {
+  opacity: 0.95;
+
+}
+
+li div.label {
+  font-size: 12px;
+
+}
+
+li div.content {
+  margin-left: 10px;
+  font-size: 14px;
 }

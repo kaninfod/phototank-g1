@@ -3,6 +3,7 @@
  *= require animate
  *= alertifyjs/dist/css/alertify
  *= require jquery-ui/autocomplete
+ *= require materialize
  *= require_tree .
 
  */
@@ -10,4 +11,3 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "jquery-ui";
-@import "materialize";

@@ -2,8 +2,8 @@
 //= require jquery-ujs
 //= require turbolinks
 //= require jquery-ui/autocomplete
-//= require materialize-sprockets
 
+//= require materialize
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min
 //= require alertifyjs/dist/js/alertify

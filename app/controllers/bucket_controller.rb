@@ -31,8 +31,10 @@ class BucketController < ApplicationController
   end
 
   def list
+
     @bucket = get_bucket
     @photos_in_bucket = Photo.where(id:@bucket)
+    @photos_in_bucket =  @photos_in_bucket.index_by(&:id).values_at(*@bucket)
     respond_to do |format|
       format.html {
         render :partial => "list"

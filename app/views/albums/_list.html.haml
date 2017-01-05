@@ -5,16 +5,23 @@
 
 
     - if input_radio
-      .radio
-        %label
-          %input{:id => "-1", :name => "Raios", :type => "radio", :value => "-1"}/
-          New album
+      %p
+        %input{:id => "-1", :name => "radios", :type => "radio", :value => "-1"}
+        %label{:for => "-1"} New album
+      -#
+      -# .radio
+      -#   %label
+      -#     %input{:id => "-1", :name => "Radios", :type => "radio", :value => "-1"}/
+      -#     New album
 
       - Album.all.each do |album|
-        .radio
-          %label
-            %input{:checked => selected.include?(album.id.to_s), :id => "album.id", :name => "Raios", :type => "radio", :value => "#{album.id}"}/
-            = album.name
+        %p
+          %input{:checked => selected.include?(album.id.to_s), :id => "radio#{album.id}", :name => "radios", :type => "radio", :value => "#{album.id}"}/
+          %label{:for => "radio#{album.id}"}= album.name
+        -# .radio
+        -#   %label
+        -#     %input{:checked => selected.include?(album.id.to_s), :id => "album.id", :name => "Raios", :type => "radio", :value => "#{album.id}"}/
+        -#     = album.name
     - else
       - Album.all.each do |album|
         .checkbox

@@ -1,6 +1,6 @@
 .col#bucket-list
   - if @photos_in_bucket.count > 0
     - @photos_in_bucket.each do |photo|
-      %img.img-responsive{"data-photoid"=>photo.id, :alt => "...", :src => photo.url('tm'), "height"=>"64", "width"=>"64", :style=>"display:inline"}
+      %img.img-responsive{"data-photoid"=>photo.id, :alt => "...", :src => photo.url('tm')}
   - else
     No Photos in Bucket

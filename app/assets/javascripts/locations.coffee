@@ -1,8 +1,8 @@
 s = undefined
 App.Locations = do ->
 
-  init: (@el) ->
-    @wp = null
+  init:  ->
+
     s =
       controlSidebar: '.control-sidebar'
     $(s.controlSidebar).removeClass('control-sidebar-open')

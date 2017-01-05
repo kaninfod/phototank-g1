@@ -44,10 +44,13 @@ App.PhotoEdit = do ->
       data: JSON.stringify(data)
 
   rotatePhoto: ->
-    photo_id = $('#photo_id').data("photo_id")#$('.image_info').attr('photo_id')
+    photo_id = $('#photo_id').data("photo_id")
     rotateValue = $("input[name=rotate]:checked").val()
+    processingButton = $('.photo-widget[data-photoid=' + photo_id + '] .overlay-processing')
     url = '/photos/'+ photo_id + '/rotate/' + rotateValue
-    $.get url
+    $.get url, (data) ->
+      processingButton.addClass('overlay-show')
+      Materialize.toast("Photo is queued for a rotation of " + rotateValue + " degrees", 3000)
 
 $(document).on "turbolinks:load", ->
   # return unless $(".photos.edit").length > 0

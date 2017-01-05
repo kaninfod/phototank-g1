@@ -10,13 +10,16 @@ App.Bucket = do ->
       photoGrid: '#photogrid'
     @update_bucket_count()
     @bindUIActions()
+    @initPanel()
+
+
 
 
   bindUIActions: ->
     _this = this
     $('.bucket').slimScroll height: $(window).height() - 350
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.photo-widget-overlay', -> _this.toggleBucket(this)
-    $('.bucket').on 'bucket:update', -> _this.loadBucket()
+    $('#bucket').on 'bucket:update', -> _this.loadBucket()
     $('body').on 'click.' + s.eventNamespace, '#like-bucket', -> _this.likePhotos()
     $('body').on 'click.' + s.eventNamespace,'#unlike-bucket', -> _this.unlikePhotos()
     $('body').on 'click.' + s.eventNamespace, '#delete-bucket', -> _this.deletePhotos()
@@ -25,13 +28,21 @@ App.Bucket = do ->
     $('body').on 'click.' + s.eventNamespace, '#add-to-album-bucket', -> _this.showAddToAlbum()
     $('#album-list-bucket .btn-primary').on 'click' , (event) -> _this.addToAlbum(event)
     $('#comment-input-bucket').keypress (e) -> _this.addComment(this, e)
-
     $('body').on 'click.' + s.eventNamespace, '#bucket-list img', -> _this.removeFromBucket(this)
-
+    $('body').on 'click.' + s.eventNamespace, '.bucket-tab', -> _this.togglePanel()
     @loadBucket()
 
 
+  initPanel: ->
+    console.log "init panel"
+
+  togglePanel: ->
+    console.log "show panel"
+    $('#bucket-panel').toggleClass('show')
+
+
   addPhotoToBucket: (photoId) ->
+
     element = $('.photo-widget[data-photoid=' + photoId + '] .overlay-select')
     $(element).toggleClass("selected")
     if $(element).hasClass('selected')
@@ -43,8 +54,8 @@ App.Bucket = do ->
       url: url
       data: {}
       success: (response) ->
-        $(".bucket").trigger('bucket:update')
-        App.ControlSidebar.setControlSidebarTab("2")
+        $("#bucket").trigger('bucket:update')
+
 
   removeFromBucket: (element) ->
     _this=this
@@ -56,7 +67,8 @@ App.Bucket = do ->
 
   loadBucket: ->
     $.get '/bucket/list', (data) ->
-      $('.bucket').html data
+      $('#bucket').html data
+    @update_bucket_count()
 
   update_bucket_count: ->
     $.get '/bucket/count', (data) ->
@@ -99,7 +111,8 @@ App.Bucket = do ->
           photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
           photoWidget.fadeOut(700)
         _this.clearBucket()
-        alertify.log("Photos in bucket are queued for deletion");
+        Materialize.toast("Photos in bucket are queued for deletion", 3000)
+
     false
 
   rotatePhotos: (element) ->
@@ -109,7 +122,8 @@ App.Bucket = do ->
       for photoId in data.bucket
         processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
         processingButton.addClass('overlay-show')
-      alertify.log("Photos in bucket are queued for rotation");
+      Materialize.toast("Photos in bucket are queued for rotation", 3000)
+
     return false
 
   showAddToAlbum: ->
@@ -119,7 +133,8 @@ App.Bucket = do ->
   addToAlbum: ->
     album_id = $('#album-list-bucket * #albums input:radio:checked').val()
     $.get '/bucket/save', {album_id: album_id}, ->
-      alertify.log("Photos have been saved to album");
+      Materialize.toast("Photos have been saved to album", 3000)
+
 
 
 $(document).on "turbolinks:load", ->
