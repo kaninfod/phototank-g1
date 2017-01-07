@@ -31,7 +31,6 @@ class BucketController < ApplicationController
   end
 
   def list
-
     @bucket = get_bucket
     @photos_in_bucket = Photo.where(id:@bucket)
     @photos_in_bucket =  @photos_in_bucket.index_by(&:id).values_at(*@bucket)
@@ -47,7 +46,7 @@ class BucketController < ApplicationController
   end
 
   def save_to_album
-
+    puts "params: " + params
     if params.has_key? :album_id
       if params[:album_id].to_i == -1
         album = Album.new

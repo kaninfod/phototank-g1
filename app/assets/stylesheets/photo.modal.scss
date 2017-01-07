@@ -1,22 +1,4 @@
-// .animated-modal {
-//     animation-duration: 0.5s;
-//     background-color: rgb(255, 255, 255);
-//     height: 100%;
-//     left: 0;
-//     opacity: 0;
-//     overflow-y: auto;
-//     position: fixed;
-//     top: 0;
-//     visibility: hidden;
-//     width: 100%;
-//     z-index: 9909;
-// }
-//
-// .animated-modal-on {
-//     opacity: 1;
-//     visibility: visible;
-//     z-index: 9909;
-// }
+
 
 .modal-content .modal-image > img {
   margin: 0 auto;
@@ -92,16 +74,15 @@
   transition: all 0.2s ease-in-out;
   opacity: 0.2;
   z-index: 5;
+  border-radius: 3px;
 }
 
 .modal-toolbar:hover {
   opacity: 0.95;
-
 }
 
 li div.label {
   font-size: 12px;
-
 }
 
 li div.content {

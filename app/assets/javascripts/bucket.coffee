@@ -21,7 +21,7 @@ App.Bucket = do ->
     $(s.photoGrid).on 'click.' + s.eventNamespace, '.photo-widget-overlay', -> _this.toggleBucket(this)
     $('#bucket').on 'bucket:update', -> _this.loadBucket()
     $('body').on 'click.' + s.eventNamespace, '#like-bucket', -> _this.likePhotos()
-    $('body').on 'click.' + s.eventNamespace,'#unlike-bucket', -> _this.unlikePhotos()
+    $('body').on 'click.' + s.eventNamespace, '#unlike-bucket', -> _this.unlikePhotos()
     $('body').on 'click.' + s.eventNamespace, '#delete-bucket', -> _this.deletePhotos()
     $('body').on 'click.' + s.eventNamespace, '#rotate-bucket',  -> _this.rotatePhotos(this)
     $('body').on 'click.' + s.eventNamespace, '#clear-bucket', -> _this.clearBucket()
@@ -72,7 +72,7 @@ App.Bucket = do ->
 
   update_bucket_count: ->
     $.get '/bucket/count', (data) ->
-      $('#bucket_counter').html data['count']
+      $('#bucket_counter').html data['count'] + " Photos"
 
   likePhotos: ->
     $('.dropdown.open .dropdown-toggle').dropdown('toggle');
@@ -134,8 +134,6 @@ App.Bucket = do ->
     album_id = $('#album-list-bucket * #albums input:radio:checked').val()
     $.get '/bucket/save', {album_id: album_id}, ->
       Materialize.toast("Photos have been saved to album", 3000)
-
-
 
 $(document).on "turbolinks:load", ->
   App.Bucket.init()
