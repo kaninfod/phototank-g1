@@ -12,7 +12,7 @@ App.PhotoWidget = do ->
     alertify.logPosition("top left");
 
     #initialise the 'save to album' modal
-    $('#album-list-photo').modal()
+    $('.modal').modal()
 
     @bindUIActions()
 
@@ -31,7 +31,7 @@ App.PhotoWidget = do ->
     $(s.photoGrid).on 'mouseenter.' + s.eventNamespace, '.photo-widget',  -> _this.showControls(this)
     $(s.photoGrid).on 'mouseleave.' + s.eventNamespace, '.photo-widget',  -> _this.hideControls(this)
 
-    $('#add-to-album-accept').on 'click' , (event) -> _this.addToAlbum(event)
+    $('#add-to-album-photo').on 'click' , (event) -> _this.addToAlbum(event)
 
     $('body').on 'click.' + s.eventNamespace, '#rotate-photo',  -> _this.rotatePhotos(this)
 

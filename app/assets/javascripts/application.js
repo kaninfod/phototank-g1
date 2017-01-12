@@ -3,6 +3,10 @@
 //= require turbolinks
 //= require jquery-ui/autocomplete
 
+//= require react
+//= require react_ujs
+//= require components
+
 //= require materialize
 //= require jquery_lazyload
 //= require slimscroll/jquery.slimscroll.min

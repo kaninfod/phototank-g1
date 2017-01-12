@@ -46,7 +46,6 @@ class BucketController < ApplicationController
   end
 
   def save_to_album
-    puts "params: " + params
     if params.has_key? :album_id
       if params[:album_id].to_i == -1
         album = Album.new

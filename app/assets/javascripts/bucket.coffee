@@ -25,8 +25,8 @@ App.Bucket = do ->
     $('body').on 'click.' + s.eventNamespace, '#delete-bucket', -> _this.deletePhotos()
     $('body').on 'click.' + s.eventNamespace, '#rotate-bucket',  -> _this.rotatePhotos(this)
     $('body').on 'click.' + s.eventNamespace, '#clear-bucket', -> _this.clearBucket()
-    $('body').on 'click.' + s.eventNamespace, '#add-to-album-bucket', -> _this.showAddToAlbum()
-    $('#album-list-bucket .btn-primary').on 'click' , (event) -> _this.addToAlbum(event)
+    # $('body').on 'click.' + s.eventNamespace, '#show-add-to-album-modal-bucket', -> _this.showAddToAlbum()
+    $('#add-to-album-bucket').on 'click' , (event) -> _this.addToAlbum(event)
     $('#comment-input-bucket').keypress (e) -> _this.addComment(this, e)
     $('body').on 'click.' + s.eventNamespace, '#bucket-list img', -> _this.removeFromBucket(this)
     $('body').on 'click.' + s.eventNamespace, '.bucket-tab', -> _this.togglePanel()
@@ -126,9 +126,9 @@ App.Bucket = do ->
 
     return false
 
-  showAddToAlbum: ->
-    $('#album-list-bucket').modal()
-    $('#album-list-bucket').removeClass 'hidden'
+  # showAddToAlbum: ->
+  #   $('#album-list-bucket').modal()
+  #   $('#album-list-bucket').removeClass 'hidden'
 
   addToAlbum: ->
     album_id = $('#album-list-bucket * #albums input:radio:checked').val()

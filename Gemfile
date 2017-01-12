@@ -86,6 +86,7 @@ gem "rails-settings-cached"
 
 gem "haml-rails", "~> 0.9"
 
+gem 'react-rails'
 
 gem 'flickraw', '~> 0.9.8'
 gem 'dropbox-sdk'
