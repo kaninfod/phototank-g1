@@ -1,0 +1,88 @@
+$primary-color: #4dd0e1;
+$toplevel-color: #0097a7;
+$tab-color: #b2ebf2;
+
+.bottom-panel {
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: 5;
+  max-height: 30px;
+  overflow-y: visible;
+  -webkit-transition: max-height 0.5s ease-in-out;
+  -moz-transition: max-height 0.5s ease-in-out;
+  -o-transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.bottom-panel.show {
+  max-height: 180px;
+}
+
+.panel-tabs {
+  max-height: 30px;
+  left:0px;
+  bottom: 0px;
+}
+
+.panel-tab {
+  float:left;
+  background: $tab-color;
+  border-radius: 3px 3px 0 0;
+  width: 100px;
+  margin-left: 2px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 30px;
+}
+
+.panel-tab.active {
+  background-color: $primary-color;
+}
+
+.panel-contents {
+  float:left;
+  width:100%;
+  background: $primary-color;
+}
+
+.panel-content {
+  display:none;
+}
+
+.panel-content.active {
+  display:block;
+  height:150px;
+  -webkit-transition: max-height 0.5s ease-in-out;
+  -moz-transition: max-height 0.5s ease-in-out;
+  -o-transition: max-height 0.5s ease-in-out;
+  transition: max-height 0.5s ease-in-out;
+}
+
+
+.bucket-photos {
+  background: $toplevel-color;
+  padding: 8px;
+  margin: 5px;
+
+
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.bucket-tools {
+  margin: 5px 5px 0 5px ;
+  max-height: 50px;
+}
+
+
+#bucket-list {
+  height: 64px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+#bucket-list > img {
+  width:64px;
+  display: inline;
+}

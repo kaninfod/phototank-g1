@@ -65,7 +65,7 @@ App.PhotoGrid = do ->
       url = $('.next_page').last()[0].href
       $('.loading-notification').fadeIn 100
 
-      data = App.ControlSidebar.getSearchParams()
+      data = App.BottomPanel.getSearchParams()
       nextPage = $.get(url, data, dataType: "json")
       nextPage.done (data) ->
         $('#photogrid').append data

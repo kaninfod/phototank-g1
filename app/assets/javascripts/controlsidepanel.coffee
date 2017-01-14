@@ -16,8 +16,8 @@ App.ControlSidebar = do ->
   bindUIActions: ->
     $('body').on 'click.' + s.eventNamespace, s.controlSidebarBtn, -> _this.toggleControlSidebar()
     $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) -> _this.tabChange(e)
-    $('#search-date').on 'changeDate', (e) -> _this.searchParamsChanged(e)
-    $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction, #searchbox_like, #searchbox_tags', -> _this.searchParamsChanged()
+    # $('#search-date').on 'changeDate', (e) -> _this.searchParamsChanged(e)
+    # $('body').on 'change.' + s.eventNamespace, '#searchbox_country, #searchbox_direction, #searchbox_like, #searchbox_tags', -> _this.searchParamsChanged()
     $('body').on 'click.' + s.eventNamespace, '#reset-search', -> _this.resetSearch()
 
   resetSearch: ->
@@ -32,28 +32,26 @@ App.ControlSidebar = do ->
       App.PhotoGrid.init()
 
 
-
-
-  searchParamsChanged: (e)->
-    data = this.getSearchParams()
-    console.log data
-    if typeof e == "undefined"
-      date = $('#search-date').datepicker("getDate")
-    else
-      date = e.date
-    url = '/photos/'
-    $('.infinite-container').load url, data, ->
-      App.PhotoGrid.init()
-
-  getSearchParams: ->
-    direction = $("#searchbox_direction").prop('checked')
-    country = $("#searchbox_country").val()
-    like = $("#searchbox_like").prop('checked')
-    tags = []#$("#searchbox_tags").tagsinput('items')
-    #if $('#search-date').datepicker("getDate") instanceof Date
-    #  date = $('#search-date').datepicker("getDate")
-    #else
-    date = ""
+  # searchParamsChanged: (e)->
+  #   data = this.getSearchParams()
+  #   console.log data
+  #   if typeof e == "undefined"
+  #     date = $('#search-date').datepicker("getDate")
+  #   else
+  #     date = e.date
+  #   url = '/photos/'
+  #   $('.infinite-container').load url, data, ->
+  #     App.PhotoGrid.init()
+  #
+  # getSearchParams: ->
+  #   direction = $("#searchbox_direction").prop('checked')
+  #   country = $("#searchbox_country").val()
+  #   like = $("#searchbox_like").prop('checked')
+  #   tags = []#$("#searchbox_tags").tagsinput('items')
+  #   #if $('#search-date').datepicker("getDate") instanceof Date
+  #   #  date = $('#search-date').datepicker("getDate")
+  #   #else
+  #   date = ""
 
     return {tags: tags, like: like, direction: direction, startdate: date, country: country}
 

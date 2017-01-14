@@ -1,26 +1,40 @@
 =content_for :title, "Locations"
 =content_for :subtitle, "all"
 
-.box
-  .box-header.with-border
-    .pull-right
-      .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
-        = link_to "New location", "/locations/new", class:"btn btn-default"
-        .btn-group{:role => "group"}
-          %button.btn.btn-default.dropdown-toggle.btn-sm{"data-toggle" => "dropdown", :type => "button"}
-            Order by
-            %span.caret
-          %ul.dropdown-menu
-            %li
-              %a{:href => "/locations?order=country"} Country
-            %li
-              %a{:href => "/locations?order=city"} City
-            %li
-              %a{:href => "/locations?order=address"} Address
-        .input-group.input-group-sm
-          %input#search-locations.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}
-  .box-body
+.row
+  .col.s12.cards-container
     =render :partial => @locations
+
+:css
+  .cards-container {
+    column-break-inside: avoid;
+    .card {
+      display: inline-block;
+      overflow: visible;
+    }
+  }
+
+
+-# .box
+-#   .box-header.with-border
+-#     .pull-right
+-#       .btn-group.btn-group-sm{"aria-label" => "...", :role => "group"}
+-#         = link_to "New location", "/locations/new", class:"btn btn-default"
+-#         .btn-group{:role => "group"}
+-#           %button.btn.btn-default.dropdown-toggle.btn-sm{"data-toggle" => "dropdown", :type => "button"}
+-#             Order by
+-#             %span.caret
+-#           %ul.dropdown-menu
+-#             %li
+-#               %a{:href => "/locations?order=country"} Country
+-#             %li
+-#               %a{:href => "/locations?order=city"} City
+-#             %li
+-#               %a{:href => "/locations?order=address"} Address
+-#         .input-group.input-group-sm
+-#           %input#search-locations.form-control{:placeholder => "Search for...", :type => "text", :value => "#{params[:q]}"}
+-#   .box-body
+-#     =render :partial => @locations
 
   .box-footer
     = will_paginate @locations

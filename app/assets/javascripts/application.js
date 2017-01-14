@@ -16,6 +16,7 @@
 //= require jsanimatedmodal/animatedModal.min
 
 //= require init.coffee
+//= require bottompanel
 //= require photo.widget
 //= require photo.like
 //= require photo.comment

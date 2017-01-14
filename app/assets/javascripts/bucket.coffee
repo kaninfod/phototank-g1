@@ -1,16 +1,14 @@
 s = undefined
-
 App.Bucket = do ->
 
   init: (@el) ->
     s =
       overlayClass: 'photo-widget-overlay'
-      # bucketClass: 'bucket_overlay'
       eventNamespace: 'photo'
       photoGrid: '#photogrid'
     @update_bucket_count()
     @bindUIActions()
-    @initPanel()
+
 
 
 
@@ -29,20 +27,10 @@ App.Bucket = do ->
     $('#add-to-album-bucket').on 'click' , (event) -> _this.addToAlbum(event)
     $('#comment-input-bucket').keypress (e) -> _this.addComment(this, e)
     $('body').on 'click.' + s.eventNamespace, '#bucket-list img', -> _this.removeFromBucket(this)
-    $('body').on 'click.' + s.eventNamespace, '.bucket-tab', -> _this.togglePanel()
     @loadBucket()
 
 
-  initPanel: ->
-    console.log "init panel"
-
-  togglePanel: ->
-    console.log "show panel"
-    $('#bucket-panel').toggleClass('show')
-
-
   addPhotoToBucket: (photoId) ->
-
     element = $('.photo-widget[data-photoid=' + photoId + '] .overlay-select')
     $(element).toggleClass("selected")
     if $(element).hasClass('selected')
@@ -125,10 +113,6 @@ App.Bucket = do ->
       Materialize.toast("Photos in bucket are queued for rotation", 3000)
 
     return false
-
-  # showAddToAlbum: ->
-  #   $('#album-list-bucket').modal()
-  #   $('#album-list-bucket').removeClass 'hidden'
 
   addToAlbum: ->
     album_id = $('#album-list-bucket * #albums input:radio:checked').val()
