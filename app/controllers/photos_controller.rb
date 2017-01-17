@@ -174,8 +174,13 @@ class PhotosController < ApplicationController
   end
 
   def get_tag_list
-    query_string = params[:term]
-    taglist = ActsAsTaggableOn::Tag.where("name like ?", "#{query_string}%")
+    if params.has_key?(:photo_id)
+      photo=Photo.find params[:photo_id]
+      taglist = photo.tags
+    elsif params.has_key?(:term)
+      query_string = params[:term]
+      taglist = ActsAsTaggableOn::Tag.where("name like ?", "%#{query_string}%")
+    end
     autocomplete_list = taglist.map do |e|
       {:id=> e.id, :value=>e.name}
     end

@@ -46,7 +46,6 @@ App.BottomPanel = do ->
 
     url = '/photos/'
 
-
     $('#photogrid').load url, data, ->
       App.PhotoGrid.init()
       $('img.lazy').lazyload()

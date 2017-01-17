@@ -1,0 +1,38 @@
+div.tagger {
+  border-bottom: 1px solid #9e9e9e;
+
+}
+
+.added-tags {
+  float:left;
+  z-index: 100;
+  max-height:90px;
+  height: 45px;
+  overflow-y: scroll;
+}
+
+.tagger > .added-tags >.chip {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tagger > input {
+  display: inline-block;
+  border: none !important;
+  margin-bottom: 0;
+  max-width: 200px;
+}
+
+.tagger > .dropdown-result {
+  float: left;
+  position: absolute;
+  z-index: 100;
+  margin-top: 0;
+  min-width: 150px;
+  display: none;
+}
+
+.dropdown-result.show {
+  display: block;
+}

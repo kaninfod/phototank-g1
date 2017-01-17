@@ -1,7 +1,7 @@
 .row
   .image_info#photo_id{:photo_id=>@photo.id, "data-photo_id"=>@photo.id}
     .col.l5
-      
+
       .modal-toolbar
         %a.waves-effect.waves-light.btn.like{:type => "button", :class=> current_user.voted_for?(@photo) ? "green" : "cyan darken-1"}
           %i.material-icons thumb_up
