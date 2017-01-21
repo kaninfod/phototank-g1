@@ -143,10 +143,10 @@ class PhotosController < ApplicationController
   def addtag
     photo = Photo.find params[:id]
 
-    if params[:tag][0,1] == "@"
-      photo.objective_list.add params[:tag]
+    if params[:value][0,1] == "@"
+      photo.objective_list.add params[:value]
     else
-      photo.tag_list.add params[:tag]
+      photo.tag_list.add params[:value]
     end
 
     if photo.save

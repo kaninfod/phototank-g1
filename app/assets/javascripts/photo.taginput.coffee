@@ -4,10 +4,7 @@ App.PhotoTaginput = do ->
   init: (@el) ->
     s =
       photoGrid: '#photogrid'
-    tags = @getTags()
-    
-
-
+    # tags = @initTags()
     @bindUIActions()
 
   bindUIActions: ->
@@ -16,21 +13,24 @@ App.PhotoTaginput = do ->
     $(".tagger").on 'tag:removed', (event, data) -> _this.removeTag(event, data)
 
 
-  getTags: ->
+  initTags: ->
     _this = this
-    url = "/photos/get_tag_list?photo_id=642"
+    _this.bindUIActions()
+    photo_id = $('.image_info').data("photo_id")
+    url = "/photos/get_tag_list?photo_id=" + photo_id
     $.get(url).done (data) ->
-      _this.handleData(data)
+      _this.handleInit(data)
 
-  handleData: (data)->
-        App.Tagger.initTagger
-          identifier: ".tagger"
-          ajaxUrl: "/photos/get_tag_list?term="
-          minLength: 2
-          tags: data
+  handleInit: (data)->
+    App.Tagger.initTagger
+      identifier: ".tagger"
+      ajaxUrl: "/photos/get_tag_list?term="
+      minLength: 2
+      tags: data
 
   addTag: (event, data) ->
     photo_id = $('.image_info').data("photo_id")
+    console.log photo_id
     url = '/photos/' + photo_id + '/addtag'
     $.get url, data, (data) ->
       $('.bootstrap-tagsinput input').val('')

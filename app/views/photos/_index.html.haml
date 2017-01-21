@@ -7,20 +7,32 @@
     Loading more...
   .loadMore
 
+
+
+=render "layouts/bucket_panel"
+
+// add multiple photos from bucket to album - select album from list on this modal
 #album-list-bucket.modal.modal-fixed-footer
-  -# =react_component 'Modal', { input_radio: true, radioGroup: "bucket", albums: Album.all}
-  .modal-content
+  .modal-conten
     %h4 Save to album (Bucket)
-    -# =react_component 'Albums', { input_radio: true, radioGroup: "bucket", albums: Album.all}
     = render partial: "albums/list", locals: {input_radio: true, radio_group: "bucket"}
   .modal-footer
     %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
     %button.btn.btn-primary#add-to-album-bucket{"data-dismiss" => "modal", :type => "button"} Save to album
 
+
+// Add a single photo to an album
 #album-list-photo.modal.modal-fixed-footer
   .modal-content
     %h4 Save to album (Photo)
     = render partial: "albums/list", locals: {input_radio: true, radio_group: "photo"}
+  .modal-footer
+    %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
+    %button.btn.btn-primary#add-to-album-photo{"data-dismiss" => "modal", :type => "button"} Save to album
+
+#add-tags-bucket.modal
+  .modal-content
+    .bucket-tagger
   .modal-footer
     %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
     %button.btn.btn-primary#add-to-album-photo{"data-dismiss" => "modal", :type => "button"} Save to album

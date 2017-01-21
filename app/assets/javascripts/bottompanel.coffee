@@ -36,8 +36,6 @@ App.BottomPanel = do ->
 
     $(".panel-content").removeClass('active')
     panel.addClass('active')
-    # else if $(tab).attr('id') == "hide-tab"
-    #   $('.bottom-panel').toggleClass('show')
 
 
   searchParamsChanged: (e)->

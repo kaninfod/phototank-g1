@@ -13,30 +13,14 @@ App.PhotoGrid = do ->
   bindUIActions: ->
 
     _this = this
-    @modalInit()
+    # @modalInit()
     $(".fixed-action-btn").on 'click.' + s.eventNamespace, '#locations',-> _this.showModal(this)
     $('img.lazy').lazyload()
-
     $(window).unbind('scroll');
     $(window).scroll -> _this.showScrollTop(this)
-
     $('.back-to-top').click (event) -> _this.scrollTop(event)
-
     $('.dropdown-toggle').dropdown()
-
     $('body,html').scroll();
-
-
-  modalInit: () ->
-    $('#list-modal').modal
-
-
-  showModal: (element) ->
-    _this = this
-    console.log 'kaj'
-    url = '/locations'
-    $('#list-modal > .modal-content').load url, (result) ->
-      $('#list-modal').modal('open');
 
 
   scrollTop: (event) ->

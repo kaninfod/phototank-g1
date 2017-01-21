@@ -8,7 +8,7 @@ App.Bucket = do ->
       photoGrid: '#photogrid'
     @update_bucket_count()
     @bindUIActions()
-
+    #@taggerInit()
 
 
 
@@ -29,6 +29,12 @@ App.Bucket = do ->
     $('body').on 'click.' + s.eventNamespace, '#bucket-list img', -> _this.removeFromBucket(this)
     @loadBucket()
 
+
+  taggerInit: ()->
+    App.Tagger.initTagger
+      identifier: ".bucket-tagger"
+      ajaxUrl: "/photos/get_tag_list?term="
+      minLength: 2
 
   addPhotoToBucket: (photoId) ->
     element = $('.photo-widget[data-photoid=' + photoId + '] .overlay-select')
@@ -111,7 +117,6 @@ App.Bucket = do ->
         processingButton = $('.photo-widget[data-photoid=' + photoId + '] .overlay-processing')
         processingButton.addClass('overlay-show')
       Materialize.toast("Photos in bucket are queued for rotation", 3000)
-
     return false
 
   addToAlbum: ->

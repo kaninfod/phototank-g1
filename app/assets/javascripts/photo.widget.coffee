@@ -138,7 +138,8 @@ App.PhotoWidget = do ->
       starting_top: '4%'
       ending_top: '10%'
       ready: (modal, trigger) ->
-        App.PhotoTaginput.init()
+        
+        App.PhotoTaginput.initTags()
         $('.collapsible').collapsible();
         $('.dropdown-button').dropdown();
       complete: ->
