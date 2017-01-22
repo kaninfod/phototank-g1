@@ -27,7 +27,6 @@
 //= require photo.edit
 //= require bucket
 
-
 //= require album.taginput
 
 //= require catalogs

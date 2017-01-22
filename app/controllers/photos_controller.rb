@@ -160,10 +160,10 @@ class PhotosController < ApplicationController
 
     photo = Photo.find params[:id]
 
-    if params[:tag][0,1] == "@"
-      photo.objective_list.remove params[:tag]
+    if params[:value][0,1] == "@"
+      photo.objective_list.remove params[:value]
     else
-      photo.tag_list.remove params[:tag]
+      photo.tag_list.remove params[:value]
     end
 
     if photo.save

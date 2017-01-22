@@ -12,6 +12,7 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body{:class=>"#{controller_name} #{action_name}"}
+    %input#tyve
     -# = yield :title
     .fixed-action-btn
       %a.btn-floating.btn-large.cyan.darken-4
@@ -37,6 +38,3 @@
     =render "layouts/side_navbar"
     .container
       = yield
-
-
-    
