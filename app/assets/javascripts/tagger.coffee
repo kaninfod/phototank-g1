@@ -15,11 +15,10 @@ class App.Tagger
     @loadTagItems(@options.tags)
 
     #events when typing
-    me = this
-    @elements.tagInput.on "input", (event), -> me.updateTagItemPane(event)
+    @elements.tagInput.on "input", (event), => @updateTagItemPane(event)
 
     #Events for navigation with arrowkeys
-    @elements.tagInput.on "keydown", (event), ->  me.selectTagItemKeyboard(event)
+    @elements.tagInput.on "keydown", (event), =>  @selectTagItemKeyboard(event)
 
   #Setup html elements for component
   setupElements: ->
@@ -40,22 +39,21 @@ class App.Tagger
     #@elements.wrapper.wrap("<div class=tagger-element></div>")
 
   updateTagItemPane: (event) ->
-    me = this
     if (@elements.tagInput.val().length >= @options.minLength or @elements.tagInput.val().charAt(0) in ["#", "@"])
       url = @options.ajaxUrl + $(event.target).val()
-      $.get url, (data) ->
-        result = me.getTagItemHTML(data)
+      $.get url, (data) =>
+        result = @getTagItemHTML(data)
         if result.length > 0
-          me.elements.tagItemPane.addClass('show')
-          $(me.elements.tagItemPane).html(result)
-          me.setInitialTagItem()
-          me.bindTagItems()
+          @elements.tagItemPane.addClass('show')
+          $(@elements.tagItemPane).html(result)
+          @setInitialTagItem()
+          @bindTagItems()
         else
-          me.elements.tagItemPane.empty()
-          me.elements.selectedTagItem = []
-          me.elements.tagItemPane.removeClass('show')
+          @elements.tagItemPane.empty()
+          @elements.selectedTagItem = []
+          @elements.tagItemPane.removeClass('show')
     else
-      me.elements.tagItemPane.removeClass('show')
+      @elements.tagItemPane.removeClass('show')
 
   getTagItemHTML: (data) ->
     result = ""
@@ -73,25 +71,23 @@ class App.Tagger
   #bind click event to items in dropdown
   bindTagItems: ->
     me = this
-    @elements.tagItems = me.elements.wrapper.find("ul>li")
-    @elements.tagItems.on "click", (event), -> me.selectTagItemMouse(event)
+    @elements.tagItems = @elements.wrapper.find("ul>li")
+    @elements.tagItems.on "click", (event), => @selectTagItemMouse(event)
 
 
   #Eventhandler for when user navigates and selects from the result dropdown with keyboard
   selectTagItemKeyboard: (event) ->
-    _this = this
     if event.keyCode in [38,40]
-      _this.navigateTagItemPane(event)
+      @navigateTagItemPane(event)
     else if event.keyCode == 13
       if @elements.selectedTagItem.length > 0
-        _this.addTag(_this.getDataFromTagItem(@elements.selectedTagItem))
+        @addTag(@getDataFromTagItem(@elements.selectedTagItem))
         @elements.tagItemPane.removeClass('show')
       else if @elements.tagInput.val().length > 0
-        _this.addTag({value: @elements.tagInput.val(), id: (-1)})
+        @addTag({value: @elements.tagInput.val(), id: (-1)})
 
   #Eventhandler for when user selects from the result dropdown with Mouse
   selectTagItemMouse: (event) ->
-    me = this
     @setSelectedTagItem(event.target)
     @addTag(@getDataFromTagItem($(event.target)))
     @elements.tagItemPane.removeClass('show')
@@ -116,18 +112,16 @@ class App.Tagger
       @elements.tagInput.val("")
       data.photoId = @options.photoId
       @elements.wrapper.trigger("tag:added", data)
-      console.log "trigger"
     else
       @elements.tagInput.val("")
 
   #Create the tag element in the tagger
   loadTagItem: (data) ->
-    me = this
     htmlStr = @getTagHTML(data)
     @elements.addedTags.append(htmlStr)
     data.photoId = @options.photoId
-    @elements.addedTags.find(".close:last").on "click", (e) ->
-      me.elements.wrapper.trigger("tag:removed", data)
+    @elements.addedTags.find(".close:last").on "click", (e) =>
+      @elements.wrapper.trigger("tag:removed", data)
 
   #generate html for the chip element
   getTagHTML: (item)->
@@ -135,12 +129,11 @@ class App.Tagger
 
   #set active element in result dropdown when arrowkeys up/down
   navigateTagItemPane: (event) ->
-    _this = this
     switch event.which
       when 38
-        _this.setSelectedTagItem(@elements.selectedTagItem.prev())
+        @setSelectedTagItem(@elements.selectedTagItem.prev())
       when 40
-        _this.setSelectedTagItem(@elements.selectedTagItem.next())
+        @setSelectedTagItem(@elements.selectedTagItem.next())
     @elements.selectedTagItem.removeClass("active")
     @elements.selectedTagItem = @elements.tagItemPane.children(".active")
 

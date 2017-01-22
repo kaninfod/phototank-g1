@@ -100,7 +100,6 @@ App.PhotoWidget = do ->
   deletePhoto: (photoId) ->
     photoWidget = $('.photo-widget[data-photoid=' + photoId + ']')
     alertify.confirm 'Really! Delete this Photo?', (->
-      console.log photoId
       url = '/photos/' + photoId + '.json'
       # Todo: What is photoid??
       $.ajax
@@ -138,7 +137,8 @@ App.PhotoWidget = do ->
       starting_top: '4%'
       ending_top: '10%'
       ready: (modal, trigger) ->
-        App.PhotoTaginput.initTags()
+        photoId = $('#photo_id').data("photo_id")
+        new App.PhotoTaginput(photoId)
         $('.collapsible').collapsible();
         $('.dropdown-button').dropdown();
       complete: ->
