@@ -2,13 +2,13 @@
   .photo-widget-content
     .photo-widget-header
       .overlay-button.overlay-select{:class => [@bucket.include?(photo.id) && "selected"]}
-        %i.fa.fa-check-circle-o
+        %i.material-icons check
       .overlay-button.overlay-zoom
-        %i.fa.fa-eye
+        %i.material-icons zoom_out_map
       .overlay-button.overlay-delete
-        %i.fa.fa-trash-o
+        %i.material-icons delete_forever
       .overlay-button.overlay-processing{:class => [photo.status > 5 && "overlay-show"]}
-        %i.fa.fa-tasks
+        %i.material-icons update
       %img.lazy{:photo_id=>(photo.id), "data-original"=>"#{photo.url('tm')}", :href => "#animatedModal"}
     .photo-widget-date
       =photo.date_taken_formatted
