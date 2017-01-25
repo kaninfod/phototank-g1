@@ -26,6 +26,7 @@
 //= require photo.grid.keyboard
 //= require photo.edit
 //= require bucket
+//= require bucket.tagger
 
 //= require album.taginput
 

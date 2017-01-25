@@ -8,10 +8,6 @@ App.Bucket = do ->
       photoGrid: '#photogrid'
     @update_bucket_count()
     @bindUIActions()
-    #@taggerInit()
-
-
-
 
   bindUIActions: ->
     _this = this
@@ -23,18 +19,21 @@ App.Bucket = do ->
     $('body').on 'click.' + s.eventNamespace, '#delete-bucket', -> _this.deletePhotos()
     $('body').on 'click.' + s.eventNamespace, '#rotate-bucket',  -> _this.rotatePhotos(this)
     $('body').on 'click.' + s.eventNamespace, '#clear-bucket', -> _this.clearBucket()
+    $('body').on 'click.' + s.eventNamespace, '#tag-action', (e) => @tagAction(e)
     # $('body').on 'click.' + s.eventNamespace, '#show-add-to-album-modal-bucket', -> _this.showAddToAlbum()
-    $('#add-to-album-bucket').on 'click' , (event) -> _this.addToAlbum(event)
+    $('#add-to-album-bucket').on 'click' , (event) => @addToAlbum(event)
     $('#comment-input-bucket').keypress (e) -> _this.addComment(this, e)
     $('body').on 'click.' + s.eventNamespace, '#bucket-list img', -> _this.removeFromBucket(this)
     @loadBucket()
 
+  tagAction: (element) ->
+    modal = $(element.target).parents("#bucket-addtags")
+    action = modal.find("ul:first *> input:checked").attr("id")
 
-  taggerInit: ()->
-    App.Tagger.initTagger
-      identifier: ".bucket-tagger"
-      ajaxUrl: "/photos/get_tag_list?term="
-      minLength: 2
+
+    console.log action
+    modal.hide()
+
 
   addPhotoToBucket: (photoId) ->
     element = $('.photo-widget[data-photoid=' + photoId + '] .overlay-select')

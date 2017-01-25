@@ -23,6 +23,3 @@ class App.PhotoTaginput
     photo_id = $('.image-info').data("photo_id")
     url = '/photos/' + data.photoId + '/removetag'
     $.get url, data
-
-$(document).on "turbolinks:load", ->
-  return unless $(".photos.index, .catalogs.show, .albums, .locations.show").length > 0

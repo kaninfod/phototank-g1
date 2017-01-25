@@ -1,0 +1,8 @@
+// add multiple photos from bucket to album - select album from list on this modal
+#album-list-bucket.modal.modal-fixed-footer
+  .modal-conten
+    %h4 Save to album (Bucket)
+    = render partial: "albums/list", locals: {input_radio: true, radio_group: "bucket"}
+  .modal-footer
+    %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
+    %button.btn.btn-primary#add-to-album-bucket{"data-dismiss" => "modal", :type => "button"} Save to album

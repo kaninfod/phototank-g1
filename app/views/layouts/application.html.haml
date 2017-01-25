@@ -7,34 +7,12 @@
     -# %script{:src => "//maps.google.com/maps/api/js?key=AIzaSyCo65ll7nP_He2adxqP2ayfFSXXB7WNWtI&libraries=places", :type => "text/javascript"}
 
     %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}
-    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"}
+    //%link{:href => "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"}
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body{:class=>"#{controller_name} #{action_name}"}
-    %input#tyve
     -# = yield :title
-    .fixed-action-btn
-      %a.btn-floating.btn-large.cyan.darken-4
-        %i.large.material-icons menu
-      %ul
-        %li
-          %a.btn-floating.red{"data-target"=>"list-modal", :href => "#"}
-            %i.material-icons settings
-
-        %li
-          %a.btn-floating.yellow.darken-1{:href => "/catalogs"}
-            %i.material-icons archive
-        %li
-          %a.btn-floating.green{:href => "/albums"}
-            %i.material-icons collections
-        %li
-          %a.btn-floating.green{:href => "/locations"}
-            %i.material-icons room
-        %li
-          %a.btn-floating.blue{:href => "/photos"}
-            %i.material-icons photo
-
-    =render "layouts/side_navbar"
+    =render "layouts/fixed_action_button"
     .container
       = yield

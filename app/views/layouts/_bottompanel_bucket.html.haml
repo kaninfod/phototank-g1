@@ -1,0 +1,30 @@
+.bucket-tools
+  %a.dropdown-button.btn.cyan.darken-2{"data-activates" => "dropdown1", :href => "#"}
+    Rotate
+  %ul#dropdown1.dropdown-content
+    %li
+      %a#rotate-bucket{:href => "#", "data-degrees"=>90}
+        .fa.fa-rotate-right
+        90&#176;
+    %li
+      %a#rotate-bucket{:href => "#", "data-degrees"=>180}
+        .fa.fa-rotate-right
+        180&#176;
+    %li
+      %a#rotate-bucket{:href => "#", "data-degrees"=>270}
+        .fa.fa-rotate-right
+        270&#176;
+  %a.waves-effect.waves-light.btn.cyan.darken-2#like-bucket{:type => "button"}
+    %i.material-icons thumb_up
+  %a.waves-effect.waves-light.btn.cyan.darken-2#unlike-bucket{:type => "button"}
+    %i.material-icons thumb_down
+  %a.waves-effect.waves-light.btn.cyan.darken-2#delete-bucket{:href => "#", :type => "button"}
+    %i.material-icons delete
+  %a.waves-effect.waves-light.btn.cyan.darken-2#clear-bucket{:type => "button"}
+    %i.material-icons clear
+  %a.waves-effect.waves-light.btn.cyan.darken-2#add-to-album-bucket{:href => "#album-list-bucket", :type => "button"}
+    %i.material-icons photo_album
+  %a.waves-effect.waves-light.btn.cyan.darken-2#bucket-addtags{:href => "#bucket-addtags", :type => "button"}
+    %i.material-icons local_offer
+.bucket-photos
+  #bucket

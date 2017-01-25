@@ -8,7 +8,6 @@ class App.Tagger
       photoId: undefined
 
     @options = $.extend(defaults, options);
-
     @elements = {}
 
     @setupElements()
@@ -19,7 +18,7 @@ class App.Tagger
 
     #Events for navigation with arrowkeys
     @elements.tagInput.on "keydown", (event), =>  @selectTagItemKeyboard(event)
-
+    
   #Setup html elements for component
   setupElements: ->
     @elements.tagInput = $(@options.identifier)

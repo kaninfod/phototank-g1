@@ -1,0 +1,8 @@
+// Add a single photo to an album
+#album-list-photo.modal.modal-fixed-footer
+  .modal-content
+    %h4 Save to album (Photo)
+    = render partial: "albums/list", locals: {input_radio: true, radio_group: "photo"}
+  .modal-footer
+    %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
+    %button.btn.btn-primary#add-to-album-photo{"data-dismiss" => "modal", :type => "button"} Save to album

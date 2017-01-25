@@ -1,0 +1,13 @@
+#bucket-addtags.modal{:style => "overflow-y: visible;"}
+  .modal-content
+    %ul
+      %li
+        %input{:name => "tag-action", :type => "radio", :id => "add-tags", :checked => true}
+        %label{:for => "add-tags"} Add tags to all photos in bucket
+      %li
+        %input{:name => "tag-action", :type => "radio", :id => "remove-tags"}
+        %label{:for => "remove-tags"} Remove tags to all photos in bucket
+    %input#bucket-tagger
+  .modal-footer
+    %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
+    %button.btn.btn-primary#tag-action{"data-dismiss" => "modal", :type => "button"} Done

@@ -10,33 +10,8 @@
 
 
 .hidden-page-elements
-  =render "layouts/bucket_panel"
-
-  #photo-modal.fullscreen-modal.modal
-    .modal-content
-
-  // add multiple photos from bucket to album - select album from list on this modal
-  #album-list-bucket.modal.modal-fixed-footer
-    .modal-conten
-      %h4 Save to album (Bucket)
-      = render partial: "albums/list", locals: {input_radio: true, radio_group: "bucket"}
-    .modal-footer
-      %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
-      %button.btn.btn-primary#add-to-album-bucket{"data-dismiss" => "modal", :type => "button"} Save to album
-
-
-  // Add a single photo to an album
-  #album-list-photo.modal.modal-fixed-footer
-    .modal-content
-      %h4 Save to album (Photo)
-      = render partial: "albums/list", locals: {input_radio: true, radio_group: "photo"}
-    .modal-footer
-      %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
-      %button.btn.btn-primary#add-to-album-photo{"data-dismiss" => "modal", :type => "button"} Save to album
-
-  #add-tags-bucket.modal
-    .modal-content
-      .bucket-tagger
-    .modal-footer
-      %button.btn.btn-default.modal-action.modal-close{:type => "button"} Close
-      %button.btn.btn-primary#add-to-album-photo{"data-dismiss" => "modal", :type => "button"} Save to album
+  =render "layouts/bottompanel"
+  =render "modals/bucket.add_tags"
+  =render "modals/photo.fullscreen_details"
+  =render "modals/album.add_photo"
+  =render "modals/album.add_from_bucket"

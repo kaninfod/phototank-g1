@@ -27,7 +27,7 @@
 .tagger > .tag-item-pane {
   float: left;
   position: absolute;
-  z-index: 100;
+  z-index: 10000;
   margin-top: 0;
   min-width: 150px;
   display: none;

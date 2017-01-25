@@ -1,0 +1,15 @@
+.bottom-panel.show
+  .panel-tabs
+    .panel-tab.h6#bucket-tab{"data-content" => "bucket-panel"}
+      #bucket_counter
+    .panel-tab.h6#filter-tab{"data-content" => "filter-panel"}
+      %span
+        Filter
+    .panel-tab.h6#hide-tab
+      %span
+        Hide
+  .panel-contents
+    .panel-content#bucket-panel
+      =render "layouts/bottompanel_bucket"
+    .panel-content#filter-panel
+      =render "layouts/bottompanel_filter"
