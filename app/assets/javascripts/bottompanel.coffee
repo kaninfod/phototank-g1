@@ -29,21 +29,20 @@ App.BottomPanel = do ->
     panel = $("#" + panelId)
     tab = $(tab)
 
-    $('.bottom-panel').addClass('show')
+    if tab.attr("id")  == "hide-tab"
+      $('.bottom-panel').removeClass('show')
+    else
+      $(".panel-tab").removeClass("active")
+      tab.addClass("active")
 
-    $(".panel-tab").removeClass("active")
-    tab.addClass("active")
+      $(".panel-content").removeClass('active')
+      panel.addClass('active')
 
-    $(".panel-content").removeClass('active')
-    panel.addClass('active')
-
+      $('.bottom-panel').addClass('show')
 
   searchParamsChanged: (e)->
-
     data = this.getSearchParams()
-
     url = '/photos/'
-
     $('#photogrid').load url, data, ->
       App.PhotoGrid.init()
       $('img.lazy').lazyload()
@@ -66,4 +65,5 @@ App.BottomPanel = do ->
 
 
 $(document).on "turbolinks:load", ->
+  return unless $(".photos.index").length > 0
   App.BottomPanel.init()

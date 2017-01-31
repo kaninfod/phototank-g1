@@ -12,8 +12,7 @@
 //= require slimscroll/jquery.slimscroll.min
 //= require alertifyjs/dist/js/alertify
 //= require mousetrap/mousetrap.min
-
-//= require jsanimatedmodal/animatedModal.min
+//= require sweetalert
 
 //= require init.coffee
 //= require bottompanel
@@ -27,9 +26,7 @@
 //= require photo.edit
 //= require bucket
 //= require bucket.tagger
-
 //= require album.taginput
-
 //= require catalogs
 //= require albums
 //= require locations

@@ -1,0 +1,178 @@
+.photo-action-card {
+  max-width: 300px;
+
+
+  img.limit-size {
+    object-fit: cover;
+    width:300px;
+    height:300px;
+  }
+
+  .photo-action-widget {
+    width:300px;
+    height:300px;
+    background-color: #e3f2fd;
+  }
+  .photo-action-widget.header {
+    height: 45px;
+    background-color: teal;
+    color: white;
+    padding: 10px;
+  }
+
+  .photo-action-widget.content {
+    padding: 10px;
+    height: 255px;
+    overflow-y: scroll;
+  }
+
+  ul.card-action-buttons {
+    display: flex;
+    text-align: right;
+    position: absolute;
+    right: 0px;
+    margin-right: 10px;
+  }
+
+  ul.card-action-buttons.vert {
+    flex-direction: column;
+    margin-top: -26px;
+    top: 80px;
+  }
+
+  ul.card-action-buttons.horz {
+    flex-direction: row;
+    bottom:50px;
+  }
+
+  ul.card-action-buttons li {
+    padding-left: 5px;
+    padding-bottom: 5px;
+  }
+
+  .switch {
+    position:absolute;
+    top: 15px;
+    left:10px;
+    z-index: 5;
+
+  }
+
+  .card-title {
+      font-size: 1.0rem;
+      line-height: 1.6rem;
+      font-weight: 400;
+  }
+
+  .photo-action-state-info {
+
+  }
+
+  .photo-action-state-album {
+
+  }
+
+  .photo-action-state-comment {
+    position: relative;
+
+    .comment {
+      position: static;
+    }
+
+
+    .comment-container {
+      position: relative;
+    }
+    img {
+      position: absolute;
+      height: 46px;
+      top:0px;
+      width:auto;
+      border-radius: 50%;
+      z-index: auto;
+    }
+
+    .card {
+      position: relative;
+      min-height: 46px;
+      width: 240px;
+      left:23px;
+      top:12px;
+    }
+
+
+    .comment-date {
+      position: absolute;
+      right:0px;
+      padding: 4px;
+      font-size: 10px;
+    }
+    .comment-text {
+
+    }
+
+    p {
+      padding: 25px 0 0 0;
+      margin: 0px 0 0 30px;
+      font-size: 12px;
+      color: #757575;
+    }
+  }
+
+
+
+  .container-cards {
+    float:none;
+    display: inline-block;
+    text-align: initial;
+  }
+}
+
+
+
+
+
+.other-card {
+
+  .custom-card > .card {
+    max-width: 300px;
+  }
+
+  img.limit-size {
+    object-fit: cover;
+    width:300px;
+    height:300px;
+  }
+
+  .btn-price {
+    width: 65px;
+    height: 65px;
+    font-weight: 600;
+    font-size: 1.0rem;
+    line-height: 55px;
+    margin: 10px;
+    position: absolute;
+    top: 0;
+    letter-spacing: 0;
+  }
+  .custom-card ul.card-action-buttons li {
+    display: inline-block;
+    padding-left: 5px;
+  }
+  .custom-card ul.card-action-buttons {
+    margin: -26px 10px 0 0;
+    text-align: right;
+  }
+
+  .custom-card .card .card-content .card-title, .custom-card .card .card-title {
+      font-size: 1.1rem;
+      line-height: 1.6rem;
+      font-weight: 400;
+  }
+
+  .container-cards {
+    float:none;
+    display: inline-block;
+    text-align: initial;
+  }
+}

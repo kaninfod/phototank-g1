@@ -2,22 +2,27 @@ class LocationsController < ApplicationController
   before_action :require_login
 
   def index
-    order = :country
-    order = params[:order] unless not params.has_key?(:order)
-    query = "%#{params[:q]}%"
-    query ||="%"
-    @locations = Location.where("address LIKE ?", query).where("latitude != 0 AND longitude != 0").order(order).page params[:page]
+
     if request.xhr?
-      render :partial=>"locations/list"
+      order = :country
+      order = params[:order] unless not params.has_key?(:order)
+      query = "%#{params[:q]}%"
+      query ||="%"
+
+      @locations = Location.where("address LIKE ?", query).where("latitude != 0 AND longitude != 0").order(order).paginate(:page => params[:page], :per_page=>30)
+
     end
   end
+
+
+
+
 
   def show
     @bucket = session[:bucket]
     @location = Location.find(params[:id])
 
     #Get photos
-
     @photos = @location.photos.paginate(:page => params[:page], :per_page => 40)
 
     #If this was requested from an ajax call it should be rendered with slim view

@@ -1,0 +1,14 @@
+.col
+  .custom-card
+    .card
+      .card-image.waves-effect.waves-block.waves-light
+        %a.btn-floating.btn-large.btn-price.pink
+          =location.photos.count
+        %img.limit-size{:alt => "product-img", :src => location.map_url}
+      %ul.card-action-buttons
+        %li
+          %a.btn-floating.waves-effect.waves-light.green{:href => "/locations/#{location.id}"}
+            %i.material-icons photo
+      .card-content
+        %p.card-title.grey-text.text-darken-4.truncate
+          =location.address

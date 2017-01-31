@@ -12,6 +12,15 @@ class BucketController < ApplicationController
     render :json => {'count' => session[:bucket].count}
   end
 
+  def toggle
+    if session[:bucket].include? params[:id].to_i
+      session[:bucket].delete(params[:id].to_i)
+    else
+      session[:bucket].push params[:id].to_i
+    end
+    render :json => {'count' => session[:bucket].count}
+  end
+
   def clear
     session[:bucket] = []
     redirect_to bucket_path

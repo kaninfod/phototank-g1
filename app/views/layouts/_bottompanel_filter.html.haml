@@ -1,21 +1,22 @@
-.bucket-tools.row
-  .col.l4
-    .input-field
-      %label{:for => "search-date"} Date
-      %input.datepicker#search-date{:type => "date", :label => "Date:"}
-    .input-field
-      = select_tag :search_country, options_for_select(@countries, @album.country)
-      %label Country
-  .col.l4
-    .switch
-      %label
-        Backwards
-        %input#search_direction{:type => "checkbox"}
-        %span.lever
-        Forwards
-    .switch
-      %label
-        All
-        %input#search_like{:type => "checkbox"}
-        %span.lever
-        Only liked photos
+.row
+  .bucket-tools
+    .col.l4
+      .input-field
+        %label{:for => "search-date"} Date
+        %input.datepicker#search-date{:type => "date", :label => "Date:"}
+      .input-field
+        = select_tag :search_country, options_for_select(@countries, @album.country)
+        %label Country
+    .col.l4
+      .switch
+        %label
+          Backwards
+          %input#search_direction{:type => "checkbox"}
+          %span.lever
+          Forwards
+      .switch
+        %label
+          All
+          %input#search_like{:type => "checkbox"}
+          %span.lever
+          Only liked photos

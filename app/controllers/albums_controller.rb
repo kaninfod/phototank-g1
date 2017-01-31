@@ -94,12 +94,10 @@ class AlbumsController < ApplicationController
   end
 
   def add_photo
-    album = Album.find params[:album_id]
-    album.photo_ids.push(params[:photo_id]) unless album.photo_ids.include? params[:photo_id]
+    album = Album.find params[:album]
+    album.photo_ids.push(params[:photo]) unless album.photo_ids.include? params[:photo_id]
     album.save
-
     render :json => {:status => "ok"}
-
   end
 
   private

@@ -1,0 +1,26 @@
+.col
+  .custom-card
+    .card
+      .card-image.waves-effect.waves-block.waves-light
+        %a.btn-floating.btn-large.btn-price.pink
+          =catalog.photos.count
+        %img.limit-size{:alt => "product-img", :src => catalog.photos.last.url("md")}
+      %ul.card-action-buttons
+        %li
+          %a.btn-floating.waves-effect.waves-light.green{:href => "/catalogs/#{catalog.id}"}
+            %i.material-icons photo
+        %li
+          %a.btn-floating.waves-effect.waves-light.orange.lighten-2{:href => "/jobs"}
+            %i.material-icons build
+        %li
+          %a.btn-floating.waves-effect.waves-light.grey.lighten-1{:href => "/catalogs/#{catalog.id}/edit"}
+            %i.material-icons edit
+        %li
+          %a.btn-floating.waves-effect.waves-light.light-blue{:href => "/catalogs/#{catalog.id}/import"}
+            %i.material-icons compare_arrows
+        %li
+          %a.btn-floating.waves-effect.waves-light.red{:href => "/catalogs/#{catalog.id}/destroy"}
+            %i.material-icons delete
+      .card-content
+        %p.card-title.grey-text.text-darken-4
+          %a.grey-text.text-darken-4{:href => "#"}=catalog.name

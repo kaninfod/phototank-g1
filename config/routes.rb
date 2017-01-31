@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   match 'albums/select' => 'albums/select', via: [:get, :post]
-  get '/albums/add_photo' => "albums#add_photo"
+  get '/albums/:album/photo/:photo/add' => "albums#add_photo"
   get '/albums/get_tag_list' => "albums#get_tag_list"
   resources :albums
 
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :locations
   get '/locations/:id/view' => 'locations#view'
 
+  post 'bucket/:id/toggle' => 'bucket#toggle'
   post 'bucket/:id/add' => 'bucket#add'
   post 'bucket/:id/remove' => 'bucket#remove'
   get  'bucket/list' => 'bucket#list'

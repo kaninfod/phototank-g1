@@ -1,4 +1,12 @@
-json.array!(@photos) do |photo|
-  json.extract! photo, :id, :filename, :date_taken, :path
-  json.url photo_url(photo, format: :json)
+json.photos @photos do |photo|
+  json.id           photo.id
+  json.date_taken   photo.date_taken_formatted
+  json.url          photo.url('tm')
+  json.url_org      photo.url('org')
+  # json.count      photo.photos.count
+  # json.address    photo.address
 end
+
+json.pagi will_paginate
+
+json.bucket @bucket

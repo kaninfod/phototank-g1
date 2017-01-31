@@ -67,7 +67,8 @@ class PhotosController < ApplicationController
 
     #If this was requested from an ajax call it should be rendered with slim view
     if request.xhr?
-      render :partial=>"photos/grid"
+
+      #render :partial=>"photos/grid"
     end
   end
 
@@ -79,8 +80,11 @@ class PhotosController < ApplicationController
     end
     @photo = Photo.find(params[:id])
     @bucket = session[:bucket]
-
-    render :template => "photos/show_#{params[:view]}", :layout => false
+    @albums = Album.all
+    respond_to do |format|
+      format.html { render :template => "photos/show_#{params[:view]}", :layout => false}
+      format.json
+    end
   end
 
   def edit

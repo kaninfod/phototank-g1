@@ -1,7 +1,7 @@
 .row
   .image_info#photo_id{:photo_id=>@photo.id, "data-photo_id"=>@photo.id}
     .col.l5
-
+      =react_component 'ModalToolbar'
       .modal-toolbar
         %a.waves-effect.waves-light.btn.like{:type => "button", :class=> current_user.voted_for?(@photo) ? "green" : "cyan darken-1"}
           %i.material-icons thumb_up
@@ -11,8 +11,6 @@
           %i.material-icons delete
         %a.waves-effect.waves-light.btn.cyan.darken-2#add-to-album-photo{:href => "#album-list-photo", "data-turbolinks"=> "false", :type => "button"}
           %i.material-icons photo_album
-
-
     .col.l12#modal_image
       %img.bg.responsive-img{:src => "#{@photo.url('org')}"}
 

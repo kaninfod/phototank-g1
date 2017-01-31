@@ -1,4 +1,13 @@
 -# =content_for :title, "Photos"
 -# =content_for :subtitle, ""
 
-= render :partial => 'index'
+-#=render "layouts/bottompanel"
+-#= render :partial => 'index'
+=react_component 'PhotoGrid'
+
+
+.hidden-page-elements
+  =render "modals/bucket.add_tags"
+  =render "modals/photo.fullscreen_details"
+  =render "modals/album.add_photo"
+  =render "modals/album.add_from_bucket"

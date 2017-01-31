@@ -35,6 +35,14 @@ App.Bucket = do ->
     modal.hide()
 
 
+  bucketPhoto: (photoId) ->
+    $.ajax
+      method: 'POST'
+      url: url = '/bucket/' + photoId + '/toggle'
+      data: {}
+      success: (response) ->
+        $("#bucket").trigger('bucket:update')
+
   addPhotoToBucket: (photoId) ->
     element = $('.photo-widget[data-photoid=' + photoId + '] .overlay-select')
     $(element).toggleClass("selected")
@@ -47,6 +55,7 @@ App.Bucket = do ->
       url: url
       data: {}
       success: (response) ->
+        console.log response
         $("#bucket").trigger('bucket:update')
 
 
