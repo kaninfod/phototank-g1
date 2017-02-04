@@ -1,28 +1,18 @@
 @PhotoActionStateInfo = React.createClass
+  getInitialState: ->
+    infoArray: [
+      {key: 1, label: 'ID', info: @props.data.photo.id},
+      {key: 2, label: 'Date', info: @props.data.photo.date_taken}
+      {key: 3, label: 'Country', info: @props.data.photo.location.country}
+      {key: 4, label: 'Model', info: @props.data.photo.model}
+      {key: 5, label: 'Make', info: @props.data.photo.make}
+    ]
+
+
   render: ->
     React.DOM.ul {className: 'photo-action-state-info'},
-
-      React.DOM.li null
-        React.DOM.label {}, "ID"
-        React.DOM.div {className: "content"},
-          @props.state.photo.id
-
-      React.DOM.li null
-        React.DOM.label {}, "Date"
-        React.DOM.div {className: "content"},
-          @props.state.photo.date_taken
-
-      React.DOM.li null
-        React.DOM.label {}, "Country"
-        React.DOM.div {className: "content"},
-          @props.state.photo.country
-
-      React.DOM.li null
-        React.DOM.label {}, "Model"
-        React.DOM.div {className: "content"},
-          @props.state.photo.model
-
-      React.DOM.li null
-        React.DOM.label {}, "Make"
-        React.DOM.div {className: "content"},
-          @props.state.photo.make
+      for info in @state.infoArray
+        React.DOM.li {key:info.key},
+          React.DOM.label {}, info.label
+          React.DOM.div {className: "content"},
+            info.info

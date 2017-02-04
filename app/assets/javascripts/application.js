@@ -17,12 +17,11 @@
 //= require init.coffee
 //= require bottompanel
 //= require photo.widget
-//= require photo.like
+
 //= require photo.comment
 //= require tagger
-//= require photo.taginput
+
 //= require photo.grid
-//= require photo.grid.keyboard
 //= require photo.edit
 //= require bucket
 //= require bucket.tagger
@@ -31,4 +30,3 @@
 //= require albums
 //= require locations
 //= require location.edit
-//= require controlsidepanel.coffee

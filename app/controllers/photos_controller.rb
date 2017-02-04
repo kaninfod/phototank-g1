@@ -109,7 +109,7 @@ class PhotosController < ApplicationController
   def rotate
     @photo = Photo.find(params[:id]).id
     rotate_helper([@photo], params[:degrees])
-    render :json => {:status => "OK"}
+    render :json => {:status => true}
   end
 
   def destroy
@@ -128,9 +128,11 @@ class PhotosController < ApplicationController
   end
 
   def add_comment
+    photo_id = params[:id]
     if params.has_key? "comment"
-      comment = add_comment_helper(params[:id], params[:comment])
-      render :partial => "photos/show/comment", :locals => {:comment => comment }
+      comment = add_comment_helper(photo_id, params[:comment])
+      @comments = Photo.find(photo_id).comments
+      render 'photos/_comments', locals: {comments: @comments}
     end
   end
 
@@ -141,16 +143,16 @@ class PhotosController < ApplicationController
     else
       photo.liked_by current_user
     end
-    render :json => {:likes => photo.votes_for.size}
+    render :json => {:likes => photo.votes_for.size, :liked_by_current_user => (current_user.voted_for? photo)}
   end
 
   def addtag
     photo = Photo.find params[:id]
 
-    if params[:value][0,1] == "@"
-      photo.objective_list.add params[:value]
+    if params[:name][0,1] == "@"
+      photo.objective_list.add params[:name]
     else
-      photo.tag_list.add params[:value]
+      photo.tag_list.add params[:name]
     end
 
     if photo.save
@@ -164,10 +166,10 @@ class PhotosController < ApplicationController
 
     photo = Photo.find params[:id]
 
-    if params[:value][0,1] == "@"
-      photo.objective_list.remove params[:value]
+    if params[:name][0,1] == "@"
+      photo.objective_list.remove params[:name]
     else
-      photo.tag_list.remove params[:value]
+      photo.tag_list.remove params[:name]
     end
 
     if photo.save
@@ -183,10 +185,10 @@ class PhotosController < ApplicationController
       taglist = photo.tags
     elsif params.has_key?(:term)
       query_string = params[:term]
-      taglist = ActsAsTaggableOn::Tag.where("name like ?", "%#{query_string}%")
+      taglist = ActsAsTaggableOn::Tag.where("name like ?", "%#{query_string}%").limit(10)
     end
     autocomplete_list = taglist.map do |e|
-      {:id=> e.id, :value=>e.name}
+      {:id=> e.id, :name=>e.name}
     end
     render :json => autocomplete_list
   end

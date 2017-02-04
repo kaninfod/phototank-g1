@@ -2,7 +2,7 @@
   render: ->
     React.DOM.div {className: 'photo-action-state-album'},
       React.DOM.ul {className: 'albums'},
-        for album in @props.state.albums
+        for album in @props.data.albums
           React.DOM.li {key: album.id},
             React.DOM.input
               id: album.id
@@ -17,11 +17,9 @@
         'Add photo'
 
   handleClick: (e) ->
-    console.log @props.state.photo.id
-    url= "/albums/".concat(@state.albumId, "/photo/", @props.state.photo.id, "/add")
+    url= "/albums/".concat(@state.albumId, "/photo/", @props.data.photo.id, "/add")
     $.getJSON url, (data) =>
-      console.log data
-
+      null
 
   handleChange: (e)->
     @setState albumId: e.target.id

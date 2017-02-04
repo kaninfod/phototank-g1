@@ -6,31 +6,43 @@
 .tagger > .added-tags {
   float:left;
   z-index: 100;
-  max-height:90px;
-  height: 45px;
+  max-height:150px;
+  height: 150px;
   overflow-y: scroll;
+  padding-top: 20px
 }
 
-.tagger > .added-tags > .chip {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+.tagger > .added-tags > .tag {
+  background-color: #e0e0e0;
+  margin: 2px;
+  padding: 4px;
+  float:left;
+  border-radius:5px;
+
+  i {
+    font-size: 14px;
+    background-color: #bdbdbd;
+    margin: 3px;
+    border-radius: 50%;
+  }
 }
 
 .tagger > input {
   display: inline-block;
   border: none !important;
   margin-bottom: 0;
-  max-width: 200px;
+  width: 100%;
 }
 
 .tagger > .tag-item-pane {
   float: left;
   position: absolute;
-  z-index: 10000;
+  z-index: 10;
   margin-top: 0;
   min-width: 150px;
   display: none;
+  max-height: 172px;
+  overflow-y: scroll;
 }
 
 .tagger > .tag-item-pane.show {

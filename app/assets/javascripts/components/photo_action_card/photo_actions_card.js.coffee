@@ -1,7 +1,6 @@
 @PhotoActionCard = React.createClass
   getInitialState: ->
-    widgetContent: PhotoActionStateInfo
-    widgetContentString: "PhotoActionStateInfo"
+    widget: {content: PhotoActionStateInfo, contentString: "PhotoActionStateInfo"}
     photoId: @props.photoId
     url: "/photos/" + @props.photoId + ".json"
 
@@ -13,15 +12,14 @@
       React.DOM.div {className: 'photo-action-card'},
         React.DOM.div {className: 'card'},
           React.DOM.div {className: 'card-image waves-effect waves-block waves-light'},
-            React.createElement PhotoActionWidget, state: @state.data, widgetContent: @state.widgetContent
-          React.createElement PhotoActionControls, handleState: @handleState
-          if @state.widgetContentString == "PhotoActionStateInfo"
-             React.createElement PhotoActionButtons
+            React.createElement PhotoActionWidget, data: @state.data, widget: @state.widget
+          React.createElement PhotoActionButtons, parent: this, handleState: @handleState
           React.createElement PhotoActionFooter
     else
       return null
-  handleState: (state, stateString) ->
-    @setState widgetContent: state, widgetContentString: stateString
+
+  handleState: (state, stateString, modifier) ->
+    @setState widget: {content: state, contentString: stateString, modifier: modifier}
 
   componentWillMount: ->
     $.getJSON @state.url, (data) =>

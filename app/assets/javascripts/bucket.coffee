@@ -114,7 +114,6 @@ App.Bucket = do ->
           photoWidget.fadeOut(700)
         _this.clearBucket()
         Materialize.toast("Photos in bucket are queued for deletion", 3000)
-
     false
 
   rotatePhotos: (element) ->
