@@ -1,7 +1,7 @@
 @PhotoActionButtons = React.createClass
   getInitialState: ->
-    likeUrl: '/photos/'.concat(@props.parent.state.photoId,'/like')
-    likeState:   if @props.parent.state.data.photo.like then "green" else "grey"
+    likeUrl: '/photos/'.concat(@props.data.photoId,'/like')
+    likeState:   if @props.data.data.photo.like then "green" else "grey"
   getDefaultProps: ->
     null
 
@@ -50,12 +50,12 @@
           React.createElement PhotoActionButton,
             button: button,
             key: button.key,
-            handleState: @props.parent.handleState
+            handleState: @props.handleState
 
-      if @props.parent.state.widget.contentString in ["PhotoActionStateInfo", "PhotoActionStateMap"]
+      if @props.data.widget.contentString in ["PhotoActionStateInfo", "PhotoActionStateMap"]
         React.DOM.ul {className: 'card-action-buttons vert'},
           for button in @getVertButtons()
             React.createElement PhotoActionButton,
               button: button,
               key: button.key
-              handleState: button.handler ? @props.parent.handleState
+              handleState: button.handler ? @props.handleState

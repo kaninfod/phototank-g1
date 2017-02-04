@@ -2,25 +2,24 @@
   getInitialState: ->
     widget: {content: PhotoActionStateInfo, contentString: "PhotoActionStateInfo"}
     photoId: @props.photoId
-    url: "/photos/" + @props.photoId + ".json"
+    url: "/photos/".concat(@props.photoId, ".json")
 
   getDefaultProps: ->
     null
+
+  handleState: (state, stateString) ->
+    @setState widget: {content: state, contentString: stateString}
+
+  componentWillMount: ->
+    $.getJSON @state.url, (data) =>
+      @setState data: data
 
   render: ->
     if @state.data != undefined
       React.DOM.div {className: 'photo-action-card'},
         React.DOM.div {className: 'card'},
-          React.DOM.div {className: 'card-image waves-effect waves-block waves-light'},
-            React.createElement PhotoActionWidget, data: @state.data, widget: @state.widget
-          React.createElement PhotoActionButtons, parent: this, handleState: @handleState
-          React.createElement PhotoActionFooter
+          React.DOM.div {className: ''},
+            React.createElement @state.widget.content, data: @state.data
+          React.createElement PhotoActionButtons, data: @state, handleState: @handleState
     else
       return null
-
-  handleState: (state, stateString, modifier) ->
-    @setState widget: {content: state, contentString: stateString, modifier: modifier}
-
-  componentWillMount: ->
-    $.getJSON @state.url, (data) =>
-      @setState data: data

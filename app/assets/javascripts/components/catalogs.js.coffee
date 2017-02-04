@@ -43,7 +43,7 @@
 
 CatalogItem = React.createClass
   render: ->
-    React.DOM.div {id: @props.catalog.id, className: "col"},
+    React.DOM.div {id: @props.catalog.id, className: "col other-card"},
       React.DOM.div {className: "custom-card"},
         React.DOM.div {className: "card"},
           React.DOM.div {className: "card-image waves-effect waves-block waves-light"},
